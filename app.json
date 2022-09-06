@@ -1,0 +1,11 @@
+{
+  "expo": {
+    "name": "task-lasso",
+    "slug": "task-lasso",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  },
+  "name": "task-lasso"
+}
