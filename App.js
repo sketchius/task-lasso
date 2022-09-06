@@ -1,21 +1,110 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, Button, Text, SafeAreaView, View, ScrollView, StatusBar } from 'react-native';
 
 export default function App() {
+  const [tasks, setTasks] = useState([
+      {
+        title: 'Go to the store',
+        uniqid: 1
+      },
+      {
+        title: 'Feed the cat',
+        uniqid: 2
+      },
+      {
+        title: "Call mom",
+        uniqid: 3
+      }
+    ]);
+
+  const addTask = (task) => {
+    setTasks([...tasks, task]);
+  }
+
+  const editTask = (uniqid, updatedTask) => {
+    let index;
+
+    for (let i = 0; i < tasks.length; i++) {
+      const task = tasks[i];
+      if (task.uniqid === uniqid) {
+        index = i;
+      }
+    }
+
+    if (index) {
+      const newTasks = [...tasks];
+      newTasks[index] = updatedTask;
+      setTasks(newTasks);
+    }
+  }
+
+  const deleteTask = (uniqid) => {
+    const newTasks = tasks.filter((task) => task.uniqid !== uniqid);
+    setTasks(newTasks);
+  }
+
+
+
+  const handleAddTaskButton = () => {
+    const newTask = { title: "Do the dishes", uniqid: 4}
+    addTask(newTask);
+  }
+
+  const handleEditTaskButton = () => {
+    const updatedTask = { title: "Feed the dog", uniqid: 2}
+    editTask(updatedTask.uniqid, updatedTask);
+  }
+
+  const handleDeleteTaskButton = () => {
+    deleteTask(1);
+  }
+
+  const taskList = tasks.map(task => {
+    return <Text style={styles.listItem}>{task.title}</Text>
+  });
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <SafeAreaView style={styles.safe}>
+      <View style={styles.scrollContainer}>
+        <ScrollView style={styles.container}>
+          {taskList}
+        </ScrollView>
+      </View>
+      <View style={styles.button}><Button
+        title='Add'
+        onPress={handleAddTaskButton}
+      /></View>
+      <View style={styles.button}><Button
+        title='Edit'
+        onPress={handleEditTaskButton}
+      /></View>
+      <View style={styles.button}><Button
+        title='Delete'
+        onPress={handleDeleteTaskButton}
+      /></View>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
+  scrollContainer: {
+    height: "50%"
+  },
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    width: "100%",
+    backgroundColor: 'pink'
   },
+  safe: {
+    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
+    flex: 1
+  },
+  listItem: {
+    padding: 30
+  },
+  button: {
+    width: "20%",
+    margin: 10
+  }
+
 });
