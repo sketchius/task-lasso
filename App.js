@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { StyleSheet, Button, Text, SafeAreaView, View, ScrollView, StatusBar } from 'react-native';
+import NavBar from './NavBar';
 
 export default function App() {
   const [tasks, setTasks] = useState([
@@ -70,25 +71,17 @@ export default function App() {
           {taskList}
         </ScrollView>
       </View>
-      <View style={styles.button}><Button
-        title='Add'
-        onPress={handleAddTaskButton}
-      /></View>
-      <View style={styles.button}><Button
-        title='Edit'
-        onPress={handleEditTaskButton}
-      /></View>
-      <View style={styles.button}><Button
-        title='Delete'
-        onPress={handleDeleteTaskButton}
-      /></View>
+
+ 
+
+      <NavBar></NavBar>
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   scrollContainer: {
-    height: "50%"
+    flex: 1
   },
   container: {
     flex: 1,
