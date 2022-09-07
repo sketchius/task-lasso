@@ -1,7 +1,7 @@
 import React, {useState, useRef} from 'react';
 import { View, TextInput, Button, StyleSheet } from 'react-native';
 
-export default function TaskEdtior(props) {
+export default function TaskEditorScreen(props) {
 
     const captureTextInput = useRef(null);
     const [captureInput,setCaptureInput] = useState('');

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { StyleSheet, Button, Text, SafeAreaView, View, ScrollView, StatusBar } from 'react-native';
+import { StyleSheet, SafeAreaView, View, StatusBar } from 'react-native';
 import NavBar from './NavBar';
-import TaskEdtiorScreen from './TaskEditorScreen';
+import TaskListScreen from './TaskListScreen';
 
 export default function App() {
   const [tasks, setTasks] = useState([
@@ -61,17 +61,12 @@ export default function App() {
     deleteTask(1);
   }
 
-  const taskList = tasks.map(task => {
-    return <Text style={styles.listItem}>{task.uniqid}: {task.title}</Text>
-  });
+
 
   return (
     <SafeAreaView style={styles.safe}>
       <View style={styles.scrollContainer}>
-        <ScrollView style={styles.container}>
-          {taskList}
-          <TaskEdtiorScreen handleCapture={handleAddTaskButton}/>
-        </ScrollView>
+        <TaskListScreen tasks={tasks}></TaskListScreen>
       </View>
 
  
