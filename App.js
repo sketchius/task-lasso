@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { StyleSheet, Button, Text, SafeAreaView, View, ScrollView, StatusBar } from 'react-native';
 import NavBar from './NavBar';
+import TaskEdtiorScreen from './TaskEditorScreen';
 
 export default function App() {
   const [tasks, setTasks] = useState([
@@ -46,8 +47,8 @@ export default function App() {
 
 
 
-  const handleAddTaskButton = () => {
-    const newTask = { title: "Do the dishes", uniqid: 4}
+  const handleAddTaskButton = (title) => {
+    const newTask = { title, uniqid: 4}
     addTask(newTask);
   }
 
@@ -61,7 +62,7 @@ export default function App() {
   }
 
   const taskList = tasks.map(task => {
-    return <Text style={styles.listItem}>{task.title}</Text>
+    return <Text style={styles.listItem}>{task.uniqid}: {task.title}</Text>
   });
 
   return (
@@ -69,6 +70,7 @@ export default function App() {
       <View style={styles.scrollContainer}>
         <ScrollView style={styles.container}>
           {taskList}
+          <TaskEdtiorScreen handleCapture={handleAddTaskButton}/>
         </ScrollView>
       </View>
 
@@ -85,7 +87,10 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    width: "100%",
+    width: "100%"
+  },
+  test: {
+    height:'auto',
     backgroundColor: 'pink'
   },
   safe: {
