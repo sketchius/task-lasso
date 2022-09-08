@@ -5,7 +5,7 @@ import {getDateInContext,getTime} from './DateContext';
 export default function TaskListScreen(props) {
 
     const filterTaskList = (type, showDate, dateSemantics) => {
-        return props.tasks.filter(task => task.type === type).map(task => {
+        const content = props.tasks.filter(task => task.type === type).map(task => {
             let dueElement;
     
             if (showDate) {
@@ -31,7 +31,7 @@ export default function TaskListScreen(props) {
                 >
                     <View style={styles.taskContainerHeader}>
                         <View style={styles.iconPlaceholder}></View>
-                        <Text style={styles.listItem}>{task.title}</Text>
+                        <Text style={styles.taskTitle}>{task.title}</Text>
                         <View style={styles.padder}></View>
                         {dueElement}
                     </View>
@@ -40,6 +40,8 @@ export default function TaskListScreen(props) {
                 </Pressable>
             )
         });
+
+        return <View style={styles.sectionContent}>{content}</View>
     }
 
     const getSectionTaskCountElement = (taskList) => {
@@ -54,7 +56,7 @@ export default function TaskListScreen(props) {
     const assignedTaskList = filterTaskList('DEADLINE',true,'by');
     const scheduledTaskList = filterTaskList('SCHEDULED',true,'on');
 
-    const capturedTaskElement =
+    const capturedTaskElement = 
         <Pressable 
             style={styles.capturedTasksContainer}
             onPress={() => {
@@ -62,7 +64,7 @@ export default function TaskListScreen(props) {
                 newArray[0] = !newArray[0];
                 setSectionExpansion(newArray);
         }}>
-            <View style={styles.row}><Text>CAPTURED TASKS</Text>{!sectionExpansion[0] && getSectionTaskCountElement(capturedTaskList)}</View>
+            <View style={styles.row}><Text style={styles.sectionHeading}>CAPTURED TASKS</Text>{!sectionExpansion[0] && getSectionTaskCountElement(capturedTaskList)}</View>
             {sectionExpansion[0] && capturedTaskList}
         </Pressable>;
 
@@ -74,7 +76,7 @@ export default function TaskListScreen(props) {
                 newArray[1] = !newArray[1];
                 setSectionExpansion(newArray);
         }}>
-            <View style={styles.row}><Text>FLOATING TASKS</Text>{!sectionExpansion[1] && getSectionTaskCountElement(openTaskList)}</View>
+            <View style={styles.row}><Text style={styles.sectionHeading}>FLOATING TASKS</Text>{!sectionExpansion[1] && getSectionTaskCountElement(openTaskList)}</View>
             {sectionExpansion[1] && openTaskList}
         </Pressable>;
 
@@ -86,7 +88,7 @@ export default function TaskListScreen(props) {
                 newArray[2] = !newArray[2];
                 setSectionExpansion(newArray);
         }}>
-            <View style={styles.row}><Text>DEADLINE TASKS</Text>{!sectionExpansion[2] && getSectionTaskCountElement(assignedTaskList)}</View>
+            <View style={styles.row}><Text style={styles.sectionHeading}>DEADLINE TASKS</Text>{!sectionExpansion[2] && getSectionTaskCountElement(assignedTaskList)}</View>
             {sectionExpansion[2] && assignedTaskList}
         </Pressable>;
 
@@ -98,7 +100,7 @@ export default function TaskListScreen(props) {
                 newArray[3] = !newArray[3];
                 setSectionExpansion(newArray);
         }}>
-            <View style={styles.row}><Text>SCHEDULED TASKS</Text>{!sectionExpansion[3] && getSectionTaskCountElement(scheduledTaskList)}</View>
+            <View style={styles.row}><Text style={styles.sectionHeading}>SCHEDULED TASKS</Text>{!sectionExpansion[3] && getSectionTaskCountElement(scheduledTaskList)}</View>
             {sectionExpansion[3] && scheduledTaskList}
         </Pressable>;
     
@@ -124,6 +126,13 @@ const styles = StyleSheet.create({
         flex: 1,
         width: '100%',
         padding: 0
+    },
+    sectionHeading: {
+        fontSize: 18,
+        fontWeight: '500'
+    },
+    sectionContent: {
+        marginTop: 8
     },
     capturedTasksContainer: {
         backgroundColor: 'white',
@@ -157,6 +166,9 @@ const styles = StyleSheet.create({
         height: 15,
         marginRight: 10
     },
+    taskTitle: {
+        fontSize: 15
+    },
     dueElement: {
         backgroundColor: 'white',
         width: '30%',
@@ -172,6 +184,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'teal',
         color: 'white',
         width: 20,
+        height: 20,
         textAlign: 'center',
         borderRadius: 20
     }
