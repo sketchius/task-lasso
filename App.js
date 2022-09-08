@@ -1,21 +1,55 @@
 import React, { useState } from 'react';
 import { StyleSheet, SafeAreaView, View, StatusBar } from 'react-native';
-import NavBar from './NavBar';
+import { NavigationContainer, TabActions } from '@react-navigation/native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import {GrCheckmark} from 'react-icons/gr';
 import TaskListScreen from './TaskListScreen';
+import ToDoScreen from './ToDoScreen';
+import Ionicons from '@expo/vector-icons/Ionicons';
 
 export default function App() {
   const [tasks, setTasks] = useState([
       {
         title: 'Go to the store',
-        uniqid: 1
+        type: 'DEADLINE',
+        uniqid: 1,
+        due: new Date(2022, 8, 8)
       },
       {
-        title: 'Feed the cat',
-        uniqid: 2
+        title: 'Find the drill',
+        type: 'OPEN',
+        uniqid: 2,
+        assigned: true
       },
       {
         title: "Call mom",
-        uniqid: 3
+        type: 'OPEN',
+        uniqid: 3,
+        assigned: true
+      },
+      {
+        title: "Drive to Columbus",
+        type: 'SCHEDULED',
+        uniqid: 4,
+        due: new Date(2022, 9, 15)
+      },
+      {
+        title: "Lookup that Mexican place",
+        type: 'CAPTURED',
+        uniqid: 5
+      },
+      {
+        title: "Text Ralph back",
+        type: 'CAPTURED',
+        uniqid: 6
+      },
+      {
+        title: "Meeting with publisher",
+        type: 'SCHEDULED',
+        uniqid: 6,
+        due: new Date(2022, 8, 8, 10, 0, 0),
+        useTime: true,
+        assigned: true
       }
     ]);
 
@@ -61,17 +95,29 @@ export default function App() {
     deleteTask(1);
   }
 
-
+  const NavBar = createBottomTabNavigator();
 
   return (
     <SafeAreaView style={styles.safe}>
-      <View style={styles.scrollContainer}>
-        <TaskListScreen tasks={tasks}></TaskListScreen>
-      </View>
+      <NavigationContainer>
+        <NavBar.Navigator>
+            <NavBar.Screen name="To Do" options={{
+              tabBarLabel: 'Home',
+              tabBarIcon: () => (
+                <Ionicons name='md-checkmark-circle' size={32} color='green' />
+              )
+            }}>
+              {() => <ToDoScreen tasks={tasks} />}
+            </NavBar.Screen>
+            <NavBar.Screen name="Tasks">
+              {() => <TaskListScreen tasks={tasks} />}
+            </NavBar.Screen>
 
- 
 
-      <NavBar></NavBar>
+        </NavBar.Navigator>
+      </NavigationContainer>
+
+
     </SafeAreaView>
   );
 }
@@ -80,7 +126,7 @@ const styles = StyleSheet.create({
   scrollContainer: {
     flex: 1
   },
-  container: {
+  container: { 
     flex: 1,
     width: "100%"
   },
