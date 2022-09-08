@@ -1,46 +1,53 @@
 import React, {useState} from 'react';
-import {ScrollView, StyleSheet, Text, View} from 'react-native';
+import {ScrollView, StyleSheet, Text, View, Pressable, Button} from 'react-native';
 import {getDateInContext,getTime} from './DateContext';
 
 export default function TaskListScreen(props) {
-    const capturedTaskList = props.tasks.filter(task => task.type === 'CAPTURED').map(task => {
-        return (
-            <View style={styles.taskContainer}>
-                <View style={styles.iconPlaceholder}></View>
-                <Text style={styles.listItem}>{task.title}</Text>
-                <View style={styles.padder}></View>
-            </View>
-        )
-    });
-    const openTaskList = props.tasks.filter(task => task.type === 'OPEN').map(task => {
-        return (
-            <View style={styles.taskContainer}>
-                <View style={styles.iconPlaceholder}></View>
-                <Text style={styles.listItem}>{task.title}</Text>
-                <View style={styles.padder}></View>
-            </View>
-        )
-    });
-    const assignedTaskList = props.tasks.filter(task => task.type === 'DEADLINE').map(task => {
-        return (
-            <View style={styles.taskContainer}>
-                <View style={styles.iconPlaceholder}></View>
-                <Text style={styles.listItem}>{task.title}</Text>
-                <View style={styles.padder}></View>
-                <View style={styles.dueElement}><Text style={styles.listItem}>by {getDateInContext(task.due,task.useTime)}</Text></View>
-            </View>
-        )
-    });
-    const scheduledTaskList = props.tasks.filter(task => task.type === 'SCHEDULED').map(task => {
-        return (
-            <View style={styles.taskContainer}>
-                <View style={styles.iconPlaceholder}></View>
-                <Text style={styles.listItem}>{task.title}</Text>
-                <View style={styles.padder}></View>
-                <View style={styles.dueElement}><Text style={styles.listItem}>on {getDateInContext(task.due,task.useTime)}</Text></View>
-            </View>
-        )
-    });
+
+    const filterTaskList = (type, showDate, dateSemantics) => {
+        return props.tasks.filter(task => task.type === type).map(task => {
+            let dueElement;
+    
+            if (showDate) {
+                dueElement = <View style={styles.dueElement}><Text style={styles.listItem}>{dateSemantics} {getDateInContext(task.due,task.useTime)}</Text></View>
+            }
+
+            let expandedContent;
+
+            if (task.uniqid === expandedTaskID) {
+                expandedContent = 
+                <View>
+                    <Text>{task.description}</Text>
+                    <Button title='Edit'/>
+                </View>
+            }
+    
+            return (
+                <Pressable
+                    style={styles.taskContainer}
+                    onPress={() => {
+                        task.uniqid !== expandedTaskID ? setExpandedTaskID(task.uniqid) : setExpandedTaskID(-1);
+                    }}
+                >
+                    <View style={styles.taskContainerHeader}>
+                        <View style={styles.iconPlaceholder}></View>
+                        <Text style={styles.listItem}>{task.title}</Text>
+                        <View style={styles.padder}></View>
+                        {dueElement}
+                    </View>
+                    {expandedContent}
+                    
+                </Pressable>
+            )
+        });
+    }
+
+    const [expandedTaskID,setExpandedTaskID] = useState(-1);
+
+    const capturedTaskList = filterTaskList('CAPTURED',false);
+    const openTaskList = filterTaskList('OPEN',false);
+    const assignedTaskList = filterTaskList('DEADLINE',true,'by');
+    const scheduledTaskList = filterTaskList('SCHEDULED',true,'on');
 
     const capturedTaskElement = <View style={styles.capturedTasksContainer}><Text>CAPTURED TASKS</Text>{capturedTaskList}</View>;
 
@@ -60,6 +67,9 @@ export default function TaskListScreen(props) {
         </ScrollView>
     )
 }
+
+
+
 
 const styles = StyleSheet.create({
     scrollContainer: {
@@ -84,6 +94,9 @@ const styles = StyleSheet.create({
         padding: 8
     },
     taskContainer: {
+        flexDirection: 'column'
+    },
+    taskContainerHeader: {
         flexDirection: 'row',
         alignItems: 'center',
         margin: 2
