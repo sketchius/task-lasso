@@ -5,6 +5,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import uuid from 'react-native-uuid';
 import TaskListScreen from './TaskListScreen';
 import ToDoScreen from './ToDoScreen';
+import isBefore from 'date-fns/isBefore'
 
 import { styles } from './Styles';
 
@@ -22,19 +23,24 @@ async function getData() {
 
 export default function App() {
     const [tasks, setTasks] = useState([]);
-    
+
     useEffect(() => {
         readTasksFromStorage();
-    },[]);
+    }, []);
 
     const readTasksFromStorage = async () => {
         try {
             let d = await AsyncStorage.getItem('@taskArray');
             let e = JSON.parse(d);
-            e.forEach((task) => {d
-                task.due = new Date(task.due);
-                if (!task.type)
-                    task.type = 'CAPTURED';
+            e.forEach((task) => {
+                if (task.dueDate)
+                    task.dueDate = new Date(task.dueDate);
+                if (task.dateCreated)
+                    task.dateCreated = new Date(task.dateCreated);
+                else task.dateCreated = new Date();
+                if (task.dateModified)
+                    task.dateModified = new Date(task.dateModified);
+                if (!task.type) task.type = 'CAPTURED';
             });
             setTasks(e);
         } catch (error) {
@@ -69,7 +75,12 @@ export default function App() {
     };
 
     const handleAddTaskButton = (title) => {
-        const newTask = { title, uniqid: uuid.v4() };
+        const newTask = {
+            title,
+            uniqid: uuid.v4(),
+            type: 'CAPTURED',
+            dateCreated: new Date(),
+        };
         addTask(newTask);
     };
 
@@ -83,8 +94,8 @@ export default function App() {
     };
 
     useEffect(() => {
-        saveTasks(tasks)
-      }, [tasks]);
+        saveTasks(tasks);
+    }, [tasks]);
 
     const NavBar = createBottomTabNavigator();
 
@@ -96,7 +107,12 @@ export default function App() {
                         {() => <ToDoScreen tasks={tasks} />}
                     </NavBar.Screen>
                     <NavBar.Screen name="New">
-                        {() => <TaskEditorScreen tasks={tasks} handleCapture={handleAddTaskButton}/>}
+                        {() => (
+                            <TaskEditorScreen
+                                tasks={tasks}
+                                handleCapture={handleAddTaskButton}
+                            />
+                        )}
                     </NavBar.Screen>
                     <NavBar.Screen name="Tasks">
                         {() => <TaskListScreen tasks={tasks} />}

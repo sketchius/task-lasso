@@ -5,11 +5,11 @@ import {getDateInContext,getTime} from './DateContext';
 export default function TaskListScreen(props) {
 
     const filterTaskList = (type, showDate, dateSemantics) => {
-        const content = props.tasks.filter(task => task.type === type).map(task => {
+        return props.tasks.filter(task => task.type === type).map(task => {
             let dueElement;
     
             if (showDate) {
-                dueElement = <View style={styles.dueElement}><Text style={styles.listItem}>{dateSemantics} {getDateInContext(task.due,task.useTime)}</Text></View>
+                dueElement = <View style={styles.dueElement}><Text style={styles.listItem}>{dateSemantics} {getDateInContext(task.dueDate,task.useTime)}</Text></View>
             }
 
             let expandedContent;
@@ -40,8 +40,10 @@ export default function TaskListScreen(props) {
                 </Pressable>
             )
         });
+    }
 
-        return <View style={styles.sectionContent}>{content}</View>
+    const getTaskListElement = (taskList) => {
+        return <View style={styles.sectionContent}>{taskList}</View>
     }
 
     const getSectionTaskCountElement = (taskList) => {
@@ -54,7 +56,7 @@ export default function TaskListScreen(props) {
     const capturedTaskList = filterTaskList('CAPTURED',false);
     const openTaskList = filterTaskList('OPEN',false);
     const assignedTaskList = filterTaskList('DEADLINE',true,'by');
-    const scheduledTaskList = filterTaskList('SCHEDULED',true,'on');
+    const scheduledTaskList = filterTaskList('SCHEDULED',true,'');
 
     const capturedTaskElement = 
         <Pressable 
@@ -64,8 +66,8 @@ export default function TaskListScreen(props) {
                 newArray[0] = !newArray[0];
                 setSectionExpansion(newArray);
         }}>
-            <View style={styles.row}><Text style={styles.sectionHeading}>CAPTURED TASKS</Text>{!sectionExpansion[0] && getSectionTaskCountElement(capturedTaskList)}</View>
-            {sectionExpansion[0] && capturedTaskList}
+            <View style={[styles.row, styles.taskTitleBar]}><Text style={styles.sectionHeading}>CAPTURED TASKS</Text>{!sectionExpansion[0] && getSectionTaskCountElement(capturedTaskList)}</View>
+            {sectionExpansion[0] && getTaskListElement(capturedTaskList)}
         </Pressable>;
 
     const openTaskElement =
@@ -76,8 +78,8 @@ export default function TaskListScreen(props) {
                 newArray[1] = !newArray[1];
                 setSectionExpansion(newArray);
         }}>
-            <View style={styles.row}><Text style={styles.sectionHeading}>FLOATING TASKS</Text>{!sectionExpansion[1] && getSectionTaskCountElement(openTaskList)}</View>
-            {sectionExpansion[1] && openTaskList}
+            <View style={[styles.row, styles.taskTitleBar]}><Text style={styles.sectionHeading}>FLOATING TASKS</Text>{!sectionExpansion[1] && getSectionTaskCountElement(openTaskList)}</View>
+            {sectionExpansion[1] && getTaskListElement(openTaskList)}
         </Pressable>;
 
     const deadlineTaskElement =
@@ -88,8 +90,8 @@ export default function TaskListScreen(props) {
                 newArray[2] = !newArray[2];
                 setSectionExpansion(newArray);
         }}>
-            <View style={styles.row}><Text style={styles.sectionHeading}>DEADLINE TASKS</Text>{!sectionExpansion[2] && getSectionTaskCountElement(assignedTaskList)}</View>
-            {sectionExpansion[2] && assignedTaskList}
+            <View style={[styles.row, styles.taskTitleBar]}><Text style={styles.sectionHeading}>DEADLINE TASKS</Text>{!sectionExpansion[2] && getSectionTaskCountElement(assignedTaskList)}</View>
+            {sectionExpansion[2] && getTaskListElement(assignedTaskList)}
         </Pressable>;
 
     const scheduledTaskElement =
@@ -100,8 +102,8 @@ export default function TaskListScreen(props) {
                 newArray[3] = !newArray[3];
                 setSectionExpansion(newArray);
         }}>
-            <View style={styles.row}><Text style={styles.sectionHeading}>SCHEDULED TASKS</Text>{!sectionExpansion[3] && getSectionTaskCountElement(scheduledTaskList)}</View>
-            {sectionExpansion[3] && scheduledTaskList}
+            <View style={[styles.row, styles.taskTitleBar]}><Text style={styles.sectionHeading}>SCHEDULED TASKS</Text>{!sectionExpansion[3] && getSectionTaskCountElement(scheduledTaskList)}</View>
+            {sectionExpansion[3] && getTaskListElement(scheduledTaskList)}
         </Pressable>;
     
 
@@ -121,6 +123,9 @@ export default function TaskListScreen(props) {
 const styles = StyleSheet.create({
     row: {
         flexDirection: 'row'
+    },
+    taskTitleBar: {
+        alignItems: 'center'
     },
     scrollContainer: {
         flex: 1,
@@ -180,12 +185,14 @@ const styles = StyleSheet.create({
         flex: 1
     },
     taskCountElement: {
-        marginLeft: 10,
-        backgroundColor: 'teal',
-        color: 'white',
+        marginLeft: 8,
+        backgroundColor: '#dfefef',
+        color: 'black',
         width: 20,
         height: 20,
         textAlign: 'center',
-        borderRadius: 20
+        borderRadius: 20,
+        borderColor: 'black',
+        borderWidth: 1
     }
 });
