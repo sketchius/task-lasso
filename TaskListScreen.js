@@ -4,12 +4,14 @@ import {getDateInContext,getTime} from './DateContext';
 
 export default function TaskListScreen(props) {
 
+    const styles = props.styles;
+
     const filterTaskList = (type, showDate, dateSemantics) => {
         return props.tasks.filter(task => task.type === type).map(task => {
             let dueElement;
     
             if (showDate) {
-                dueElement = <View style={styles.dueElement}><Text style={styles.listItem}>{dateSemantics} {getDateInContext(task.dueDate,task.useTime)}</Text></View>
+                dueElement = <View style={[styles.dueElement]}><Text style={styles.fontSize0}>{dateSemantics} {getDateInContext(task.dueDate,task.useTime)}</Text></View>
             }
 
             let expandedContent;
@@ -24,15 +26,14 @@ export default function TaskListScreen(props) {
     
             return (
                 <Pressable
-                    style={styles.taskContainer}
                     onPress={() => {
                         task.uniqid !== expandedTaskID ? setExpandedTaskID(task.uniqid) : setExpandedTaskID(-1);
                     }}
                 >
-                    <View style={styles.taskContainerHeader}>
+                    <View style={[styles.margin2, styles.row, styles.alignItems]}>
                         <View style={styles.iconPlaceholder}></View>
-                        <Text style={styles.taskTitle}>{task.title}</Text>
-                        <View style={styles.padder}></View>
+                        <Text style={styles.fontSize2}>{task.title}</Text>
+                        <View style={styles.flex1}></View>
                         {dueElement}
                     </View>
                     {expandedContent}
@@ -43,11 +44,11 @@ export default function TaskListScreen(props) {
     }
 
     const getTaskListElement = (taskList) => {
-        return <View style={styles.sectionContent}>{taskList}</View>
+        return <View style={styles.marginTop4}>{taskList}</View>
     }
 
     const getSectionTaskCountElement = (taskList) => {
-        return <Text style={styles.taskCountElement}>{taskList.length}</Text>
+        return <Text style={[styles.circleBorder, styles.taskCountElement]}>{taskList.length}</Text>
     }
 
     const [expandedTaskID,setExpandedTaskID] = useState(-1);
@@ -60,49 +61,49 @@ export default function TaskListScreen(props) {
 
     const capturedTaskElement = 
         <Pressable 
-            style={styles.capturedTasksContainer}
+            style={[styles.capturedTasksContainer, styles.padding5]}
             onPress={() => {
                 const newArray = [...sectionExpansion];
                 newArray[0] = !newArray[0];
                 setSectionExpansion(newArray);
         }}>
-            <View style={[styles.row, styles.taskTitleBar]}><Text style={styles.sectionHeading}>CAPTURED TASKS</Text>{!sectionExpansion[0] && getSectionTaskCountElement(capturedTaskList)}</View>
+            <View style={[styles.row, styles.alignItems]}><Text style={[styles.fontSize3, styles.bold]}>CAPTURED TASKS</Text>{!sectionExpansion[0] && getSectionTaskCountElement(capturedTaskList)}</View>
             {sectionExpansion[0] && getTaskListElement(capturedTaskList)}
         </Pressable>;
 
     const openTaskElement =
         <Pressable 
-            style={styles.openTasksContainer}
+            style={[styles.openTasksContainer, styles.padding5]}
             onPress={() => {
                 const newArray = [...sectionExpansion];
                 newArray[1] = !newArray[1];
                 setSectionExpansion(newArray);
         }}>
-            <View style={[styles.row, styles.taskTitleBar]}><Text style={styles.sectionHeading}>FLOATING TASKS</Text>{!sectionExpansion[1] && getSectionTaskCountElement(openTaskList)}</View>
+            <View style={[styles.row, styles.alignItems]}><Text style={[styles.fontSize3, styles.bold]}>FLOATING TASKS</Text>{!sectionExpansion[1] && getSectionTaskCountElement(openTaskList)}</View>
             {sectionExpansion[1] && getTaskListElement(openTaskList)}
         </Pressable>;
 
     const deadlineTaskElement =
         <Pressable 
-            style={styles.assignedTasksContainer}
+            style={[styles.assignedTasksContainer, styles.padding5]}
             onPress={() => {
                 const newArray = [...sectionExpansion];
                 newArray[2] = !newArray[2];
                 setSectionExpansion(newArray);
         }}>
-            <View style={[styles.row, styles.taskTitleBar]}><Text style={styles.sectionHeading}>DEADLINE TASKS</Text>{!sectionExpansion[2] && getSectionTaskCountElement(assignedTaskList)}</View>
+            <View style={[styles.row, styles.alignItems]}><Text style={[styles.fontSize3, styles.bold]}>DEADLINE TASKS</Text>{!sectionExpansion[2] && getSectionTaskCountElement(assignedTaskList)}</View>
             {sectionExpansion[2] && getTaskListElement(assignedTaskList)}
         </Pressable>;
 
     const scheduledTaskElement =
          <Pressable 
-            style={styles.scheduledTasksContainer}
+            style={[styles.scheduledTasksContainer, styles.padding5]}
             onPress={() => {
                 const newArray = [...sectionExpansion];
                 newArray[3] = !newArray[3];
                 setSectionExpansion(newArray);
         }}>
-            <View style={[styles.row, styles.taskTitleBar]}><Text style={styles.sectionHeading}>SCHEDULED TASKS</Text>{!sectionExpansion[3] && getSectionTaskCountElement(scheduledTaskList)}</View>
+            <View style={[styles.row, styles.alignItems]}><Text style={[styles.fontSize3, styles.bold]}>SCHEDULED TASKS</Text>{!sectionExpansion[3] && getSectionTaskCountElement(scheduledTaskList)}</View>
             {sectionExpansion[3] && getTaskListElement(scheduledTaskList)}
         </Pressable>;
     
@@ -116,83 +117,3 @@ export default function TaskListScreen(props) {
         </ScrollView>
     )
 }
-
-
-
-
-const styles = StyleSheet.create({
-    row: {
-        flexDirection: 'row'
-    },
-    taskTitleBar: {
-        alignItems: 'center'
-    },
-    scrollContainer: {
-        flex: 1,
-        width: '100%',
-        padding: 0
-    },
-    sectionHeading: {
-        fontSize: 18,
-        fontWeight: '500'
-    },
-    sectionContent: {
-        marginTop: 8
-    },
-    capturedTasksContainer: {
-        backgroundColor: 'white',
-        padding: 16
-    },
-    openTasksContainer: {
-        backgroundColor: 'yellow',
-        padding: 16
-    },
-    assignedTasksContainer: {
-        backgroundColor: 'pink',
-        padding: 16
-    },
-    scheduledTasksContainer: {
-        backgroundColor: 'cyan',
-        padding: 16
-    },
-    taskContainer: {
-        flexDirection: 'column'
-    },
-    taskContainerHeader: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        margin: 2
-    },
-    iconPlaceholder: {
-        borderColor: 'black',
-        borderWidth: 1,
-        borderRadius: 15,
-        width: 15,
-        height: 15,
-        marginRight: 10
-    },
-    taskTitle: {
-        fontSize: 15
-    },
-    dueElement: {
-        backgroundColor: 'white',
-        width: '30%',
-        alignItems: 'center',
-        borderRadius: 15
-
-    },
-    padder: {
-        flex: 1
-    },
-    taskCountElement: {
-        marginLeft: 8,
-        backgroundColor: '#dfefef',
-        color: 'black',
-        width: 20,
-        height: 20,
-        textAlign: 'center',
-        borderRadius: 20,
-        borderColor: 'black',
-        borderWidth: 1
-    }
-});

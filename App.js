@@ -104,7 +104,7 @@ export default function App() {
             <NavigationContainer>
                 <NavBar.Navigator>
                     <NavBar.Screen name="To Do">
-                        {() => <ToDoScreen tasks={tasks} />}
+                        {() => <ToDoScreen styles={styles} tasks={tasks} />}
                     </NavBar.Screen>
                     <NavBar.Screen name="New">
                         {() => (
@@ -115,10 +115,10 @@ export default function App() {
                         )}
                     </NavBar.Screen>
                     <NavBar.Screen name="Tasks">
-                        {() => <TaskListScreen tasks={tasks} />}
+                        {() => <TaskListScreen styles={styles} tasks={tasks} />}
                     </NavBar.Screen>
                     <NavBar.Screen name="Data">
-                        {() => <DataInspector tasks={tasks} />}
+                        {() => <DataInspector styles={styles} tasks={tasks} />}
                     </NavBar.Screen>
                 </NavBar.Navigator>
             </NavigationContainer>
