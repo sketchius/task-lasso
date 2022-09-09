@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { SafeAreaView, View, StatusBar, Button } from 'react-native';
 import { NavigationContainer, TabActions } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import uuid from 'react-native-uuid';
 import TaskListScreen from './TaskListScreen';
 import ToDoScreen from './ToDoScreen';
 
@@ -10,6 +11,7 @@ import { styles } from './Styles';
 import { saveData, loadData, saveTasks, loadTasks } from './Data.js';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import TaskEditorScreen from './TaskEditorScreen';
 
 async function getData() {
     let data = await loadTasks();
@@ -19,57 +21,7 @@ async function getData() {
 
 export default function App() {
     const [tasks, setTasks] = useState([]);
-    /*
-  const tasks2 = [
-      {
-        title: 'Go to the store',
-        description: 'We definitely need eggs, bread, and toothpaste',
-        type: 'DEADLINE',
-        uniqid: 1,
-        due: new Date(2022, 8, 8)
-      },
-      {
-        title: 'Find the drill',
-        description: 'Been looking everywhere for the drill, but I have no idea where it is...',
-        type: 'OPEN',
-        uniqid: 2,
-        assigned: true
-      },
-      {
-        title: 'Call mom',
-        description: `She's probably wondering who I'm doing.`,
-        type: 'OPEN',
-        uniqid: 3,
-        assigned: true
-      },
-      {
-        title: "Drive to Columbus",
-        description: 'Need to:\n1) Go to the doctor\n2)Visit bob\n3)Drop off borrowed books',
-        type: 'SCHEDULED',
-        uniqid: 4,
-        due: new Date(2022, 9, 15)
-      },
-      {
-        title: "Lookup that Mexican place",
-        type: 'CAPTURED',
-        uniqid: 5
-      },
-      {
-        title: "Text Ralph back",
-        type: 'CAPTURED',
-        uniqid: 6
-      },
-      {
-        title: "Meeting with publisher",
-        description: 'Address is:\n4123 21st Ave\nYallville, OH 44221',
-        type: 'SCHEDULED',
-        uniqid: 7,
-        due: new Date(2022, 8, 8, 10, 0, 0),
-        useTime: true,
-        assigned: true
-      }
-    ];*/
-
+    
     useEffect(() => {
         readTasksFromStorage();
     },[]);
@@ -80,6 +32,8 @@ export default function App() {
             let e = JSON.parse(d);
             e.forEach((task) => {d
                 task.due = new Date(task.due);
+                if (!task.type)
+                    task.type = 'CAPTURED';
             });
             setTasks(e);
         } catch (error) {
@@ -114,18 +68,22 @@ export default function App() {
     };
 
     const handleAddTaskButton = (title) => {
-        const newTask = { title, uniqid: 4 };
+        const newTask = { title, uniqid: uuid.v4() };
         addTask(newTask);
     };
 
-    const handleEditTaskButton = () => {
-        const updatedTask = { title: 'Feed the dog', uniqid: 2 };
+    const handleEditTaskButton = (title) => {
+        const updatedTask = { title, uniqid: 2 };
         editTask(updatedTask.uniqid, updatedTask);
     };
 
     const handleDeleteTaskButton = () => {
         deleteTask(1);
     };
+
+    useEffect(() => {
+        saveTasks(tasks)
+      }, [tasks]);
 
     const NavBar = createBottomTabNavigator();
 
@@ -135,6 +93,9 @@ export default function App() {
                 <NavBar.Navigator>
                     <NavBar.Screen name="To Do">
                         {() => <ToDoScreen tasks={tasks} />}
+                    </NavBar.Screen>
+                    <NavBar.Screen name="New">
+                        {() => <TaskEditorScreen tasks={tasks} handleCapture={handleAddTaskButton}/>}
                     </NavBar.Screen>
                     <NavBar.Screen name="Tasks">
                         {() => <TaskListScreen tasks={tasks} />}
