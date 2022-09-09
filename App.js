@@ -12,6 +12,7 @@ import { saveData, loadData, saveTasks, loadTasks } from './Data.js';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import TaskEditorScreen from './TaskEditorScreen';
+import DataInspector from './DataInspector';
 
 async function getData() {
     let data = await loadTasks();
@@ -99,6 +100,9 @@ export default function App() {
                     </NavBar.Screen>
                     <NavBar.Screen name="Tasks">
                         {() => <TaskListScreen tasks={tasks} />}
+                    </NavBar.Screen>
+                    <NavBar.Screen name="Data">
+                        {() => <DataInspector tasks={tasks} />}
                     </NavBar.Screen>
                 </NavBar.Navigator>
             </NavigationContainer>
