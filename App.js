@@ -1,12 +1,25 @@
 import React, { useState } from 'react';
-import { StyleSheet, SafeAreaView, View, StatusBar } from 'react-native';
+import { StyleSheet, SafeAreaView, View, StatusBar, Button } from 'react-native';
 import { NavigationContainer, TabActions } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import TaskListScreen from './TaskListScreen';
 import ToDoScreen from './ToDoScreen';
 
+import { saveData, loadData, saveTasks, loadTasks } from './Data.js';
+
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+async function getData() {
+  let data = await loadTasks();
+  alert(data);
+  return data;
+}
+
+
 export default function App() {
-  const [tasks, setTasks] = useState([
+  const [tasks, setTasks] = useState([]);
+/*
+  const tasks2 = [
       {
         title: 'Go to the store',
         description: 'We definitely need eggs, bread, and toothpaste',
@@ -54,7 +67,22 @@ export default function App() {
         useTime: true,
         assigned: true
       }
-    ]);
+    ];*/
+
+    const ld = async ()=>{  
+      try{  
+        let d = await AsyncStorage.getItem('@taskArray');
+        let e = JSON.parse(d);
+        e.forEach( (task) => {
+          task.due = new Date(task.due);
+        }) 
+        setTasks(e);
+        
+      }  
+      catch(error){  
+        alert(error)  
+      }  
+    }  
 
   const addTask = (task) => {
     setTasks([...tasks, task]);
@@ -102,6 +130,7 @@ export default function App() {
 
   return (
     <SafeAreaView style={styles.safe}>
+      <Button title={'...'} onPress={ld}/>
       <NavigationContainer>
         <NavBar.Navigator>
             <NavBar.Screen name="To Do">
