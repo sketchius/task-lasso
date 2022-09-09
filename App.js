@@ -1,24 +1,25 @@
-import React, { useState } from 'react';
-import { StyleSheet, SafeAreaView, View, StatusBar, Button } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { SafeAreaView, View, StatusBar, Button } from 'react-native';
 import { NavigationContainer, TabActions } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import TaskListScreen from './TaskListScreen';
 import ToDoScreen from './ToDoScreen';
+
+import { styles } from './Styles';
 
 import { saveData, loadData, saveTasks, loadTasks } from './Data.js';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 async function getData() {
-  let data = await loadTasks();
-  alert(data);
-  return data;
+    let data = await loadTasks();
+    alert(data);
+    return data;
 }
 
-
 export default function App() {
-  const [tasks, setTasks] = useState([]);
-/*
+    const [tasks, setTasks] = useState([]);
+    /*
   const tasks2 = [
       {
         title: 'Go to the store',
@@ -69,108 +70,77 @@ export default function App() {
       }
     ];*/
 
-    const ld = async ()=>{  
-      try{  
-        let d = await AsyncStorage.getItem('@taskArray');
-        let e = JSON.parse(d);
-        e.forEach( (task) => {
-          task.due = new Date(task.due);
-        }) 
-        setTasks(e);
-        
-      }  
-      catch(error){  
-        alert(error)  
-      }  
-    }  
+    useEffect(() => {
+        readTasksFromStorage();
+    },[]);
 
-  const addTask = (task) => {
-    setTasks([...tasks, task]);
-  }
+    const readTasksFromStorage = async () => {
+        try {
+            let d = await AsyncStorage.getItem('@taskArray');
+            let e = JSON.parse(d);
+            e.forEach((task) => {d
+                task.due = new Date(task.due);
+            });
+            setTasks(e);
+        } catch (error) {
+            alert(error);
+        }
+    };
 
-  const editTask = (uniqid, updatedTask) => {
-    let index;
+    const addTask = (task) => {
+        setTasks([...tasks, task]);
+    };
 
-    for (let i = 0; i < tasks.length; i++) {
-      const task = tasks[i];
-      if (task.uniqid === uniqid) {
-        index = i;
-      }
-    }
+    const editTask = (uniqid, updatedTask) => {
+        let index;
 
-    if (index) {
-      const newTasks = [...tasks];
-      newTasks[index] = updatedTask;
-      setTasks(newTasks);
-    }
-  }
+        for (let i = 0; i < tasks.length; i++) {
+            const task = tasks[i];
+            if (task.uniqid === uniqid) {
+                index = i;
+            }
+        }
 
-  const deleteTask = (uniqid) => {
-    const newTasks = tasks.filter((task) => task.uniqid !== uniqid);
-    setTasks(newTasks);
-  }
+        if (index) {
+            const newTasks = [...tasks];
+            newTasks[index] = updatedTask;
+            setTasks(newTasks);
+        }
+    };
 
+    const deleteTask = (uniqid) => {
+        const newTasks = tasks.filter((task) => task.uniqid !== uniqid);
+        setTasks(newTasks);
+    };
 
+    const handleAddTaskButton = (title) => {
+        const newTask = { title, uniqid: 4 };
+        addTask(newTask);
+    };
 
-  const handleAddTaskButton = (title) => {
-    const newTask = { title, uniqid: 4}
-    addTask(newTask);
-  }
+    const handleEditTaskButton = () => {
+        const updatedTask = { title: 'Feed the dog', uniqid: 2 };
+        editTask(updatedTask.uniqid, updatedTask);
+    };
 
-  const handleEditTaskButton = () => {
-    const updatedTask = { title: "Feed the dog", uniqid: 2}
-    editTask(updatedTask.uniqid, updatedTask);
-  }
+    const handleDeleteTaskButton = () => {
+        deleteTask(1);
+    };
 
-  const handleDeleteTaskButton = () => {
-    deleteTask(1);
-  }
+    const NavBar = createBottomTabNavigator();
 
-  const NavBar = createBottomTabNavigator();
-
-  return (
-    <SafeAreaView style={styles.safe}>
-      <Button title={'...'} onPress={ld}/>
-      <NavigationContainer>
-        <NavBar.Navigator>
-            <NavBar.Screen name="To Do">
-              {() => <ToDoScreen tasks={tasks} />}
-            </NavBar.Screen>
-            <NavBar.Screen name="Tasks">
-              {() => <TaskListScreen tasks={tasks} />}
-            </NavBar.Screen>
-
-
-        </NavBar.Navigator>
-      </NavigationContainer>
-
-
-    </SafeAreaView>
-  );
+    return (
+        <SafeAreaView style={styles.safe}>
+            <NavigationContainer>
+                <NavBar.Navigator>
+                    <NavBar.Screen name="To Do">
+                        {() => <ToDoScreen tasks={tasks} />}
+                    </NavBar.Screen>
+                    <NavBar.Screen name="Tasks">
+                        {() => <TaskListScreen tasks={tasks} />}
+                    </NavBar.Screen>
+                </NavBar.Navigator>
+            </NavigationContainer>
+        </SafeAreaView>
+    );
 }
-
-const styles = StyleSheet.create({
-  scrollContainer: {
-    flex: 1
-  },
-  container: { 
-    flex: 1,
-    width: "100%"
-  },
-  test: {
-    height:'auto',
-    backgroundColor: 'pink'
-  },
-  safe: {
-    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
-    flex: 1
-  },
-  listItem: {
-    padding: 30
-  },
-  button: {
-    width: "20%",
-    margin: 10
-  }
-
-});
