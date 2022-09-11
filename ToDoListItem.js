@@ -14,6 +14,11 @@ export default function ToDoListItem(props) {
     const styles = props.styles;
 
 
+    const [checkBoxState, updateCheckBoxState] = useState(0);
+
+    const handleCheckboxStateChange = (value) => {
+        props.onTaskEvent({event:'setStatus', value, uniqid: task.uniqid});
+    }
 
     let expandedContent;
 
@@ -40,7 +45,7 @@ export default function ToDoListItem(props) {
 
     return (
     <View style={[styles.row, styles.marginVertical3, styles.whiteBackground, styles.horizontalBorders]}>
-        <MultistateCheckbox states={3} styles={styles}></MultistateCheckbox>
+        <MultistateCheckbox states={3} styles={styles} onStateChange={handleCheckboxStateChange}></MultistateCheckbox>
         <Pressable style={[styles.marginVertical3, styles.paddingRight3, styles.paddingLeft4, styles.flex100, styles.leftBorder]}
         onPress={() => {
             setExpanded(!expanded);

@@ -134,6 +134,23 @@ export default function App() {
         }
     };
 
+    const editTaskProperty = (uniqid, property, value) => {
+        let index;
+
+        for (let i = 0; i < tasks.length; i++) {
+            const task = tasks[i];
+            if (task.uniqid === uniqid) {
+                index = i;
+            }
+        }
+
+        if (index) {
+            const newTasks = [...tasks];
+            newTasks[index][property] = value;
+            setTasks(newTasks);
+        }
+    };
+
     const deleteTask = (uniqid) => {
         const newTasks = tasks.filter((task) => task.uniqid !== uniqid);
         setTasks(newTasks);
@@ -164,6 +181,14 @@ export default function App() {
 
     const NavBar = createBottomTabNavigator();
 
+    const handleTaskEvent = (eventData) => {
+        switch (eventData.event) {
+            case 'setStatus':
+                editTaskProperty(eventData.uniqid,'status',eventData.value);
+                break;
+        }
+    }
+
     return (
         <SafeAreaView style={styles.safe}>
             <NavigationContainer>
@@ -176,7 +201,7 @@ export default function App() {
                                 return <Ionicons name="md-home-outline" size={size} color={color} />
                             }
                         }}>
-                        {() => <ToDoScreen styles={styles} tasks={tasks} />}
+                        {() => <ToDoScreen styles={styles} tasks={tasks} onTaskEvent={handleTaskEvent}/>}
                     </NavBar.Screen>
                     <NavBar.Screen name="Tasks" 
                         options={{
