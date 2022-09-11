@@ -276,6 +276,17 @@ export const styles = StyleSheet.create({
         borderColor: "black",
         borderWidth: 1
     },
+    checkBoxHalf: {
+        width: size2,
+        height: 'auto',
+        backgroundColor: 'black'
+    },
+    checkBoxChecked: {
+        padding: size4,
+        backgroundColor: 'black',
+        borderColor: "black",
+        borderWidth: 1
+    },
     whiteBackground: {
         backgroundColor: 'white'
     },

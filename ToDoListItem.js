@@ -4,6 +4,7 @@ import { AntDesign, FontAwesome5, FontAwesome, MaterialIcons, Octicons, Entypo, 
 import { isToday } from 'date-fns';
 import { getTime } from './DateContext';
 import getIcon from './Icons';
+import MultistateCheckbox from './MultistateCheckbox';
 
 export default function ToDoListItem(props) {
     const [expanded, setExpanded] = useState(false);
@@ -39,7 +40,7 @@ export default function ToDoListItem(props) {
 
     return (
     <View style={[styles.row, styles.marginVertical3, styles.whiteBackground, styles.horizontalBorders]}>
-        <View style={[styles.padding5]}><View style={styles.checkBox}></View></View>
+        <MultistateCheckbox states={3} styles={styles}></MultistateCheckbox>
         <Pressable style={[styles.marginVertical3, styles.paddingRight3, styles.paddingLeft4, styles.flex100, styles.leftBorder]}
         onPress={() => {
             setExpanded(!expanded);

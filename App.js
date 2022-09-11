@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { SafeAreaView, View, Text} from 'react-native';
 import { NavigationContainer, TransitionScreenOptions } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import uuid from 'react-native-uuid';
 import TaskListScreen from './TaskListScreen';
 import ToDoScreen from './ToDoScreen';
 import { Ionicons, FontAwesome, AntDesign } from '@expo/vector-icons'; 
