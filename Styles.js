@@ -101,8 +101,26 @@ export const styles = StyleSheet.create({
     padding5: {
         padding: size5
     },
+    paddingTop2: {
+        paddingTop: size2
+    },
+    paddingTop3: {
+        paddingTop: size3
+    },
+    paddingTop4: {
+        paddingTop: size4
+    },
+    paddingTop5: {
+        paddingTop: size5
+    },
+    paddingTop6: {
+        paddingTop: size6
+    },
     paddingRight0: {
         paddingRight: 0
+    },
+    paddingRight2: {
+        paddingRight: size2
     },
     paddingRight3: {
         paddingRight: size3
@@ -110,20 +128,38 @@ export const styles = StyleSheet.create({
     paddingRight4: {
         paddingRight: size4
     },
+    paddingLeft3: {
+        paddingLeft: size3
+    },
+    paddingLeft4: {
+        paddingLeft: size4
+    },
+    paddingVertical3: {
+        paddingTop: size3,
+        paddingBottom: size3
+    },
+    paddingVertical4: {
+        paddingTop: size4,
+        paddingBottom: size4
+    },
+    paddingVertical5: {
+        paddingTop: size5,
+        paddingBottom: size5
+    },
     margin1: {
-        margin: 1
+        margin: size1
     },
     margin2: {
-        margin: 2
+        margin: size2
     },
     margin3: {
-        margin: 3
+        margin: size3
     },
     margin4: {
-        margin: 4
+        margin: size4
     },
     margin5: {
-        margin: 5
+        margin: size5
     },
     marginTop2: {
         marginTop: size2
@@ -136,6 +172,21 @@ export const styles = StyleSheet.create({
     },
     marginRight0: {
         marginRight: 0
+    },
+    marginRight1: {
+        marginRight: size1
+    },
+    marginRight2: {
+        marginRight: size2
+    },
+    marginRight3: {
+        marginRight: size3
+    },
+    marginRight4: {
+        marginRight: size4
+    },
+    marginBottom3: {
+        marginBottom: size3
     },
     marginVertical0: {
         marginTop: size0,
@@ -160,6 +211,15 @@ export const styles = StyleSheet.create({
     marginVertical5: {
         marginTop: size5,
         marginBottom: size5
+    },
+    marginLeft3: {
+        marginLeft: size3
+    },
+    marginLeft4: {
+        marginLeft: size4
+    },
+    marginLeft5: {
+        marginLeft: size5
     },
     alignItems: {
         alignItems: 'center'
@@ -207,9 +267,12 @@ export const styles = StyleSheet.create({
     lightText: {
         color: '#999'
     },
+    thinBorder: {
+        borderWidth: 0.5,
+        borderRadius: size4
+    },
     checkBox: {
-        margin: 5,
-        padding: 8,
+        padding: size4,
         borderColor: "black",
         borderWidth: 1
     },
@@ -221,5 +284,42 @@ export const styles = StyleSheet.create({
         borderWidth: 0.5,
         paddingLeft: size4,
         paddingRight: size4
+    },
+    size80: {
+        width: 80
+    },
+    width300: {
+        width: 260
+    },
+    spaceBetween: {
+        justifyContent: 'space-between'
+    },
+    horizontalLine: {
+        flex: 1,
+        height: 1,
+        borderTopWidth: 0.5,
+        borderColor: 'grey'
+    },
+    yellowBackground: {
+        backgroundColor: '#f7ffca'
+    },
+    orangeBackground: {
+        backgroundColor: '#ffeed3'
+    },
+    tester: {
+        height: size5
+    },
+    testBorder: {
+        borderWidth: 0.5,
+        borderColor: 'pink'
+    },
+    leftBorder: {
+        borderLeftWidth: 0.5,
+        borderColor: 'grey'
+    },
+    horizontalBorders: {
+        borderTopWidth: 0.5,
+        borderBottomWidth: 0.5,
+        borderColor: 'black'
     }
 });

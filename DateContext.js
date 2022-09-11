@@ -5,19 +5,19 @@ export function getDateInContext(date,useTime) {
     if (!date) return '';
 
     const daysAway = differenceInDays(date,new Date().setHours(0,0,0,0));
-
+    let timeString = useTime ? getTime(date) : '';
 
     if (daysAway >= 7 || daysAway < 0) {
-        return format(date,'MMM d').toUpperCase();
+        return format(date,'MMM d').toUpperCase() + timeString;
     } else {
         if (daysAway > 1) {
-            return format(date,'EEE').toUpperCase();
+            return format(date,'EEE').toUpperCase() + timeString;
         } else {
             if (daysAway == 1) {
-                return 'TMRW';
+                return 'TMRW' + timeString;
             } else {
                 if (daysAway == 0) {
-                    return 'TODAY';
+                    return 'TODAY' + timeString;
                 }
             }
         }
@@ -28,7 +28,7 @@ export function getTime(date) {
     if (!date) return '';
 
     if (getMinutes(date) === 0)
-        timeString = format(date,'h aaa');
+        return format(date,'h aaa');
     else
-        timeString = format(date,'h:mm aaa');
+        return format(date,'h:mm aaa');
 }

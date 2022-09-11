@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { SafeAreaView, View, StatusBar, Button } from 'react-native';
-import { NavigationContainer, TabActions } from '@react-navigation/native';
+import { SafeAreaView, View, Text} from 'react-native';
+import { NavigationContainer, TransitionScreenOptions } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import uuid from 'react-native-uuid';
 import TaskListScreen from './TaskListScreen';
 import ToDoScreen from './ToDoScreen';
-import isBefore from 'date-fns/isBefore'
+import { Ionicons, FontAwesome, AntDesign } from '@expo/vector-icons'; 
 
 import { styles } from './Styles';
 
@@ -28,47 +28,64 @@ export default function App() {
         description: 'We definitely need eggs, bread, and toothpaste',
         type: 'DEADLINE',
         uniqid: 1,
-        due: new Date(2022, 8, 8)
+        dueDate: new Date(2022, 8, 8),
+        iconLibrary: 'AntDesign',
+        iconName: 'car'
       },
       {
         title: 'Find the drill',
         description: 'Been looking everywhere for the drill, but I have no idea where it is...',
-        type: 'OPEN',
+        type: 'DEADLINE',
         uniqid: 2,
-        assigned: true
+        dueDate: new Date(2022, 8, 11, 10, 0, 0),
+        assigned: true,
+        iconLibrary: 'FontAwesome',
+        iconName: 'search'
       },
       {
         title: 'Call mom',
         description: `She's probably wondering who I'm doing.`,
         type: 'OPEN',
         uniqid: 3,
-        assigned: true
+        prority: 2,
+        assigned: true,
+        iconLibrary: 'Ionicons',
+        iconName: 'call'
       },
       {
         title: "Drive to Columbus",
         description: 'Need to:\n1) Go to the doctor\n2)Visit bob\n3)Drop off borrowed books',
         type: 'SCHEDULED',
         uniqid: 4,
-        due: new Date(2022, 9, 15)
+        dueDate: new Date(2022, 9, 15),
+        iconLibrary: 'AntDesign',
+        iconName: 'car'
       },
       {
         title: "Lookup that Mexican place",
         type: 'CAPTURED',
-        uniqid: 5
+        uniqid: 5,
+        iconLibrary: 'AntDesign',
+        iconName: 'car'
       },
       {
         title: "Text Ralph back",
         type: 'CAPTURED',
-        uniqid: 6
+        uniqid: 6,
+        iconLibrary: 'AntDesign',
+        iconName: 'car'
       },
       {
         title: "Meeting with publisher",
         description: 'Address is:\n4123 21st Ave\nYallville, OH 44221',
         type: 'SCHEDULED',
         uniqid: 7,
-        due: new Date(2022, 8, 8, 10, 0, 0),
+        prority: 2,
+        dueDate: new Date(2022, 8, 11, 10, 0, 0),
         useTime: true,
-        assigned: true
+        assigned: true,
+        iconLibrary: 'Ionicons',
+        iconName: 'people'
       }
     ]
 );
@@ -151,11 +168,36 @@ export default function App() {
     return (
         <SafeAreaView style={styles.safe}>
             <NavigationContainer>
-                <NavBar.Navigator>
-                    <NavBar.Screen name="To Do">
+                <NavBar.Navigator screenOptions={options}>
+                    <NavBar.Screen name="Home" 
+                        options={{
+                            title: (new Date()).toDateString(),
+                            tabBarLabel: 'Home',
+                            tabBarIcon: ({focused,color,size}) => {
+                                return <Ionicons name="md-home-outline" size={size} color={color} />
+                            }
+                        }}>
                         {() => <ToDoScreen styles={styles} tasks={tasks} />}
                     </NavBar.Screen>
-                    <NavBar.Screen name="New">
+                    <NavBar.Screen name="Tasks" 
+                        options={{
+                            title: 'Tasks',
+                            tabBarLabel: 'Tasks',
+                            tabBarIcon: ({focused,color,size}) => {
+                                return <FontAwesome name="list-ul" size={size} color={color} />
+                            }
+                        }}>
+                        {() => <TaskListScreen styles={styles} tasks={tasks} />}
+                    </NavBar.Screen>
+                    <NavBar.Screen name="Capture" 
+                        options={{
+                            tabBarLabel: ({ focused, tintColor }) => { return null},
+                            tabBarActiveBackgroundColor: 'white',
+                            tabBarInactiveBackgroundColor: 'white',
+                            tabBarIcon: ({focused,color,size}) => {
+                                return <View><AntDesign name="pluscircle" size={50} color={color}/><View style={styles.tester}></View></View>
+                            }
+                        }}>
                         {() => (
                             <TaskEditorScreen
                                 tasks={tasks}
@@ -163,8 +205,8 @@ export default function App() {
                             />
                         )}
                     </NavBar.Screen>
-                    <NavBar.Screen name="Tasks">
-                        {() => <TaskListScreen styles={styles} tasks={tasks} />}
+                    <NavBar.Screen name="Planner">
+                        {() => <DataInspector styles={styles} tasks={tasks} />}
                     </NavBar.Screen>
                     <NavBar.Screen name="Data">
                         {() => <DataInspector styles={styles} tasks={tasks} />}
@@ -174,3 +216,16 @@ export default function App() {
         </SafeAreaView>
     );
 }
+
+
+const options = {
+    headerBackTitleVisible: false,
+    headerStyle: {
+      backgroundColor: "#000",
+    },
+    headerTintColor: "#fff",
+    tabBarActiveTintColor: 'black',
+    tabBarInactiveTintColor: 'grey',
+    tabBarActiveBackgroundColor: '#f7ffca',
+    tabBarInactiveBackgroundColor: 'white'
+  };
