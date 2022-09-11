@@ -12,10 +12,10 @@ const size6 = 32;
 
 export const styles = StyleSheet.create({
     scrollContainer: {
-        flex: size1,
+        flex: 1,
     },
     container: {
-        flex: size1,
+        flex: 1,
         width: '100%',
     },
     test: {
@@ -32,6 +32,10 @@ export const styles = StyleSheet.create({
     },
     row: {
         flexDirection: 'row'
+    },
+    alignedRow: {
+        flexDirection: 'row',
+        alignItems: 'center'
     },
     scrollContainer: {
         flex: 1,
@@ -82,20 +86,80 @@ export const styles = StyleSheet.create({
         borderColor: 'black',
         borderWidth: 1
     },
+    padding1: {
+        padding: size1
+    },
+    padding2: {
+        padding: size2
+    },
+    padding3: {
+        padding: size3
+    },
+    padding4: {
+        padding: size4
+    },
     padding5: {
-        padding: 16
+        padding: size5
     },
     paddingRight0: {
         paddingRight: 0
     },
+    paddingRight3: {
+        paddingRight: size3
+    },
+    paddingRight4: {
+        paddingRight: size4
+    },
+    margin1: {
+        margin: 1
+    },
     margin2: {
         margin: 2
     },
+    margin3: {
+        margin: 3
+    },
+    margin4: {
+        margin: 4
+    },
+    margin5: {
+        margin: 5
+    },
+    marginTop2: {
+        marginTop: size2
+    },
+    marginTop3: {
+        marginTop: size3
+    },
     marginTop4: {
-        marginTop: 8
+        marginTop: size4
     },
     marginRight0: {
         marginRight: 0
+    },
+    marginVertical0: {
+        marginTop: size0,
+        marginBottom: size0
+    },
+    marginVertical1: {
+        marginTop: size1,
+        marginBottom: size1
+    },
+    marginVertical2: {
+        marginTop: size2,
+        marginBottom: size2
+    },
+    marginVertical3: {
+        marginTop: size3,
+        marginBottom: size3
+    },
+    marginVertical4: {
+        marginTop: size4,
+        marginBottom: size4
+    },
+    marginVertical5: {
+        marginTop: size5,
+        marginBottom: size5
     },
     alignItems: {
         alignItems: 'center'
@@ -103,8 +167,14 @@ export const styles = StyleSheet.create({
     justifyContent: {
         justifyContent: 'center'
     },
-    fontSize0: {
+    fontSize000: {
+        fontSize: 10
+    },
+    fontSize00: {
         fontSize: 12
+    },
+    fontSize0: {
+        fontSize: 14
     },
     fontSize1: {
         fontSize: 16
@@ -124,7 +194,32 @@ export const styles = StyleSheet.create({
     fontSize6: {
         fontSize: 40
     },
+    flex100: {
+        flex: 1,
+        width: '100%'
+    },
+    autoWidth: {
+        backgroundColor: 'pink'
+    },
     bold: {
         fontWeight: '500'
+    },
+    lightText: {
+        color: '#999'
+    },
+    checkBox: {
+        margin: 5,
+        padding: 8,
+        borderColor: "black",
+        borderWidth: 1
+    },
+    whiteBackground: {
+        backgroundColor: 'white'
+    },
+    orangeAlert: {
+        borderRadius: 16,
+        borderWidth: 0.5,
+        paddingLeft: size4,
+        paddingRight: size4
     }
 });
