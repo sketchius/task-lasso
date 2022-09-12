@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "task-lasso",
-    "slug": "task-lasso",
+    "name": "task-traffic-control",
+    "slug": "task-traffic-control",
     "version": "1.0.0",
     "assetBundlePatterns": [
       "**/*"
     ]
   },
-  "name": "task-lasso"
+  "name": "task-traffic-control"
 }
