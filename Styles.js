@@ -42,19 +42,51 @@ const styleArray = {
         flex: 1,
         padding: size4
     },
-    editFieldLabel: {
+    formFieldLabel: {
         marginBottom: size3,
-        fontFamily: 'TitilliumWeb-Bold'
+        fontSize: 18,
+        fontFamily: 'TitilliumWeb-Semibold',
+        color: '#444'
     },
     textInputContainer: {
-        height: 40,
         width: '100%',
     },
     textInput: {
-        height: 40,
+        textAlignVertical: 'top',
+        minHeight: 40,
         padding: size4,
         width: 'auto',
         backgroundColor: 'white'
+    },
+    selected: {
+        backgroundColor: '#fffe94',
+        borderRadius: size3
+    },
+    selectionIcon: {
+        height: 40,
+        width: 40,
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderColor: 'black',
+        borderWidth: size0,
+        borderRadius: size3
+    },
+    
+    selectionIcon2: {
+        height: 40,
+        width: 40
+    },
+    selectionItem: {
+        flexDirection: 'row',
+        padding: size4
+    },
+    selectionText: {
+        fontSize: 18,
+        fontFamily: 'Roboto-Medium'
+    },
+    selectionSubtext: {
+        fontSize: 12,
+        color: '#555'
     },
     test: {
         height: 'auto',
@@ -79,6 +111,10 @@ const styleArray = {
         flex: 1,
         width: '100%',
         padding: 0
+    },
+    fill: {
+        height: '100%',
+        width: '100%'
     },
     capturedTasksContainer: {
         backgroundColor: 'white'
