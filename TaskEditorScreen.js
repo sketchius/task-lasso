@@ -1,39 +1,34 @@
 import React, {useState, useRef} from 'react';
-import { View, TextInput, Button, StyleSheet } from 'react-native';
+import { View, TextInput, Text, Button, StyleSheet } from 'react-native';
+import { EditField } from './Form';
 
 export default function TaskEditorScreen(props) {
 
-    const captureTextInput = useRef(null);
-    const [captureInput,setCaptureInput] = useState('');
+    const [form,setForm] = useState({});
 
-    const capturePress = () => {
-        captureTextInput.current.clear();
-        props.handleCapture(captureInput);
+    const handleInput = ( parameter, value ) => {
+        setForm({ [parameter]: value});
     }
+
+    
+    const [answer,setAnswer] = useState('');
 
 
     return (
-        <View style = {styles.container}>
-            <TextInput
-                ref={captureTextInput}
-                style={styles.input}
-                placeholder="Capture a thought"
-                onChangeText={text => setCaptureInput(text)}
-            />
-            <Button title='Capture' onPress={capturePress}/>
+        <View style = {myStyle.container}>
+            <EditField styles={props.styles} data={'title'} label={'TITLE'} onChange={handleInput}></EditField>
+            <Button title='Save'/>
         </View>
     )
+
 }
 
-const styles = StyleSheet.create({
+const myStyle = StyleSheet.create({
     container: {
-        backgroundColor: 'yellow',
-        flexDirection: 'row',
         height: '100%',
         width: '100%',
         paddingRight: 10,
-        alignItems: "center",
-        justifyContent: "center"
+        alignItems: "center"
     },
     input: {
         height: 40,

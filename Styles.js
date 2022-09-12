@@ -37,6 +37,25 @@ const styleArray = {
         flex: 1,
         width: '100%',
     },
+    editField: {
+        margin: size4,
+        flex: 1,
+        padding: size4
+    },
+    editFieldLabel: {
+        marginBottom: size3,
+        fontFamily: 'TitilliumWeb-Bold'
+    },
+    textInputContainer: {
+        height: 40,
+        width: '100%',
+    },
+    textInput: {
+        height: 40,
+        padding: size4,
+        width: 'auto',
+        backgroundColor: 'white'
+    },
     test: {
         height: 'auto',
         backgroundColor: 'pink',

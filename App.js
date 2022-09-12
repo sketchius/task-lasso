@@ -242,6 +242,7 @@ export default function App() {
                         {() => (
                             <TaskEditorScreen
                                 tasks={tasks}
+                                styles={styles}
                                 handleCapture={handleAddTaskButton}
                             />
                         )}
