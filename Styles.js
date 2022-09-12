@@ -86,141 +86,6 @@ const styleArray = {
         borderColor: 'black',
         borderWidth: 1
     },
-    padding1: {
-        padding: size1
-    },
-    padding2: {
-        padding: size2
-    },
-    padding3: {
-        padding: size3
-    },
-    padding4: {
-        padding: size4
-    },
-    padding5: {
-        padding: size5
-    },
-    paddingTop2: {
-        paddingTop: size2
-    },
-    paddingTop3: {
-        paddingTop: size3
-    },
-    paddingTop4: {
-        paddingTop: size4
-    },
-    paddingTop5: {
-        paddingTop: size5
-    },
-    paddingTop6: {
-        paddingTop: size6
-    },
-    paddingRight0: {
-        paddingRight: 0
-    },
-    paddingRight2: {
-        paddingRight: size2
-    },
-    paddingRight3: {
-        paddingRight: size3
-    },
-    paddingRight4: {
-        paddingRight: size4
-    },
-    paddingLeft3: {
-        paddingLeft: size3
-    },
-    paddingLeft4: {
-        paddingLeft: size4
-    },
-    paddingVertical3: {
-        paddingTop: size3,
-        paddingBottom: size3
-    },
-    paddingVertical4: {
-        paddingTop: size4,
-        paddingBottom: size4
-    },
-    paddingVertical5: {
-        paddingTop: size5,
-        paddingBottom: size5
-    },
-    margin1: {
-        margin: size1
-    },
-    margin2: {
-        margin: size2
-    },
-    margin3: {
-        margin: size3
-    },
-    margin4: {
-        margin: size4
-    },
-    margin5: {
-        margin: size5
-    },
-    marginTop2: {
-        marginTop: size2
-    },
-    marginTop3: {
-        marginTop: size3
-    },
-    marginTop4: {
-        marginTop: size4
-    },
-    marginRight0: {
-        marginRight: 0
-    },
-    marginRight1: {
-        marginRight: size1
-    },
-    marginRight2: {
-        marginRight: size2
-    },
-    marginRight3: {
-        marginRight: size3
-    },
-    marginRight4: {
-        marginRight: size4
-    },
-    marginBottom3: {
-        marginBottom: size3
-    },
-    marginVertical0: {
-        marginTop: size0,
-        marginBottom: size0
-    },
-    marginVertical1: {
-        marginTop: size1,
-        marginBottom: size1
-    },
-    marginVertical2: {
-        marginTop: size2,
-        marginBottom: size2
-    },
-    marginVertical3: {
-        marginTop: size3,
-        marginBottom: size3
-    },
-    marginVertical4: {
-        marginTop: size4,
-        marginBottom: size4
-    },
-    marginVertical5: {
-        marginTop: size5,
-        marginBottom: size5
-    },
-    marginLeft3: {
-        marginLeft: size3
-    },
-    marginLeft4: {
-        marginLeft: size4
-    },
-    marginLeft5: {
-        marginLeft: size5
-    },
     alignItems: {
         alignItems: 'center'
     },
@@ -261,8 +126,14 @@ const styleArray = {
     autoWidth: {
         backgroundColor: 'pink'
     },
+    thin: {
+        fontWeight: '300'
+    },
     bold: {
         fontWeight: '500'
+    },
+    bolder: {
+        fontWeight: '600'
     },
     lightText: {
         color: '#999'
@@ -271,25 +142,8 @@ const styleArray = {
         borderWidth: 0.5,
         borderRadius: size4
     },
-    checkBox: {
-        padding: size4,
-        borderColor: "black",
-        borderWidth: 1
-    },
-    checkBoxChecked: {
-        padding: size4,
-        backgroundColor: 'black',
-        borderColor: "black",
-        borderWidth: 1
-    },
     whiteBackground: {
         backgroundColor: 'white'
-    },
-    orangeAlert: {
-        borderRadius: 16,
-        borderWidth: 0.5,
-        paddingLeft: size4,
-        paddingRight: size4
     },
     size80: {
         width: 80
@@ -312,9 +166,6 @@ const styleArray = {
     orangeBackground: {
         backgroundColor: '#ffeed3'
     },
-    tester: {
-        height: size5
-    },
     testBorder: {
         borderWidth: 0.5,
         borderColor: 'pink'
@@ -336,28 +187,44 @@ const populateStyles = (property,includePositional) => {
         addSizeStyles(property,'Top');
         addSizeStyles(property,'Bottom');
         addSizeStyles(property,'Left');
-        addSizeStyles(property,'Right');    
+        addSizeStyles(property,'Right');
+        addSizeStyles(property,'Width');
+        addSizeStyles(property,'Height');
+        addSizeAxisStyles(property,'Horizontal','Left','Right');
+        addSizeAxisStyles(property,'Vertical','Top','Bottom');
+        addSizeAxisStyles(property,'Square','Width','Height');
     }
 }
 
 const addSizeStyles = (property, modifier) => {
-    styleArray[property + modifier + '000'] = { [property+ modifier]: size000 }
-    styleArray[property + modifier + '00'] = { [property+ modifier]: size00 }
-    styleArray[property + modifier + '0'] = { [property+ modifier]: size0 }
-    styleArray[property + modifier + '1'] = { [property+ modifier]: size1 }
-    styleArray[property + modifier + '2'] = { [property+ modifier]: size2 }
-    styleArray[property + modifier + '3'] = { [property+ modifier]: size3 }
-    styleArray[property + modifier + '4'] = { [property+ modifier]: size4 }
-    styleArray[property + modifier + '5'] = { [property+ modifier]: size5 }
-    styleArray[property + modifier + '6'] = { [property+ modifier]: size6 }
+    styleArray[property + modifier + '000'] = { [property + modifier]: size000 }
+    styleArray[property + modifier + '00'] = { [property + modifier]: size00 }
+    styleArray[property + modifier + '0'] = { [property + modifier]: size0 }
+    styleArray[property + modifier + '1'] = { [property + modifier]: size1 }
+    styleArray[property + modifier + '2'] = { [property + modifier]: size2 }
+    styleArray[property + modifier + '3'] = { [property + modifier]: size3 }
+    styleArray[property + modifier + '4'] = { [property + modifier]: size4 }
+    styleArray[property + modifier + '5'] = { [property + modifier]: size5 }
+    styleArray[property + modifier + '6'] = { [property + modifier]: size6 }
 }
 
+const addSizeAxisStyles = (property, reference ,modifier1, modifier2) => {
+    styleArray[property + reference + '000'] = { [property + modifier1]: size000, [property + modifier2]: size000 }
+    styleArray[property + reference + '00'] = { [property + modifier1]: size00, [property + modifier2]: size00 }
+    styleArray[property + reference + '0'] = { [property + modifier1]: size0, [property + modifier2]: size0 }
+    styleArray[property + reference + '1'] = { [property + modifier1]: size1, [property + modifier2]: size1 }
+    styleArray[property + reference + '2'] = { [property + modifier1]: size2, [property + modifier2]: size2 }
+    styleArray[property + reference + '3'] = { [property + modifier1]: size3, [property + modifier2]: size3 }
+    styleArray[property + reference + '4'] = { [property + modifier1]: size4, [property + modifier2]: size4 }
+    styleArray[property + reference + '5'] = { [property + modifier1]: size5, [property + modifier2]: size5 }
+    styleArray[property + reference + '6'] = { [property + modifier1]: size6, [property + modifier2]: size6 }
+}
 
 populateStyles('padding',true);
 populateStyles('margin',true);
 populateStyles('borderWidth',true);
-
-
-//alert(styleArray.padding3.padding);
+populateStyles('width',false);
+populateStyles('height',false);
+addSizeAxisStyles('','Square','Width','Height');
 
 export const styles = StyleSheet.create(styleArray);

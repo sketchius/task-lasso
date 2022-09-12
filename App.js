@@ -219,7 +219,7 @@ export default function App() {
                             tabBarActiveBackgroundColor: 'white',
                             tabBarInactiveBackgroundColor: 'white',
                             tabBarIcon: ({focused,color,size}) => {
-                                return <View><AntDesign name="pluscircle" size={50} color={color}/><View style={styles.tester}></View></View>
+                                return <View><AntDesign name="pluscircle" size={50} color={color}/><View style={styles.height5}></View></View>
                             }
                         }}>
                         {() => (
