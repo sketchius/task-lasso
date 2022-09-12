@@ -11,7 +11,7 @@ export default function TaskListScreen(props) {
             let dueElement;
     
             if (showDate) {
-                dueElement = <View style={[styles.dueElement]}><Text style={styles.fontSize0}>{dateSemantics} {getDateInContext(task.dueDate,task.useTime)}</Text></View>
+                dueElement = <View style={[styles.dueElement]}><Text style={[styles.defaultText, styles.fontSize0]}>{dateSemantics} {getDateInContext(task.dueDate,task.useTime)}</Text></View>
             }
 
             let expandedContent;
@@ -19,7 +19,7 @@ export default function TaskListScreen(props) {
             if (task.uniqid === expandedTaskID) {
                 expandedContent = 
                 <View>
-                    <Text>{task.description}</Text>
+                    <Text style={styles.defaultText}>{task.description}</Text>
                     <Button title='Edit'/>
                 </View>
             }
@@ -32,7 +32,7 @@ export default function TaskListScreen(props) {
                 >
                     <View style={[styles.margin2, styles.row, styles.alignItems]}>
                         <View style={styles.iconPlaceholder}></View>
-                        <Text style={styles.fontSize2}>{task.title}</Text>
+                        <Text style={[styles.defaultText,styles.fontSize2]}>{task.title}</Text>
                         <View style={styles.flex1}></View>
                         {dueElement}
                     </View>
@@ -48,7 +48,7 @@ export default function TaskListScreen(props) {
     }
 
     const getSectionTaskCountElement = (taskList) => {
-        return <Text style={[styles.circleBorder, styles.taskCountElement]}>{taskList.length}</Text>
+        return <Text style={[styles.defaultText, styles.circleBorder, styles.taskCountElement]}>{taskList.length}</Text>
     }
 
     const [expandedTaskID,setExpandedTaskID] = useState(-1);
@@ -67,7 +67,7 @@ export default function TaskListScreen(props) {
                 newArray[0] = !newArray[0];
                 setSectionExpansion(newArray);
         }}>
-            <View style={[styles.row, styles.alignItems]}><Text style={[styles.fontSize3, styles.bold]}>CAPTURED TASKS</Text>{!sectionExpansion[0] && getSectionTaskCountElement(capturedTaskList)}</View>
+            <View style={[styles.row, styles.alignItems]}><Text style={[styles.defaultText, styles.fontSize3, styles.bold]}>CAPTURED TASKS</Text>{!sectionExpansion[0] && getSectionTaskCountElement(capturedTaskList)}</View>
             {sectionExpansion[0] && getTaskListElement(capturedTaskList)}
         </Pressable>;
 
@@ -79,7 +79,7 @@ export default function TaskListScreen(props) {
                 newArray[1] = !newArray[1];
                 setSectionExpansion(newArray);
         }}>
-            <View style={[styles.row, styles.alignItems]}><Text style={[styles.fontSize3, styles.bold]}>FLOATING TASKS</Text>{!sectionExpansion[1] && getSectionTaskCountElement(openTaskList)}</View>
+            <View style={[styles.row, styles.alignItems]}><Text style={[styles.defaultText, styles.fontSize3, styles.bold]}>FLOATING TASKS</Text>{!sectionExpansion[1] && getSectionTaskCountElement(openTaskList)}</View>
             {sectionExpansion[1] && getTaskListElement(openTaskList)}
         </Pressable>;
 
@@ -91,7 +91,7 @@ export default function TaskListScreen(props) {
                 newArray[2] = !newArray[2];
                 setSectionExpansion(newArray);
         }}>
-            <View style={[styles.row, styles.alignItems]}><Text style={[styles.fontSize3, styles.bold]}>DEADLINE TASKS</Text>{!sectionExpansion[2] && getSectionTaskCountElement(assignedTaskList)}</View>
+            <View style={[styles.row, styles.alignItems]}><Text style={[styles.defaultText, styles.fontSize3, styles.bold]}>DEADLINE TASKS</Text>{!sectionExpansion[2] && getSectionTaskCountElement(assignedTaskList)}</View>
             {sectionExpansion[2] && getTaskListElement(assignedTaskList)}
         </Pressable>;
 
@@ -103,7 +103,7 @@ export default function TaskListScreen(props) {
                 newArray[3] = !newArray[3];
                 setSectionExpansion(newArray);
         }}>
-            <View style={[styles.row, styles.alignItems]}><Text style={[styles.fontSize3, styles.bold]}>SCHEDULED TASKS</Text>{!sectionExpansion[3] && getSectionTaskCountElement(scheduledTaskList)}</View>
+            <View style={[styles.row, styles.alignItems]}><Text style={[styles.defaultText, styles.fontSize3, styles.bold]}>SCHEDULED TASKS</Text>{!sectionExpansion[3] && getSectionTaskCountElement(scheduledTaskList)}</View>
             {sectionExpansion[3] && getTaskListElement(scheduledTaskList)}
         </Pressable>;
     

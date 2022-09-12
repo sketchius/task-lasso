@@ -6,13 +6,16 @@ import TaskListScreen from './TaskListScreen';
 import ToDoScreen from './ToDoScreen';
 import { Ionicons, FontAwesome, AntDesign } from '@expo/vector-icons'; 
 
-import { styles } from './Styles';
+import { definedStyles } from './Styles';
 
 import { saveData, loadData, saveTasks, loadTasks } from './Data.js';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import TaskEditorScreen from './TaskEditorScreen';
 import DataInspector from './DataInspector';
+
+import { useFonts } from 'expo-font';
+
 
 async function getData() {
     let data = await loadTasks();
@@ -21,6 +24,20 @@ async function getData() {
 }
 
 export default function App() {
+
+    const [fontsLoaded] = useFonts({
+        'Roboto-Light': require('./assets/fonts/Roboto-Light.ttf'),
+        'Roboto-Regular': require('./assets/fonts/Roboto-Regular.ttf'),
+        'Roboto-Medium': require('./assets/fonts/Roboto-Medium.ttf'),
+        'Roboto-Bold': require('./assets/fonts/Roboto-Bold.ttf'),
+        'TitilliumWeb-Regular': require('./assets/fonts/TitilliumWeb-Regular.ttf'),
+        'TitilliumWeb-Semibold': require('./assets/fonts/TitilliumWeb-SemiBold.ttf'),
+        'TitilliumWeb-Bold': require('./assets/fonts/TitilliumWeb-Bold.ttf'),
+      });
+
+    const styles = definedStyles;
+
+
     const [tasks, setTasks] = useState([
       {
         title: 'Go to the store',
@@ -43,7 +60,7 @@ export default function App() {
       },
       {
         title: 'Call mom',
-        description: `She's probably wondering who I'm doing.`,
+        description: `She's probably wondering how I'm doing.`,
         type: 'OPEN',
         uniqid: 3,
         prority: 2,

@@ -1,5 +1,6 @@
 import { StyleSheet, StatusBar } from 'react-native';
 
+
 const size000 = 0.125;
 const size00 = 0.25;
 const size0 = 0.5;
@@ -11,6 +12,24 @@ const size5 = 16;
 const size6 = 32;
 
 const styleArray = {
+    defaultText: {
+        fontFamily: 'Roboto-Regular',
+        fontSize: 16
+    },
+    headerFont: {
+        fontFamily: 'Roboto-Medium',
+    },
+    screenHeader: {
+        fontFamily: 'TitilliumWeb-Bold'
+    },
+    alertText: {
+        fontSize: 10,
+        color: '#555',
+        fontFamily: 'TitilliumWeb-Bold'
+    },
+    alertIcon: {
+        color: '#555'
+    },
     scrollContainer: {
         flex: 1,
     },
@@ -227,4 +246,4 @@ populateStyles('width',false);
 populateStyles('height',false);
 addSizeAxisStyles('','Square','Width','Height');
 
-export const styles = StyleSheet.create(styleArray);
+export const definedStyles = StyleSheet.create(styleArray);
