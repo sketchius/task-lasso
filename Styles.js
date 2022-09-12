@@ -10,7 +10,7 @@ const size4 = 8;
 const size5 = 16;
 const size6 = 32;
 
-export const styles = StyleSheet.create({
+const styleArray = {
     scrollContainer: {
         flex: 1,
     },
@@ -276,11 +276,6 @@ export const styles = StyleSheet.create({
         borderColor: "black",
         borderWidth: 1
     },
-    checkBoxHalf: {
-        width: size2,
-        height: 'auto',
-        backgroundColor: 'black'
-    },
     checkBoxChecked: {
         padding: size4,
         backgroundColor: 'black',
@@ -333,4 +328,36 @@ export const styles = StyleSheet.create({
         borderBottomWidth: 0.5,
         borderColor: 'black'
     }
-});
+}
+
+const populateStyles = (property,includePositional) => {
+    addSizeStyles(property,'');
+    if(includePositional) {
+        addSizeStyles(property,'Top');
+        addSizeStyles(property,'Bottom');
+        addSizeStyles(property,'Left');
+        addSizeStyles(property,'Right');    
+    }
+}
+
+const addSizeStyles = (property, modifier) => {
+    styleArray[property + modifier + '000'] = { [property+ modifier]: size000 }
+    styleArray[property + modifier + '00'] = { [property+ modifier]: size00 }
+    styleArray[property + modifier + '0'] = { [property+ modifier]: size0 }
+    styleArray[property + modifier + '1'] = { [property+ modifier]: size1 }
+    styleArray[property + modifier + '2'] = { [property+ modifier]: size2 }
+    styleArray[property + modifier + '3'] = { [property+ modifier]: size3 }
+    styleArray[property + modifier + '4'] = { [property+ modifier]: size4 }
+    styleArray[property + modifier + '5'] = { [property+ modifier]: size5 }
+    styleArray[property + modifier + '6'] = { [property+ modifier]: size6 }
+}
+
+
+populateStyles('padding',true);
+populateStyles('margin',true);
+populateStyles('borderWidth',true);
+
+
+//alert(styleArray.padding3.padding);
+
+export const styles = StyleSheet.create(styleArray);
