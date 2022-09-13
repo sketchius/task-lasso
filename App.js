@@ -206,6 +206,18 @@ export default function App() {
         }
     }
 
+    const options = {
+        headerBackTitleVisible: false,
+        headerStyle: {
+          backgroundColor: styles.darkColor,
+        },
+        headerTintColor: "#fff",
+        tabBarActiveTintColor: styles.darkColor,
+        tabBarInactiveTintColor: 'grey',
+        tabBarActiveBackgroundColor: '#f7ffca',
+        tabBarInactiveBackgroundColor: 'white'
+      };
+
     return (
         <SafeAreaView style={styles.safe}>
             <NavigationContainer>
@@ -260,14 +272,3 @@ export default function App() {
 }
 
 
-const options = {
-    headerBackTitleVisible: false,
-    headerStyle: {
-      backgroundColor: "#000",
-    },
-    headerTintColor: "#fff",
-    tabBarActiveTintColor: 'black',
-    tabBarInactiveTintColor: 'grey',
-    tabBarActiveBackgroundColor: '#f7ffca',
-    tabBarInactiveBackgroundColor: 'white'
-  };

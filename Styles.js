@@ -11,6 +11,10 @@ const size4 = 8;
 const size5 = 16;
 const size6 = 32;
 
+const darkColor = '#383769'
+const darkColor2 = '#64629c'
+const darkColor3 = '#8e8cc1'
+
 const styleArray = {
     defaultText: {
         fontFamily: 'Roboto-Regular',
@@ -38,15 +42,41 @@ const styleArray = {
         width: '100%',
     },
     editField: {
-        margin: size4,
+        margin: size2,
+        marginLeft: size4,
+        marginRight: size4,
         flex: 1,
-        padding: size4
+        paddingTop: size2,
+        paddingBottom: size5
+    },
+    helpButton: {
+        height: 24,
+        width: 24,
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    helpElement: {
+        margin: size4,
+    },
+    helpIcon: {
+        height: 20,
+        width: 20
+    },
+    helpText: {
+        fontSize: 12,
+        marginLeft: size3,
+        marginBottom: size3,
+        color: darkColor2
+    },
+    formSectionBorder: {
+        
     },
     formFieldLabel: {
         marginBottom: size3,
+        marginRight: size2,
         fontSize: 18,
         fontFamily: 'TitilliumWeb-Semibold',
-        color: '#444'
+        color: darkColor
     },
     textInputContainer: {
         width: '100%',
@@ -59,19 +89,27 @@ const styleArray = {
         backgroundColor: 'white'
     },
     selected: {
-        backgroundColor: '#fffe94',
-        borderRadius: size3
+        backgroundColor: '#fffe94'
     },
     selectionIcon: {
         height: 40,
         width: 40,
         alignItems: 'center',
         justifyContent: 'center',
-        borderColor: 'black',
+        borderColor: darkColor,
         borderWidth: size0,
         borderRadius: size3
     },
     
+    selectionIconSmall: {
+        height: 25,
+        width: 25,
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderWidth: 0
+    },
+
+
     selectionIcon2: {
         height: 40,
         width: 40
@@ -82,11 +120,12 @@ const styleArray = {
     },
     selectionText: {
         fontSize: 18,
-        fontFamily: 'Roboto-Medium'
+        fontFamily: 'Roboto-Medium',
+        color: darkColor
     },
     selectionSubtext: {
         fontSize: 12,
-        color: '#555'
+        color: darkColor2
     },
     test: {
         height: 'auto',
@@ -129,7 +168,7 @@ const styleArray = {
         backgroundColor: 'cyan'
     },
     iconPlaceholder: {
-        borderColor: 'black',
+        borderColor: darkColor,
         borderWidth: 1,
         borderRadius: 15,
         width: 15,
@@ -150,14 +189,14 @@ const styleArray = {
     taskCountElement: {
         marginLeft: 8,
         backgroundColor: '#dfefef',
-        color: 'black'
+        color: darkColor
     },
     circleBorder: {
         textAlign: 'center',
         width: 20,
         height: 20,
         borderRadius: 20,
-        borderColor: 'black',
+        borderColor: darkColor,
         borderWidth: 1
     },
     alignItems: {
@@ -192,6 +231,9 @@ const styleArray = {
     },
     fontSize6: {
         fontSize: 40
+    },
+    centerText: {
+        textAlign: 'center'
     },
     flex100: {
         flex: 1,
@@ -229,10 +271,12 @@ const styleArray = {
         justifyContent: 'space-between'
     },
     horizontalLine: {
+        marginLeft: size2,
+        marginRight: size2,
         flex: 1,
         height: 1,
-        borderTopWidth: 0.5,
-        borderColor: 'grey'
+        borderTopWidth: .5,
+        borderColor: darkColor3
     },
     yellowBackground: {
         backgroundColor: '#f7ffca'
@@ -246,13 +290,21 @@ const styleArray = {
     },
     leftBorder: {
         borderLeftWidth: 0.5,
-        borderColor: 'grey'
+        borderStyle: 'dotted',
+        borderColor: darkColor
+    },
+    
+    leftBorder2: {
+        borderLeftWidth: 2,
+        borderColor: darkColor
     },
     horizontalBorders: {
         borderTopWidth: 0.5,
         borderBottomWidth: 0.5,
-        borderColor: 'black'
-    }
+        borderColor: darkColor
+    },
+    darkColor,
+    darkColor2
 }
 
 const populateStyles = (property,includePositional) => {
