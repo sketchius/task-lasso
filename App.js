@@ -45,10 +45,10 @@ export default function App() {
     const [tasks, setTasks] = useState([
       {
         title: 'Go to the store',
-        description: 'We definitely need eggs, bread, and toothpaste',
-        type: 'DEADLINE',
+        type: 'SCHEDULED',
+        prority: 2,
         uniqid: 1,
-        dueDate: new Date(2022, 8, 8),
+        dueDate: new Date(2022, 8, 16),
         iconLibrary: 'AntDesign',
         iconName: 'car'
       },
@@ -56,6 +56,7 @@ export default function App() {
         title: 'Find the drill',
         description: 'Been looking everywhere for the drill, but I have no idea where it is...',
         type: 'DEADLINE',
+        prority: 1,
         uniqid: 2,
         dueDate: new Date(2022, 8, 16, 10, 0, 0),
         iconLibrary: 'FontAwesome',
@@ -65,8 +66,9 @@ export default function App() {
         title: 'Call mom',
         description: `She's probably wondering how I'm doing.`,
         type: 'FLEXIBLE',
+        dateCreated: new Date(2022, 8, 2, 10, 0, 0),
         uniqid: 3,
-        prority: 2,
+        prority: 1,
         iconLibrary: 'Ionicons',
         iconName: 'call'
       },
@@ -74,6 +76,7 @@ export default function App() {
         title: "Drive to Columbus",
         description: 'Need to:\n1) Go to the doctor\n2)Visit bob\n3)Drop off borrowed books',
         type: 'SCHEDULED',
+        prority: 2,
         uniqid: 4,
         dueDate: new Date(2022, 9, 15),
         iconLibrary: 'AntDesign',
@@ -83,24 +86,88 @@ export default function App() {
         title: "Lookup that Mexican place",
         type: 'CAPTURED',
         uniqid: 5,
-        iconLibrary: 'AntDesign',
-        iconName: 'car'
+        iconLibrary: 'MaterialCommunityIcons',
+        iconName: 'circle-small'
       },
       {
         title: "Text Ralph back",
         type: 'CAPTURED',
         uniqid: 6,
-        iconLibrary: 'AntDesign',
-        iconName: 'car'
+        iconLibrary: 'MaterialCommunityIcons',
+        iconName: 'circle-small'
       },
       {
-        title: "Meeting with publisher",
-        description: 'Address is:\n4123 21st Ave\nYallville, OH 44221',
+        title: "Do laundry",
+        type: 'DEADLINE',
+        uniqid: 17,
+        prority: 1,
+        dueDate: new Date(2022, 8, 17, 10, 0, 0),
+        iconLibrary: 'FontAwesome5',
+        iconName: 'tshirt'
+      },
+      {
+        title: "Pump up bike tires",
+        type: 'FLEXIBLE',
+        dateCreated: new Date(2022, 8, 9, 10, 0, 0),
+        uniqid: 18,
+        prority: 0,
+        iconLibrary: 'MaterialIcons',
+        iconName: 'pedal-bike'
+      },
+      {
+        title: "Make grocery list",
+        type: 'DEADLINE',
+        uniqid: 19,
+        prority: 1,
+        dueDate: new Date(2022, 8, 15, 10, 0, 0),
+        iconLibrary: 'FontAwesome5',
+        iconName: 'clipboard-list'
+      },
+      {
+        title: "Fix the table",
+        description: 'One of the legs is loose',
+        type: 'FLEXIBLE',
+        dateCreated: new Date(2022, 8, 8, 10, 0, 0),
+        uniqid: 20,
+        prority: 0,
+        iconLibrary: 'MaterialCommunityIcons',
+        iconName: 'screwdriver'
+      },
+      {
+        title: "Interview at Data Corp",
         type: 'SCHEDULED',
-        uniqid: 7,
+        uniqid: 21,
         prority: 2,
-        dueDate: new Date(2022, 8, 13, 10, 0, 0),
+        dueDate: new Date(2022, 8, 14, 15, 0, 0),
         useTime: true,
+        iconLibrary: 'Ionicons',
+        iconName: 'people'
+      },
+      {
+        title: "Finish first draft of proposal",
+        type: 'DEADLINE',
+        uniqid: 22,
+        prority: 2,
+        dueDate: new Date(2022, 8, 29, 10, 0, 0),
+        iconLibrary: 'Ionicons',
+        iconName: 'document'
+      },
+      {
+        title: "Find the remote",
+        type: 'FLEXIBLE',
+        dateCreated: new Date(2022, 8, 13, 10, 0, 0),
+        uniqid: 23,
+        prority: 2,
+        iconLibrary: 'FontAwesome',
+        iconName: 'search'
+      },
+      {
+        title: "Call the gas company",
+        description: 'Ask about charges',
+        type: 'FLEXIBLE',
+        dateCreated: new Date(2022, 8, 10, 10, 0, 0),
+        uniqid: 24,
+        prority: 2,
         iconLibrary: 'Ionicons',
         iconName: 'people'
       }
