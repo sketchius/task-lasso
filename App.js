@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { SafeAreaView, View, Text, ScrollView} from 'react-native';
 import { NavigationContainer, TransitionScreenOptions } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -183,18 +183,16 @@ export default function App() {
         assignTasks();
     }, []);
 
-
+    const assignedValue = useRef(0);
 
     const assignTasks = () => {
-        let assignmentBudget = 60;
-
-        let assignedValue = 0;
+        let assignmentBudget = 90;
 
         const tasksCopy = [...tasks];
 
         const assignTask = (task) => {
             task.assigned = true;
-            assignedValue += 15;
+            assignedValue.current += 15;
         }
 
         tasksCopy.forEach( (task => {
@@ -226,7 +224,7 @@ export default function App() {
             return baseScore * priorityWeight * deadlineWeight * flexibleWeight;
         }
 
-        while (assignedValue < assignmentBudget) {
+        while (assignedValue.current < assignmentBudget) {
             let highestScoreTask;
             let highestScore = 0;
             remainingTasks.forEach( (task) => {
@@ -345,7 +343,8 @@ export default function App() {
         }
     }
 
-    const options = {
+    const options = {    
+        headerShown: false,
         headerBackTitleVisible: false,
         headerStyle: {
           backgroundColor: styles.darkColor,
