@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { SafeAreaView, View, Text} from 'react-native';
+import { SafeAreaView, View, Text, ScrollView} from 'react-native';
 import { NavigationContainer, TransitionScreenOptions } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import TaskListScreen from './TaskListScreen';
 import ToDoScreen from './ToDoScreen';
 import { Ionicons, FontAwesome, AntDesign } from '@expo/vector-icons'; 
+import isToday from 'date-fns/isToday'
+import differenceInDays from 'date-fns/differenceInDays'
 
 import { definedStyles } from './Styles';
 
@@ -15,7 +17,9 @@ import TaskEditorScreen from './TaskEditorScreen';
 import DataInspector from './DataInspector';
 
 import { useFonts } from 'expo-font';
+import { Logs } from 'expo'
 
+Logs.enableExpoCliLogging()
 
 async function getData() {
     let data = await loadTasks();
@@ -53,18 +57,16 @@ export default function App() {
         description: 'Been looking everywhere for the drill, but I have no idea where it is...',
         type: 'DEADLINE',
         uniqid: 2,
-        dueDate: new Date(2022, 8, 11, 10, 0, 0),
-        assigned: true,
+        dueDate: new Date(2022, 8, 16, 10, 0, 0),
         iconLibrary: 'FontAwesome',
         iconName: 'search'
       },
       {
         title: 'Call mom',
         description: `She's probably wondering how I'm doing.`,
-        type: 'OPEN',
+        type: 'FLEXIBLE',
         uniqid: 3,
         prority: 2,
-        assigned: true,
         iconLibrary: 'Ionicons',
         iconName: 'call'
       },
@@ -97,9 +99,8 @@ export default function App() {
         type: 'SCHEDULED',
         uniqid: 7,
         prority: 2,
-        dueDate: new Date(2022, 8, 11, 10, 0, 0),
+        dueDate: new Date(2022, 8, 13, 10, 0, 0),
         useTime: true,
-        assigned: true,
         iconLibrary: 'Ionicons',
         iconName: 'people'
       }
@@ -109,6 +110,83 @@ export default function App() {
     useEffect(() => {
         //readTasksFromStorage();
     }, []);
+
+
+    useEffect(() => {
+        assignTasks();
+    }, []);
+
+
+
+    const assignTasks = () => {
+        let assignmentBudget = 60;
+
+        let assignedValue = 0;
+
+        const tasksCopy = [...tasks];
+
+        const assignTask = (task) => {
+            task.assigned = true;
+            assignedValue += 15;
+        }
+
+        tasksCopy.forEach( (task => {
+            if (!task.assigned && (task.type == 'SCHEDULED' || task.type == 'DEADLINE') && isToday(task.dueDate)) {
+                console.log('assigning scheduled task')
+                assignTask(task);
+            }
+        }))
+
+        const remainingTasks = tasksCopy.filter( (task => task.type != 'SCHEDULED'));
+        
+        console.log(remainingTasks.length + ' tasks');
+
+        const scoreTask = (task) => {
+            console.log('scoring task...')
+            let baseScore = 1;
+            let priorityWeight = 1;
+            if (task.priority) (task.prority + 1) / 2;
+            console.log(`priorityWeight = ${priorityWeight}`)
+            let deadlineWeight = 1;
+            if (task.type == 'DEADLINE')
+                deadlineWeight = 1 + 7 / Math.pow(differenceInDays(task.dueDate,new Date()),2);
+            console.log(`deadlineWeight = ${deadlineWeight}`)
+            let flexibleWeight = 1;
+            if (task.type == 'FLEXIBLE' && task.dueDate)
+                flexibleWeight = 1 + differenceInDays(task.dueDate,new Date()) / 30;
+            console.log(`flexibleWeight = ${flexibleWeight}`)
+
+            return baseScore * priorityWeight * deadlineWeight * flexibleWeight;
+        }
+
+        while (assignedValue < assignmentBudget) {
+            let highestScoreTask;
+            let highestScore = 0;
+            remainingTasks.forEach( (task) => {
+                if (!task.assigned) {
+                    let taskScore = scoreTask(task);
+                    console.log(taskScore)
+                    if (taskScore > highestScore) {
+                        highestScore = taskScore;
+                        highestScoreTask = task;
+                    }
+                }
+            })
+
+            if (highestScoreTask)
+                {
+                    console.log('assigning task')
+                    assignTask(highestScoreTask)
+                }
+            else
+                {
+                    console.log('no more tasks')
+                    break;
+                }
+        }
+
+        setTasks(tasksCopy);
+    }
 
     const readTasksFromStorage = async () => {
         try {
@@ -173,14 +251,8 @@ export default function App() {
         setTasks(newTasks);
     };
 
-    const handleAddTaskButton = (title) => {
-        const newTask = {
-            title,
-            uniqid: uuid.v4(),
-            type: 'CAPTURED',
-            dateCreated: new Date(),
-        };
-        addTask(newTask);
+    const recieveNewTask = (task) => {
+        addTask(task);
     };
 
     const handleEditTaskButton = (title) => {
@@ -255,7 +327,7 @@ export default function App() {
                             <TaskEditorScreen
                                 tasks={tasks}
                                 styles={styles}
-                                handleCapture={handleAddTaskButton}
+                                onSave={addTask}
                             />
                         )}
                     </NavBar.Screen>

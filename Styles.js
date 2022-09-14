@@ -11,9 +11,13 @@ const size4 = 8;
 const size5 = 16;
 const size6 = 32;
 
-const darkColor = '#383769'
-const darkColor2 = '#64629c'
-const darkColor3 = '#8e8cc1'
+//const darkColor = '#383769'
+//const darkColor2 = '#64629c'
+//const darkColor3 = '#8e8cc1'
+
+const darkColor = '#030a15'
+const darkColor2 = '#3c4350'
+const darkColor3 = '#6c717a'
 
 const styleArray = {
     defaultText: {
@@ -158,7 +162,7 @@ const styleArray = {
     capturedTasksContainer: {
         backgroundColor: 'white'
     },
-    openTasksContainer: {
+    flexibleTasksContainer: {
         backgroundColor: 'yellow'
     },
     assignedTasksContainer: {

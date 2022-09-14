@@ -1,27 +1,58 @@
-import React, {useState, useRef} from 'react';
-import { View, TextInput, Text, Button, StyleSheet, ScrollView } from 'react-native';
+import React, {useState} from 'react';
+import { Button, StyleSheet, ScrollView } from 'react-native';
 import { DateTimeComponent, EditField, SelectionList } from './Form';
-import getIcon from "./Icons";
-import StyledText from './StyledText';
+import uuid from 'react-native-uuid';
+import { Logs } from 'expo'
 
+Logs.enableExpoCliLogging()
 
 export default function TaskEditorScreen(props) {
 
     const styles = props.styles;
 
-    const [form,setForm] = useState({});
+    const form = {};
 
     const handleInput = ( parameter, value ) => {
-        alert(parameter + ' ' + value);
-        setForm({ ...form, [parameter]: value});
+        console.log('handleInput --- ' + parameter + ': ' + value)
+        form[parameter] = value;
     }
-
-    
-    const [answer,setAnswer] = useState('');
-
 
     const reportData = () => {
         alert(JSON.stringify(form))
+        sendNewTask();
+    }
+
+    const sendNewTask = () => {
+
+        const newTask = {
+            title: form.title,
+            description: form.desc,
+            uniqid: uuid.v4(),
+            prority: form.priority,
+            dueDate: form.due,
+            useTime: false,
+            assigned: false,
+            iconLibrary: 'Ionicons',
+            iconName: 'people'
+        }
+
+        switch (form.type) {
+            case 0:
+                newTask.type = 'FLEXIBLE'
+                break;
+            case 1:
+                newTask.type = 'SCHEDULED'
+                break;
+            case 2:
+                newTask.type = 'DEADLINE'
+                break;
+            case 3:
+                newTask.type = 'REPEATING'
+                break;
+            
+        }
+
+        props.onSave(newTask)
     }
 
 
@@ -76,7 +107,7 @@ export default function TaskEditorScreen(props) {
                     subtext: "Needs to be done regularly"
                 }
             ]}></SelectionList>
-            <SelectionList styles={styles} data={'priority'} label={'PRIORITY'} defaultSelection={1} orientation={'row'} onChange={handleInput} iconStyle={0}
+            <SelectionList styles={styles} data={'priority'} label={'PRIORITY'} defaultSelection={0} orientation={'row'} onChange={handleInput} iconStyle={0}
             selections={[
                 {
                     index: 0,

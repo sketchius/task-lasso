@@ -55,7 +55,7 @@ export default function TaskListScreen(props) {
     const [sectionExpansion,setSectionExpansion] = useState([false,true,false,true]);
 
     const capturedTaskList = filterTaskList('CAPTURED',false);
-    const openTaskList = filterTaskList('OPEN',false);
+    const flexibleTaskList = filterTaskList('FLEXIBLE',false);
     const assignedTaskList = filterTaskList('DEADLINE',true,'by');
     const scheduledTaskList = filterTaskList('SCHEDULED',true,'');
 
@@ -71,16 +71,16 @@ export default function TaskListScreen(props) {
             {sectionExpansion[0] && getTaskListElement(capturedTaskList)}
         </Pressable>;
 
-    const openTaskElement =
+    const flexibleTaskElement =
         <Pressable 
-            style={[styles.openTasksContainer, styles.padding5]}
+            style={[styles.flexibleTasksContainer, styles.padding5]}
             onPress={() => {
                 const newArray = [...sectionExpansion];
                 newArray[1] = !newArray[1];
                 setSectionExpansion(newArray);
         }}>
-            <View style={[styles.row, styles.alignItems]}><Text style={[styles.defaultText, styles.fontSize3, styles.bold]}>FLOATING TASKS</Text>{!sectionExpansion[1] && getSectionTaskCountElement(openTaskList)}</View>
-            {sectionExpansion[1] && getTaskListElement(openTaskList)}
+            <View style={[styles.row, styles.alignItems]}><Text style={[styles.defaultText, styles.fontSize3, styles.bold]}>FLEXIBLE TASKS</Text>{!sectionExpansion[1] && getSectionTaskCountElement(flexibleTaskList)}</View>
+            {sectionExpansion[1] && getTaskListElement(flexibleTaskList)}
         </Pressable>;
 
     const deadlineTaskElement =
@@ -111,7 +111,7 @@ export default function TaskListScreen(props) {
     return (
         <ScrollView style={styles.scrollContainer}>
             {capturedTaskElement} 
-            {openTaskElement} 
+            {flexibleTaskElement} 
             {deadlineTaskElement}
             {scheduledTaskElement}
         </ScrollView>

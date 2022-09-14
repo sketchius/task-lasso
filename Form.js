@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { View, TextInput, Pressable, Button } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { format } from 'date-fns';
@@ -48,14 +48,18 @@ export function SelectionList(props) {
     const inputField = useRef(null);
     const [selected,setSelected] = useState(props.defaultSelection)
 
-    const handlePress = (index) => {
-        setSelected(index);
-        props.onChange(props.data, index);
-    }
+    //const handlePress = (index) => {
+    //    setSelected(index);
+    //    props.onChange(props.data, index);
+    //}
+
+    useEffect(() => {
+        props.onChange(props.data, selected);
+    }, [selected]);
 
     const optionContent = props.selections.map( (selection) => {
         return (
-            <Pressable style={[styles.selectionItem,styles.flex1,selection.index == selected && styles.selected]} onPress={() => handlePress(selection.index)}>
+            <Pressable style={[styles.selectionItem,styles.flex1,selection.index == selected && styles.selected]} onPress={() => setSelected(selection.index)}>
                 {props.iconStyle > 0 &&
                 <View style={[styles.selectionIcon, props.iconStyle == 2 && styles.selectionIconSmall]}>
                     {getIcon(selection.iconFamily,selection.iconName,selection.iconSize,styles.darkColor)}
