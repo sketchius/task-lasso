@@ -29,6 +29,9 @@ export default function ToDoScreen(props) {
             case 'start':
                 props.onAssignTasks(designationSelection,ambitionSelection);
                 break;
+            case 'end':
+                props.onEndDay();
+                break;
         }
     }
 
@@ -95,6 +98,7 @@ export default function ToDoScreen(props) {
                     ]}></SelectionList>
                 </ScrollView>}
                 {props.status == 'CHECK-IN' && <Pressable style={[styles.screenHeaderButton,styles.marginBottom6]} onPress={() => handleInput('start')}><StyledText styles={styles}>Start the day!</StyledText></Pressable>}
+                {props.status == 'ASSIGNED' && <Pressable style={[styles.screenHeaderButton,styles.marginBottom6]} onPress={() => handleInput('end')}><StyledText styles={styles}>End the day!</StyledText></Pressable>}
             </View>
             {props.status == 'ASSIGNED' && <ScrollView style={styles.container}>
                 {taskList}

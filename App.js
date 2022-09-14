@@ -235,42 +235,30 @@ export default function App() {
 
         tasksCopy.forEach( (task => {
             if (!task.assigned && (task.type == 'SCHEDULED' || task.type == 'DEADLINE') && isToday(task.dueDate)) {
-                console.log('assigning scheduled task')
                 assignTask(task);
             }
         }))
 
         const remainingTasks = tasksCopy.filter( (task => task.type != 'SCHEDULED' && task.type != 'CAPTURED'));
         
-        console.log(remainingTasks.length + ' tasks');
-
         const scoreTask = (task) => {
-            console.log('scoring task...')
             let baseScore = 1;
+
             let priorityWeight = 1;
             if (task.priority)
                 priorityWeight = (task.priority + 1) / 2;
+
             let deadlineWeight = 1;
-            if (task.type == 'DEADLINE'){
+            if (task.type == 'DEADLINE')
                 deadlineWeight = 1 + 7 / Math.pow(differenceInDays(task.dueDate,new Date().setHours(0,0,0,0)),2);
-                
-                console.log(`(DEADLINE differenceInDays) = ${differenceInDays(task.dueDate,new Date().setHours(0,0,0,0))}`)
-                console.log(`(DEADLINE TODAY) = ${new Date()}`)
-                console.log(`(DEADLINE DUE DATE) = ${task.dueDate}`)
-            }
+
             let flexibleWeight = 1;
-            if (task.type == 'FLEXIBLE' && task.dateCreated){
+            if (task.type == 'FLEXIBLE' && task.dateCreated)
                 flexibleWeight = 1 + differenceInDays(new Date().setHours(0,0,0,0),task.dateCreated) / 30;
-            }
+
             let durationWeight = 1;
             if (task.duration)
                 durationWeight = 1 - (task.duration / 100);
-
-            console.log(`TASK = ${task.title}`)
-            console.log(`priorityWeight = ${priorityWeight}`)
-            console.log(`deadlineWeight = ${deadlineWeight}`)
-            console.log(`flexibleWeight = ${flexibleWeight}`)
-            console.log(`durationWeight = ${durationWeight}`)
 
             return baseScore * priorityWeight * deadlineWeight * flexibleWeight * durationWeight;
         }
@@ -281,8 +269,6 @@ export default function App() {
             remainingTasks.forEach( (task) => {
                 if (!task.assigned) {
                     let taskScore = scoreTask(task);
-                    console.log(taskScore)
-                    console.log(`==================================`)
                     if (taskScore > highestScore) {
                         highestScore = taskScore;
                         highestScoreTask = task;
@@ -291,19 +277,29 @@ export default function App() {
             })
 
             if (highestScoreTask)
-                {
-                    console.log('assigning task: ' + highestScoreTask.title)
-                    assignTask(highestScoreTask)
-                }
+                assignTask(highestScoreTask)
             else
-                {
-                    console.log('no more tasks')
-                    break;
-                }
+                break;
+                
         }
 
         setTasks(tasksCopy);
         setStatus('ASSIGNED');
+
+    }
+
+
+    const endDay = () => {    
+        const tasksCopy = tasks.filter( (task => task.status != 2 ))
+        
+        tasksCopy.forEach( (task) => {
+            task.assigned = false;
+        })
+
+        assignedValue.current = 0;
+        
+        setTasks(tasksCopy);
+        setStatus('CHECK-IN');
     }
 
     const readTasksFromStorage = async () => {
@@ -421,7 +417,7 @@ export default function App() {
                                 return <Ionicons name="md-home-outline" size={size} color={color} />
                             }
                         }}>
-                        {() => <ToDoScreen styles={styles} tasks={tasks} status={status} onTaskEvent={handleTaskEvent} onAssignTasks={assignTasks}/>}
+                        {() => <ToDoScreen styles={styles} tasks={tasks} status={status} onTaskEvent={handleTaskEvent} onAssignTasks={assignTasks} onEndDay={endDay}/>}
                     </NavBar.Screen>
                     <NavBar.Screen name="Tasks" 
                         options={{
