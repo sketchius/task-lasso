@@ -27,9 +27,6 @@ const styleArray = {
     headerFont: {
         fontFamily: 'Roboto-Medium',
     },
-    screenHeader: {
-        fontFamily: 'TitilliumWeb-Bold'
-    },
     alertText: {
         fontSize: 10,
         color: '#555',
@@ -45,13 +42,56 @@ const styleArray = {
         flex: 1,
         width: '100%',
     },
+    screenHeader: {
+        backgroundColor: darkColor,
+        padding: size5,
+        borderBottomWidth: 3,
+        borderBottomColor: '#fffe94'
+    },
+    screenHeaderFullScreen: {
+        height: '100%',
+        justifyContent: 'space-between'
+    },
+    screenHeaderText: {
+        fontFamily: 'TitilliumWeb-Regular',
+        fontSize: 48,
+        color: 'white'
+    },
+    screenHeaderDateView: {
+        marginTop: size3,
+        marginLeft: size3,
+        justifyContent: 'center'
+    },
+    screenHeaderDateText: {
+        fontFamily: 'TitilliumWeb-Regular',
+        fontSize: 12,
+        color: 'white'
+    },
+    screenHeaderYearText: {
+        fontFamily: 'TitilliumWeb-Bold',
+        fontSize: 16,
+        color: 'white'
+    },
+    screenHeaderGreetingText: {
+        fontSize: 48,
+        color: 'white'
+    },
+    screenHeaderButton: {
+        backgroundColor: '#fffe94',
+        padding: size5,
+        alignSelf: 'center',
+        borderRadius: size3
+    },
     editField: {
         margin: size2,
         marginLeft: size4,
         marginRight: size4,
-        flex: 1,
+        height: 'auto',
         paddingTop: size2,
         paddingBottom: size5
+    },
+    whiteText: {
+        color: 'white'
     },
     helpButton: {
         height: 24,
@@ -72,15 +112,19 @@ const styleArray = {
         marginBottom: size3,
         color: darkColor2
     },
-    formSectionBorder: {
-        
-    },
     formFieldLabel: {
         marginBottom: size3,
         marginRight: size2,
         fontSize: 18,
         fontFamily: 'TitilliumWeb-Semibold',
         color: darkColor
+    },
+    formFieldLabelWhite: {
+        marginBottom: size3,
+        marginRight: size2,
+        fontSize: 18,
+        fontFamily: 'TitilliumWeb-Semibold',
+        color: 'white'
     },
     textInputContainer: {
         width: '100%',
@@ -94,6 +138,9 @@ const styleArray = {
     },
     selected: {
         backgroundColor: '#fffe94'
+    },
+    whiteBackground: {
+        backgroundColor: 'white'
     },
     selectionIcon: {
         height: 40,
@@ -112,18 +159,32 @@ const styleArray = {
         justifyContent: 'center',
         borderWidth: 0
     },
-
-
+    wrap: {
+        flex:1,
+        flexDirection: 'row',
+        flexWrap: 'wrap'
+    },
     selectionIcon2: {
         height: 40,
         width: 40
     },
-    selectionItem: {
+    selectionItemColumn: {
         flexDirection: 'row',
+        padding: size4
+    },
+    selectionItemRow: {
+        width: '31%',
+        flexDirection: 'column',
+        alignItems: 'center',
         padding: size4
     },
     selectionText: {
         fontSize: 18,
+        fontFamily: 'Roboto-Medium',
+        color: darkColor
+    },
+    selectionTextSmall: {
+        fontSize: 14,
         fontFamily: 'Roboto-Medium',
         color: darkColor
     },
@@ -150,6 +211,10 @@ const styleArray = {
         flexDirection: 'row',
         alignItems: 'center'
     },
+    centerSelf: {
+        alignSelf: 'center'
+    },
+
     scrollContainer: {
         flex: 1,
         width: '100%',
@@ -289,6 +354,14 @@ const styleArray = {
         borderTopWidth: .5,
         borderColor: darkColor3
     },
+    horizontalLineWhite: {
+        marginLeft: size2,
+        marginRight: size2,
+        flex: 1,
+        height: 1,
+        borderTopWidth: .5,
+        borderColor: 'white'
+    },
     yellowBackground: {
         backgroundColor: '#f7ffca'
     },
@@ -314,7 +387,8 @@ const styleArray = {
         borderColor: darkColor
     },
     darkColor,
-    darkColor2
+    darkColor2,
+    whiteColor: 'white'
 }
 
 const populateStyles = (property,includePositional) => {

@@ -59,13 +59,13 @@ export function SelectionList(props) {
 
     const optionContent = props.selections.map( (selection) => {
         return (
-            <Pressable style={[styles.selectionItem,styles.flex1,selection.index == selected && styles.selected]} onPress={() => setSelected(selection.index)}>
+            <Pressable style={[props.orientation == 'column' ? styles.selectionItemColumn : styles.selectionItemRow,props.invert && styles.whiteBackground,selection.index == selected && styles.selected]} onPress={() => setSelected(selection.index)}>
                 {props.iconStyle > 0 &&
                 <View style={[styles.selectionIcon, props.iconStyle == 2 && styles.selectionIconSmall]}>
                     {getIcon(selection.iconFamily,selection.iconName,selection.iconSize,styles.darkColor)}
                 </View>}
-                <View style={[styles.marginHorizontal4,styles.flex1,props.orientation == 'row' && styles.alignItems]}>
-                    <StyledText styles={styles} style={[styles.selectionText]}>{selection.text}</StyledText>
+                <View style={[styles.marginHorizontal4,props.orientation == 'column' ? styles.flex1 : styles.alignItems]}>
+                    <StyledText styles={styles} style={[styles.selectionText, props.orientation == 'row' && props.iconStyle == 2 && styles.selectionTextSmall]}>{selection.text}</StyledText>
                     {props.useSubtext && <StyledText styles={styles} style={[styles.selectionSubtext]}>{selection.subtext}</StyledText>}
                 </View>
             </Pressable>
@@ -73,18 +73,17 @@ export function SelectionList(props) {
     })
 
     return (
-    <View style={styles.formSectionBorder}>
         <View style={[styles.editField]}>
-            <View style={[styles.alignedRow]}>
-                <StyledText styles={styles} style={styles.formFieldLabel}>{props.label.toUpperCase()}</StyledText>
-                <View style={styles.horizontalLine}></View>
+            <View style={[styles.alignedRow, styles.marginBottom3]}>
+                <StyledText styles={styles} style={props.invert ? styles.formFieldLabelWhite : styles.formFieldLabel}>{props.label.toUpperCase()}</StyledText>
+                <View style={props.invert ? styles.horizontalLineWhite : styles.horizontalLine}></View>
                 <Pressable style={styles.helpButton}>
-                    {getIcon('MaterialCommunityIcons','help-circle-outline',24,styles.darkColor2)}
+                    {getIcon('MaterialCommunityIcons','help-circle-outline',24,props.invert ? styles.whiteColor : styles.darkColor2)}
                 </Pressable>
             </View>            
-            <View style={[props.orientation=='row' && styles.row]}>{optionContent}</View>
-        </View> 
-    </View> )
+            <View style={[props.orientation=='row' && styles.row, props.wrap && styles.wrap, styles.spaceBetween]}>{optionContent}</View>
+        </View> )
+
 }
 
 

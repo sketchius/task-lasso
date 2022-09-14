@@ -46,8 +46,9 @@ export default function App() {
       {
         title: 'Go to the store',
         type: 'SCHEDULED',
-        prority: 2,
+        priority: 2,
         uniqid: 1,
+        duration: 60,
         dueDate: new Date(2022, 8, 16),
         iconLibrary: 'AntDesign',
         iconName: 'car'
@@ -56,8 +57,9 @@ export default function App() {
         title: 'Find the drill',
         description: 'Been looking everywhere for the drill, but I have no idea where it is...',
         type: 'DEADLINE',
-        prority: 1,
+        priority: 1,
         uniqid: 2,
+        duration: 15,
         dueDate: new Date(2022, 8, 16, 10, 0, 0),
         iconLibrary: 'FontAwesome',
         iconName: 'search'
@@ -68,7 +70,8 @@ export default function App() {
         type: 'FLEXIBLE',
         dateCreated: new Date(2022, 8, 2, 10, 0, 0),
         uniqid: 3,
-        prority: 1,
+        duration: 45,
+        priority: 1,
         iconLibrary: 'Ionicons',
         iconName: 'call'
       },
@@ -76,8 +79,9 @@ export default function App() {
         title: "Drive to Columbus",
         description: 'Need to:\n1) Go to the doctor\n2)Visit bob\n3)Drop off borrowed books',
         type: 'SCHEDULED',
-        prority: 2,
+        priority: 2,
         uniqid: 4,
+        duration: 60,
         dueDate: new Date(2022, 9, 15),
         iconLibrary: 'AntDesign',
         iconName: 'car'
@@ -100,7 +104,8 @@ export default function App() {
         title: "Do laundry",
         type: 'DEADLINE',
         uniqid: 17,
-        prority: 1,
+        priority: 1,
+        duration: 30,
         dueDate: new Date(2022, 8, 17, 10, 0, 0),
         iconLibrary: 'FontAwesome5',
         iconName: 'tshirt'
@@ -110,7 +115,8 @@ export default function App() {
         type: 'FLEXIBLE',
         dateCreated: new Date(2022, 8, 9, 10, 0, 0),
         uniqid: 18,
-        prority: 0,
+        duration: 10,
+        priority: 0,
         iconLibrary: 'MaterialIcons',
         iconName: 'pedal-bike'
       },
@@ -118,7 +124,8 @@ export default function App() {
         title: "Make grocery list",
         type: 'DEADLINE',
         uniqid: 19,
-        prority: 1,
+        duration: 15,
+        priority: 1,
         dueDate: new Date(2022, 8, 15, 10, 0, 0),
         iconLibrary: 'FontAwesome5',
         iconName: 'clipboard-list'
@@ -129,7 +136,8 @@ export default function App() {
         type: 'FLEXIBLE',
         dateCreated: new Date(2022, 8, 8, 10, 0, 0),
         uniqid: 20,
-        prority: 0,
+        duration: 30,
+        priority: 0,
         iconLibrary: 'MaterialCommunityIcons',
         iconName: 'screwdriver'
       },
@@ -137,7 +145,8 @@ export default function App() {
         title: "Interview at Data Corp",
         type: 'SCHEDULED',
         uniqid: 21,
-        prority: 2,
+        duration: 60,
+        priority: 2,
         dueDate: new Date(2022, 8, 14, 15, 0, 0),
         useTime: true,
         iconLibrary: 'Ionicons',
@@ -147,7 +156,8 @@ export default function App() {
         title: "Finish first draft of proposal",
         type: 'DEADLINE',
         uniqid: 22,
-        prority: 2,
+        duration: 45,
+        priority: 2,
         dueDate: new Date(2022, 8, 29, 10, 0, 0),
         iconLibrary: 'Ionicons',
         iconName: 'document'
@@ -157,7 +167,8 @@ export default function App() {
         type: 'FLEXIBLE',
         dateCreated: new Date(2022, 8, 13, 10, 0, 0),
         uniqid: 23,
-        prority: 2,
+        duration: 10,
+        priority: 2,
         iconLibrary: 'FontAwesome',
         iconName: 'search'
       },
@@ -167,7 +178,8 @@ export default function App() {
         type: 'FLEXIBLE',
         dateCreated: new Date(2022, 8, 10, 10, 0, 0),
         uniqid: 24,
-        prority: 2,
+        duration: 10,
+        priority: 2,
         iconLibrary: 'Ionicons',
         iconName: 'people'
       }
@@ -179,14 +191,40 @@ export default function App() {
     }, []);
 
 
-    useEffect(() => {
+    /*useEffect(() => {
         assignTasks();
-    }, []);
+    }, []);*/
+
+    const [status,setStatus] = useState('CHECK-IN');
 
     const assignedValue = useRef(0);
 
-    const assignTasks = () => {
-        let assignmentBudget = 90;
+    const assignTasks = (designation,ambition) => {
+        let assignmentBudget = 0;
+
+        switch (designation) {
+            case 0:
+                assignmentBudget = 60;
+                break;
+            case 1:
+                assignmentBudget = 150;
+                break;
+            case 2:
+                assignmentBudget = 240;
+                break;
+        }
+
+        switch (ambition) {
+            case 0:
+                assignmentBudget = assignmentBudget * 0.75;
+                break;
+            case 1:
+                assignmentBudget = assignmentBudget * 1;
+                break;
+            case 2:
+                assignmentBudget = assignmentBudget * 1.25;
+                break;
+        }
 
         const tasksCopy = [...tasks];
 
@@ -202,7 +240,7 @@ export default function App() {
             }
         }))
 
-        const remainingTasks = tasksCopy.filter( (task => task.type != 'SCHEDULED'));
+        const remainingTasks = tasksCopy.filter( (task => task.type != 'SCHEDULED' && task.type != 'CAPTURED'));
         
         console.log(remainingTasks.length + ' tasks');
 
@@ -210,18 +248,31 @@ export default function App() {
             console.log('scoring task...')
             let baseScore = 1;
             let priorityWeight = 1;
-            if (task.priority) (task.prority + 1) / 2;
-            console.log(`priorityWeight = ${priorityWeight}`)
+            if (task.priority)
+                priorityWeight = (task.priority + 1) / 2;
             let deadlineWeight = 1;
-            if (task.type == 'DEADLINE')
-                deadlineWeight = 1 + 7 / Math.pow(differenceInDays(task.dueDate,new Date()),2);
-            console.log(`deadlineWeight = ${deadlineWeight}`)
+            if (task.type == 'DEADLINE'){
+                deadlineWeight = 1 + 7 / Math.pow(differenceInDays(task.dueDate,new Date().setHours(0,0,0,0)),2);
+                
+                console.log(`(DEADLINE differenceInDays) = ${differenceInDays(task.dueDate,new Date().setHours(0,0,0,0))}`)
+                console.log(`(DEADLINE TODAY) = ${new Date()}`)
+                console.log(`(DEADLINE DUE DATE) = ${task.dueDate}`)
+            }
             let flexibleWeight = 1;
-            if (task.type == 'FLEXIBLE' && task.dueDate)
-                flexibleWeight = 1 + differenceInDays(task.dueDate,new Date()) / 30;
-            console.log(`flexibleWeight = ${flexibleWeight}`)
+            if (task.type == 'FLEXIBLE' && task.dateCreated){
+                flexibleWeight = 1 + differenceInDays(new Date().setHours(0,0,0,0),task.dateCreated) / 30;
+            }
+            let durationWeight = 1;
+            if (task.duration)
+                durationWeight = 1 - (task.duration / 100);
 
-            return baseScore * priorityWeight * deadlineWeight * flexibleWeight;
+            console.log(`TASK = ${task.title}`)
+            console.log(`priorityWeight = ${priorityWeight}`)
+            console.log(`deadlineWeight = ${deadlineWeight}`)
+            console.log(`flexibleWeight = ${flexibleWeight}`)
+            console.log(`durationWeight = ${durationWeight}`)
+
+            return baseScore * priorityWeight * deadlineWeight * flexibleWeight * durationWeight;
         }
 
         while (assignedValue.current < assignmentBudget) {
@@ -231,6 +282,7 @@ export default function App() {
                 if (!task.assigned) {
                     let taskScore = scoreTask(task);
                     console.log(taskScore)
+                    console.log(`==================================`)
                     if (taskScore > highestScore) {
                         highestScore = taskScore;
                         highestScoreTask = task;
@@ -240,7 +292,7 @@ export default function App() {
 
             if (highestScoreTask)
                 {
-                    console.log('assigning task')
+                    console.log('assigning task: ' + highestScoreTask.title)
                     assignTask(highestScoreTask)
                 }
             else
@@ -251,6 +303,7 @@ export default function App() {
         }
 
         setTasks(tasksCopy);
+        setStatus('ASSIGNED');
     }
 
     const readTasksFromStorage = async () => {
@@ -368,7 +421,7 @@ export default function App() {
                                 return <Ionicons name="md-home-outline" size={size} color={color} />
                             }
                         }}>
-                        {() => <ToDoScreen styles={styles} tasks={tasks} onTaskEvent={handleTaskEvent}/>}
+                        {() => <ToDoScreen styles={styles} tasks={tasks} status={status} onTaskEvent={handleTaskEvent} onAssignTasks={assignTasks}/>}
                     </NavBar.Screen>
                     <NavBar.Screen name="Tasks" 
                         options={{

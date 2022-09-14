@@ -1,19 +1,105 @@
 import ToDoListItem from "./ToDoListItem";
 
-import {ScrollView} from 'react-native';
+import {ScrollView, View, Pressable} from 'react-native';
+import StyledText from "./StyledText";
+
+import { format } from 'date-fns';
+import { EditField, DateTimeComponent, SelectionList } from './Form';
+
 
 export default function ToDoScreen(props) {
     const styles = props.styles;
 
     const taskList = props.tasks.filter(task => task.assigned).map(task => {
         return <ToDoListItem task={task} key={task.uniqid} styles={styles} onTaskEvent={props.onTaskEvent}/>
-      });
+    });
+
+    let designationSelection = 0;
+    let ambitionSelection = 1;
+
+    const handleInput = ( parameter, value ) => {
+        
+        switch (parameter) {
+            case 'designation':
+                designationSelection = value;
+                break;
+            case 'ambition':
+                ambitionSelection = value;
+                break;
+            case 'start':
+                props.onAssignTasks(designationSelection,ambitionSelection);
+                break;
+        }
+    }
 
 
-      return (
-        <ScrollView style={styles.container}>
-            {taskList}
-        </ScrollView>
+    return (
+        <View style={styles.container}>
+            <View style={[styles.screenHeader, props.status == 'CHECK-IN' && styles.screenHeaderFullScreen]}>
+                <View style={[styles.alignedRow]}>
+                    <StyledText styles={styles} style={styles.screenHeaderText}>{format(new Date(),'EEEE').toUpperCase()}</StyledText>
+                    <View style={styles.screenHeaderDateView}>
+                        <StyledText styles={styles} style={styles.screenHeaderDateText}>{format(new Date(),'MMM do')}</StyledText>
+                        <StyledText styles={styles} style={styles.screenHeaderYearText}>{format(new Date(),'y')}</StyledText>
+                    </View>
+                </View>
+                {props.status == 'CHECK-IN' &&
+                <ScrollView styles={styles.testtt}>
+                    <SelectionList styles={styles} data={'designation'} label={'WHAT KIND OF DAY IS IT?'} defaultSelection={0} invert={true} orientation={'row'} onChange={handleInput} iconStyle={2}
+                        selections={[
+                        {
+                            index: 0,
+                            iconFamily: 'Entypo',
+                            iconName: 'laptop',
+                            iconSize: 20,
+                            text: 'Work Day'
+                        },
+                        {
+                            index: 1,
+                            iconFamily: 'FontAwesome5',
+                            iconName: 'balance-scale',
+                            iconSize: 20,
+                            text: 'Half Day'
+                        },
+                        {
+                            index: 2,
+                            iconFamily: 'FontAwesome5',
+                            iconName: 'coffee',
+                            iconSize: 20,
+                            text: 'Day Off'
+                        }
+                    ]}></SelectionList>
+                    <SelectionList styles={styles} data={'ambition'} label={'HOW IS YOUR MOTIVATION TODAY?'} defaultSelection={1} invert={true} orientation={'row'} onChange={handleInput} iconStyle={2}
+                        selections={[
+                        {
+                            index: 0,
+                            iconFamily: 'MaterialCommunityIcons',
+                            iconName: 'sleep',
+                            iconSize: 20,
+                            text: 'Lazy'
+                        },
+                        {
+                            index: 1,
+                            iconFamily: 'Entypo',
+                            iconName: 'man',
+                            iconSize: 20,
+                            text: 'Normal'
+                        },
+                        {
+                            index: 2,
+                            iconFamily: 'MaterialCommunityIcons',
+                            iconName: 'arm-flex',
+                            iconSize: 20,
+                            text: 'Ambitious'
+                        }
+                    ]}></SelectionList>
+                </ScrollView>}
+                {props.status == 'CHECK-IN' && <Pressable style={[styles.screenHeaderButton,styles.marginBottom6]} onPress={() => handleInput('start')}><StyledText styles={styles}>Start the day!</StyledText></Pressable>}
+            </View>
+            {props.status == 'ASSIGNED' && <ScrollView style={styles.container}>
+                {taskList}
+            </ScrollView>}
+        </View>
       )
 
 }

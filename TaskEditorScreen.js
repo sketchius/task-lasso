@@ -13,6 +13,7 @@ export default function TaskEditorScreen(props) {
     const form = {};
 
     const handleInput = ( parameter, value ) => {
+        
         console.log('handleInput --- ' + parameter + ': ' + value)
         form[parameter] = value;
     }
@@ -50,6 +51,27 @@ export default function TaskEditorScreen(props) {
                 newTask.type = 'REPEATING'
                 break;
             
+        }
+
+        switch (form.duration) {
+            case 0:
+                newTask.duration = 5;
+                break;
+            case 1:
+                newTask.duration = 10;
+                break;
+            case 2:
+                newTask.duration = 15;
+                break;
+            case 3:
+                newTask.duration = 30;
+                break;
+            case 4:
+                newTask.duration = 45;
+                break;
+            case 5:
+                newTask.duration = 60;
+                break;
         }
 
         props.onSave(newTask)
@@ -129,6 +151,33 @@ export default function TaskEditorScreen(props) {
                     iconName: 'alert-circle',
                     iconSize: 20,
                     text: 'High'
+                }
+            ]}></SelectionList>
+            <SelectionList styles={styles} data={'duration'} label={'TASK DURATION'} defaultSelection={0} orientation={'row'} wrap={true} onChange={handleInput} iconStyle={0}
+            selections={[
+                {
+                    index: 0,
+                    text: '5m'
+                },
+                {
+                    index: 1,
+                    text: '10m'
+                },
+                {
+                    index: 2,
+                    text: '15m'
+                },
+                {
+                    index: 3,
+                    text: '30m'
+                },
+                {
+                    index: 4,
+                    text: '45m'
+                },
+                {
+                    index: 5,
+                    text: '60m'
                 }
             ]}></SelectionList>
             <DateTimeComponent styles={styles} dataKey={'due'} label={'DUE DATE / TIME'} onChange={handleInput}/>
