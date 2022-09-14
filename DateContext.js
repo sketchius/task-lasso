@@ -11,10 +11,10 @@ export function getDateInContext(date,useTime) {
         return format(date,'MMM d').toUpperCase() + timeString;
     } else {
         if (daysAway > 1) {
-            return format(date,'EEE').toUpperCase() + timeString;
+            return format(date,'EEEE').toUpperCase() + timeString;
         } else {
             if (daysAway == 1) {
-                return 'TMRW' + timeString;
+                return 'TOMMOROW' + timeString;
             } else {
                 if (daysAway == 0) {
                     return 'TODAY' + timeString;
@@ -25,7 +25,7 @@ export function getDateInContext(date,useTime) {
 }
 
 export function getTime(date) {
-    if (!date) return '';
+    if (!date) return undefined;
 
     if (getMinutes(date) === 0)
         return format(date,'h aaa');

@@ -15,9 +15,15 @@ const size6 = 32;
 //const darkColor2 = '#64629c'
 //const darkColor3 = '#8e8cc1'
 
-const darkColor = '#030a15'
-const darkColor2 = '#3c4350'
-const darkColor3 = '#6c717a'
+const darkColor = '#030a15';
+const darkColor2 = '#3c4350';
+const darkColor3 = '#6c717a';
+
+const yellow3 = '#feffba';
+const green3 = '#dbffdd';
+const pink3 = '#ffe1f0';
+const blue3 = '#dae5ff';
+const red3 = '#ffe1e1';
 
 const styleArray = {
     defaultText: {
@@ -191,6 +197,18 @@ const styleArray = {
     selectionSubtext: {
         fontSize: 12,
         color: darkColor2
+    },
+    taskTypeElement: {
+        paddingLeft: size1,
+        paddingRight: size1,
+        alignItems: 'center',
+        flexDirection: 'row'
+    },
+    taskTypeText: {
+        marginLeft: size2,
+        fontSize: 10,
+        color: darkColor3,
+        fontFamily: 'TitilliumWeb-Bold'    
     },
     test: {
         height: 'auto',
@@ -386,8 +404,29 @@ const styleArray = {
         borderBottomWidth: 0.5,
         borderColor: darkColor
     },
+    yellowHighlight: {
+        backgroundColor: yellow3
+    },
+    greenHighlight: {
+        backgroundColor: green3
+    },
+    pinkHighlight: {
+        backgroundColor: pink3
+    },
+    blueHighlight: {
+        backgroundColor: blue3
+    },
+    redHighlight: {
+        backgroundColor: red3
+    },
     darkColor,
     darkColor2,
+    darkColor3,
+    yellow3,
+    green3,
+    pink3,
+    blue3,
+    red3,
     whiteColor: 'white'
 }
 

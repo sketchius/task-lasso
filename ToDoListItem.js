@@ -2,7 +2,8 @@ import React, {useState} from 'react';
 import {Text, View, Pressable} from 'react-native';
 import { AntDesign, FontAwesome5, FontAwesome, MaterialIcons, Octicons, Entypo, Feather, Ionicons  } from '@expo/vector-icons';
 import { isToday } from 'date-fns';
-import { getTime } from './DateContext';
+import { getDateInContext, getTime } from './DateContext';
+import differenceInHours from 'date-fns/differenceInHours'
 import getIcon from './Icons';
 import MultistateCheckbox from './MultistateCheckbox';
 import StyledText from './StyledText';
@@ -44,9 +45,46 @@ export default function ToDoListItem(props) {
         )
     }
 
+    const taskTypeContent = (
+        ( () => {
+            switch (task.type) {
+                case 'FLEXIBLE':
+                    if (expanded){
+                    return (
+                        <View style={[styles.taskTypeElement]}>{getIcon('FontAwesome','arrows',12,styles.darkColor2)}
+                            <StyledText styles={styles} style={styles.taskTypeText}>FLEXIBLE TASK</StyledText>
+                        </View>
+                    ) }
+                    else return undefined;
+                case 'DEADLINE':
+                    return (
+                        <View style={[styles.taskTypeElement]}>{getIcon('Feather','calendar',12,styles.darkColor2)}
+                            <StyledText styles={styles} style={styles.taskTypeText}>DUE BY {getDateInContext(task.dueDate,false).toUpperCase()}</StyledText>
+                        </View>
+                    ) 
+                case 'SCHEDULED':
+                    const scheduledTime = getTime(task.dueDate);
+                    const hoursAway = differenceInHours(task.dueDate,new Date());
+                    return (
+                        <View style={[styles.taskTypeElement, hoursAway < 3 ? styles.redHighlight : styles.yellowHighlight]}>{getIcon('Octicons','clock',12,styles.darkColor2)}
+                            <StyledText styles={styles} style={styles.taskTypeText}>SCHEDULED TODAY{scheduledTime ? ` AT ${scheduledTime.toUpperCase()}` : ``}</StyledText>
+                        </View>
+                    )
+                case 'REPEATING':
+                    if (expanded){
+                    return (
+                        <View style={[styles.taskTypeElement]}>{getIcon('FontAwesome','refresh',12,styles.darkColor2)}
+                            <StyledText styles={styles} style={styles.taskTypeText}>REPEATING TASK</StyledText>
+                        </View>
+                    ) }
+                    else return undefined;
+            }
+        })()
+    )
+
     return (
     <View style={[styles.row, styles.marginVertical3, styles.whiteBackground, styles.horizontalBorders]}>
-        <MultistateCheckbox states={3} styles={styles} initialState={props.task.status ? props.task.status : 0} onStateChange={handleCheckboxStateChange}></MultistateCheckbox>
+        <MultistateCheckbox states={3} styles={styles} initialState={task.status ? task.status : 0} onStateChange={handleCheckboxStateChange}></MultistateCheckbox>
         <Pressable style={[styles.marginVertical3, styles.paddingRight3, styles.paddingLeft4, styles.flex100, styles.leftBorder]} onPress={() => setExpanded(!expanded) }>
             <View style={styles.alignedRow}>
                 <View style={styles.taskIcon}>
@@ -56,24 +94,24 @@ export default function ToDoListItem(props) {
             </View>
             {task.description && <StyledText styles={styles} style={[styles.fontSize00, styles.lightText]} numberOfLines={expanded ? 4 : 1}>{task.description}</StyledText>}
             <View style={[styles.alignedRow, styles.marginTop3]}>
-                <View style={[styles.marginRight4, styles.alignedRow]}>
-                    <Octicons name="note" size={12} color="#999"/>
-                    <StyledText styles={styles} style={styles.fontSize00}> 3</StyledText>
-                </View>
+
                 {task.prority === 2 && <View style={[styles.marginRight4, styles.alignedRow, styles.orangeBackground]}>
                     <FontAwesome5 name="exclamation-circle" size={12} color="#999" style={styles.paddingRight2}/>
                     <StyledText styles={styles} style={styles.alertText}>HIGH PRIORITY</StyledText>
                 </View>}
-                {isToday(task.dueDate) && task.type === 'SCHEDULED' && <View style={[styles.marginRight4, styles.alignedRow, styles.yellowBackground]}>
-                    <Octicons name="clock" size={12} color="#999"  style={styles.paddingRight2} />
-                    <StyledText styles={styles} style={styles.alertText}>{getTime(task.dueDate)}</StyledText>
-                </View>}
+                {taskTypeContent}
                 {isToday(task.dueDate) && task.type === 'DEADLINE' && <View style={[styles.marginRight4, styles.alignedRow, styles.yellowBackground]}>
                     <Feather name="calendar" size={12} color="#999"  style={styles.paddingRight2} />
                     <StyledText styles={styles} style={styles.alertText}>DUE TODAY</StyledText>
+                </View>}
+                {task.comments && <View style={[styles.marginRight4, styles.alignedRow]}>
+                    <Octicons name="note" size={12} color="#999"/>
+                    <StyledText styles={styles} style={styles.fontSize00}> 3</StyledText>
                 </View>}
             </View>
             {expanded && expandedContent}
         </Pressable>
     </View> )
+
+
 }
