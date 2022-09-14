@@ -191,12 +191,11 @@ const styleArray = {
         flex: 1
     },
     taskIcon: {
-        height: 30,
-        width: 30,
+        height: 24,
+        width: 24,
         alignItems: 'center',
         justifyContent: 'center',
-        marginRight: size3,
-        backgroundColor: 'pink'
+        marginRight: size3
     },
     taskCountElement: {
         marginLeft: 8,
@@ -302,8 +301,7 @@ const styleArray = {
     },
     leftBorder: {
         borderLeftWidth: 0.5,
-        borderStyle: 'dotted',
-        borderColor: darkColor
+        borderColor: darkColor3
     },
     
     leftBorder2: {
