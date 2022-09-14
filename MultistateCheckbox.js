@@ -5,7 +5,7 @@ import Svg, { Circle, Rect, Path } from 'react-native-svg';
 
 
 export default function MultistateCheckbox(props) {
-    const [state,setState] = useState(0);
+    const [state,setState] = useState(props.initialState);
 
     const styles = props.styles;
 

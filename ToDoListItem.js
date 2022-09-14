@@ -46,7 +46,7 @@ export default function ToDoListItem(props) {
 
     return (
     <View style={[styles.row, styles.marginVertical3, styles.whiteBackground, styles.horizontalBorders]}>
-        <MultistateCheckbox states={3} styles={styles} onStateChange={handleCheckboxStateChange}></MultistateCheckbox>
+        <MultistateCheckbox states={3} styles={styles} initialState={props.task.status ? props.task.status : 0} onStateChange={handleCheckboxStateChange}></MultistateCheckbox>
         <Pressable style={[styles.marginVertical3, styles.paddingRight3, styles.paddingLeft4, styles.flex100, styles.leftBorder]} onPress={() => setExpanded(!expanded) }>
             <View style={styles.alignedRow}>
                 <View style={styles.taskIcon}>
