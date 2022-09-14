@@ -190,6 +190,14 @@ const styleArray = {
     flex1: {
         flex: 1
     },
+    taskIcon: {
+        height: 30,
+        width: 30,
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginRight: size3,
+        backgroundColor: 'pink'
+    },
     taskCountElement: {
         marginLeft: 8,
         backgroundColor: '#dfefef',
