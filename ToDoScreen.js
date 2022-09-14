@@ -10,7 +10,9 @@ import { EditField, DateTimeComponent, SelectionList } from './Form';
 export default function ToDoScreen(props) {
     const styles = props.styles;
 
-    const taskList = props.tasks.filter(task => task.assigned).map(task => {
+    const taskList = props.tasks.filter(task => task.assigned)
+    .sort((taskA, taskB) => taskB.score - taskA.score )
+    .map(task => {
         return <ToDoListItem task={task} key={task.uniqid} styles={styles} onTaskEvent={props.onTaskEvent}/>
     });
 
@@ -40,7 +42,7 @@ export default function ToDoScreen(props) {
         <View style={styles.container}>
             <View style={[styles.screenHeader, props.status == 'CHECK-IN' && styles.screenHeaderFullScreen]}>
                 <View style={[styles.alignedRow]}>
-                    <StyledText styles={styles} style={styles.screenHeaderText}>{format(new Date(),'EEEE').toUpperCase()}</StyledText>
+                    <StyledText styles={styles} style={styles.screenHeaderText}>{format(new Date(2022, 8, 14),'EEEE').toUpperCase()}</StyledText>
                     <View style={styles.screenHeaderDateView}>
                         <StyledText styles={styles} style={styles.screenHeaderDateText}>{format(new Date(),'MMM do')}</StyledText>
                         <StyledText styles={styles} style={styles.screenHeaderYearText}>{format(new Date(),'y')}</StyledText>

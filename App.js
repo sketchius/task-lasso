@@ -233,16 +233,11 @@ export default function App() {
             assignedValue.current += 15;
         }
 
-        tasksCopy.forEach( (task => {
-            if (!task.assigned && (task.type == 'SCHEDULED' || task.type == 'DEADLINE') && isToday(task.dueDate)) {
-                assignTask(task);
-            }
-        }))
-
-        const remainingTasks = tasksCopy.filter( (task => task.type != 'SCHEDULED' && task.type != 'CAPTURED'));
-        
         const scoreTask = (task) => {
             let baseScore = 1;
+
+            if (task.type == 'SCHEDULED')
+            baseScore = 20;
 
             let priorityWeight = 1;
             if (task.priority)
@@ -263,12 +258,23 @@ export default function App() {
             return baseScore * priorityWeight * deadlineWeight * flexibleWeight * durationWeight;
         }
 
+        tasksCopy.forEach( (task => {
+            if (!task.assigned && (task.type == 'SCHEDULED' || task.type == 'DEADLINE') && isToday(task.dueDate)) {
+                task.score = scoreTask(task);
+                assignTask(task);
+            }
+        }))
+
+        const remainingTasks = tasksCopy.filter( (task => task.type != 'SCHEDULED' && task.type != 'CAPTURED'));
+        
+
         while (assignedValue.current < assignmentBudget) {
             let highestScoreTask;
             let highestScore = 0;
             remainingTasks.forEach( (task) => {
                 if (!task.assigned) {
                     let taskScore = scoreTask(task);
+                    task.score = taskScore;
                     if (taskScore > highestScore) {
                         highestScore = taskScore;
                         highestScoreTask = task;

@@ -60,13 +60,17 @@ const styleArray = {
     },
     screenHeaderText: {
         fontFamily: 'TitilliumWeb-Regular',
-        fontSize: 48,
+        marginRight: size2,
+        fontSize: 40,
         color: 'white'
     },
     screenHeaderDateView: {
         marginTop: size3,
         marginLeft: size3,
-        justifyContent: 'center'
+        justifyContent: 'center',
+        borderLeftWidth: 0.5,
+        borderColor: 'white',
+        paddingLeft: size4
     },
     screenHeaderDateText: {
         fontFamily: 'TitilliumWeb-Regular',
@@ -75,7 +79,7 @@ const styleArray = {
     },
     screenHeaderYearText: {
         fontFamily: 'TitilliumWeb-Bold',
-        fontSize: 16,
+        fontSize: 12,
         color: 'white'
     },
     screenHeaderGreetingText: {

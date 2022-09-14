@@ -108,6 +108,10 @@ export default function ToDoListItem(props) {
                     <Octicons name="note" size={12} color="#999"/>
                     <StyledText styles={styles} style={styles.fontSize00}> 3</StyledText>
                 </View>}
+                {task.showScore && <View style={[styles.marginRight4, styles.alignedRow]}>
+                    <Entypo name="controller-record" size={12} color="#999"/>
+                    <StyledText styles={styles} style={styles.fontSize00}>{task.score}</StyledText>
+                </View>}
             </View>
             {expanded && expandedContent}
         </Pressable>
