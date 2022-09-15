@@ -246,17 +246,36 @@ const styleArray = {
         height: '100%',
         width: '100%'
     },
+    taskListSectionHeader: {
+        fontFamily: 'TitilliumWeb-Bold'
+    },
     capturedTasksContainer: {
-        backgroundColor: 'white'
+        backgroundColor: 'white',
+        marginTop: size4,
+        borderTopWidth: size0,
+        borderBottomWidth: size0,
+        borderColor: darkColor
     },
     flexibleTasksContainer: {
-        backgroundColor: 'yellow'
+        backgroundColor: 'white',
+        marginTop: size4,
+        borderTopWidth: size0,
+        borderBottomWidth: size0,
+        borderColor: darkColor
     },
     assignedTasksContainer: {
-        backgroundColor: 'pink'
+        backgroundColor: 'white',
+        marginTop: size4,
+        borderTopWidth: size0,
+        borderBottomWidth: size0,
+        borderColor: darkColor
     },
     scheduledTasksContainer: {
-        backgroundColor: 'cyan'
+        backgroundColor: 'white',
+        marginTop: size4,
+        borderTopWidth: size0,
+        borderBottomWidth: size0,
+        borderColor: darkColor
     },
     iconPlaceholder: {
         borderColor: darkColor,
