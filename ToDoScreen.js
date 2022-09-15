@@ -41,8 +41,8 @@ export default function ToDoScreen(props) {
     return (
         <View style={styles.container}>
             <View style={[styles.screenHeader, props.status == 'CHECK-IN' && styles.screenHeaderFullScreen]}>
-                <View style={[styles.alignedRow]}>
-                    <StyledText styles={styles} style={styles.screenHeaderText}>{format(new Date(2022, 8, 14),'EEEE').toUpperCase()}</StyledText>
+                <View style={[styles.alignedRow, styles.justifyContent]}>
+                    <StyledText styles={styles} style={styles.screenHeaderText}>{format(new Date(),'EEEE').toUpperCase()}</StyledText>
                     <View style={styles.screenHeaderDateView}>
                         <StyledText styles={styles} style={styles.screenHeaderDateText}>{format(new Date(),'MMM do')}</StyledText>
                         <StyledText styles={styles} style={styles.screenHeaderYearText}>{format(new Date(),'y')}</StyledText>

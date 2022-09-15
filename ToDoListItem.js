@@ -59,12 +59,12 @@ export default function ToDoListItem(props) {
                 case 'DEADLINE':
                     return (
                         <View style={[styles.taskTypeElement]}>{getIcon('Feather','calendar',12,styles.darkColor2)}
-                            <StyledText styles={styles} style={styles.taskTypeText}>DUE BY {getDateInContext(task.dueDate,false).toUpperCase()}</StyledText>
+                            <StyledText styles={styles} style={styles.taskTypeText}>DUE BY {getDateInContext(task.dateDue,false).toUpperCase()}</StyledText>
                         </View>
                     ) 
                 case 'SCHEDULED':
-                    const scheduledTime = getTime(task.dueDate);
-                    const hoursAway = differenceInHours(task.dueDate,new Date());
+                    const scheduledTime = getTime(task.dateDue);
+                    const hoursAway = differenceInHours(task.dateDue,new Date());
                     return (
                         <View style={[styles.taskTypeElement, hoursAway < 3 ? styles.redHighlight : styles.yellowHighlight]}>{getIcon('Octicons','clock',12,styles.darkColor2)}
                             <StyledText styles={styles} style={styles.taskTypeText}>SCHEDULED TODAY{scheduledTime ? ` AT ${scheduledTime.toUpperCase()}` : ``}</StyledText>
@@ -100,7 +100,7 @@ export default function ToDoListItem(props) {
                     <StyledText styles={styles} style={styles.alertText}>HIGH PRIORITY</StyledText>
                 </View>}
                 {taskTypeContent}
-                {isToday(task.dueDate) && task.type === 'DEADLINE' && <View style={[styles.marginRight4, styles.alignedRow, styles.yellowBackground]}>
+                {isToday(task.dateDue) && task.type === 'DEADLINE' && <View style={[styles.marginRight4, styles.alignedRow, styles.yellowBackground]}>
                     <Feather name="calendar" size={12} color="#999"  style={styles.paddingRight2} />
                     <StyledText styles={styles} style={styles.alertText}>DUE TODAY</StyledText>
                 </View>}

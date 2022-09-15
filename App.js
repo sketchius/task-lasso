@@ -29,6 +29,8 @@ async function getData() {
 
 export default function App() {
 
+    const [tasksLoaded,setTasksLoaded] = useState(true);
+
     const [fontsLoaded] = useFonts({
         'Roboto-Light': require('./assets/fonts/Roboto-Light.ttf'),
         'Roboto-Regular': require('./assets/fonts/Roboto-Regular.ttf'),
@@ -49,7 +51,7 @@ export default function App() {
         priority: 2,
         uniqid: 1,
         duration: 60,
-        dueDate: new Date(2022, 8, 16),
+        dateDue: new Date(2022, 8, 16),
         iconLibrary: 'AntDesign',
         iconName: 'car'
       },
@@ -60,7 +62,7 @@ export default function App() {
         priority: 1,
         uniqid: 2,
         duration: 15,
-        dueDate: new Date(2022, 8, 16, 10, 0, 0),
+        dateDue: new Date(2022, 8, 16, 10, 0, 0),
         iconLibrary: 'FontAwesome',
         iconName: 'search'
       },
@@ -82,7 +84,7 @@ export default function App() {
         priority: 2,
         uniqid: 4,
         duration: 60,
-        dueDate: new Date(2022, 9, 15),
+        dateDue: new Date(2022, 9, 15),
         iconLibrary: 'AntDesign',
         iconName: 'car'
       },
@@ -106,7 +108,7 @@ export default function App() {
         uniqid: 17,
         priority: 1,
         duration: 30,
-        dueDate: new Date(2022, 8, 17, 10, 0, 0),
+        dateDue: new Date(2022, 8, 17, 10, 0, 0),
         iconLibrary: 'FontAwesome5',
         iconName: 'tshirt'
       },
@@ -126,7 +128,7 @@ export default function App() {
         uniqid: 19,
         duration: 15,
         priority: 1,
-        dueDate: new Date(2022, 8, 15, 10, 0, 0),
+        dateDue: new Date(2022, 8, 15, 10, 0, 0),
         iconLibrary: 'FontAwesome5',
         iconName: 'clipboard-list'
       },
@@ -147,7 +149,7 @@ export default function App() {
         uniqid: 21,
         duration: 60,
         priority: 2,
-        dueDate: new Date(2022, 8, 14, 15, 0, 0),
+        dateDue: new Date(2022, 8, 14, 15, 0, 0),
         useTime: true,
         iconLibrary: 'Ionicons',
         iconName: 'people'
@@ -158,7 +160,7 @@ export default function App() {
         uniqid: 22,
         duration: 45,
         priority: 2,
-        dueDate: new Date(2022, 8, 29, 10, 0, 0),
+        dateDue: new Date(2022, 8, 29, 10, 0, 0),
         iconLibrary: 'Ionicons',
         iconName: 'document'
       },
@@ -184,12 +186,15 @@ export default function App() {
         iconName: 'people'
       }
     ]
-);
+    );
 
     useEffect(() => {
         //readTasksFromStorage();
     }, []);
 
+    useEffect(() => {
+        saveTasks(tasks);
+    }, [tasks]);
 
     /*useEffect(() => {
         assignTasks();
@@ -245,7 +250,7 @@ export default function App() {
 
             let deadlineWeight = 1;
             if (task.type == 'DEADLINE')
-                deadlineWeight = 1 + 7 / Math.pow(differenceInDays(task.dueDate,new Date().setHours(0,0,0,0)),2);
+                deadlineWeight = 1 + 7 / Math.pow(differenceInDays(task.dateDue,new Date().setHours(0,0,0,0)),2);
 
             let flexibleWeight = 1;
             if (task.type == 'FLEXIBLE' && task.dateCreated)
@@ -259,7 +264,7 @@ export default function App() {
         }
 
         tasksCopy.forEach( (task => {
-            if (!task.assigned && (task.type == 'SCHEDULED' || task.type == 'DEADLINE') && isToday(task.dueDate)) {
+            if (!task.assigned && (task.type == 'SCHEDULED' || task.type == 'DEADLINE') && isToday(task.dateDue)) {
                 task.score = scoreTask(task);
                 assignTask(task);
             }
@@ -313,8 +318,8 @@ export default function App() {
             let d = await AsyncStorage.getItem('@taskArray');
             let e = JSON.parse(d);
             e.forEach((task) => {
-                if (task.dueDate)
-                    task.dueDate = new Date(task.dueDate);
+                if (task.dateDue)
+                    task.dateDue = new Date(task.dateDue);
                 if (task.dateCreated)
                     task.dateCreated = new Date(task.dateCreated);
                 else task.dateCreated = new Date();
@@ -323,6 +328,7 @@ export default function App() {
                 if (!task.type) task.type = 'CAPTURED';
             });
             setTasks(e);
+            setTasksLoaded(true);
         } catch (error) {
             alert(error);
         }
@@ -384,9 +390,6 @@ export default function App() {
         deleteTask(1);
     };
 
-    useEffect(() => {
-        saveTasks(tasks);
-    }, [tasks]);
 
     const NavBar = createBottomTabNavigator();
 
@@ -412,6 +415,7 @@ export default function App() {
       };
 
     return (
+        tasksLoaded ?
         <SafeAreaView style={styles.safe}>
             <NavigationContainer>
                 <NavBar.Navigator screenOptions={options}>
@@ -460,7 +464,7 @@ export default function App() {
                     </NavBar.Screen>
                 </NavBar.Navigator>
             </NavigationContainer>
-        </SafeAreaView>
+        </SafeAreaView> : <View></View>
     );
 }
 

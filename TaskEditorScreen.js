@@ -13,8 +13,6 @@ export default function TaskEditorScreen(props) {
     const form = {};
 
     const handleInput = ( parameter, value ) => {
-        
-        console.log('handleInput --- ' + parameter + ': ' + value)
         form[parameter] = value;
     }
 
@@ -30,7 +28,7 @@ export default function TaskEditorScreen(props) {
             description: form.desc,
             uniqid: uuid.v4(),
             prority: form.priority,
-            dueDate: form.due,
+            dateDue: form.due,
             useTime: false,
             assigned: false,
             iconLibrary: 'Ionicons',

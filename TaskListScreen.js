@@ -11,7 +11,7 @@ export default function TaskListScreen(props) {
             let dueElement;
     
             if (showDate) {
-                dueElement = <View style={[styles.dueElement]}><Text style={[styles.defaultText, styles.fontSize0]}>{dateSemantics} {getDateInContext(task.dueDate,task.useTime)}</Text></View>
+                dueElement = <View style={[styles.dueElement]}><Text style={[styles.defaultText, styles.fontSize0]}>{dateSemantics} {getDateInContext(task.dateDue,task.useTime)}</Text></View>
             }
 
             let expandedContent;
