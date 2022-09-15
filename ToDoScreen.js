@@ -49,7 +49,7 @@ export default function ToDoScreen(props) {
                     </View>
                 </View>
                 {props.status == 'CHECK-IN' &&
-                <ScrollView styles={styles.testtt}>
+                <View styles={styles.testtt}>
                     <SelectionList styles={styles} data={'designation'} label={'WHAT KIND OF DAY IS IT?'} defaultSelection={0} invert={true} orientation={'row'} onChange={handleInput} iconStyle={2}
                         selections={[
                         {
@@ -98,7 +98,7 @@ export default function ToDoScreen(props) {
                             text: 'Ambitious'
                         }
                     ]}></SelectionList>
-                </ScrollView>}
+                </View>}
                 {props.status == 'CHECK-IN' && <Pressable style={[styles.screenHeaderButton,styles.marginBottom6]} onPress={() => handleInput('start')}><StyledText styles={styles}>Start the day!</StyledText></Pressable>}
                 {props.status == 'ASSIGNED' && <Pressable style={[styles.screenHeaderButton,styles.marginBottom6]} onPress={() => handleInput('end')}><StyledText styles={styles}>End the day!</StyledText></Pressable>}
             </View>

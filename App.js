@@ -18,6 +18,7 @@ import DataInspector from './DataInspector';
 
 import { useFonts } from 'expo-font';
 import { Logs } from 'expo'
+import TaskNavigator from './TaskNavigator';
 
 Logs.enableExpoCliLogging()
 
@@ -437,7 +438,7 @@ export default function App() {
                                 return <FontAwesome name="list-ul" size={size} color={color} />
                             }
                         }}>
-                        {() => <TaskListScreen styles={styles} tasks={tasks} />}
+                        {() => <TaskNavigator styles={styles} tasks={tasks} />}
                     </NavBar.Screen>
                     <NavBar.Screen name="Capture" 
                         options={{

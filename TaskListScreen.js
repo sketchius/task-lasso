@@ -4,12 +4,12 @@ import {getDateInContext,getTime} from './DateContext';
 import getIcon from './Icons';
 import StyledText from './StyledText';
 
-export default function TaskListScreen(props) {
+export default function TaskListScreen({navigation, route}) {
 
-    const styles = props.styles;
+    const styles = route.params.styles;
 
     const filterTaskList = (type, showDate, dateSemantics) => {
-        return props.tasks.filter(task => task.type === type).map(task => {
+        return route.params.tasks.filter(task => task.type === type).map(task => {
             let dueElement;
     
             if (showDate) {
@@ -36,10 +36,11 @@ export default function TaskListScreen(props) {
                         <View style={styles.taskIcon}>
                             {getIcon(task.iconLibrary,task.iconName,20,'black')}
                         </View>
-                        <StyledText styles={styles} style={[styles.listItem, styles.fontSize2, styles.headerFont]}>{task.title}</StyledText>
+                        <View style={styles.alignedRow}>
+                            <StyledText styles={styles} style={[styles.listItem, styles.fontSize2, styles.headerFont]}>{task.title}</StyledText>
+                        </View>
                     </View>
                     {expandedContent}
-                    
                 </Pressable>
             )
         });
@@ -119,11 +120,18 @@ export default function TaskListScreen(props) {
     
 
     return (
-        <ScrollView style={styles.scrollContainer}>
-            {capturedTaskElement} 
-            {flexibleTaskElement} 
-            {deadlineTaskElement}
-            {scheduledTaskElement}
-        </ScrollView>
+        <View style={styles.container}>
+                        <View style={[styles.screenHeader]}>
+                <View style={[styles.alignedRow, styles.justifyContent]}>
+                    <StyledText styles={styles} style={styles.screenHeaderText}>TASK INVENTORY</StyledText>
+                </View>
+            </View>
+            <ScrollView style={styles.scrollContainer}>
+                {capturedTaskElement}
+                {flexibleTaskElement}
+                {deadlineTaskElement}
+                {scheduledTaskElement}
+            </ScrollView>
+        </View>
     )
 }

@@ -249,6 +249,12 @@ const styleArray = {
     taskListSectionHeader: {
         fontFamily: 'TitilliumWeb-Bold'
     },
+    taskListItemRow: {
+        flexDirection: 'row',
+        width: '95%',
+        alignItems: 'center',
+        justifyContent: 'space-between'
+    },
     capturedTasksContainer: {
         backgroundColor: 'white',
         marginTop: size4,
