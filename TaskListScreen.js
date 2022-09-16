@@ -3,48 +3,14 @@ import {ScrollView, StyleSheet, Text, View, Pressable, Button} from 'react-nativ
 import {getDateInContext,getTime} from './DateContext';
 import getIcon from './Icons';
 import StyledText from './StyledText';
+import TaskListSection from './TaskListSection';
+import { definedStyles } from './Styles';
+
 
 export default function TaskListScreen({navigation, route}) {
 
-    const styles = route.params.styles;
-
-    const filterTaskList = (type, showDate, dateSemantics) => {
-        return route.params.tasks.filter(task => task.type === type).map(task => {
-            let dueElement;
     
-            if (showDate) {
-                dueElement = <View style={[styles.dueElement]}><Text style={[styles.defaultText, styles.fontSize0]}>{dateSemantics} {getDateInContext(task.dateDue,task.useTime)}</Text></View>
-            }
-
-            let expandedContent;
-
-            if (task.uniqid === expandedTaskID) {
-                expandedContent = 
-                <View>
-                    <Text style={styles.defaultText}>{task.description}</Text>
-                    <Button title='Edit'/>
-                </View>
-            }
-    
-            return (
-                <Pressable
-                    onPress={() => {
-                        task.uniqid !== expandedTaskID ? setExpandedTaskID(task.uniqid) : setExpandedTaskID(-1);
-                    }}
-                >
-                    <View style={[styles.alignedRow, styles.paddingBottom4]}>
-                        <View style={styles.taskIcon}>
-                            {getIcon(task.iconLibrary,task.iconName,20,'black')}
-                        </View>
-                        <View style={styles.alignedRow}>
-                            <StyledText styles={styles} style={[styles.listItem, styles.fontSize2, styles.headerFont]}>{task.title}</StyledText>
-                        </View>
-                    </View>
-                    {expandedContent}
-                </Pressable>
-            )
-        });
-    }
+    let styles = definedStyles;
 
     const getTaskListElement = (taskList) => {
         return <View style={styles.marginTop4}>{taskList}</View>
@@ -57,11 +23,22 @@ export default function TaskListScreen({navigation, route}) {
     const [expandedTaskID,setExpandedTaskID] = useState(-1);
     const [sectionExpansion,setSectionExpansion] = useState([true,true,true,true]);
 
-    const capturedTaskList = filterTaskList('CAPTURED',false);
-    const flexibleTaskList = filterTaskList('FLEXIBLE',false);
-    const assignedTaskList = filterTaskList('DEADLINE',true,'by');
-    const scheduledTaskList = filterTaskList('SCHEDULED',true,'');
+    const onTaskEvent = (task, action) => {
+        navigation.navigate('Tasks', {
+            screen: 'Details',
+            params: { task },
+          });
+    }
 
+
+    const sections = [
+        <TaskListSection type={'CAPTURED'} showDate={false} styles={styles} onTaskEvent={onTaskEvent}/>,
+        <TaskListSection type={'FLEXIBLE'} showDate={false} styles={styles}  onTaskEvent={onTaskEvent}/>,
+        <TaskListSection type={'DEADLINE'} showDate={true} styles={styles}  onTaskEvent={onTaskEvent}/>,
+        <TaskListSection type={'SCHEDULED'} showDate={true} styles={styles}  onTaskEvent={onTaskEvent}/>,
+        <TaskListSection type={'REPEATING'} showDate={true} styles={styles}  onTaskEvent={onTaskEvent}/>
+    ]
+/*
     const capturedTaskElement = 
         <Pressable 
             style={[styles.capturedTasksContainer, styles.padding5, styles.paddingVertical4]}
@@ -117,6 +94,7 @@ export default function TaskListScreen({navigation, route}) {
             </View>
             {sectionExpansion[3] && getTaskListElement(scheduledTaskList)}
         </Pressable>;
+        */
     
 
     return (
@@ -127,10 +105,7 @@ export default function TaskListScreen({navigation, route}) {
                 </View>
             </View>
             <ScrollView style={styles.scrollContainer}>
-                {capturedTaskElement}
-                {flexibleTaskElement}
-                {deadlineTaskElement}
-                {scheduledTaskElement}
+                {sections}
             </ScrollView>
         </View>
     )

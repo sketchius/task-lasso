@@ -3,10 +3,17 @@ import TaskDetails from './TaskDetails';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
+import { View } from 'react';
 
-export default function TaskNavigator(props) {
-    const styles = props.styles;
-    const tasks = props.tasks;
+
+
+export default function TaskNavigator( {navigation, route}) {
+    return <View></View>
+}
+/*
+export default function TaskNavigator( {navigation, route}) {
+    const styles = route.params.styles;
+    const tasks = route.params.tasks;
 
 
     const Stack = createStackNavigator();
@@ -23,8 +30,9 @@ export default function TaskNavigator(props) {
             }}
             >
                 <Stack.Screen
-                    name="Task List"
+                    name="Inventory"
                     component={TaskListScreen}
+                    initialParams={{ styles }}
                     options={{
                             
                     headerShown: false,
@@ -32,8 +40,9 @@ export default function TaskNavigator(props) {
                     }}
                 />
                 <Stack.Screen
-                    name="Task View"
+                    name="View"
                     component={TaskDetails}
+                    initialParams={{ styles, tasks }}
                     options={{
                         headerShown: false,
                     title: 'Task View',
@@ -49,4 +58,4 @@ export default function TaskNavigator(props) {
         
     )
     
-}
+}*/

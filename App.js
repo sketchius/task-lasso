@@ -1,8 +1,10 @@
 import React, { useEffect, useState, useRef } from 'react';
+import { Provider } from 'react-redux';
+import Store from './Store';
 import { SafeAreaView, View, Text, ScrollView} from 'react-native';
 import { NavigationContainer, TransitionScreenOptions } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import TaskListScreen from './TaskListScreen';
+//import TaskListScreen from './TaskListScreen';
 import ToDoScreen from './ToDoScreen';
 import { Ionicons, FontAwesome, AntDesign } from '@expo/vector-icons'; 
 import isToday from 'date-fns/isToday'
@@ -17,8 +19,9 @@ import TaskEditorScreen from './TaskEditorScreen';
 import DataInspector from './DataInspector';
 
 import { useFonts } from 'expo-font';
-import { Logs } from 'expo'
-import TaskNavigator from './TaskNavigator';
+import { Logs } from 'expo';
+
+import DummyNav from './DummyNav';
 
 Logs.enableExpoCliLogging()
 
@@ -416,56 +419,57 @@ export default function App() {
       };
 
     return (
-        tasksLoaded ?
-        <SafeAreaView style={styles.safe}>
-            <NavigationContainer>
-                <NavBar.Navigator screenOptions={options}>
-                    <NavBar.Screen name="Home" 
-                        options={{
-                            title: (new Date()).toDateString(),
-                            tabBarLabel: 'Home',
-                            tabBarIcon: ({focused,color,size}) => {
-                                return <Ionicons name="md-home-outline" size={size} color={color} />
-                            }
-                        }}>
-                        {() => <ToDoScreen styles={styles} tasks={tasks} status={status} onTaskEvent={handleTaskEvent} onAssignTasks={assignTasks} onEndDay={endDay}/>}
-                    </NavBar.Screen>
-                    <NavBar.Screen name="Tasks" 
-                        options={{
-                            title: 'Tasks',
-                            tabBarLabel: 'Tasks',
-                            tabBarIcon: ({focused,color,size}) => {
-                                return <FontAwesome name="list-ul" size={size} color={color} />
-                            }
-                        }}>
-                        {() => <TaskNavigator styles={styles} tasks={tasks} />}
-                    </NavBar.Screen>
-                    <NavBar.Screen name="Capture" 
-                        options={{
-                            tabBarLabel: ({ focused, tintColor }) => { return null},
-                            tabBarActiveBackgroundColor: 'white',
-                            tabBarInactiveBackgroundColor: 'white',
-                            tabBarIcon: ({focused,color,size}) => {
-                                return <View><AntDesign name="pluscircle" size={50} color={color}/><View style={styles.height5}></View></View>
-                            }
-                        }}>
-                        {() => (
-                            <TaskEditorScreen
-                                tasks={tasks}
-                                styles={styles}
-                                onSave={addTask}
-                            />
-                        )}
-                    </NavBar.Screen>
-                    <NavBar.Screen name="Planner">
-                        {() => <DataInspector styles={styles} tasks={tasks} />}
-                    </NavBar.Screen>
-                    <NavBar.Screen name="Data">
-                        {() => <DataInspector styles={styles} tasks={tasks} />}
-                    </NavBar.Screen>
-                </NavBar.Navigator>
-            </NavigationContainer>
-        </SafeAreaView> : <View></View>
+        <Provider store={Store}>
+            {tasksLoaded ?
+            <SafeAreaView style={styles.safe}>
+                <NavigationContainer>
+                    <NavBar.Navigator screenOptions={options}>
+                        <NavBar.Screen name="Home" 
+                            options={{
+                                title: (new Date()).toDateString(),
+                                tabBarLabel: 'Home',
+                                tabBarIcon: ({focused,color,size}) => {
+                                    return <Ionicons name="md-home-outline" size={size} color={color} />
+                                }
+                            }}>
+                            {() => <ToDoScreen styles={styles} tasks={tasks} status={status} onTaskEvent={handleTaskEvent} onAssignTasks={assignTasks} onEndDay={endDay}/>}
+                        </NavBar.Screen>
+                        <NavBar.Screen name="Tasks" 
+                            component= {DummyNav}
+                            options={{
+                                title: 'Tasks',
+                                tabBarLabel: 'Tasks',
+                                tabBarIcon: ({focused,color,size}) => {
+                                    return <FontAwesome name="list-ul" size={size} color={color} />
+                                }
+                            }}/>
+                        <NavBar.Screen name="Capture" 
+                            options={{
+                                tabBarLabel: ({ focused, tintColor }) => { return null},
+                                tabBarActiveBackgroundColor: 'white',
+                                tabBarInactiveBackgroundColor: 'white',
+                                tabBarIcon: ({focused,color,size}) => {
+                                    return <View><AntDesign name="pluscircle" size={50} color={color}/><View style={styles.height5}></View></View>
+                                }
+                            }}>
+                            {() => (
+                                <TaskEditorScreen
+                                    tasks={tasks}
+                                    styles={styles}
+                                    onSave={addTask}
+                                />
+                            )}
+                        </NavBar.Screen>
+                        <NavBar.Screen name="Planner">
+                            {() => <DataInspector styles={styles} tasks={tasks} />}
+                        </NavBar.Screen>
+                        <NavBar.Screen name="Data">
+                            {() => <DataInspector styles={styles} tasks={tasks} />}
+                        </NavBar.Screen>
+                    </NavBar.Navigator>
+                </NavigationContainer>
+            </SafeAreaView> : <View></View>}
+        </Provider>
     );
 }
 

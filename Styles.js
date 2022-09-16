@@ -214,6 +214,34 @@ const styleArray = {
         color: darkColor3,
         fontFamily: 'TitilliumWeb-Bold'    
     },
+    taskDetailDescription: {
+        fontSize: 16,
+        color: darkColor2
+    },
+    taskDetailInfo: {
+        paddingLeft: size1,
+        paddingRight: size1,
+        padding: size2,
+        alignItems: 'center',
+        flexDirection: 'row'
+    },
+    taskDetailIcon: {
+        width: 14,
+        height: 14,
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    taskDetailLabel: {
+        marginLeft: size2,
+        fontSize: 12,
+        color: darkColor3,
+        fontFamily: 'TitilliumWeb-Bold'   
+    },
+    taskDetailValue: {
+        marginLeft: size2,
+        fontSize: 14,
+        color: darkColor
+    },
     test: {
         height: 'auto',
         backgroundColor: 'pink',
@@ -228,6 +256,10 @@ const styleArray = {
     },
     row: {
         flexDirection: 'row'
+    },
+    standard: {
+        flexDirection: 'column',
+        alignItems: 'flex-start'
     },
     alignedRow: {
         flexDirection: 'row',
@@ -309,6 +341,13 @@ const styleArray = {
         justifyContent: 'center',
         marginRight: size3
     },
+    taskIconLarge: {
+        height: 36,
+        width: 36,
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginRight: size3
+    },
     taskCountElement: {
         marginLeft: 8,
         backgroundColor: '#dfefef',
@@ -385,10 +424,10 @@ const styleArray = {
         backgroundColor: 'white'
     },
     size80: {
-        width: 80
+        width: '32%'
     },
     width300: {
-        width: 260
+        width: '100%'
     },
     spaceBetween: {
         justifyContent: 'space-between'
@@ -408,6 +447,12 @@ const styleArray = {
         height: 1,
         borderTopWidth: .5,
         borderColor: 'white'
+    },
+    FlexiblehorizonalDivider: {
+        borderLeftWidth: .5,
+        marginLeft: size4,
+        marginRight: size4,
+        borderColor: darkColor3
     },
     yellowBackground: {
         backgroundColor: '#f7ffca'

@@ -1,8 +1,10 @@
+import StyledText from "./StyledText";
+
 import ToDoListItem from "./ToDoListItem";
 
 import {ScrollView, View, Pressable} from 'react-native';
-import StyledText from "./StyledText";
 
+import { useSelector } from 'react-redux';
 import { format } from 'date-fns';
 import { EditField, DateTimeComponent, SelectionList } from './Form';
 
@@ -10,11 +12,20 @@ import { EditField, DateTimeComponent, SelectionList } from './Form';
 export default function ToDoScreen(props) {
     const styles = props.styles;
 
-    const taskList = props.tasks.filter(task => task.assigned)
-    .sort((taskA, taskB) => taskB.score - taskA.score )
-    .map(task => {
+    const taskList = useSelector(state => state.tasks);
+
+    const toDoListItems = taskList.map( task => {
         return <ToDoListItem task={task} key={task.uniqid} styles={styles} onTaskEvent={props.onTaskEvent}/>
     });
+
+
+    /*const taskList = props.tasks.filter(task => task.assigned)
+
+
+    .sort((taskA, taskB) => taskB.score - taskA.score )
+    .map(task => {
+       
+    //});*/
 
     let designationSelection = 0;
     let ambitionSelection = 1;
@@ -103,7 +114,7 @@ export default function ToDoScreen(props) {
                 {props.status == 'ASSIGNED' && <Pressable style={[styles.screenHeaderButton,styles.marginBottom6]} onPress={() => handleInput('end')}><StyledText styles={styles}>End the day!</StyledText></Pressable>}
             </View>
             {props.status == 'ASSIGNED' && <ScrollView style={styles.container}>
-                {taskList}
+                {toDoListItems}
             </ScrollView>}
         </View>
       )
