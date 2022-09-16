@@ -420,6 +420,10 @@ const styleArray = {
         borderWidth: 0.5,
         borderRadius: size4
     },
+    bottomBorder: {
+        borderTopWidth: 0.25,
+        borderTopColor: darkColor3,
+    },
     whiteBackground: {
         backgroundColor: 'white'
     },

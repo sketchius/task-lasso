@@ -4,7 +4,7 @@ import Store from './Store';
 import { SafeAreaView, View, Text, ScrollView} from 'react-native';
 import { NavigationContainer, TransitionScreenOptions } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-//import TaskListScreen from './TaskListScreen';
+import TaskListScreen from './TaskListScreen';
 import ToDoScreen from './ToDoScreen';
 import { Ionicons, FontAwesome, AntDesign } from '@expo/vector-icons'; 
 import isToday from 'date-fns/isToday'
@@ -22,6 +22,8 @@ import { useFonts } from 'expo-font';
 import { Logs } from 'expo';
 
 import DummyNav from './DummyNav';
+
+import {DeviceEventEmitter} from "react-native"
 
 Logs.enableExpoCliLogging()
 
@@ -46,7 +48,6 @@ export default function App() {
       });
 
     const styles = definedStyles;
-
 
     const [tasks, setTasks] = useState([
       {
@@ -397,11 +398,24 @@ export default function App() {
 
     const NavBar = createBottomTabNavigator();
 
+    DeviceEventEmitter.addListener("event.taskEvent", eventData => handleTaskEvent(eventData));
+    
+    DeviceEventEmitter.addListener("event.dayEvent", eventData => handleDayEvent(eventData));
+
     const handleTaskEvent = (eventData) => {
         switch (eventData.event) {
             case 'setStatus':
                 editTaskProperty(eventData.uniqid,'status',eventData.value);
                 break;
+        }
+    }
+
+    const handleDayEvent = (eventData) => {
+        switch (eventData.event) {
+            case 'assignTasks':
+                assignTasks(eventData.designation,eventData.ambition)
+                break;
+
         }
     }
 
@@ -424,18 +438,17 @@ export default function App() {
             <SafeAreaView style={styles.safe}>
                 <NavigationContainer>
                     <NavBar.Navigator screenOptions={options}>
-                        <NavBar.Screen name="Home" 
+                        <NavBar.Screen name="Home"
+                            component={ToDoScreen}
                             options={{
                                 title: (new Date()).toDateString(),
                                 tabBarLabel: 'Home',
                                 tabBarIcon: ({focused,color,size}) => {
                                     return <Ionicons name="md-home-outline" size={size} color={color} />
                                 }
-                            }}>
-                            {() => <ToDoScreen styles={styles} tasks={tasks} status={status} onTaskEvent={handleTaskEvent} onAssignTasks={assignTasks} onEndDay={endDay}/>}
-                        </NavBar.Screen>
+                            }}/>
                         <NavBar.Screen name="Tasks" 
-                            component= {DummyNav}
+                            component= {TaskListScreen}
                             options={{
                                 title: 'Tasks',
                                 tabBarLabel: 'Tasks',

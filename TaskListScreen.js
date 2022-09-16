@@ -1,16 +1,19 @@
-import React, {useState} from 'react';
+import React, {useState,useEffect} from 'react';
 import {ScrollView, StyleSheet, Text, View, Pressable, Button} from 'react-native';
 import {getDateInContext,getTime} from './DateContext';
 import getIcon from './Icons';
 import StyledText from './StyledText';
+import { useIsFocused } from '@react-navigation/native'
 import TaskListSection from './TaskListSection';
 import { definedStyles } from './Styles';
 
 
 export default function TaskListScreen({navigation, route}) {
 
-    
+
     let styles = definedStyles;
+
+
 
     const getTaskListElement = (taskList) => {
         return <View style={styles.marginTop4}>{taskList}</View>
@@ -19,6 +22,8 @@ export default function TaskListScreen({navigation, route}) {
     const getSectionTaskCountElement = (taskList) => {
         return <Text style={[styles.defaultText, styles.circleBorder, styles.taskCountElement]}>{taskList.length}</Text>
     }
+
+
 
     const [expandedTaskID,setExpandedTaskID] = useState(-1);
     const [sectionExpansion,setSectionExpansion] = useState([true,true,true,true]);
@@ -29,14 +34,20 @@ export default function TaskListScreen({navigation, route}) {
             params: { task },
           });
     }
+    
+    const isFocused = useIsFocused()
 
+    useEffect(() => {
+            setExpandedTaskID(route.params ? route.params.expandedId : -1);
+        } , [isFocused])
+    
 
     const sections = [
-        <TaskListSection type={'CAPTURED'} showDate={false} styles={styles} onTaskEvent={onTaskEvent}/>,
-        <TaskListSection type={'FLEXIBLE'} showDate={false} styles={styles}  onTaskEvent={onTaskEvent}/>,
-        <TaskListSection type={'DEADLINE'} showDate={true} styles={styles}  onTaskEvent={onTaskEvent}/>,
-        <TaskListSection type={'SCHEDULED'} showDate={true} styles={styles}  onTaskEvent={onTaskEvent}/>,
-        <TaskListSection type={'REPEATING'} showDate={true} styles={styles}  onTaskEvent={onTaskEvent}/>
+        <TaskListSection type={'CAPTURED'} showDate={false} styles={styles} onTaskEvent={onTaskEvent} expandedId={expandedTaskID}/>,
+        <TaskListSection type={'FLEXIBLE'} showDate={false} styles={styles}  onTaskEvent={onTaskEvent} expandedId={expandedTaskID}/>,
+        <TaskListSection type={'DEADLINE'} showDate={true} styles={styles}  onTaskEvent={onTaskEvent} expandedId={expandedTaskID}/>,
+        <TaskListSection type={'SCHEDULED'} showDate={true} styles={styles}  onTaskEvent={onTaskEvent} expandedId={expandedTaskID}/>,
+        <TaskListSection type={'REPEATING'} showDate={true} styles={styles}  onTaskEvent={onTaskEvent} expandedId={expandedTaskID}/>
     ]
 /*
     const capturedTaskElement = 

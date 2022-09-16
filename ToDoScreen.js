@@ -1,3 +1,5 @@
+import { useState } from 'react';
+
 import StyledText from "./StyledText";
 
 import ToDoListItem from "./ToDoListItem";
@@ -8,16 +10,20 @@ import { useSelector } from 'react-redux';
 import { format } from 'date-fns';
 import { EditField, DateTimeComponent, SelectionList } from './Form';
 
+import {DeviceEventEmitter} from "react-native"
 
-export default function ToDoScreen(props) {
-    const styles = props.styles;
+import { definedStyles } from './Styles';
+
+export default function ToDoScreen(navigation,route) {
+    const styles = definedStyles;
 
     const taskList = useSelector(state => state.tasks);
 
     const toDoListItems = taskList.map( task => {
-        return <ToDoListItem task={task} key={task.uniqid} styles={styles} onTaskEvent={props.onTaskEvent}/>
+        return <ToDoListItem task={task} key={task.uniqid} styles={styles} navigation={navigation}/>
     });
 
+    const [status,setStatus] = useState('CHECK-IN');
 
     /*const taskList = props.tasks.filter(task => task.assigned)
 
@@ -40,10 +46,11 @@ export default function ToDoScreen(props) {
                 ambitionSelection = value;
                 break;
             case 'start':
-                props.onAssignTasks(designationSelection,ambitionSelection);
+                DeviceEventEmitter.emit("event.dayEvent", {event:'assignTasks', designation:designationSelection,ambition:ambitionSelection});
+                setStatus('ASSIGNED');
                 break;
             case 'end':
-                props.onEndDay();
+                route.params.onEndDay();
                 break;
         }
     }
@@ -51,7 +58,7 @@ export default function ToDoScreen(props) {
 
     return (
         <View style={styles.container}>
-            <View style={[styles.screenHeader, props.status == 'CHECK-IN' && styles.screenHeaderFullScreen]}>
+            <View style={[styles.screenHeader, status == 'CHECK-IN' && styles.screenHeaderFullScreen]}>
                 <View style={[styles.alignedRow, styles.justifyContent]}>
                     <StyledText styles={styles} style={styles.screenHeaderText}>{format(new Date(),'EEEE').toUpperCase()}</StyledText>
                     <View style={styles.screenHeaderDateView}>
@@ -59,7 +66,7 @@ export default function ToDoScreen(props) {
                         <StyledText styles={styles} style={styles.screenHeaderYearText}>{format(new Date(),'y')}</StyledText>
                     </View>
                 </View>
-                {props.status == 'CHECK-IN' &&
+                {status == 'CHECK-IN' &&
                 <View styles={styles.testtt}>
                     <SelectionList styles={styles} data={'designation'} label={'WHAT KIND OF DAY IS IT?'} defaultSelection={0} invert={true} orientation={'row'} onChange={handleInput} iconStyle={2}
                         selections={[
@@ -110,10 +117,10 @@ export default function ToDoScreen(props) {
                         }
                     ]}></SelectionList>
                 </View>}
-                {props.status == 'CHECK-IN' && <Pressable style={[styles.screenHeaderButton,styles.marginBottom6]} onPress={() => handleInput('start')}><StyledText styles={styles}>Start the day!</StyledText></Pressable>}
-                {props.status == 'ASSIGNED' && <Pressable style={[styles.screenHeaderButton,styles.marginBottom6]} onPress={() => handleInput('end')}><StyledText styles={styles}>End the day!</StyledText></Pressable>}
+                {status == 'CHECK-IN' && <Pressable style={[styles.screenHeaderButton,styles.marginBottom6]} onPress={() => handleInput('start')}><StyledText styles={styles}>Start the day!</StyledText></Pressable>}
+                {status == 'ASSIGNED' && <Pressable style={[styles.screenHeaderButton,styles.marginBottom6]} onPress={() => handleInput('end')}><StyledText styles={styles}>End the day!</StyledText></Pressable>}
             </View>
-            {props.status == 'ASSIGNED' && <ScrollView style={styles.container}>
+            {status == 'ASSIGNED' && <ScrollView style={styles.container}>
                 {toDoListItems}
             </ScrollView>}
         </View>

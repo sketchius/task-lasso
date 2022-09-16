@@ -15,8 +15,9 @@ export default function TaskListSection(props) {
 
     const [expanded,setExpanded] = useState(true);
     
+
     const getTaskListItems = () => {
-        return filteredTaskList.map(task => <TaskListItem styles={styles} task={task} showDate={props.showDate} onTaskEvent={props.onTaskEvent}/>)
+        return filteredTaskList.map(task => <TaskListItem styles={styles} task={task} showDate={props.showDate} expanded={task.uniqid == props.expandedId}/>)
     }
 
     const getSectionTaskCountElement = () => {
@@ -24,9 +25,9 @@ export default function TaskListSection(props) {
     }
 
     return ( <Pressable 
-    style={[styles.capturedTasksContainer, styles.padding5, styles.paddingVertical4]}
+    style={[styles.capturedTasksContainer, styles.paddingVertical4]}
     onPress={ () => setExpanded(!expanded)}>
-    <View style={[styles.row, styles.alignItems]}><Text style={[styles.defaultText, styles.taskListSectionHeader, styles.fontSize3, styles.marginRight4, styles.bold]}>{props.type} TASKS</Text>{!expanded && getSectionTaskCountElement(filteredTaskList)}
+    <View style={[styles.row, styles.alignItems]}><Text style={[styles.defaultText, styles.taskListSectionHeader, styles.fontSize3, styles.marginRight4, styles.paddingLeft5, styles.bold]}>{props.type} TASKS</Text>{!expanded && getSectionTaskCountElement(filteredTaskList)}
         <View style={styles.horizontalLine}/>
     </View>
     {expanded && getTaskListItems(filteredTaskList)}

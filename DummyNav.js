@@ -23,7 +23,7 @@ export default function DummyNav( {navigation, route}) {
     }}
     >
         <Stack.Screen
-            name="1"
+            name="TL"
             component={TaskListScreen}
             options={{
             title: '1',

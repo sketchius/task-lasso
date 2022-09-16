@@ -8,6 +8,10 @@ import getIcon from './Icons';
 import MultistateCheckbox from './MultistateCheckbox';
 import StyledText from './StyledText';
 
+import {DeviceEventEmitter} from "react-native"
+
+import { useNavigation } from '@react-navigation/native';
+
 export default function ToDoListItem(props) {
     const [expanded, setExpanded] = useState(false);
 
@@ -15,11 +19,13 @@ export default function ToDoListItem(props) {
 
     const styles = props.styles;
 
+    const navigation = useNavigation();
+
 
     const [checkBoxState, updateCheckBoxState] = useState(0);
 
     const handleCheckboxStateChange = (value) => {
-        props.onTaskEvent({event:'setStatus', value, uniqid: task.uniqid});
+        DeviceEventEmitter.emit("event.taskEvent", {event:'setStatus', value, uniqid: task.uniqid});
     }
 
     let expandedContent;
@@ -27,7 +33,11 @@ export default function ToDoListItem(props) {
     if (expanded) {
         expandedContent = (
             <View style={[styles.alignedRow, styles.spaceBetween, styles.marginVertical3, styles.width300]}>
-                <Pressable style={[styles.size80, styles.alignItems, styles.thinBorder, styles.margina, styles.paddingVertical4]}>
+                <Pressable style={[styles.size80, styles.alignItems, styles.thinBorder, styles.margina, styles.paddingVertical4]}
+                onPress={ () => {
+                    navigation.navigate('Tasks', { expandedId : task.uniqid })
+
+                }}>
                     <FontAwesome5 name="expand" size={16} color="black"/>
                     <StyledText styles={styles} style={styles.paddingTop2}>Details</StyledText>
                 </Pressable>
