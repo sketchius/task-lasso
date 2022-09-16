@@ -1,12 +1,14 @@
 import React, {useState} from 'react';
 import { Button, StyleSheet, ScrollView } from 'react-native';
-import { DateTimeComponent, EditField, SelectionList } from './Form';
 import uuid from 'react-native-uuid';
+
 import { Logs } from 'expo'
+
+import { DateTimeComponent, EditField, SelectionList } from './../../components/Form';
 
 Logs.enableExpoCliLogging()
 
-export default function TaskEditorScreen(props) {
+export default function TaskEditor(props) {
 
     const styles = props.styles;
 

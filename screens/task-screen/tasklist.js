@@ -1,14 +1,14 @@
 import React, {useState,useEffect} from 'react';
-import {ScrollView, StyleSheet, Text, View, Pressable, Button} from 'react-native';
-import {getDateInContext,getTime} from './DateContext';
-import getIcon from './Icons';
-import StyledText from './StyledText';
-import { useIsFocused } from '@react-navigation/native'
-import TaskListSection from './TaskListSection';
-import { definedStyles } from './Styles';
+import {ScrollView, Text, View} from 'react-native';
+import { useIsFocused } from '@react-navigation/native';
+
+import StyledText from './../../components/StyledText';
+import TasklistSection from './../../screens/task-screen/tasklist-section';
+
+import { definedStyles } from './../../Styles';
 
 
-export default function TaskListScreen({navigation, route}) {
+export default function Tasklist({navigation, route}) {
 
 
     let styles = definedStyles;
@@ -43,11 +43,11 @@ export default function TaskListScreen({navigation, route}) {
     
 
     const sections = [
-        <TaskListSection type={'CAPTURED'} showDate={false} styles={styles} onTaskEvent={onTaskEvent} expandedId={expandedTaskID}/>,
-        <TaskListSection type={'FLEXIBLE'} showDate={false} styles={styles}  onTaskEvent={onTaskEvent} expandedId={expandedTaskID}/>,
-        <TaskListSection type={'DEADLINE'} showDate={true} styles={styles}  onTaskEvent={onTaskEvent} expandedId={expandedTaskID}/>,
-        <TaskListSection type={'SCHEDULED'} showDate={true} styles={styles}  onTaskEvent={onTaskEvent} expandedId={expandedTaskID}/>,
-        <TaskListSection type={'REPEATING'} showDate={true} styles={styles}  onTaskEvent={onTaskEvent} expandedId={expandedTaskID}/>
+        <TasklistSection type={'CAPTURED'} showDate={false} styles={styles} onTaskEvent={onTaskEvent} expandedId={expandedTaskID}/>,
+        <TasklistSection type={'FLEXIBLE'} showDate={false} styles={styles}  onTaskEvent={onTaskEvent} expandedId={expandedTaskID}/>,
+        <TasklistSection type={'DEADLINE'} showDate={true} styles={styles}  onTaskEvent={onTaskEvent} expandedId={expandedTaskID}/>,
+        <TasklistSection type={'SCHEDULED'} showDate={true} styles={styles}  onTaskEvent={onTaskEvent} expandedId={expandedTaskID}/>,
+        <TasklistSection type={'REPEATING'} showDate={true} styles={styles}  onTaskEvent={onTaskEvent} expandedId={expandedTaskID}/>
     ]
 /*
     const capturedTaskElement = 

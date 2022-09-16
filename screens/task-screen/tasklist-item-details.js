@@ -1,15 +1,16 @@
-import { ScrollView, View, Pressable } from "react-native";
-import StyledText from "./StyledText";
-import getIcon from "./Icons";
-import { format } from 'date-fns';
-import { getDateInContext, getTime } from "./DateContext";
+import { View, Pressable } from "react-native";
 
 import differenceInHours from 'date-fns/differenceInHours'
 
-import { definedStyles } from './Styles';
+import StyledText from './../../components/StyledText';
+import getIcon from "./../../tools/Icons";
+import { format } from 'date-fns';
+import { getDateInContext, getTime } from "./../../tools/DateContext";
+
+import { definedStyles } from './../../Styles';
 
 
-export default function TaskListItemDetails(props) {
+export default function TasklistDetails(props) {
     const styles = definedStyles;
     const task = props.task;
 

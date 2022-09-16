@@ -1,26 +1,22 @@
 import { useState } from 'react';
-
-import StyledText from "./StyledText";
-
-import ToDoListItem from "./ToDoListItem";
-
-import {ScrollView, View, Pressable} from 'react-native';
-
+import {ScrollView, View, Pressable, DeviceEventEmitter} from 'react-native';
 import { useSelector } from 'react-redux';
+
 import { format } from 'date-fns';
-import { EditField, DateTimeComponent, SelectionList } from './Form';
 
-import {DeviceEventEmitter} from "react-native"
+import TodoItem from "../../screens/home-screen/todo-item";
+import StyledText from "./../../components/StyledText";
+import { SelectionList } from './../../components/Form';
 
-import { definedStyles } from './Styles';
+import { definedStyles } from './../../Styles';
 
-export default function ToDoScreen(navigation,route) {
+export default function Home(navigation,route) {
     const styles = definedStyles;
 
     const taskList = useSelector(state => state.tasks);
 
     const toDoListItems = taskList.map( task => {
-        return <ToDoListItem task={task} key={task.uniqid} styles={styles} navigation={navigation}/>
+        return <TodoItem task={task} key={task.uniqid} styles={styles} navigation={navigation}/>
     });
 
     const [status,setStatus] = useState('CHECK-IN');

@@ -1,29 +1,27 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { Provider } from 'react-redux';
-import Store from './Store';
-import { SafeAreaView, View, Text, ScrollView} from 'react-native';
-import { NavigationContainer, TransitionScreenOptions } from '@react-navigation/native';
+import { SafeAreaView, View, DeviceEventEmitter } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import TaskListScreen from './TaskListScreen';
-import ToDoScreen from './ToDoScreen';
+import { Provider } from 'react-redux';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 import { Ionicons, FontAwesome, AntDesign } from '@expo/vector-icons'; 
+import { useFonts } from 'expo-font';
+import { saveTasks, loadTasks } from './Data'
+import { Logs } from 'expo';
+
 import isToday from 'date-fns/isToday'
 import differenceInDays from 'date-fns/differenceInDays'
 
-import { definedStyles } from './Styles';
+import Store from './redux/store';
 
-import { saveData, loadData, saveTasks, loadTasks } from './Data.js';
-
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import TaskEditorScreen from './TaskEditorScreen';
+import Tasklist from './screens/task-screen/tasklist';
+import Home from './screens/home-screen/home';
+import TaskEditor from './screens/edit-screen/edit';
 import DataInspector from './DataInspector';
 
-import { useFonts } from 'expo-font';
-import { Logs } from 'expo';
+import { definedStyles } from './Styles';
 
-import DummyNav from './DummyNav';
-
-import {DeviceEventEmitter} from "react-native"
 
 Logs.enableExpoCliLogging()
 
@@ -439,7 +437,7 @@ export default function App() {
                 <NavigationContainer>
                     <NavBar.Navigator screenOptions={options}>
                         <NavBar.Screen name="Home"
-                            component={ToDoScreen}
+                            component={Home}
                             options={{
                                 title: (new Date()).toDateString(),
                                 tabBarLabel: 'Home',
@@ -448,7 +446,7 @@ export default function App() {
                                 }
                             }}/>
                         <NavBar.Screen name="Tasks" 
-                            component= {TaskListScreen}
+                            component= {Tasklist}
                             options={{
                                 title: 'Tasks',
                                 tabBarLabel: 'Tasks',
@@ -466,7 +464,7 @@ export default function App() {
                                 }
                             }}>
                             {() => (
-                                <TaskEditorScreen
+                                <TaskEditor
                                     tasks={tasks}
                                     styles={styles}
                                     onSave={addTask}

@@ -1,18 +1,18 @@
 import React, {useState} from 'react';
-import {Text, View, Pressable} from 'react-native';
-import { AntDesign, FontAwesome5, FontAwesome, MaterialIcons, Octicons, Entypo, Feather, Ionicons  } from '@expo/vector-icons';
-import { isToday } from 'date-fns';
-import { getDateInContext, getTime } from './DateContext';
-import differenceInHours from 'date-fns/differenceInHours'
-import getIcon from './Icons';
-import MultistateCheckbox from './MultistateCheckbox';
-import StyledText from './StyledText';
-
-import {DeviceEventEmitter} from "react-native"
-
+import { View, Pressable, DeviceEventEmitter} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
-export default function ToDoListItem(props) {
+import { isToday } from 'date-fns';
+import differenceInHours from 'date-fns/differenceInHours'
+
+import { AntDesign, FontAwesome5, FontAwesome, MaterialIcons, Octicons, Entypo, Feather, Ionicons  } from '@expo/vector-icons';
+
+import { getDateInContext, getTime } from './../../tools/DateContext';
+import getIcon from './../../tools/Icons';
+import MultistateCheckbox from './../../components/MultistateCheckbox';
+import StyledText from './../../components/StyledText';
+
+export default function TodoItem(props) {
     const [expanded, setExpanded] = useState(false);
 
     const task = props.task;

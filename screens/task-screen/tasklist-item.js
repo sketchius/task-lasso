@@ -1,16 +1,16 @@
 import { useState, useEffect } from 'react';
-import { Pressable, View } from "react-native";
-import getIcon from "./Icons";
-import StyledText from "./StyledText";
-import { Text } from "react-native";
-import { definedStyles } from './Styles';
+import { Pressable, View, Text } from "react-native";
 
-import TaskListItemDetails from './TaskListItemDetails';
+import StyledText from './../../components/StyledText';
+import TasklistDetails from './tasklist-item-details';
+import {getDateInContext} from './../../tools/DateContext';
+import getIcon from "./../../tools/Icons";
+
+import { definedStyles } from './../../Styles';
 
 
-import {getDateInContext,getTime} from './DateContext';
 
-export default function TaskListItem(props) {
+export default function TasklistItem(props) {
     const styles = definedStyles;
     const task = props.task;
 
@@ -40,7 +40,7 @@ export default function TaskListItem(props) {
                     <StyledText styles={styles} style={[styles.listItem, expanded ? styles.fontSize2 : styles.fontSize2, styles.headerFont]}>{task.title}</StyledText>
                 </View>
             </View>
-            {expanded && <TaskListItemDetails task={task}/>}
+            {expanded && <TasklistDetails task={task}/>}
         </Pressable>
     )
 }

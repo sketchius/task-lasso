@@ -1,14 +1,15 @@
-import { useSelector } from 'react-redux';
-import TaskListItem from "./TaskListItem";
-import { Pressable, View, Text } from 'react-native';
 import { useState } from 'react'
-
+import { Pressable, View, Text } from 'react-native';
+import { useSelector } from 'react-redux';
 
 import { Logs } from 'expo'
 
+import TasklistItem from "./tasklist-item";
+
+
 Logs.enableExpoCliLogging()
 
-export default function TaskListSection(props) {
+export default function TasklistSection(props) {
     const filteredTaskList = useSelector(state => state.tasks.filter(task => task.type === props.type));
 
     const styles = props.styles;
@@ -17,7 +18,7 @@ export default function TaskListSection(props) {
     
 
     const getTaskListItems = () => {
-        return filteredTaskList.map(task => <TaskListItem styles={styles} task={task} showDate={props.showDate} expanded={task.uniqid == props.expandedId}/>)
+        return filteredTaskList.map(task => <TasklistItem styles={styles} task={task} showDate={props.showDate} expanded={task.uniqid == props.expandedId}/>)
     }
 
     const getSectionTaskCountElement = () => {

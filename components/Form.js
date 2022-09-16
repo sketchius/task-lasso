@@ -3,7 +3,7 @@ import { View, TextInput, Pressable, Button } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { format } from 'date-fns';
 import StyledText from "./StyledText";
-import getIcon from "./Icons";
+import getIcon from "./../tools/Icons";
 
 export function EditField(props) {
     const styles = props.styles;
