@@ -4,10 +4,13 @@ import differenceInDays from 'date-fns/differenceInDays'
 export function getDateInContext(date,useTime) {
     if (!date) return '';
 
+    const dateMinusTime = date;
+    dateMinusTime.setHours(0,0,0,0);
+
     const daysAway = differenceInDays(date,new Date().setHours(0,0,0,0));
     let timeString = useTime ? getTime(date) : '';
 
-    if (daysAway >= 7 || daysAway < 0) {
+    if (daysAway >= 7 || daysAway < -1) {
         return format(date,'MMM d').toUpperCase() + timeString;
     } else {
         if (daysAway > 1) {
@@ -18,6 +21,10 @@ export function getDateInContext(date,useTime) {
             } else {
                 if (daysAway == 0) {
                     return 'TODAY' + timeString;
+                } else {
+                    if (daysAway == -1) {
+                        return 'YESTERDAY' + timeString;
+                    }
                 }
             }
         }
