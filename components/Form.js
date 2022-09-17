@@ -57,9 +57,9 @@ export function SelectionList(props) {
         props.onChange(props.data, selected);
     }, [selected]);
 
-    const optionContent = props.selections.map( (selection) => {
+    const optionContent = props.selections.map( (selection,i) => {
         return (
-            <Pressable style={[props.orientation == 'column' ? styles.selectionItemColumn : styles.selectionItemRow,props.invert && styles.whiteBackground,selection.index == selected && styles.selected]} onPress={() => setSelected(selection.index)}>
+            <Pressable key={i} style={[props.orientation == 'column' ? styles.selectionItemColumn : styles.selectionItemRow,props.invert && styles.whiteBackground,selection.index == selected && styles.selected]} onPress={() => setSelected(selection.index)}>
                 {props.iconStyle > 0 &&
                 <View style={[styles.selectionIcon, props.iconStyle == 2 && styles.selectionIconSmall]}>
                     {getIcon(selection.iconFamily,selection.iconName,selection.iconSize,styles.darkColor)}

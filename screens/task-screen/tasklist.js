@@ -43,11 +43,11 @@ export default function Tasklist({navigation, route}) {
     
 
     const sections = [
-        <TasklistSection type={'CAPTURED'} showDate={false} styles={styles} onTaskEvent={onTaskEvent} expandedId={expandedTaskID}/>,
-        <TasklistSection type={'FLEXIBLE'} showDate={false} styles={styles}  onTaskEvent={onTaskEvent} expandedId={expandedTaskID}/>,
-        <TasklistSection type={'DEADLINE'} showDate={true} styles={styles}  onTaskEvent={onTaskEvent} expandedId={expandedTaskID}/>,
-        <TasklistSection type={'SCHEDULED'} showDate={true} styles={styles}  onTaskEvent={onTaskEvent} expandedId={expandedTaskID}/>,
-        <TasklistSection type={'REPEATING'} showDate={true} styles={styles}  onTaskEvent={onTaskEvent} expandedId={expandedTaskID}/>
+        <TasklistSection type={'CAPTURED'} key={0} showDate={false} styles={styles} onTaskEvent={onTaskEvent} expandedId={expandedTaskID}/>,
+        <TasklistSection type={'FLEXIBLE'} key={1} showDate={false} styles={styles}  onTaskEvent={onTaskEvent} expandedId={expandedTaskID}/>,
+        <TasklistSection type={'DEADLINE'} key={2} showDate={true} styles={styles}  onTaskEvent={onTaskEvent} expandedId={expandedTaskID}/>,
+        <TasklistSection type={'SCHEDULED'} key={3} showDate={true} styles={styles}  onTaskEvent={onTaskEvent} expandedId={expandedTaskID}/>,
+        <TasklistSection type={'REPEATING'} key={4} showDate={true} styles={styles}  onTaskEvent={onTaskEvent} expandedId={expandedTaskID}/>
     ]
 /*
     const capturedTaskElement = 

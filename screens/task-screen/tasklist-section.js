@@ -18,7 +18,7 @@ export default function TasklistSection(props) {
     
 
     const getTaskListItems = () => {
-        return filteredTaskList.map(task => <TasklistItem styles={styles} task={task} showDate={props.showDate} expanded={task.uniqid == props.expandedId}/>)
+        return filteredTaskList.map( (task, i) => <TasklistItem key={i} styles={styles} task={task} showDate={props.showDate} expanded={task.uniqid == props.expandedId}/>)
     }
 
     const getSectionTaskCountElement = () => {
