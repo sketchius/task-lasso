@@ -13,21 +13,21 @@ import { definedStyles } from './../../Styles';
 export default function Home(navigation,route) {
     const styles = definedStyles;
 
-    const taskList = useSelector(state => state.tasks);
+    const taskList = useSelector(state => state.tasks.filter(task => task.assigned));
 
-    const toDoListItems = taskList.map( task => {
+    const toDoListItems = () => taskList
+        .map( task => {
         return <TodoItem task={task} key={task.uniqid} styles={styles} navigation={navigation}/>
     });
 
     const [status,setStatus] = useState('CHECK-IN');
 
-    /*const taskList = props.tasks.filter(task => task.assigned)
 
 
-    .sort((taskA, taskB) => taskB.score - taskA.score )
-    .map(task => {
+   
+    //.map(task => {
        
-    //});*/
+    //});
 
     let designationSelection = 0;
     let ambitionSelection = 1;
@@ -117,7 +117,7 @@ export default function Home(navigation,route) {
                 {status == 'ASSIGNED' && <Pressable style={[styles.screenHeaderButton,styles.marginBottom6]} onPress={() => handleInput('end')}><StyledText styles={styles}>End the day!</StyledText></Pressable>}
             </View>
             {status == 'ASSIGNED' && <ScrollView style={styles.container}>
-                {toDoListItems}
+                {toDoListItems()}
             </ScrollView>}
         </View>
       )

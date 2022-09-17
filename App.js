@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { SafeAreaView, View, DeviceEventEmitter } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Provider } from 'react-redux';
+import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { Ionicons, FontAwesome, AntDesign } from '@expo/vector-icons'; 
@@ -13,14 +13,15 @@ import { Logs } from 'expo';
 import isToday from 'date-fns/isToday'
 import differenceInDays from 'date-fns/differenceInDays'
 
-import Store from './redux/store';
-
 import Tasklist from './screens/task-screen/tasklist';
 import Home from './screens/home-screen/home';
 import TaskEditor from './screens/edit-screen/edit';
 import DataInspector from './DataInspector';
+import store from './redux/store';
 
 import { definedStyles } from './Styles';
+
+
 
 
 Logs.enableExpoCliLogging()
@@ -33,7 +34,10 @@ async function getData() {
 
 export default function App() {
 
-    const [tasksLoaded,setTasksLoaded] = useState(true);
+    const dispatch = useDispatch()
+
+    
+    const [tasksLoaded,setTasksLoaded] = useState(false);
 
     const [fontsLoaded] = useFonts({
         'Roboto-Light': require('./assets/fonts/Roboto-Light.ttf'),
@@ -47,157 +51,17 @@ export default function App() {
 
     const styles = definedStyles;
 
-    const [tasks, setTasks] = useState([
-      {
-        title: 'Go to the store',
-        type: 'SCHEDULED',
-        priority: 2,
-        uniqid: 1,
-        duration: 60,
-        dateDue: new Date(2022, 8, 16),
-        iconLibrary: 'AntDesign',
-        iconName: 'car'
-      },
-      {
-        title: 'Find the drill',
-        description: 'Been looking everywhere for the drill, but I have no idea where it is...',
-        type: 'DEADLINE',
-        priority: 1,
-        uniqid: 2,
-        duration: 15,
-        dateDue: new Date(2022, 8, 16, 10, 0, 0),
-        iconLibrary: 'FontAwesome',
-        iconName: 'search'
-      },
-      {
-        title: 'Call mom',
-        description: `She's probably wondering how I'm doing.`,
-        type: 'FLEXIBLE',
-        dateCreated: new Date(2022, 8, 2, 10, 0, 0),
-        uniqid: 3,
-        duration: 45,
-        priority: 1,
-        iconLibrary: 'Ionicons',
-        iconName: 'call'
-      },
-      {
-        title: "Drive to Columbus",
-        description: 'Need to:\n1) Go to the doctor\n2)Visit bob\n3)Drop off borrowed books',
-        type: 'SCHEDULED',
-        priority: 2,
-        uniqid: 4,
-        duration: 60,
-        dateDue: new Date(2022, 9, 15),
-        iconLibrary: 'AntDesign',
-        iconName: 'car'
-      },
-      {
-        title: "Lookup that Mexican place",
-        type: 'CAPTURED',
-        uniqid: 5,
-        iconLibrary: 'MaterialCommunityIcons',
-        iconName: 'circle-small'
-      },
-      {
-        title: "Text Ralph back",
-        type: 'CAPTURED',
-        uniqid: 6,
-        iconLibrary: 'MaterialCommunityIcons',
-        iconName: 'circle-small'
-      },
-      {
-        title: "Do laundry",
-        type: 'DEADLINE',
-        uniqid: 17,
-        priority: 1,
-        duration: 30,
-        dateDue: new Date(2022, 8, 17, 10, 0, 0),
-        iconLibrary: 'FontAwesome5',
-        iconName: 'tshirt'
-      },
-      {
-        title: "Pump up bike tires",
-        type: 'FLEXIBLE',
-        dateCreated: new Date(2022, 8, 9, 10, 0, 0),
-        uniqid: 18,
-        duration: 10,
-        priority: 0,
-        iconLibrary: 'MaterialIcons',
-        iconName: 'pedal-bike'
-      },
-      {
-        title: "Make grocery list",
-        type: 'DEADLINE',
-        uniqid: 19,
-        duration: 15,
-        priority: 1,
-        dateDue: new Date(2022, 8, 15, 10, 0, 0),
-        iconLibrary: 'FontAwesome5',
-        iconName: 'clipboard-list'
-      },
-      {
-        title: "Fix the table",
-        description: 'One of the legs is loose',
-        type: 'FLEXIBLE',
-        dateCreated: new Date(2022, 8, 8, 10, 0, 0),
-        uniqid: 20,
-        duration: 30,
-        priority: 0,
-        iconLibrary: 'MaterialCommunityIcons',
-        iconName: 'screwdriver'
-      },
-      {
-        title: "Interview at Data Corp",
-        type: 'SCHEDULED',
-        uniqid: 21,
-        duration: 60,
-        priority: 2,
-        dateDue: new Date(2022, 8, 14, 15, 0, 0),
-        useTime: true,
-        iconLibrary: 'Ionicons',
-        iconName: 'people'
-      },
-      {
-        title: "Finish first draft of proposal",
-        type: 'DEADLINE',
-        uniqid: 22,
-        duration: 45,
-        priority: 2,
-        dateDue: new Date(2022, 8, 29, 10, 0, 0),
-        iconLibrary: 'Ionicons',
-        iconName: 'document'
-      },
-      {
-        title: "Find the remote",
-        type: 'FLEXIBLE',
-        dateCreated: new Date(2022, 8, 13, 10, 0, 0),
-        uniqid: 23,
-        duration: 10,
-        priority: 2,
-        iconLibrary: 'FontAwesome',
-        iconName: 'search'
-      },
-      {
-        title: "Call the gas company",
-        description: 'Ask about charges',
-        type: 'FLEXIBLE',
-        dateCreated: new Date(2022, 8, 10, 10, 0, 0),
-        uniqid: 24,
-        duration: 10,
-        priority: 2,
-        iconLibrary: 'Ionicons',
-        iconName: 'people'
-      }
-    ]
-    );
+    const state = useSelector(state => state);
+
+    const tasks = state.tasks;
 
     useEffect(() => {
-        //readTasksFromStorage();
+        readTasksFromStorage();
     }, []);
 
-    useEffect(() => {
-        saveTasks(tasks);
-    }, [tasks]);
+    //useEffect(() => {
+    //    saveTasks(tasks);
+    //}, [tasks]);
 
     /*useEffect(() => {
         assignTasks();
@@ -208,6 +72,10 @@ export default function App() {
     const assignedValue = useRef(0);
 
     const assignTasks = (designation,ambition) => {
+        console.log(`assignTasks() designation = ${designation}, ambition = ${ambition}`)
+
+        dispatch({type:'tasks/UnassignedAll'})
+
         let assignmentBudget = 0;
 
         switch (designation) {
@@ -234,11 +102,10 @@ export default function App() {
                 break;
         }
 
-        const tasksCopy = [...tasks];
-
-        const assignTask = (task) => {
-            task.assigned = true;
-            assignedValue.current += 15;
+        const assignTask = (task) => {  
+            assignedValue.current += task.duration;
+            console.log(`[${assignedValue.current}/${assignmentBudget}] assigning task "${task.title}" Assigned state is '${task.assigned}'`)
+            dispatch({type:'task/taskAssigned', payload: task.uniqid})
         }
 
         const scoreTask = (task) => {
@@ -263,26 +130,33 @@ export default function App() {
             if (task.duration)
                 durationWeight = 1 - (task.duration / 100);
 
-            return baseScore * priorityWeight * deadlineWeight * flexibleWeight * durationWeight;
+            const score = ( baseScore * priorityWeight * deadlineWeight * flexibleWeight * durationWeight);
+            dispatch({type:'task/taskScored', uniqid: task.uniqid, payload: score})
+            return score;
         }
 
-        tasksCopy.forEach( (task => {
-            if (!task.assigned && (task.type == 'SCHEDULED' || task.type == 'DEADLINE') && isToday(task.dateDue)) {
-                task.score = scoreTask(task);
-                assignTask(task);
-            }
+        tasks
+        .filter( (task => (task.type == 'SCHEDULED' || task.type == 'DEADLINE') && isToday(task.dateDue)))
+        .forEach( (task => {
+            scoreTask(task);
+            assignTask(task);
         }))
 
-        const remainingTasks = tasksCopy.filter( (task => task.type != 'SCHEDULED' && task.type != 'CAPTURED'));
+
+
         
 
         while (assignedValue.current < assignmentBudget) {
             let highestScoreTask;
             let highestScore = 0;
-            remainingTasks.forEach( (task) => {
+
+            const updatedTaskes = store.getState().tasks;
+
+            updatedTaskes
+            .filter( (task => task.type != 'SCHEDULED' && task.type != 'CAPTURED'))
+            .forEach( (task) => {
                 if (!task.assigned) {
                     let taskScore = scoreTask(task);
-                    task.score = taskScore;
                     if (taskScore > highestScore) {
                         highestScore = taskScore;
                         highestScoreTask = task;
@@ -296,8 +170,7 @@ export default function App() {
                 break;
                 
         }
-
-        setTasks(tasksCopy);
+        
         setStatus('ASSIGNED');
 
     }
@@ -318,9 +191,9 @@ export default function App() {
 
     const readTasksFromStorage = async () => {
         try {
-            let d = await AsyncStorage.getItem('@taskArray');
-            let e = JSON.parse(d);
-            e.forEach((task) => {
+            let rawData = await AsyncStorage.getItem('@taskArray');
+            let parsedData = JSON.parse(rawData);
+            parsedData.forEach((task) => {
                 if (task.dateDue)
                     task.dateDue = new Date(task.dateDue);
                 if (task.dateCreated)
@@ -330,8 +203,9 @@ export default function App() {
                     task.dateModified = new Date(task.dateModified);
                 if (!task.type) task.type = 'CAPTURED';
             });
-            setTasks(e);
+            dispatch({ type: 'storage/loadedData', payload: parsedData })
             setTasksLoaded(true);
+            console.log(`parsed data\n\n${parsedData}`)
         } catch (error) {
             alert(error);
         }
@@ -396,10 +270,10 @@ export default function App() {
 
     const NavBar = createBottomTabNavigator();
 
-    DeviceEventEmitter.addListener("event.taskEvent", eventData => handleTaskEvent(eventData));
-    
-    DeviceEventEmitter.addListener("event.dayEvent", eventData => handleDayEvent(eventData));
-
+    useEffect( () => {
+        DeviceEventEmitter.addListener("event.taskEvent", eventData => handleTaskEvent(eventData));
+        DeviceEventEmitter.addListener("event.dayEvent", eventData => handleDayEvent(eventData));
+    },[])
     const handleTaskEvent = (eventData) => {
         switch (eventData.event) {
             case 'setStatus':
@@ -409,6 +283,7 @@ export default function App() {
     }
 
     const handleDayEvent = (eventData) => {
+        console.log(`handeTastEvent`);
         switch (eventData.event) {
             case 'assignTasks':
                 assignTasks(eventData.designation,eventData.ambition)
@@ -431,8 +306,7 @@ export default function App() {
       };
 
     return (
-        <Provider store={Store}>
-            {tasksLoaded ?
+            tasksLoaded ?
             <SafeAreaView style={styles.safe}>
                 <NavigationContainer>
                     <NavBar.Navigator screenOptions={options}>
@@ -479,8 +353,7 @@ export default function App() {
                         </NavBar.Screen>
                     </NavBar.Navigator>
                 </NavigationContainer>
-            </SafeAreaView> : <View></View>}
-        </Provider>
+            </SafeAreaView> : <View></View>
     );
 }
 
