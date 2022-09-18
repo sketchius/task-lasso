@@ -8,7 +8,7 @@ import TasklistSection from './../../screens/task-screen/tasklist-section';
 import { definedStyles } from './../../Styles';
 
 
-export default function Tasklist({navigation, route}) {
+export default function AllTasklist() {
 
 
     let styles = definedStyles;
@@ -35,11 +35,11 @@ export default function Tasklist({navigation, route}) {
           });
     }
     
-    const isFocused = useIsFocused()
+    // const isFocused = useIsFocused()
 
-    useEffect(() => {
-            setExpandedTaskID(route.params ? route.params.expandedId : -1);
-        } , [isFocused])
+    // useEffect(() => {
+    //         setExpandedTaskID(route.params ? route.params.expandedId : -1);
+    //     } , [isFocused])
     
 
     const sections = [

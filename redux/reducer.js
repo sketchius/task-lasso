@@ -143,6 +143,9 @@ const initialState = {
             iconName: 'people',
         },
     ],
+    day: {
+        status: 'CHECK-IN'
+    }
 };
 
 export default function rootReducer(state = initialState, action) {
@@ -172,19 +175,25 @@ export default function rootReducer(state = initialState, action) {
                   }
                 })
             }
-            case 'task/taskScored':
-                return {
-                    ...state,
-                    tasks: state.tasks.map(task => {
-                      if (task.uniqid !== action.uniqid) {
-                        return task
-                      }
-                      return {
-                        ...task,
-                        score: action.payload
-                      }
-                    })
-                }
+        case 'task/taskScored':
+            return {
+                ...state,
+                tasks: state.tasks.map(task => {
+                    if (task.uniqid !== action.uniqid) {
+                    return task
+                    }
+                    return {
+                    ...task,
+                    score: action.payload
+                    }
+                })
+            }
+        case 'day/dayStateChanged':
+            return {
+                ...state,
+                status: action.payload
+            }
+
         default:
             return state;
     }

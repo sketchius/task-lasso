@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import {ScrollView, View, Pressable, DeviceEventEmitter} from 'react-native';
+
 import { useSelector } from 'react-redux';
 
 import { format } from 'date-fns';
@@ -9,6 +10,8 @@ import StyledText from "./../../components/StyledText";
 import { SelectionList } from './../../components/Form';
 
 import { definedStyles } from './../../Styles';
+import Tasklist from '../task-screen/task-screen';
+import AppNavigation from '../task-screen/navigation';
 
 export default function Home(navigation,route) {
     const styles = definedStyles;
@@ -114,11 +117,9 @@ export default function Home(navigation,route) {
                     ]}></SelectionList>
                 </View>}
                 {status == 'CHECK-IN' && <Pressable style={[styles.screenHeaderButton,styles.marginBottom6]} onPress={() => handleInput('start')}><StyledText styles={styles}>Start the day!</StyledText></Pressable>}
-                {status == 'ASSIGNED' && <Pressable style={[styles.screenHeaderButton,styles.marginBottom6]} onPress={() => handleInput('end')}><StyledText styles={styles}>End the day!</StyledText></Pressable>}
+                {false && status == 'ASSIGNED' && <Pressable style={[styles.screenHeaderButton,styles.marginBottom6]} onPress={() => handleInput('end')}><StyledText styles={styles}>End the day!</StyledText></Pressable>}
             </View>
-            {status == 'ASSIGNED' && <ScrollView style={styles.container}>
-                {toDoListItems()}
-            </ScrollView>}
+            <AppNavigation></AppNavigation>
         </View>
       )
 

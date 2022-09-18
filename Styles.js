@@ -15,15 +15,23 @@ const size6 = 32;
 //const darkColor2 = '#64629c'
 //const darkColor3 = '#8e8cc1'
 
-const darkColor = '#030a15';
-const darkColor2 = '#3c4350';
-const darkColor3 = '#6c717a';
+const darkColor = '#000000';
+const darkColor2 = '#424242';
+const darkColor3 = '#787878';
+const darkColor4 = '#a6a6a6';
+const darkColor5 = '#d1d1d1';
+const darkColor6 = '#dbdbdb';
 
-const yellow3 = '#feffba';
+const yellow3 = '#f5ffb0';
 const green3 = '#dbffdd';
 const pink3 = '#ffe1f0';
 const blue3 = '#dae5ff';
 const red3 = '#ffe1e1';
+
+const blue2 = '#b5c4e8';
+const blue1 = '#97a8d1';
+
+const yellow = '#fdff48';
 
 const styleArray = {
     defaultText: {
@@ -32,6 +40,7 @@ const styleArray = {
     },
     headerFont: {
         fontFamily: 'Roboto-Medium',
+        color: darkColor
     },
     alertText: {
         fontSize: 10,
@@ -46,13 +55,53 @@ const styleArray = {
     },
     container: {
         flex: 1,
-        width: '100%',
+        width: '100%'
+    },
+    navWidget: {
+        borderTopWidth: 1,
+        borderBottomWidth: 2,
+        borderColor: darkColor
+    },
+    navOptionActive: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        padding: size4,
+        paddingLeft: size5,
+        backgroundColor: red3
+    },
+    navOptionInactive: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        padding: size4,
+        paddingLeft: size5,
+        backgroundColor: 'white'
+    },
+    navOptionText: {
+        fontFamily: 'Roboto-Medium',
+        fontSize: 24,
+        marginLeft: size5,
+        color: darkColor
+    },
+    navContent: {
+        flex: 1,
+        width: '100%'
     },
     screenHeader: {
-        backgroundColor: darkColor,
-        padding: size5,
-        borderBottomWidth: 3,
-        borderBottomColor: '#fffe94'
+        backgroundColor: 'white',
+        padding: size5
+    },
+    taskScreen: {
+        flex: 1,
+        width: '100%',
+        backgroundColor: darkColor6
+    },
+    taskScreenHeader: {
+        backgroundColor: 'white'
+    },
+    taskScreenHeaderText: {
+        fontFamily: 'TitilliumWeb-Bold',
+        fontSize: 24,
+        color: darkColor
     },
     screenHeaderFullScreen: {
         height: '100%',
@@ -62,29 +111,29 @@ const styleArray = {
         fontFamily: 'TitilliumWeb-Regular',
         marginRight: size2,
         fontSize: 40,
-        color: 'white'
+        color: darkColor
     },
     screenHeaderDateView: {
         marginTop: size3,
         marginLeft: size3,
         justifyContent: 'center',
         borderLeftWidth: 0.5,
-        borderColor: 'white',
+        borderColor: darkColor2,
         paddingLeft: size4
     },
     screenHeaderDateText: {
         fontFamily: 'TitilliumWeb-Regular',
         fontSize: 12,
-        color: 'white'
+        color: darkColor
     },
     screenHeaderYearText: {
         fontFamily: 'TitilliumWeb-Bold',
         fontSize: 12,
-        color: 'white'
+        color: darkColor
     },
     screenHeaderGreetingText: {
         fontSize: 48,
-        color: 'white'
+        color: darkColor
     },
     screenHeaderButton: {
         backgroundColor: '#fffe94',
@@ -161,7 +210,13 @@ const styleArray = {
         borderWidth: size0,
         borderRadius: size3
     },
-    
+    smallIcon: {
+        height: 16,
+        width: 16,
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginRight: size2
+    },
     selectionIconSmall: {
         height: 25,
         width: 25,
@@ -205,6 +260,7 @@ const styleArray = {
     taskTypeElement: {
         paddingLeft: size1,
         paddingRight: size1,
+        marginRight: size3,
         alignItems: 'center',
         flexDirection: 'row'
     },
@@ -222,8 +278,7 @@ const styleArray = {
         paddingLeft: size1,
         paddingRight: size1,
         padding: size2,
-        alignItems: 'center',
-        flexDirection: 'row'
+        alignItems: 'center'
     },
     taskDetailIcon: {
         width: 14,
@@ -234,13 +289,14 @@ const styleArray = {
     taskDetailLabel: {
         marginLeft: size2,
         fontSize: 12,
-        color: darkColor3,
+        color: darkColor4,
         fontFamily: 'TitilliumWeb-Bold'   
     },
     taskDetailValue: {
         marginLeft: size2,
-        fontSize: 14,
-        color: darkColor
+        fontFamily: 'Roboto-Medium',
+        fontSize: 12,
+        color: darkColor3
     },
     test: {
         height: 'auto',
@@ -277,6 +333,28 @@ const styleArray = {
     fill: {
         height: '100%',
         width: '100%'
+    },
+    taskTabActive: {
+        alignItems: 'center',
+        justifyContent: 'space-evenly',
+        width: '50%',
+        borderWidth: 1.5,
+        padding: size5,
+        backgroundColor: blue3,
+        borderLeftWidth: .25,
+        borderRightWidth: .25,
+        borderColor: darkColor
+    },
+    taskTabInactive: {
+        alignItems: 'center',
+        justifyContent: 'space-evenly',
+        width: '50%',
+        backgroundColor: 'white',
+        borderWidth: 1.5,
+        padding: size3,
+        borderLeftWidth: .25,
+        borderRightWidth: .25,
+        borderColor: darkColor
     },
     taskListSectionHeader: {
         fontFamily: 'TitilliumWeb-Bold'
@@ -335,8 +413,8 @@ const styleArray = {
         flex: 1
     },
     taskIcon: {
-        height: 24,
-        width: 24,
+        height: 30,
+        width: 30,
         alignItems: 'center',
         justifyContent: 'center',
         marginRight: size3
@@ -416,9 +494,13 @@ const styleArray = {
     lightText: {
         color: '#999'
     },
+    darkColor3Text: {
+        color: darkColor3
+    },
     thinBorder: {
-        borderWidth: 0.5,
-        borderRadius: size4
+        borderWidth: .75,
+        borderRadius: size3,
+        borderColor: darkColor2
     },
     bottomBorder: {
         borderTopWidth: 0.25,
@@ -436,10 +518,24 @@ const styleArray = {
     spaceBetween: {
         justifyContent: 'space-between'
     },
+    spaceAround: {
+        justifyContent: 'space-around'
+    },
+    spaceEvenly: {
+        justifyContent: 'space-evenly'
+    },
     horizontalLine: {
         marginLeft: size2,
         marginRight: size2,
         flex: 1,
+        height: 1,
+        borderTopWidth: .5,
+        borderColor: darkColor3
+    },
+    horizontalLineShort: {
+        marginLeft: size2,
+        marginRight: size2,
+        width: size5,
         height: 1,
         borderTopWidth: .5,
         borderColor: darkColor3
@@ -469,8 +565,8 @@ const styleArray = {
         borderColor: 'pink'
     },
     leftBorder: {
-        borderLeftWidth: 0.5,
-        borderColor: darkColor3
+        borderLeftWidth: 1,
+        borderLeftColor: blue2
     },
     
     leftBorder2: {
@@ -482,7 +578,15 @@ const styleArray = {
         borderBottomWidth: 0.5,
         borderColor: darkColor
     },
+    taskBorder: {
+        borderBottomWidth: 0.5,
+        borderColor: darkColor
+    },
     yellowHighlight: {
+        borderLeftColor: '#edf26d',
+        borderRightColor: '#edf26d',
+        borderLeftWidth: 2,
+        borderRightWidth: 2,
         backgroundColor: yellow3
     },
     greenHighlight: {
@@ -500,11 +604,14 @@ const styleArray = {
     darkColor,
     darkColor2,
     darkColor3,
+    darkColor4,
+    darkColor5,
     yellow3,
     green3,
     pink3,
     blue3,
     red3,
+    yellow,
     whiteColor: 'white'
 }
 

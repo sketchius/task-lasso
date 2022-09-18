@@ -13,13 +13,13 @@ import { Logs } from 'expo';
 import isToday from 'date-fns/isToday'
 import differenceInDays from 'date-fns/differenceInDays'
 
-import Tasklist from './screens/task-screen/tasklist';
 import Home from './screens/home-screen/home';
 import TaskEditor from './screens/edit-screen/edit';
 import DataInspector from './DataInspector';
 import store from './redux/store';
 
 import { definedStyles } from './Styles';
+import TaskScreen from './screens/task-screen/task-screen';
 
 
 
@@ -57,11 +57,12 @@ export default function App() {
 
     useEffect(() => {
         readTasksFromStorage();
+        dispatch({type:'day/dayStateChanged',payload: 'CHECK-IN'} )
     }, []);
 
-    //useEffect(() => {
+    // useEffect(() => {
     //    saveTasks(tasks);
-    //}, [tasks]);
+    // }, [tasks]);
 
     /*useEffect(() => {
         assignTasks();
@@ -72,7 +73,6 @@ export default function App() {
     const assignedValue = useRef(0);
 
     const assignTasks = (designation,ambition) => {
-        console.log(`assignTasks() designation = ${designation}, ambition = ${ambition}`)
 
         dispatch({type:'tasks/UnassignedAll'})
 
@@ -104,7 +104,6 @@ export default function App() {
 
         const assignTask = (task) => {  
             assignedValue.current += task.duration;
-            console.log(`[${assignedValue.current}/${assignmentBudget}] assigning task "${task.title}" Assigned state is '${task.assigned}'`)
             dispatch({type:'task/taskAssigned', payload: task.uniqid})
         }
 
@@ -136,7 +135,7 @@ export default function App() {
         }
 
         tasks
-        .filter( (task => (task.type == 'SCHEDULED' || task.type == 'DEADLINE') && isToday(task.dateDue)))
+        .filter( (task => {return (task.type == 'SCHEDULED' || task.type == 'DEADLINE') && isToday(task.dateDue)}))
         .forEach( (task => {
             scoreTask(task);
             assignTask(task);
@@ -205,7 +204,6 @@ export default function App() {
             });
             dispatch({ type: 'storage/loadedData', payload: parsedData })
             setTasksLoaded(true);
-            console.log(`parsed data\n\n${parsedData}`)
         } catch (error) {
             alert(error);
         }
@@ -283,10 +281,10 @@ export default function App() {
     }
 
     const handleDayEvent = (eventData) => {
-        console.log(`handeTastEvent`);
         switch (eventData.event) {
             case 'assignTasks':
                 assignTasks(eventData.designation,eventData.ambition)
+                dispatch({type:'day/dayStateChanged',payload: 'ASSIGNED'} )
                 break;
 
         }
@@ -300,14 +298,14 @@ export default function App() {
         },
         headerTintColor: "#fff",
         tabBarActiveTintColor: styles.darkColor,
-        tabBarInactiveTintColor: 'grey',
-        tabBarActiveBackgroundColor: '#f7ffca',
+        tabBarInactiveTintColor: styles.darkColor2,
+        tabBarActiveBackgroundColor: styles.blue3,
         tabBarInactiveBackgroundColor: 'white'
       };
 
     return (
-            tasksLoaded ?
-            <SafeAreaView style={styles.safe}>
+            tasksLoaded && fontsLoaded ?
+            <SafeAreaView style={[styles.safe]}>
                 <NavigationContainer>
                     <NavBar.Navigator screenOptions={options}>
                         <NavBar.Screen name="Home"
@@ -320,7 +318,7 @@ export default function App() {
                                 }
                             }}/>
                         <NavBar.Screen name="Tasks" 
-                            component= {Tasklist}
+                            component= {TaskScreen}
                             options={{
                                 title: 'Tasks',
                                 tabBarLabel: 'Tasks',

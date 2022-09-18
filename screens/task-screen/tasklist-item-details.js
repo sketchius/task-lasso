@@ -71,7 +71,7 @@ export default function TasklistDetails(props) {
         <View style={[styles.container,styles.marginBottom3]}>
             <View>
                 {task.description && <StyledText styles={styles} style={styles.taskDetailDescription} numberOfLines={4}>{task.description}</StyledText>}
-                <View style={[styles.row, styles.marginLeft5]}>
+                <View style={[styles.row, styles.margin4]}>
                     <View>
                         {taskTypeContent}
                         {getPriorityElement()}

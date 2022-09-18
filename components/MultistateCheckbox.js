@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Pressable, View } from 'react-native';
 
-import Svg, { Circle, Rect, Path } from 'react-native-svg';
+import Svg, { Path } from 'react-native-svg';
 
 
 export default function MultistateCheckbox(props) {
@@ -13,7 +13,7 @@ export default function MultistateCheckbox(props) {
 
     switch (state) {
         case 0:
-            boxComponent = <View>
+            boxComponent = <View style={styles.whiteBackground}>
                 <Svg height="20" width="20" viewBox="0 0 10 10" >                
                     <Path
                         d="M 0 0 L 0 10 L 10 10 L 10 0 L 0 0 L 0 10"
@@ -24,7 +24,7 @@ export default function MultistateCheckbox(props) {
             </View>
             break;
         case 1:
-            boxComponent = <View>
+            boxComponent = <View style={styles.whiteBackground}>
                 <Svg height="20" width="20" viewBox="0 0 10 10" >
                     <Path
                         d="M 0 0 L 0 10 L 10 10 L 10 0 L 0 0 L 0 10"
@@ -40,7 +40,7 @@ export default function MultistateCheckbox(props) {
             </View>
             break;
         case 2:
-            boxComponent = <View>
+            boxComponent = <View style={styles.whiteBackground}>
                 <Svg height="20" width="20" viewBox="0 0 10 10" >
                     <Path
                         d="M 0 0 L 0 10 L 10 10 L 10 0 L 0 0 L 0 10"
@@ -65,7 +65,7 @@ export default function MultistateCheckbox(props) {
         setState(newState);
     }
 
-    return <Pressable style={[styles.padding5]}
+    return <Pressable style={[styles.padding4, styles.paddingTop4, styles.margin2]}
     onPress={toggleState}>
         
             {boxComponent}
