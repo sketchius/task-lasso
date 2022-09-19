@@ -6,7 +6,7 @@ import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { Ionicons, FontAwesome, AntDesign } from '@expo/vector-icons'; 
-import { useFonts } from 'expo-font';
+import * as Font from 'expo-font';
 import { saveTasks, loadTasks } from './Data'
 import { Logs } from 'expo';
 
@@ -18,8 +18,9 @@ import TaskEditor from './screens/edit-screen/edit';
 import DataInspector from './DataInspector';
 import store from './redux/store';
 
-import { definedStyles } from './Styles';
+import { styles } from './styles/styles';
 import TaskScreen from './screens/task-screen/task-screen';
+import { useFonts } from 'expo-font/build';
 
 
 
@@ -47,11 +48,9 @@ export default function App() {
         'TitilliumWebRegular': require('./assets/fonts/TitilliumWebRegular.ttf'),
         'TitilliumWebSemibold': require('./assets/fonts/TitilliumWebSemiBold.ttf'),
         'TitilliumWebBold': require('./assets/fonts/TitilliumWebBold.ttf'),
-      });
+    });
 
-      
-
-    const styles = definedStyles;
+    
 
     const state = useSelector(state => state);
 
@@ -300,11 +299,11 @@ export default function App() {
         headerShown: false,
         headerBackTitleVisible: false,
         headerStyle: {
-          backgroundColor: styles.darkColor,
+          backgroundColor: styles.colors.gray,
         },
         headerTintColor: "#fff",
-        tabBarActiveTintColor: styles.darkColor,
-        tabBarInactiveTintColor: styles.darkColor2,
+        tabBarActiveTintColor: styles.colors.gray,
+        tabBarInactiveTintColor: styles.colors.gray2,
         tabBarActiveBackgroundColor: styles.blue3,
         tabBarInactiveBackgroundColor: 'white'
       };

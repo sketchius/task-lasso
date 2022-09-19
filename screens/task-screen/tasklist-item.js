@@ -6,12 +6,12 @@ import TasklistDetails from './tasklist-item-details';
 import {getDateInContext} from './../../tools/DateContext';
 import getIcon from "./../../tools/Icons";
 
-import { definedStyles } from './../../Styles';
+import { styles } from '../../styles/styles';
 
 
 
 export default function TasklistItem(props) {
-    const styles = definedStyles;
+    
     const task = props.task;
 
     const [expanded,setExpanded] = useState(props.expanded);
@@ -37,7 +37,7 @@ export default function TasklistItem(props) {
                     {getIcon(task.iconLibrary,task.iconName,expanded ? 20 : 20,'black')}
                 </View>
                 <View style={styles.alignedRow}>
-                    <StyledText styles={styles} style={[styles.listItem, expanded ? styles.fontSize2 : styles.fontSize2, styles.headerFont]}>{task.title}</StyledText>
+                    <StyledText style={[styles.listItem, expanded ? styles.fontSize2 : styles.fontSize2, styles.headerFont]}>{task.title}</StyledText>
                 </View>
             </View>
             {expanded && <TasklistDetails task={task}/>}

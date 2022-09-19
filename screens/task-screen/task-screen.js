@@ -9,14 +9,12 @@ import StyledText from './../../components/StyledText';
 import TodoItem from "../../screens/home-screen/todo-item"
 import TasklistSection from './../../screens/task-screen/tasklist-section';
 
-import { definedStyles } from './../../Styles';
+import { styles } from '../../styles/styles';
 import getIcon from '../../tools/Icons';
 import ToDoList from './todo';
 
-
-
 export default function Tasklist({navigation, route}) {
-    const styles = definedStyles;
+    
 
     const [tab,setTab] = useState(0);
 
@@ -34,14 +32,14 @@ export default function Tasklist({navigation, route}) {
             <View style={[styles.taskScreenHeader]}>
                 <View style={[styles.row, styles.spaceEvenly]}>
                     <Pressable onPress={() => setTab(0)} style={tab == 0 ? styles.taskTabActive : styles.taskTabInactive}>
-                        {//getIcon('Feather','check-square',24,styles.darkColor)}
+                        {//getIcon('Feather','check-square',24,styles.colors.gray)}
                         }
-                        <StyledText styles={styles} style={styles.taskScreenHeaderText}>TO-DO LIST</StyledText>
+                        <StyledText style={styles.taskScreenHeaderText}>TO-DO LIST</StyledText>
                     </Pressable>
                     <Pressable onPress={() => setTab(1)} style={tab == 1 ? styles.taskTabActive : styles.taskTabInactive}>
-                        {//getIcon('FontAwesome','list-ul',24,styles.darkColor)}
+                        {//getIcon('FontAwesome','list-ul',24,styles.colors.gray)}
                         }
-                        <StyledText styles={styles} style={styles.taskScreenHeaderText}>ALL TASKS</StyledText>
+                        <StyledText style={styles.taskScreenHeaderText}>ALL TASKS</StyledText>
                     </Pressable>
                 </View>
             </View>

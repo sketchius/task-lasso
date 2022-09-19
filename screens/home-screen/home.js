@@ -9,12 +9,12 @@ import TodoItem from "../../screens/home-screen/todo-item";
 import StyledText from "./../../components/StyledText";
 import { SelectionList } from './../../components/Form';
 
-import { definedStyles } from './../../Styles';
+import { styles } from '../../styles/styles';
 import Tasklist from '../task-screen/task-screen';
 import AppNavigation from '../task-screen/navigation';
 
 export default function Home(navigation,route) {
-    const styles = definedStyles;
+    
 
     const taskList = useSelector(state => state.tasks.filter(task => task.assigned));
 
@@ -59,10 +59,10 @@ export default function Home(navigation,route) {
         <View style={styles.container}>
             <View style={[styles.screenHeader, status == 'CHECK-IN' && styles.screenHeaderFullScreen]}>
                 <View style={[styles.alignedRow, styles.justifyContent]}>
-                    <StyledText styles={styles} style={styles.screenHeaderText}>{format(new Date(),'EEEE').toUpperCase()}</StyledText>
+                    <StyledText style={styles.screenHeaderText}>{format(new Date(),'EEEE').toUpperCase()}</StyledText>
                     <View style={styles.screenHeaderDateView}>
-                        <StyledText styles={styles} style={styles.screenHeaderDateText}>{format(new Date(),'MMM do')}</StyledText>
-                        <StyledText styles={styles} style={styles.screenHeaderYearText}>{format(new Date(),'y')}</StyledText>
+                        <StyledText style={styles.screenHeaderDateText}>{format(new Date(),'MMM do')}</StyledText>
+                        <StyledText style={styles.screenHeaderYearText}>{format(new Date(),'y')}</StyledText>
                     </View>
                 </View>
                 {status == 'CHECK-IN' &&
@@ -116,8 +116,8 @@ export default function Home(navigation,route) {
                         }
                     ]}></SelectionList>
                 </View>}
-                {status == 'CHECK-IN' && <Pressable style={[styles.screenHeaderButton,styles.marginBottom6]} onPress={() => handleInput('start')}><StyledText styles={styles}>Start the day!</StyledText></Pressable>}
-                {false && status == 'ASSIGNED' && <Pressable style={[styles.screenHeaderButton,styles.marginBottom6]} onPress={() => handleInput('end')}><StyledText styles={styles}>End the day!</StyledText></Pressable>}
+                {status == 'CHECK-IN' && <Pressable style={[styles.screenHeaderButton,styles.marginBottom6]} onPress={() => handleInput('start')}><StyledText>Start the day!</StyledText></Pressable>}
+                {false && status == 'ASSIGNED' && <Pressable style={[styles.screenHeaderButton,styles.marginBottom6]} onPress={() => handleInput('end')}><StyledText>End the day!</StyledText></Pressable>}
             </View>
             <AppNavigation></AppNavigation>
         </View>

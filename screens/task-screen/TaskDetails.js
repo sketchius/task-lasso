@@ -4,10 +4,10 @@ import getIcon from "./Icons";
 import { format } from 'date-fns';
 import { getDateInContext, getTime } from "./DateContext";
 
-import { definedStyles } from './Styles';
+import { styles } from './../../styles/styles';
 
 export default function TaskDetails({navigation, route}) {
-    const styles = definedStyles;
+    
     const task = route.params.task;
 
 }

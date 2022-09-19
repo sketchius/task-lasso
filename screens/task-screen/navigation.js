@@ -9,7 +9,7 @@ import StyledText from './../../components/StyledText';
 import TodoItem from "../../screens/home-screen/todo-item"
 import TasklistSection from './../../screens/task-screen/tasklist-section';
 
-import { definedStyles } from './../../Styles';
+import { styles } from '../../styles/styles';
 import getIcon from '../../tools/Icons';
 import ToDoList from './todo';
 import Tasklist from './task-screen';
@@ -18,7 +18,7 @@ import AllTasklist from './tasklist';
 
 
 export default function AppNavigation() {
-    const styles = definedStyles;
+    
 
     const [selectedItem,setSelectedItem] = useState(0);
     const [expanded,setExpanded] = useState(false);
@@ -69,8 +69,8 @@ export default function AppNavigation() {
     const navigationWidget = navOptions.map( (navOption) => {
             return (
             <Pressable onPress={() => handleNavPress(navOption.index)} style={selectedItem == navOption.index ? styles.navOptionActive : styles.navOptionInactive }>
-                {getIcon(navOption.iconFamily,navOption.iconName,24,selectedItem == navOption.index ? styles.darkColor : styles.darkColor3)}
-                <StyledText styles={styles} style={selectedItem == navOption.index ? styles.navOptionTextActive : styles.navOptionTextInactive}>{navOption.title}</StyledText>
+                {getIcon(navOption.iconFamily,navOption.iconName,24,selectedItem == navOption.index ? styles.colors.gray : styles.colors.gray3)}
+                <StyledText style={selectedItem == navOption.index ? styles.navOptionTextActive : styles.navOptionTextInactive}>{navOption.title}</StyledText>
             </Pressable> 
         )
     });

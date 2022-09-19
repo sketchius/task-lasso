@@ -33,24 +33,24 @@ export default function TodoItem(props) {
     if (expanded) {
         expandedContent = (
             <View>
-                {task.description && <StyledText styles={styles} style={[styles.fontSize00, styles.lightText, styles.marginRight3]} numberOfLines={expanded ? 4 : 1}>{task.description}</StyledText>}
+                {task.description && <StyledText style={[styles.fontSize00, styles.lightText, styles.marginRight3]} numberOfLines={expanded ? 4 : 1}>{task.description}</StyledText>}
                 <View style={[styles.alignedRow, styles.spaceBetween, styles.marginVertical3, styles.width300]}>
                     <Pressable style={[styles.size80, styles.alignItems, styles.thinBorder, styles.margina, styles.paddingVertical4]}
                     onPress={ () => {
                         navigation.navigate('Tasks', { expandedId : task.uniqid })
                     }}>
-                        <FontAwesome5 name="expand" size={16} color={styles.darkColor3} />
-                        <StyledText styles={styles} style={[styles.paddingTop2, styles.darkColor3Text]}>Details</StyledText>
+                        <FontAwesome5 name="expand" size={16} color={styles.colors.gray3} />
+                        <StyledText style={[styles.paddingTop2, styles.colors.gray3Text]}>Details</StyledText>
                     </Pressable>
                 
                     <Pressable style={[styles.size80, styles.alignItems, styles.thinBorder, styles.margina, styles.paddingVertical4]}>
-                        <Feather name="edit" size={16} color={styles.darkColor3}  />
-                        <StyledText styles={styles} style={[styles.paddingTop2, styles.darkColor3Text]}>Edit</StyledText>
+                        <Feather name="edit" size={16} color={styles.colors.gray3}  />
+                        <StyledText style={[styles.paddingTop2, styles.colors.gray3Text]}>Edit</StyledText>
                     </Pressable>
                 
                     <Pressable style={[styles.size80, styles.alignItems, styles.thinBorder, styles.margina, styles.paddingVertical4]}>
-                        <AntDesign name="arrowright" size={16} color={styles.darkColor3}  />
-                        <StyledText styles={styles} style={[styles.paddingTop2, styles.darkColor3Text]}>Defer</StyledText>
+                        <AntDesign name="arrowright" size={16} color={styles.colors.gray3}  />
+                        <StyledText style={[styles.paddingTop2, styles.colors.gray3Text]}>Defer</StyledText>
                     </Pressable>
                 </View>
             </View>
@@ -63,30 +63,30 @@ export default function TodoItem(props) {
                 case 'FLEXIBLE':
                     if (expanded){
                     return (
-                        <View style={[styles.taskTypeElement]}>{getIcon('FontAwesome','arrows',12,styles.darkColor2)}
-                            <StyledText styles={styles} style={styles.taskTypeText}>FLEXIBLE TASK</StyledText>
+                        <View style={[styles.taskTypeElement]}>{getIcon('FontAwesome','arrows',12,styles.colors.gray2)}
+                            <StyledText style={styles.taskTypeText}>FLEXIBLE TASK</StyledText>
                         </View>
                     ) }
                     else return undefined;
                 case 'DEADLINE':
                     return (
-                        <View style={[styles.taskTypeElement, isToday(task.dateDue) && styles.yellowHighlight]}>{getIcon('Feather','calendar',12,styles.darkColor2)}
-                            <StyledText styles={styles} style={styles.taskTypeText}>DUE BY {getDateInContext(task.dateDue,false).toUpperCase()}</StyledText>
+                        <View style={[styles.taskTypeElement, isToday(task.dateDue) && styles.yellowHighlight]}>{getIcon('Feather','calendar',12,styles.colors.gray2)}
+                            <StyledText style={styles.taskTypeText}>DUE BY {getDateInContext(task.dateDue,false).toUpperCase()}</StyledText>
                         </View>
                     ) 
                 case 'SCHEDULED':
                     const scheduledTime = getTime(task.dateDue);
                     const hoursAway = differenceInHours(task.dateDue,new Date());
                     return (
-                        <View style={[styles.taskTypeElement, hoursAway < 3 ? styles.redHighlight : styles.yellowHighlight]}>{getIcon('Octicons','clock',12,styles.darkColor2)}
-                            <StyledText styles={styles} style={styles.taskTypeText}>SCHEDULED TODAY{scheduledTime ? ` AT ${scheduledTime.toUpperCase()}` : ``}</StyledText>
+                        <View style={[styles.taskTypeElement, hoursAway < 3 ? styles.redHighlight : styles.yellowHighlight]}>{getIcon('Octicons','clock',12,styles.colors.gray2)}
+                            <StyledText style={styles.taskTypeText}>SCHEDULED TODAY{scheduledTime ? ` AT ${scheduledTime.toUpperCase()}` : ``}</StyledText>
                         </View>
                     )
                 case 'REPEATING':
                     if (expanded){
                     return (
-                        <View style={[styles.taskTypeElement]}>{getIcon('FontAwesome','refresh',12,styles.darkColor2)}
-                            <StyledText styles={styles} style={styles.taskTypeText}>REPEATING TASK</StyledText>
+                        <View style={[styles.taskTypeElement]}>{getIcon('FontAwesome','refresh',12,styles.colors.gray2)}
+                            <StyledText style={styles.taskTypeText}>REPEATING TASK</StyledText>
                         </View>
                     ) }
                     else return undefined;
@@ -101,31 +101,31 @@ export default function TodoItem(props) {
             <View style={props.compact ? styles.marginVertical0 : styles.marginVertical3}>
                 <View style={styles.alignedRow}>
                     <View style={props.compact ? styles.taskIconCompact : styles.taskIcon}>
-                        {getIcon(task.iconLibrary,task.iconName,props.compact ? 16 : 24,styles.darkColor2)}
+                        {getIcon(task.iconLibrary,task.iconName,props.compact ? 16 : 24,styles.colors.gray2)}
                     </View>
-                    <StyledText styles={styles} style={[styles.listItem, styles.fontSize2, styles.headerFont]}>{task.title}</StyledText>
+                    <StyledText style={[styles.listItem, styles.fontSize2, styles.headerFont]}>{task.title}</StyledText>
                 </View>
                 {(!props.compact || expanded) && <View style={[styles.alignedRow, styles.marginTop3]}>
                     {task.prority === 2 && <View style={[styles.marginRight4, styles.alignedRow, styles.orangeBackground]}>
                         <FontAwesome5 name="exclamation-circle" size={12} color="#999" style={styles.paddingRight2}/>
-                        <StyledText styles={styles} style={styles.alertText}>HIGH PRIORITY</StyledText>
+                        <StyledText style={styles.alertText}>HIGH PRIORITY</StyledText>
                     </View>}
                     {taskTypeContent}
                     {task.description && <View style={[styles.marginRight4, styles.alignedRow]}>
-                        {getIcon('MaterialCommunityIcons','card-text-outline',12,styles.darkColor2)}
-                        <StyledText styles={styles} style={styles.taskTypeText}>INFO</StyledText>
+                        {getIcon('MaterialCommunityIcons','card-text-outline',12,styles.colors.gray2)}
+                        <StyledText style={styles.taskTypeText}>INFO</StyledText>
                     </View>}
                     {task.description && <View style={[styles.marginRight4, styles.alignedRow]}>
-                        {getIcon('FontAwesome','list-ul',12,styles.darkColor2)}
-                        <StyledText styles={styles} style={styles.taskTypeText}>LIST</StyledText>
+                        {getIcon('FontAwesome','list-ul',12,styles.colors.gray2)}
+                        <StyledText style={styles.taskTypeText}>LIST</StyledText>
                     </View>}
                     {task.comments && <View style={[styles.marginRight4, styles.alignedRow]}>
                         <Octicons name="note" size={12} color="#999"/>
-                        <StyledText styles={styles} style={styles.fontSize00}> 3</StyledText>
+                        <StyledText style={styles.fontSize00}> 3</StyledText>
                     </View>}
                     {task.showScore && <View style={[styles.marginRight4, styles.alignedRow]}>
                         <Entypo name="controller-record" size={12} color="#999"/>
-                        <StyledText styles={styles} style={styles.fontSize00}>{task.score}</StyledText>
+                        <StyledText style={styles.fontSize00}>{task.score}</StyledText>
                     </View>}
                 </View>}
                 {expanded && expandedContent}

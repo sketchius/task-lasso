@@ -1,56 +1,19 @@
 import { StyleSheet, StatusBar } from 'react-native';
+import { colors, space, font } from './standards';
 
 
-const size000 = 0.125;
-const size00 = 0.25;
-const size0 = 0.5;
-const size1 = 1;
-const size2 = 2;
-const size3 = 4;
-const size4 = 8;
-const size5 = 16;
-const size6 = 32;
-
-//const darkColor = '#383769'
-//const darkColor2 = '#64629c'
-//const darkColor3 = '#8e8cc1'
-
-const darkColor = '#000000';
-const darkColor2 = '#424242';
-const darkColor3 = '#787878';
-const darkColor4 = '#a6a6a6';
-const darkColor5 = '#d1d1d1';
-const darkColor6 = '#dbdbdb';
-
-const red3 = '#ffe1e1';
-const orange3 = '#ffe7cd';
-const yellow3 = '#feffcf';
-const teal3 = '#c3feff';
-const green3 = '#dbffdd';
-const blue3 = '#dae5ff';
-const pink3 = '#ffe1f0';
-
-const blue1 = '#97a8d1';
-
-const yellow = '#fdff48';
-
-const orange2 = '#e2b590';
-const yellow2 = '#e1d890';
-const green2 = '#a5e9aa';
-const teal2 = '#53daea';
-const blue2 = '#b5c4e8';
 
 const styleArray = {
     defaultText: {
         fontFamily: 'RobotoRegular',
-        fontSize: 16
+        fontSize: font.size2
     },
     headerFont: {
         fontFamily: 'RobotoMedium',
-        color: darkColor
+        color: colors.gray
     },
     alertText: {
-        fontSize: 10,
+        fontSize: font.size00,
         color: '#555',
         fontFamily: 'TitilliumWebBold'
     },
@@ -68,41 +31,41 @@ const styleArray = {
         flexDirection: 'row',
         borderTopWidth: .25,
         borderBottomWidth: 2,
-        borderColor: darkColor
+        borderColor: colors.gray
     },
     navOptionActive: {
         width: '20%',
         alignItems: 'center',
-        padding: size3,
+        padding: space.size3,
         backgroundColor: 'white'
     },
     navOptionInactive: {
         width: '20%',
         alignItems: 'center',
-        padding: size3,
+        padding: space.size3,
         backgroundColor: 'white'
     },
     navOptionTextActive: {
         fontFamily: 'RobotoMedium',
-        fontSize: 14,
-        paddingLeft: size2,
-        paddingRight: size2,
-        color: darkColor,
-        backgroundColor: teal3,
+        fontSize: font.size1,
+        paddingLeft: space.size2,
+        paddingRight: space.size2,
+        color: colors.gray,
+        backgroundColor: colors.teal3,
         borderLeftWidth: .75,
         borderRightWidth: .75,
-        borderRadius: size2,
-        borderColor: teal2
+        borderRadius: space.size2,
+        borderColor: colors.teal2
     },
     navOptionTextInactive: {
         fontFamily: 'RobotoMedium',
-        paddingLeft: size2,
-        paddingRight: size2,
-        fontSize: 14,
-        color: darkColor3,
+        paddingLeft: space.size2,
+        paddingRight: space.size2,
+        fontSize: font.size1,
+        color: colors.gray3,
         borderLeftWidth: .75,
         borderRightWidth: .75,
-        borderRadius: size2,
+        borderRadius: space.size2,
         borderColor: 'white'
     },
     navContent: {
@@ -110,13 +73,13 @@ const styleArray = {
         width: '100%'
     },
     screenHeader: {
-        backgroundColor: darkColor,
-        padding: size3
+        backgroundColor: colors.gray,
+        padding: space.size3
     },
     taskScreen: {
         flex: 1,
         width: '100%',
-        backgroundColor: darkColor6
+        backgroundColor: colors.gray6
     },
     compactTaskElement: {
     },
@@ -125,8 +88,8 @@ const styleArray = {
     },
     taskScreenHeaderText: {
         fontFamily: 'TitilliumWebBold',
-        fontSize: 24,
-        color: darkColor
+        fontSize: font.size5,
+        color: colors.gray
     },
     screenHeaderFullScreen: {
         height: '100%',
@@ -134,45 +97,45 @@ const styleArray = {
     },
     screenHeaderText: {
         fontFamily: 'TitilliumWebRegular',
-        marginRight: size2,
+        marginRight: space.size2,
         fontSize: 40,
         color: 'white'
     },
     screenHeaderDateView: {
-        marginTop: size3,
-        marginLeft: size3,
+        marginTop: space.size3,
+        marginLeft: space.size3,
         justifyContent: 'center',
         borderLeftWidth: 0.5,
         borderColor: 'white',
-        paddingLeft: size4
+        paddingLeft: space.size4
     },
     screenHeaderDateText: {
         fontFamily: 'TitilliumWebRegular',
-        fontSize: 12,
+        fontSize: font.size0,
         color: 'white'
     },
     screenHeaderYearText: {
         fontFamily: 'TitilliumWebBold',
-        fontSize: 12,
+        fontSize: font.size0,
         color: 'white'
     },
     screenHeaderGreetingText: {
         fontSize: 48,
-        color: darkColor
+        color: colors.gray
     },
     screenHeaderButton: {
         backgroundColor: '#fffe94',
-        padding: size5,
+        padding: space.size5,
         alignSelf: 'center',
-        borderRadius: size3
+        borderRadius: space.size3
     },
     editField: {
-        margin: size2,
-        marginLeft: size4,
-        marginRight: size4,
+        margin: space.size2,
+        marginLeft: space.size4,
+        marginRight: space.size4,
         height: 'auto',
-        paddingTop: size2,
-        paddingBottom: size5
+        paddingTop: space.size2,
+        paddingBottom: space.size5
     },
     whiteText: {
         color: 'white'
@@ -184,29 +147,29 @@ const styleArray = {
         justifyContent: 'center'
     },
     helpElement: {
-        margin: size4,
+        margin: space.size4,
     },
     helpIcon: {
         height: 20,
         width: 20
     },
     helpText: {
-        fontSize: 12,
-        marginLeft: size3,
-        marginBottom: size3,
-        color: darkColor2
+        fontSize: font.size0,
+        marginLeft: space.size3,
+        marginBottom: space.size3,
+        color: colors.gray2
     },
     formFieldLabel: {
-        marginBottom: size3,
-        marginRight: size2,
-        fontSize: 18,
+        marginBottom: space.size3,
+        marginRight: space.size2,
+        fontSize: font.size3,
         fontFamily: 'TitilliumWebSemibold',
-        color: darkColor
+        color: colors.gray
     },
     formFieldLabelWhite: {
-        marginBottom: size3,
-        marginRight: size2,
-        fontSize: 18,
+        marginBottom: space.size3,
+        marginRight: space.size2,
+        fontSize: font.size3,
         fontFamily: 'TitilliumWebSemibold',
         color: 'white'
     },
@@ -216,7 +179,7 @@ const styleArray = {
     textInput: {
         textAlignVertical: 'top',
         minHeight: 40,
-        padding: size4,
+        padding: space.size4,
         width: 'auto',
         backgroundColor: 'white'
     },
@@ -231,21 +194,21 @@ const styleArray = {
         width: 40,
         alignItems: 'center',
         justifyContent: 'center',
-        borderColor: darkColor,
-        borderWidth: size0,
-        borderRadius: size3
+        borderColor: colors.gray,
+        borderWidth: space.size0,
+        borderRadius: space.size3
     },
     smallIcon: {
         height: 16,
         width: 16,
         alignItems: 'center',
         justifyContent: 'center',
-        marginRight: size2
+        marginRight: space.size2
     },
     caret: {
         height: 24,
         width: 24,
-        marginRight: size3,
+        marginRight: space.size3,
         alignItems: 'center',
         justifyContent: 'center'
     },
@@ -267,49 +230,49 @@ const styleArray = {
     },
     selectionItemColumn: {
         flexDirection: 'row',
-        padding: size4
+        padding: space.size4
     },
     selectionItemRow: {
         width: '31%',
         flexDirection: 'column',
         alignItems: 'center',
-        padding: size4
+        padding: space.size4
     },
     selectionText: {
-        fontSize: 18,
+        fontSize: font.size3,
         fontFamily: 'RobotoMedium',
-        color: darkColor
+        color: colors.gray
     },
     selectionTextSmall: {
-        fontSize: 14,
+        fontSize: font.size1,
         fontFamily: 'RobotoMedium',
-        color: darkColor
+        color: colors.gray
     },
     selectionSubtext: {
-        fontSize: 12,
-        color: darkColor2
+        fontSize: font.size0,
+        color: colors.gray2
     },
     taskTypeElement: {
-        paddingLeft: size1,
-        paddingRight: size1,
-        marginRight: size3,
+        paddingLeft: space.size1,
+        paddingRight: space.size1,
+        marginRight: space.size3,
         alignItems: 'center',
         flexDirection: 'row'
     },
     taskTypeText: {
-        marginLeft: size2,
-        fontSize: 10,
-        color: darkColor3,
+        marginLeft: space.size2,
+        fontSize: font.size00,
+        color: colors.gray3,
         fontFamily: 'TitilliumWebBold'    
     },
     taskDetailDescription: {
-        fontSize: 16,
-        color: darkColor2
+        fontSize: font.size2,
+        color: colors.gray2
     },
     taskDetailInfo: {
-        paddingLeft: size1,
-        paddingRight: size1,
-        padding: size2,
+        paddingLeft: space.size1,
+        paddingRight: space.size1,
+        padding: space.size2,
         alignItems: 'center'
     },
     taskDetailIcon: {
@@ -319,16 +282,16 @@ const styleArray = {
         justifyContent: 'center'
     },
     taskDetailLabel: {
-        marginLeft: size2,
-        fontSize: 12,
-        color: darkColor4,
+        marginLeft: space.size2,
+        fontSize: font.size0,
+        color: colors.gray4,
         fontFamily: 'TitilliumWebBold'   
     },
     taskDetailValue: {
-        marginLeft: size2,
+        marginLeft: space.size2,
         fontFamily: 'RobotoMedium',
-        fontSize: 12,
-        color: darkColor3
+        fontSize: font.size0,
+        color: colors.gray3
     },
     test: {
         height: 'auto',
@@ -340,7 +303,7 @@ const styleArray = {
     },
     button: {
         width: '20%',
-        margin: size4,
+        margin: space.size4,
     },
     row: {
         flexDirection: 'row'
@@ -371,11 +334,11 @@ const styleArray = {
         justifyContent: 'space-evenly',
         width: '50%',
         borderWidth: 1.5,
-        padding: size5,
-        backgroundColor: blue3,
+        padding: space.size5,
+        backgroundColor: colors.blue3,
         borderLeftWidth: .25,
         borderRightWidth: .25,
-        borderColor: darkColor
+        borderColor: colors.gray
     },
     taskTabInactive: {
         alignItems: 'center',
@@ -383,13 +346,13 @@ const styleArray = {
         width: '50%',
         backgroundColor: 'white',
         borderWidth: 1.5,
-        padding: size3,
+        padding: space.size3,
         borderLeftWidth: .25,
         borderRightWidth: .25,
-        borderColor: darkColor
+        borderColor: colors.gray
     },
     taskListSectionHeader: {
-        fontFamily: 'TitilliumWebSemiBold'
+        fontFamily: 'TitilliumWebSemibold'
     },
     taskListItemRow: {
         flexDirection: 'row',
@@ -402,27 +365,27 @@ const styleArray = {
     },
     flexibleTasksContainer: {
         backgroundColor: 'white',
-        marginTop: size4,
-        borderTopWidth: size0,
-        borderBottomWidth: size0,
-        borderColor: darkColor
+        marginTop: space.size4,
+        borderTopWidth: space.size0,
+        borderBottomWidth: space.size0,
+        borderColor: colors.gray
     },
     assignedTasksContainer: {
         backgroundColor: 'white',
-        marginTop: size4,
-        borderTopWidth: size0,
-        borderBottomWidth: size0,
-        borderColor: darkColor
+        marginTop: space.size4,
+        borderTopWidth: space.size0,
+        borderBottomWidth: space.size0,
+        borderColor: colors.gray
     },
     scheduledTasksContainer: {
         backgroundColor: 'white',
-        marginTop: size4,
-        borderTopWidth: size0,
-        borderBottomWidth: size0,
-        borderColor: darkColor
+        marginTop: space.size4,
+        borderTopWidth: space.size0,
+        borderBottomWidth: space.size0,
+        borderColor: colors.gray
     },
     iconPlaceholder: {
-        borderColor: darkColor,
+        borderColor: colors.gray,
         borderWidth: 1,
         borderRadius: 15,
         width: 15,
@@ -445,18 +408,18 @@ const styleArray = {
         width: 30,
         alignItems: 'center',
         justifyContent: 'center',
-        marginRight: size3
+        marginRight: space.size3
     },
     taskIconCompact: {
         height: 20,
         width: 24,
-        paddingRight: size2,
+        paddingRight: space.size2,
         alignItems: 'center',
         justifyContent: 'center',
-        marginRight: size3,
+        marginRight: space.size3,
         borderRightWidth: 1,
         borderStyle: 'dotted',
-        borderColor: darkColor3
+        borderColor: colors.gray3
     },
     
 
@@ -465,22 +428,22 @@ const styleArray = {
         width: 36,
         alignItems: 'center',
         justifyContent: 'center',
-        marginRight: size3
+        marginRight: space.size3
     },
     taskCountElement: {
-        marginLeft: size4,
+        marginLeft: space.size4,
         fontFamily: 'TitilliumWebSemibold',
-        fontSize: 14,
+        fontSize: font.size1,
         backgroundColor: 'white',
-        color: darkColor2
+        color: colors.gray2
     },
     circleBorder: {
-        paddingLeft: size3,
-        paddingRight: size3,
+        paddingLeft: space.size3,
+        paddingRight: space.size3,
         textAlign: 'center',
         justifyContent: 'center',
         height: 20,
-        borderColor: darkColor,
+        borderColor: colors.gray,
         borderWidth: .25
     },
     alignItems: {
@@ -493,25 +456,25 @@ const styleArray = {
         alignItems: 'baseline'
     },
     fontSize000: {
-        fontSize: 10
+        fontSize: font.size00
     },
     fontSize00: {
-        fontSize: 12
+        fontSize: font.size0
     },
     fontSize0: {
-        fontSize: 14
+        fontSize: font.size1
     },
     fontSize1: {
-        fontSize: 16
+        fontSize: font.size2
     },
     fontSize2: {
-        fontSize: 18
+        fontSize: font.size3
     },
     fontSize3: {
-        fontSize: 20
+        fontSize: font.size4
     },
     fontSize4: {
-        fontSize: 24
+        fontSize: font.size5
     },
     fontSize5: {
         fontSize: 32
@@ -541,17 +504,17 @@ const styleArray = {
     lightText: {
         color: '#999'
     },
-    darkColor3Text: {
-        color: darkColor3
+    gray3Text: {
+        color: colors.gray3
     },
     thinBorder: {
         borderWidth: .75,
-        borderRadius: size3,
-        borderColor: darkColor2
+        borderRadius: space.size3,
+        borderColor: colors.gray2
     },
     bottomBorder: {
         borderBottomWidth: 0.5,
-        borderBottomColor: darkColor3,
+        borderBottomColor: colors.gray3,
     },
     whiteBackground: {
         backgroundColor: 'white'
@@ -572,24 +535,24 @@ const styleArray = {
         justifyContent: 'space-evenly'
     },
     horizontalLine: {
-        marginLeft: size2,
-        marginRight: size2,
+        marginLeft: space.size2,
+        marginRight: space.size2,
         flex: 1,
         height: 1,
         borderTopWidth: .5,
-        borderColor: darkColor3
+        borderColor: colors.gray3
     },
     horizontalLineShort: {
-        marginLeft: size2,
-        marginRight: size2,
-        width: size5,
+        marginLeft: space.size2,
+        marginRight: space.size2,
+        width: space.size5,
         height: 1,
         borderTopWidth: .5,
-        borderColor: darkColor3
+        borderColor: colors.gray3
     },
     horizontalLineWhite: {
-        marginLeft: size2,
-        marginRight: size2,
+        marginLeft: space.size2,
+        marginRight: space.size2,
         flex: 1,
         height: 1,
         borderTopWidth: .5,
@@ -597,9 +560,9 @@ const styleArray = {
     },
     FlexiblehorizonalDivider: {
         borderLeftWidth: .5,
-        marginLeft: size4,
-        marginRight: size4,
-        borderColor: darkColor3
+        marginLeft: space.size4,
+        marginRight: space.size4,
+        borderColor: colors.gray3
     },
     yellowBackground: {
         backgroundColor: '#f7ffca'
@@ -613,82 +576,73 @@ const styleArray = {
     },
     leftBorder: {
         borderLeftWidth: 1,
-        borderLeftColor: blue2
+        borderLeftColor: colors.blue2
     },
     topBorder: {
         borderTopWidth: 1,
-        borderColor: darkColor
+        borderColor: colors.gray
     },
     leftBorder2: {
         borderLeftWidth: 2,
-        borderColor: darkColor
+        borderColor: colors.gray
     },
     horizontalBorders: {
         borderTopWidth: 0.5,
         borderBottomWidth: 0.5,
-        borderColor: darkColor
+        borderColor: colors.gray
     },
     taskBorder: {
         borderBottomWidth: 0.5,
-        borderColor: darkColor
+        borderColor: colors.gray
     },
     tealHighlight: {
-        paddingLeft: size2,
-        paddingRight: size2,
-        backgroundColor: teal3,
+        paddingLeft: space.size2,
+        paddingRight: space.size2,
+        backgroundColor: colors.teal3,
         borderLeftWidth: .75,
         borderRightWidth: .75,
-        borderRadius: size2,
-        borderColor: teal2
+        borderRadius: space.size2,
+        borderColor: colors.teal2
     },
     yellowHighlight: {
-        paddingLeft: size2,
-        paddingRight: size2,
-        backgroundColor: yellow3,
+        paddingLeft: space.size2,
+        paddingRight: space.size2,
+        backgroundColor: colors.yellow3,
         borderLeftWidth: .75,
         borderRightWidth: .75,
-        borderRadius: size2,
-        borderColor: yellow2
+        borderRadius: space.size2,
+        borderColor: colors.yellow2
     },
     greenHighlight: {
-        paddingLeft: size2,
-        paddingRight: size2,
-        backgroundColor: green3,
+        paddingLeft: space.size2,
+        paddingRight: space.size2,
+        backgroundColor: colors.green3,
         borderLeftWidth: .75,
         borderRightWidth: .75,
-        borderRadius: size2,
-        borderColor: green2
+        borderRadius: space.size2,
+        borderColor: colors.green2
     },
     blueHighlight: {
-        paddingLeft: size2,
-        paddingRight: size2,
-        backgroundColor: blue3,
+        paddingLeft: space.size2,
+        paddingRight: space.size2,
+        backgroundColor: colors.blue3,
         borderLeftWidth: .75,
         borderRightWidth: .75,
-        borderRadius: size2,
-        borderColor: blue2
+        borderRadius: space.size2,
+        borderColor: colors.blue2
     },
     orangeHighlight: {
-        paddingLeft: size2,
-        paddingRight: size2,
-        backgroundColor: orange3,
+        paddingLeft: space.size2,
+        paddingRight: space.size2,
+        backgroundColor: colors.orange3,
         borderLeftWidth: .75,
         borderRightWidth: .75,
-        borderRadius: size2,
-        borderColor: orange2
+        borderRadius: space.size2,
+        borderColor: colors.orange2
     },
-    darkColor,
-    darkColor2,
-    darkColor3,
-    darkColor4,
-    darkColor5,
-    yellow3,
-    green3,
-    pink3,
-    blue3,
-    red3,
-    yellow,
-    whiteColor: 'white'
+    colors,
+    space,
+    font
 }
 
 const populateStyles = (property,includePositional) => {
@@ -707,27 +661,27 @@ const populateStyles = (property,includePositional) => {
 }
 
 const addSizeStyles = (property, modifier) => {
-    styleArray[property + modifier + '000'] = { [property + modifier]: size000 }
-    styleArray[property + modifier + '00'] = { [property + modifier]: size00 }
-    styleArray[property + modifier + '0'] = { [property + modifier]: size0 }
-    styleArray[property + modifier + '1'] = { [property + modifier]: size1 }
-    styleArray[property + modifier + '2'] = { [property + modifier]: size2 }
-    styleArray[property + modifier + '3'] = { [property + modifier]: size3 }
-    styleArray[property + modifier + '4'] = { [property + modifier]: size4 }
-    styleArray[property + modifier + '5'] = { [property + modifier]: size5 }
-    styleArray[property + modifier + '6'] = { [property + modifier]: size6 }
+    styleArray[property + modifier + '000'] = { [property + modifier]: space.size000 }
+    styleArray[property + modifier + '00'] = { [property + modifier]: space.size00 }
+    styleArray[property + modifier + '0'] = { [property + modifier]: space.size0 }
+    styleArray[property + modifier + '1'] = { [property + modifier]: space.size1 }
+    styleArray[property + modifier + '2'] = { [property + modifier]: space.size2 }
+    styleArray[property + modifier + '3'] = { [property + modifier]: space.size3 }
+    styleArray[property + modifier + '4'] = { [property + modifier]: space.size4 }
+    styleArray[property + modifier + '5'] = { [property + modifier]: space.size5 }
+    styleArray[property + modifier + '6'] = { [property + modifier]: space.size6 }
 }
 
 const addSizeAxisStyles = (property, reference ,modifier1, modifier2) => {
-    styleArray[property + reference + '000'] = { [property + modifier1]: size000, [property + modifier2]: size000 }
-    styleArray[property + reference + '00'] = { [property + modifier1]: size00, [property + modifier2]: size00 }
-    styleArray[property + reference + '0'] = { [property + modifier1]: size0, [property + modifier2]: size0 }
-    styleArray[property + reference + '1'] = { [property + modifier1]: size1, [property + modifier2]: size1 }
-    styleArray[property + reference + '2'] = { [property + modifier1]: size2, [property + modifier2]: size2 }
-    styleArray[property + reference + '3'] = { [property + modifier1]: size3, [property + modifier2]: size3 }
-    styleArray[property + reference + '4'] = { [property + modifier1]: size4, [property + modifier2]: size4 }
-    styleArray[property + reference + '5'] = { [property + modifier1]: size5, [property + modifier2]: size5 }
-    styleArray[property + reference + '6'] = { [property + modifier1]: size6, [property + modifier2]: size6 }
+    styleArray[property + reference + '000'] = { [property + modifier1]: space.size000, [property + modifier2]: space.size000 }
+    styleArray[property + reference + '00'] = { [property + modifier1]: space.size00, [property + modifier2]: space.size00 }
+    styleArray[property + reference + '0'] = { [property + modifier1]: space.size0, [property + modifier2]: space.size0 }
+    styleArray[property + reference + '1'] = { [property + modifier1]: space.size1, [property + modifier2]: space.size1 }
+    styleArray[property + reference + '2'] = { [property + modifier1]: space.size2, [property + modifier2]: space.size2 }
+    styleArray[property + reference + '3'] = { [property + modifier1]: space.size3, [property + modifier2]: space.size3 }
+    styleArray[property + reference + '4'] = { [property + modifier1]: space.size4, [property + modifier2]: space.size4 }
+    styleArray[property + reference + '5'] = { [property + modifier1]: space.size5, [property + modifier2]: space.size5 }
+    styleArray[property + reference + '6'] = { [property + modifier1]: space.size6, [property + modifier2]: space.size6 }
 }
 
 populateStyles('padding',true);
@@ -737,4 +691,4 @@ populateStyles('width',false);
 populateStyles('height',false);
 addSizeAxisStyles('','Square','Width','Height');
 
-export const definedStyles = StyleSheet.create(styleArray);
+export const styles = StyleSheet.create(styleArray);

@@ -34,7 +34,7 @@ export default function TasklistSection(props) {
         <Text style={[styles.defaultText, styles.taskListSectionHeader, styles.fontSize3, styles.marginLeft4, styles.bold, props.color]}>{props.type} TASKS</Text>
         {!expanded && getSectionTaskCountElement(filteredTaskList)}
         <View style={styles.flex1}></View>
-        <View style={styles.caret}>{getIcon('AntDesign',expanded ? 'caretdown' : 'caretleft',16,styles.darkColor3)}</View>
+        <View style={styles.caret}>{getIcon('AntDesign',expanded ? 'caretdown' : 'caretleft',16,styles.colors.gray3)}</View>
     </View>
     <View style={[styles.topBorder, expanded && styles.bottomBorder]}>{expanded && getTaskListItems(filteredTaskList)}</View>
     </Pressable> );

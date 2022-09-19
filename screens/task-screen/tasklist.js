@@ -5,14 +5,10 @@ import { useIsFocused } from '@react-navigation/native';
 import StyledText from './../../components/StyledText';
 import TasklistSection from './../../screens/task-screen/tasklist-section';
 
-import { definedStyles } from './../../Styles';
+import { styles } from '../../styles/styles';
 
 
 export default function AllTasklist() {
-
-
-    let styles = definedStyles;
-
 
 
     const getTaskListElement = (taskList) => {

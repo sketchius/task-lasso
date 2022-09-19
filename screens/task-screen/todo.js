@@ -9,10 +9,10 @@ import TodoItem from "../../screens/home-screen/todo-item";
 import StyledText from "./../../components/StyledText";
 import { SelectionList } from './../../components/Form';
 
-import { definedStyles } from './../../Styles';
+import { styles } from '../../styles/styles';
 
 export default function ToDoList(navigation,route) {
-    const styles = definedStyles;
+    
 
     const taskList = useSelector(state => state.tasks.filter(task => task.assigned));
 

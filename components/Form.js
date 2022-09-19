@@ -18,8 +18,8 @@ export function EditField(props) {
     if (props.helpTips) {
         helpContent = <View style={styles.helpElement}>
             {props.helpTips.map( (tip) => { return <View style={styles.alignedRow}>
-                    <View style={styles.helpIcon}>{getIcon('FontAwesome5','arrow-circle-right',16,styles.darkColor2)}</View>
-                    <StyledText styles={styles} style={styles.helpText}>{tip}</StyledText>
+                    <View style={styles.helpIcon}>{getIcon('FontAwesome5','arrow-circle-right',16,styles.colors.gray2)}</View>
+                    <StyledText style={styles.helpText}>{tip}</StyledText>
                 </View> })}
         </View>
     }
@@ -28,10 +28,10 @@ export function EditField(props) {
     <View style={styles.formSectionBorder}>
         <View style={[styles.editField]}>
             <View style={[styles.alignedRow]}>
-                <StyledText styles={styles} style={styles.formFieldLabel}>{props.label.toUpperCase()}</StyledText>
+                <StyledText style={styles.formFieldLabel}>{props.label.toUpperCase()}</StyledText>
                 <View style={styles.horizontalLine}></View>
                 <Pressable style={styles.helpButton} onPress={() => (setShowHelp(!showHelp))}>
-                    {getIcon('MaterialCommunityIcons',showHelp ? 'help-circle' :'help-circle-outline',24,styles.darkColor2)}
+                    {getIcon('MaterialCommunityIcons',showHelp ? 'help-circle' :'help-circle-outline',24,styles.colors.gray2)}
                 </Pressable>
             </View>
             <View style={styles.textInputContainer}>
@@ -62,11 +62,11 @@ export function SelectionList(props) {
             <Pressable key={i} style={[props.orientation == 'column' ? styles.selectionItemColumn : styles.selectionItemRow,props.invert && styles.whiteBackground,selection.index == selected && styles.selected]} onPress={() => setSelected(selection.index)}>
                 {props.iconStyle > 0 &&
                 <View style={[styles.selectionIcon, props.iconStyle == 2 && styles.selectionIconSmall]}>
-                    {getIcon(selection.iconFamily,selection.iconName,selection.iconSize,styles.darkColor)}
+                    {getIcon(selection.iconFamily,selection.iconName,selection.iconSize,styles.colors.gray)}
                 </View>}
                 <View style={[styles.marginHorizontal4,props.orientation == 'column' ? styles.flex1 : styles.alignItems]}>
-                    <StyledText styles={styles} style={[styles.selectionText, props.orientation == 'row' && props.iconStyle == 2 && styles.selectionTextSmall]}>{selection.text}</StyledText>
-                    {props.useSubtext && <StyledText styles={styles} style={[styles.selectionSubtext]}>{selection.subtext}</StyledText>}
+                    <StyledText style={[styles.selectionText, props.orientation == 'row' && props.iconStyle == 2 && styles.selectionTextSmall]}>{selection.text}</StyledText>
+                    {props.useSubtext && <StyledText style={[styles.selectionSubtext]}>{selection.subtext}</StyledText>}
                 </View>
             </Pressable>
         )
@@ -75,10 +75,10 @@ export function SelectionList(props) {
     return (
         <View style={[styles.editField]}>
             <View style={[styles.alignedRow, styles.marginBottom3]}>
-                <StyledText styles={styles} style={props.invert ? styles.formFieldLabelWhite : styles.formFieldLabel}>{props.label.toUpperCase()}</StyledText>
+                <StyledText style={props.invert ? styles.formFieldLabelWhite : styles.formFieldLabel}>{props.label.toUpperCase()}</StyledText>
                 <View style={props.invert ? styles.horizontalLineWhite : styles.horizontalLine}></View>
                 <Pressable style={styles.helpButton}>
-                    {getIcon('MaterialCommunityIcons','help-circle-outline',24,props.invert ? styles.whiteColor : styles.darkColor2)}
+                    {getIcon('MaterialCommunityIcons','help-circle-outline',24,props.invert ? styles.whiteColor : styles.colors.gray2)}
                 </Pressable>
             </View>            
             <View style={[props.orientation=='row' && styles.row, props.wrap && styles.wrap, styles.spaceBetween]}>{optionContent}</View>
@@ -113,14 +113,14 @@ export function DateTimeComponent (props) {
 
     return <View style={styles.editField}>
         <View style={[styles.alignedRow]}>
-            <StyledText styles={styles} style={styles.formFieldLabel}>{props.label.toUpperCase()}</StyledText>
+            <StyledText style={styles.formFieldLabel}>{props.label.toUpperCase()}</StyledText>
             <View style={styles.horizontalLine}></View>
             <Pressable style={styles.helpButton}>
-                {getIcon('MaterialCommunityIcons','help-circle-outline',24,styles.darkColor2)}
+                {getIcon('MaterialCommunityIcons','help-circle-outline',24,styles.colors.gray2)}
             </Pressable>
         </View>
         <View style={[styles.alignedRow, styles.padding4]}>    
-            <StyledText styles={styles} style={[styles.selectionText, styles.marginRight4]}>{'Date: ' + format(date,'E, MMM do')}</StyledText><Button onPress={() => setShow(true)} title={'Edit'}/>
+            <StyledText style={[styles.selectionText, styles.marginRight4]}>{'Date: ' + format(date,'E, MMM do')}</StyledText><Button onPress={() => setShow(true)} title={'Edit'}/>
             {show && <DateTimePicker
             testID="dateTimePicker"
             value={date}
@@ -130,7 +130,7 @@ export function DateTimeComponent (props) {
                 />}
         </View>
         <View style={[styles.alignedRow, styles.padding4]}>    
-            <StyledText styles={styles} style={[styles.selectionText, styles.marginRight4]}>{'Time: ' + format(date,'K:mm aaa')}</StyledText><Button onPress={() => setShow(true)} title={'Edit'}/>
+            <StyledText style={[styles.selectionText, styles.marginRight4]}>{'Time: ' + format(date,'K:mm aaa')}</StyledText><Button onPress={() => setShow(true)} title={'Edit'}/>
             {show && <DateTimePicker
             testID="dateTimePicker"
             value={time}
