@@ -40,14 +40,16 @@ export default function App() {
     const [tasksLoaded,setTasksLoaded] = useState(false);
 
     const [fontsLoaded] = useFonts({
-        'Roboto-Light': require('./assets/fonts/Roboto-Light.ttf'),
-        'Roboto-Regular': require('./assets/fonts/Roboto-Regular.ttf'),
-        'Roboto-Medium': require('./assets/fonts/Roboto-Medium.ttf'),
-        'Roboto-Bold': require('./assets/fonts/Roboto-Bold.ttf'),
-        'TitilliumWeb-Regular': require('./assets/fonts/TitilliumWeb-Regular.ttf'),
-        'TitilliumWeb-Semibold': require('./assets/fonts/TitilliumWeb-SemiBold.ttf'),
-        'TitilliumWeb-Bold': require('./assets/fonts/TitilliumWeb-Bold.ttf'),
+        'RobotoLight': require('./assets/fonts/RobotoLight.ttf'),
+        'RobotoRegular': require('./assets/fonts/RobotoRegular.ttf'),
+        'RobotoMedium': require('./assets/fonts/RobotoMedium.ttf'),
+        'RobotoBold': require('./assets/fonts/RobotoBold.ttf'),
+        'TitilliumWebRegular': require('./assets/fonts/TitilliumWebRegular.ttf'),
+        'TitilliumWebSemibold': require('./assets/fonts/TitilliumWebSemiBold.ttf'),
+        'TitilliumWebBold': require('./assets/fonts/TitilliumWebBold.ttf'),
       });
+
+      
 
     const styles = definedStyles;
 
@@ -311,49 +313,7 @@ export default function App() {
             tasksLoaded && fontsLoaded ?
             <SafeAreaView style={[styles.safe]}>
                 <NavigationContainer>
-                    <NavBar.Navigator screenOptions={options}>
-                        <NavBar.Screen name="Home"
-                            component={Home}
-                            options={{
-                                title: (new Date()).toDateString(),
-                                tabBarLabel: 'Home',
-                                tabBarIcon: ({focused,color,size}) => {
-                                    return <Ionicons name="md-home-outline" size={size} color={color} />
-                                }
-                            }}/>
-                        <NavBar.Screen name="Tasks" 
-                            component= {TaskScreen}
-                            options={{
-                                title: 'Tasks',
-                                tabBarLabel: 'Tasks',
-                                tabBarIcon: ({focused,color,size}) => {
-                                    return <FontAwesome name="list-ul" size={size} color={color} />
-                                }
-                            }}/>
-                        <NavBar.Screen name="Capture" 
-                            options={{
-                                tabBarLabel: ({ focused, tintColor }) => { return null},
-                                tabBarActiveBackgroundColor: 'white',
-                                tabBarInactiveBackgroundColor: 'white',
-                                tabBarIcon: ({focused,color,size}) => {
-                                    return <View><AntDesign name="pluscircle" size={50} color={color}/><View style={styles.height5}></View></View>
-                                }
-                            }}>
-                            {() => (
-                                <TaskEditor
-                                    tasks={tasks}
-                                    styles={styles}
-                                    onSave={addTask}
-                                />
-                            )}
-                        </NavBar.Screen>
-                        <NavBar.Screen name="Planner">
-                            {() => <DataInspector styles={styles} tasks={tasks} />}
-                        </NavBar.Screen>
-                        <NavBar.Screen name="Data">
-                            {() => <DataInspector styles={styles} tasks={tasks} />}
-                        </NavBar.Screen>
-                    </NavBar.Navigator>
+                    <Home/>
                 </NavigationContainer>
             </SafeAreaView> : <View></View>
     );

@@ -42,17 +42,17 @@ const blue2 = '#b5c4e8';
 
 const styleArray = {
     defaultText: {
-        fontFamily: 'Roboto-Regular',
+        fontFamily: 'RobotoRegular',
         fontSize: 16
     },
     headerFont: {
-        fontFamily: 'Roboto-Medium',
+        fontFamily: 'RobotoMedium',
         color: darkColor
     },
     alertText: {
         fontSize: 10,
         color: '#555',
-        fontFamily: 'TitilliumWeb-Bold'
+        fontFamily: 'TitilliumWebBold'
     },
     alertIcon: {
         color: '#555'
@@ -83,7 +83,7 @@ const styleArray = {
         backgroundColor: 'white'
     },
     navOptionTextActive: {
-        fontFamily: 'Roboto-Medium',
+        fontFamily: 'RobotoMedium',
         fontSize: 14,
         paddingLeft: size2,
         paddingRight: size2,
@@ -95,7 +95,7 @@ const styleArray = {
         borderColor: teal2
     },
     navOptionTextInactive: {
-        fontFamily: 'Roboto-Medium',
+        fontFamily: 'RobotoMedium',
         paddingLeft: size2,
         paddingRight: size2,
         fontSize: 14,
@@ -124,7 +124,7 @@ const styleArray = {
         backgroundColor: 'white'
     },
     taskScreenHeaderText: {
-        fontFamily: 'TitilliumWeb-Bold',
+        fontFamily: 'TitilliumWebBold',
         fontSize: 24,
         color: darkColor
     },
@@ -133,7 +133,7 @@ const styleArray = {
         justifyContent: 'space-between'
     },
     screenHeaderText: {
-        fontFamily: 'TitilliumWeb-Regular',
+        fontFamily: 'TitilliumWebRegular',
         marginRight: size2,
         fontSize: 40,
         color: 'white'
@@ -147,12 +147,12 @@ const styleArray = {
         paddingLeft: size4
     },
     screenHeaderDateText: {
-        fontFamily: 'TitilliumWeb-Regular',
+        fontFamily: 'TitilliumWebRegular',
         fontSize: 12,
         color: 'white'
     },
     screenHeaderYearText: {
-        fontFamily: 'TitilliumWeb-Bold',
+        fontFamily: 'TitilliumWebBold',
         fontSize: 12,
         color: 'white'
     },
@@ -200,14 +200,14 @@ const styleArray = {
         marginBottom: size3,
         marginRight: size2,
         fontSize: 18,
-        fontFamily: 'TitilliumWeb-Semibold',
+        fontFamily: 'TitilliumWebSemibold',
         color: darkColor
     },
     formFieldLabelWhite: {
         marginBottom: size3,
         marginRight: size2,
         fontSize: 18,
-        fontFamily: 'TitilliumWeb-Semibold',
+        fontFamily: 'TitilliumWebSemibold',
         color: 'white'
     },
     textInputContainer: {
@@ -277,12 +277,12 @@ const styleArray = {
     },
     selectionText: {
         fontSize: 18,
-        fontFamily: 'Roboto-Medium',
+        fontFamily: 'RobotoMedium',
         color: darkColor
     },
     selectionTextSmall: {
         fontSize: 14,
-        fontFamily: 'Roboto-Medium',
+        fontFamily: 'RobotoMedium',
         color: darkColor
     },
     selectionSubtext: {
@@ -300,7 +300,7 @@ const styleArray = {
         marginLeft: size2,
         fontSize: 10,
         color: darkColor3,
-        fontFamily: 'TitilliumWeb-Bold'    
+        fontFamily: 'TitilliumWebBold'    
     },
     taskDetailDescription: {
         fontSize: 16,
@@ -322,11 +322,11 @@ const styleArray = {
         marginLeft: size2,
         fontSize: 12,
         color: darkColor4,
-        fontFamily: 'TitilliumWeb-Bold'   
+        fontFamily: 'TitilliumWebBold'   
     },
     taskDetailValue: {
         marginLeft: size2,
-        fontFamily: 'Roboto-Medium',
+        fontFamily: 'RobotoMedium',
         fontSize: 12,
         color: darkColor3
     },
@@ -389,7 +389,7 @@ const styleArray = {
         borderColor: darkColor
     },
     taskListSectionHeader: {
-        fontFamily: 'TitilliumWeb-SemiBold'
+        fontFamily: 'TitilliumWebSemiBold'
     },
     taskListItemRow: {
         flexDirection: 'row',
@@ -469,7 +469,7 @@ const styleArray = {
     },
     taskCountElement: {
         marginLeft: size4,
-        fontFamily: 'TitilliumWeb-Semibold',
+        fontFamily: 'TitilliumWebSemibold',
         fontSize: 14,
         backgroundColor: 'white',
         color: darkColor2
