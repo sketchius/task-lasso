@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { SafeAreaView, View, DeviceEventEmitter } from 'react-native';
+import { SafeAreaView, View, DeviceEventEmitter, NativeModules } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
@@ -22,6 +22,10 @@ import { styles } from './styles/styles';
 import TaskScreen from './screens/task-screen/task-screen';
 import { useFonts } from 'expo-font/build';
 
+const { UIManager } = NativeModules;
+
+UIManager.setLayoutAnimationEnabledExperimental &&
+  UIManager.setLayoutAnimationEnabledExperimental(true);
 
 
 
@@ -34,6 +38,7 @@ async function getData() {
 }
 
 export default function App() {
+
 
     const dispatch = useDispatch()
 

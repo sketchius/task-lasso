@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import { View, Pressable, DeviceEventEmitter} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import { View, Pressable, DeviceEventEmitter, LayoutAnimation} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 import { isToday } from 'date-fns';
@@ -13,7 +13,17 @@ import MultistateCheckbox from './../../components/MultistateCheckbox';
 import StyledText from './../../components/StyledText';
 
 export default function TodoItem(props) {
+
     const [expanded, setExpanded] = useState(false);
+
+    const [didMount, setDidMount] = useState(false)
+
+    useEffect(() => { setDidMount(true) }, [])
+
+    useEffect( () => {
+        if (didMount)
+            LayoutAnimation.easeInEaseOut()
+    },[expanded])
 
     const task = props.task;
 

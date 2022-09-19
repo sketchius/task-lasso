@@ -18,7 +18,7 @@ import AllTasklist from './tasklist';
 
 
 export default function AppNavigation() {
-    
+    let test = test;
 
     const [selectedItem,setSelectedItem] = useState(0);
     const [expanded,setExpanded] = useState(false);
@@ -69,7 +69,7 @@ export default function AppNavigation() {
     const navigationWidget = navOptions.map( (navOption) => {
             return (
             <Pressable onPress={() => handleNavPress(navOption.index)} style={selectedItem == navOption.index ? styles.navOptionActive : styles.navOptionInactive }>
-                {getIcon(navOption.iconFamily,navOption.iconName,24,selectedItem == navOption.index ? styles.colors.gray : styles.colors.gray3)}
+                {getIcon(navOption.iconFamily,navOption.iconName,24,selectedItem == navOption.index ? styles.gray : styles.gray3)}
                 <StyledText style={selectedItem == navOption.index ? styles.navOptionTextActive : styles.navOptionTextInactive}>{navOption.title}</StyledText>
             </Pressable> 
         )

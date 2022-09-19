@@ -361,7 +361,7 @@ const styleArray = {
         justifyContent: 'space-between'
     },
     capturedTasksContainer: {
-        backgroundColor: 'white',
+        backgroundColor: 'white'
     },
     flexibleTasksContainer: {
         backgroundColor: 'white',

@@ -14,7 +14,6 @@ import getIcon from '../../tools/Icons';
 import ToDoList from './todo';
 
 export default function Tasklist({navigation, route}) {
-    
 
     const [tab,setTab] = useState(0);
 
