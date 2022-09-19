@@ -43,11 +43,11 @@ export default function AllTasklist() {
     
 
     const sections = [
-        <TasklistSection type={'CAPTURED'} key={0} showDate={false} styles={styles} onTaskEvent={onTaskEvent} expandedId={expandedTaskID}/>,
-        <TasklistSection type={'FLEXIBLE'} key={1} showDate={false} styles={styles}  onTaskEvent={onTaskEvent} expandedId={expandedTaskID}/>,
-        <TasklistSection type={'DEADLINE'} key={2} showDate={true} styles={styles}  onTaskEvent={onTaskEvent} expandedId={expandedTaskID}/>,
-        <TasklistSection type={'SCHEDULED'} key={3} showDate={true} styles={styles}  onTaskEvent={onTaskEvent} expandedId={expandedTaskID}/>,
-        <TasklistSection type={'REPEATING'} key={4} showDate={true} styles={styles}  onTaskEvent={onTaskEvent} expandedId={expandedTaskID}/>
+        <TasklistSection type={'CAPTURED'} key={0} showDate={false} styles={styles} color={styles.orangeHighlight} onTaskEvent={onTaskEvent} expandedId={expandedTaskID}/>,
+        <TasklistSection type={'FLEXIBLE'} key={1} showDate={false} styles={styles} color={styles.yellowHighlight} onTaskEvent={onTaskEvent} expandedId={expandedTaskID}/>,
+        <TasklistSection type={'DEADLINE'} key={2} showDate={true} styles={styles} color={styles.greenHighlight} onTaskEvent={onTaskEvent} expandedId={expandedTaskID}/>,
+        <TasklistSection type={'SCHEDULED'} key={3} showDate={true} styles={styles} color={styles.tealHighlight} onTaskEvent={onTaskEvent} expandedId={expandedTaskID}/>,
+        <TasklistSection type={'REPEATING'} key={4} showDate={true} styles={styles} color={styles.blueHighlight} onTaskEvent={onTaskEvent} expandedId={expandedTaskID}/>
     ]
 /*
     const capturedTaskElement = 
@@ -109,15 +109,8 @@ export default function AllTasklist() {
     
 
     return (
-        <View style={styles.container}>
-                        <View style={[styles.screenHeader]}>
-                <View style={[styles.alignedRow, styles.justifyContent]}>
-                    <StyledText styles={styles} style={styles.screenHeaderText}>TASK INVENTORY</StyledText>
-                </View>
-            </View>
             <ScrollView style={styles.scrollContainer}>
                 {sections}
             </ScrollView>
-        </View>
     )
 }

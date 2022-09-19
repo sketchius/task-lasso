@@ -96,16 +96,16 @@ export default function TodoItem(props) {
 
     return (
     <View style={[styles.row, styles.whiteBackground, styles.taskBorder]}>
-        <MultistateCheckbox states={3} styles={styles} initialState={task.status ? task.status : 0} onStateChange={handleCheckboxStateChange}></MultistateCheckbox>
+        {!props.compact ? <MultistateCheckbox states={3} styles={styles} initialState={task.status ? task.status : 0} onStateChange={handleCheckboxStateChange}></MultistateCheckbox> : <View style={styles.compactTaskElement}></View>}
         <Pressable style={[ styles.paddingRight3, styles.paddingLeft4, styles.flex100, styles.leftBorder]} onPress={() => setExpanded(!expanded) }>
-            <View style={styles.marginVertical3}>
+            <View style={props.compact ? styles.marginVertical0 : styles.marginVertical3}>
                 <View style={styles.alignedRow}>
-                    <View style={styles.taskIcon}>
-                        {getIcon(task.iconLibrary,task.iconName,20,styles.darkColor2)}
+                    <View style={props.compact ? styles.taskIconCompact : styles.taskIcon}>
+                        {getIcon(task.iconLibrary,task.iconName,props.compact ? 16 : 24,styles.darkColor2)}
                     </View>
                     <StyledText styles={styles} style={[styles.listItem, styles.fontSize2, styles.headerFont]}>{task.title}</StyledText>
                 </View>
-                <View style={[styles.alignedRow, styles.marginTop3]}>
+                {(!props.compact || expanded) && <View style={[styles.alignedRow, styles.marginTop3]}>
                     {task.prority === 2 && <View style={[styles.marginRight4, styles.alignedRow, styles.orangeBackground]}>
                         <FontAwesome5 name="exclamation-circle" size={12} color="#999" style={styles.paddingRight2}/>
                         <StyledText styles={styles} style={styles.alertText}>HIGH PRIORITY</StyledText>
@@ -127,7 +127,7 @@ export default function TodoItem(props) {
                         <Entypo name="controller-record" size={12} color="#999"/>
                         <StyledText styles={styles} style={styles.fontSize00}>{task.score}</StyledText>
                     </View>}
-                </View>
+                </View>}
                 {expanded && expandedContent}
             </View>
         </Pressable>

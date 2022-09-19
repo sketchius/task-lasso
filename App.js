@@ -201,6 +201,10 @@ export default function App() {
                 if (task.dateModified)
                     task.dateModified = new Date(task.dateModified);
                 if (!task.type) task.type = 'CAPTURED';
+                if (task.type == 'CAPTURED') {
+                    task.iconLibrary = 'MaterialCommunityIcons';
+                    task.iconName = 'dots-circle';
+                }
             });
             dispatch({ type: 'storage/loadedData', payload: parsedData })
             setTasksLoaded(true);

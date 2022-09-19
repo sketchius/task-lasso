@@ -18,7 +18,7 @@ export default function ToDoList(navigation,route) {
 
     const toDoListItems = () => taskList
         .map( task => {
-        return <TodoItem task={task} key={task.uniqid} styles={styles} navigation={navigation}/>
+        return <TodoItem task={task} key={task.uniqid} styles={styles} navigation={navigation} compact={false}/>
     });
 
 

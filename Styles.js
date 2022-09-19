@@ -22,16 +22,23 @@ const darkColor4 = '#a6a6a6';
 const darkColor5 = '#d1d1d1';
 const darkColor6 = '#dbdbdb';
 
-const yellow3 = '#f5ffb0';
-const green3 = '#dbffdd';
-const pink3 = '#ffe1f0';
-const blue3 = '#dae5ff';
 const red3 = '#ffe1e1';
+const orange3 = '#ffe7cd';
+const yellow3 = '#feffcf';
+const teal3 = '#c3feff';
+const green3 = '#dbffdd';
+const blue3 = '#dae5ff';
+const pink3 = '#ffe1f0';
 
-const blue2 = '#b5c4e8';
 const blue1 = '#97a8d1';
 
 const yellow = '#fdff48';
+
+const orange2 = '#e2b590';
+const yellow2 = '#e1d890';
+const green2 = '#a5e9aa';
+const teal2 = '#53daea';
+const blue2 = '#b5c4e8';
 
 const styleArray = {
     defaultText: {
@@ -58,42 +65,60 @@ const styleArray = {
         width: '100%'
     },
     navWidget: {
-        borderTopWidth: 1,
+        flexDirection: 'row',
+        borderTopWidth: .25,
         borderBottomWidth: 2,
         borderColor: darkColor
     },
     navOptionActive: {
-        flexDirection: 'row',
+        width: '20%',
         alignItems: 'center',
-        padding: size4,
-        paddingLeft: size5,
-        backgroundColor: red3
-    },
-    navOptionInactive: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        padding: size4,
-        paddingLeft: size5,
+        padding: size3,
         backgroundColor: 'white'
     },
-    navOptionText: {
+    navOptionInactive: {
+        width: '20%',
+        alignItems: 'center',
+        padding: size3,
+        backgroundColor: 'white'
+    },
+    navOptionTextActive: {
         fontFamily: 'Roboto-Medium',
-        fontSize: 24,
-        marginLeft: size5,
-        color: darkColor
+        fontSize: 14,
+        paddingLeft: size2,
+        paddingRight: size2,
+        color: darkColor,
+        backgroundColor: teal3,
+        borderLeftWidth: .75,
+        borderRightWidth: .75,
+        borderRadius: size2,
+        borderColor: teal2
+    },
+    navOptionTextInactive: {
+        fontFamily: 'Roboto-Medium',
+        paddingLeft: size2,
+        paddingRight: size2,
+        fontSize: 14,
+        color: darkColor3,
+        borderLeftWidth: .75,
+        borderRightWidth: .75,
+        borderRadius: size2,
+        borderColor: 'white'
     },
     navContent: {
         flex: 1,
         width: '100%'
     },
     screenHeader: {
-        backgroundColor: 'white',
-        padding: size5
+        backgroundColor: darkColor,
+        padding: size3
     },
     taskScreen: {
         flex: 1,
         width: '100%',
         backgroundColor: darkColor6
+    },
+    compactTaskElement: {
     },
     taskScreenHeader: {
         backgroundColor: 'white'
@@ -111,25 +136,25 @@ const styleArray = {
         fontFamily: 'TitilliumWeb-Regular',
         marginRight: size2,
         fontSize: 40,
-        color: darkColor
+        color: 'white'
     },
     screenHeaderDateView: {
         marginTop: size3,
         marginLeft: size3,
         justifyContent: 'center',
         borderLeftWidth: 0.5,
-        borderColor: darkColor2,
+        borderColor: 'white',
         paddingLeft: size4
     },
     screenHeaderDateText: {
         fontFamily: 'TitilliumWeb-Regular',
         fontSize: 12,
-        color: darkColor
+        color: 'white'
     },
     screenHeaderYearText: {
         fontFamily: 'TitilliumWeb-Bold',
         fontSize: 12,
-        color: darkColor
+        color: 'white'
     },
     screenHeaderGreetingText: {
         fontSize: 48,
@@ -216,6 +241,13 @@ const styleArray = {
         alignItems: 'center',
         justifyContent: 'center',
         marginRight: size2
+    },
+    caret: {
+        height: 24,
+        width: 24,
+        marginRight: size3,
+        alignItems: 'center',
+        justifyContent: 'center'
     },
     selectionIconSmall: {
         height: 25,
@@ -357,7 +389,7 @@ const styleArray = {
         borderColor: darkColor
     },
     taskListSectionHeader: {
-        fontFamily: 'TitilliumWeb-Bold'
+        fontFamily: 'TitilliumWeb-SemiBold'
     },
     taskListItemRow: {
         flexDirection: 'row',
@@ -367,10 +399,6 @@ const styleArray = {
     },
     capturedTasksContainer: {
         backgroundColor: 'white',
-        marginTop: size4,
-        borderTopWidth: size0,
-        borderBottomWidth: size0,
-        borderColor: darkColor
     },
     flexibleTasksContainer: {
         backgroundColor: 'white',
@@ -419,6 +447,19 @@ const styleArray = {
         justifyContent: 'center',
         marginRight: size3
     },
+    taskIconCompact: {
+        height: 20,
+        width: 24,
+        paddingRight: size2,
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginRight: size3,
+        borderRightWidth: 1,
+        borderStyle: 'dotted',
+        borderColor: darkColor3
+    },
+    
+
     taskIconLarge: {
         height: 36,
         width: 36,
@@ -427,23 +468,29 @@ const styleArray = {
         marginRight: size3
     },
     taskCountElement: {
-        marginLeft: 8,
-        backgroundColor: '#dfefef',
-        color: darkColor
+        marginLeft: size4,
+        fontFamily: 'TitilliumWeb-Semibold',
+        fontSize: 14,
+        backgroundColor: 'white',
+        color: darkColor2
     },
     circleBorder: {
+        paddingLeft: size3,
+        paddingRight: size3,
         textAlign: 'center',
-        width: 20,
+        justifyContent: 'center',
         height: 20,
-        borderRadius: 20,
         borderColor: darkColor,
-        borderWidth: 1
+        borderWidth: .25
     },
     alignItems: {
         alignItems: 'center'
     },
     justifyContent: {
         justifyContent: 'center'
+    },
+    baseline: {
+        alignItems: 'baseline'
     },
     fontSize000: {
         fontSize: 10
@@ -503,8 +550,8 @@ const styleArray = {
         borderColor: darkColor2
     },
     bottomBorder: {
-        borderTopWidth: 0.25,
-        borderTopColor: darkColor3,
+        borderBottomWidth: 0.5,
+        borderBottomColor: darkColor3,
     },
     whiteBackground: {
         backgroundColor: 'white'
@@ -568,7 +615,10 @@ const styleArray = {
         borderLeftWidth: 1,
         borderLeftColor: blue2
     },
-    
+    topBorder: {
+        borderTopWidth: 1,
+        borderColor: darkColor
+    },
     leftBorder2: {
         borderLeftWidth: 2,
         borderColor: darkColor
@@ -582,24 +632,50 @@ const styleArray = {
         borderBottomWidth: 0.5,
         borderColor: darkColor
     },
+    tealHighlight: {
+        paddingLeft: size2,
+        paddingRight: size2,
+        backgroundColor: teal3,
+        borderLeftWidth: .75,
+        borderRightWidth: .75,
+        borderRadius: size2,
+        borderColor: teal2
+    },
     yellowHighlight: {
-        borderLeftColor: '#edf26d',
-        borderRightColor: '#edf26d',
-        borderLeftWidth: 2,
-        borderRightWidth: 2,
-        backgroundColor: yellow3
+        paddingLeft: size2,
+        paddingRight: size2,
+        backgroundColor: yellow3,
+        borderLeftWidth: .75,
+        borderRightWidth: .75,
+        borderRadius: size2,
+        borderColor: yellow2
     },
     greenHighlight: {
-        backgroundColor: green3
-    },
-    pinkHighlight: {
-        backgroundColor: pink3
+        paddingLeft: size2,
+        paddingRight: size2,
+        backgroundColor: green3,
+        borderLeftWidth: .75,
+        borderRightWidth: .75,
+        borderRadius: size2,
+        borderColor: green2
     },
     blueHighlight: {
-        backgroundColor: blue3
+        paddingLeft: size2,
+        paddingRight: size2,
+        backgroundColor: blue3,
+        borderLeftWidth: .75,
+        borderRightWidth: .75,
+        borderRadius: size2,
+        borderColor: blue2
     },
-    redHighlight: {
-        backgroundColor: red3
+    orangeHighlight: {
+        paddingLeft: size2,
+        paddingRight: size2,
+        backgroundColor: orange3,
+        borderLeftWidth: .75,
+        borderRightWidth: .75,
+        borderRadius: size2,
+        borderColor: orange2
     },
     darkColor,
     darkColor2,

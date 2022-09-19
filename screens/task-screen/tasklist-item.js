@@ -27,7 +27,7 @@ export default function TasklistItem(props) {
     }
 
     return (
-        <Pressable style={[styles.bottomBorder, styles.paddingHorizontal5]}
+        <Pressable style={[styles.topBorder, styles.paddingHorizontal5]}
             onPress={() => {
                 setExpanded(!expanded);
             }}

@@ -26,36 +26,54 @@ export default function AppNavigation() {
     const navOptions = [
         {
             index: 0,
-            title: `To-Do List`,
-            iconFamily: 'FontAwesome',
-            iconName: 'list-alt',
-            component: <ToDoList></ToDoList>
+            title: `To-Do`,
+            iconFamily: 'MaterialCommunityIcons',
+            iconName: 'clipboard-check-outline',
+            component: <ToDoList key={0}></ToDoList>
         },
         {
             index: 1,
-            title: `All Tasks`,
-            iconFamily: '',
-            iconName: '',
-            component: <AllTasklist></AllTasklist>
+            title: `Tasks`,
+            iconFamily: 'FontAwesome',
+            iconName: 'list-ul',
+            component: <AllTasklist key={1}></AllTasklist>
+        },
+        {
+            index: 2,
+            title: `New`,
+            iconFamily: 'Ionicons',
+            iconName: 'ios-add-circle',
+            component: <AllTasklist key={2}></AllTasklist>
+        },
+        {
+            index: 3,
+            title: `Planner`,
+            iconFamily: 'FontAwesome5',
+            iconName: 'calendar-alt',
+            component: <AllTasklist key={3}></AllTasklist>
+        },
+        {
+            index: 4,
+            title: `Settings`,
+            iconFamily: 'Ionicons',
+            iconName: 'md-settings',
+            component: <AllTasklist key={4}></AllTasklist>
         }
     ]
 
     const handleNavPress = (index) => {
-        if (index == selectedItem)
-            setExpanded(!expanded);
-        else{
+        if (index != selectedItem)
             setSelectedItem(index);
-            setExpanded(false);
-        }
     }
 
     const navigationWidget = navOptions.map( (navOption) => {
             return (
-            (selectedItem == navOption.index || expanded) && <Pressable onPress={() => handleNavPress(navOption.index)} style={selectedItem == navOption.index ? styles.navOptionActive : styles.navOptionInactive }>
-                {expanded ? getIcon(navOption.iconFamily,navOption.iconName,30,styles.darkColor) : getIcon('Entypo','menu',30,styles.darkColor)}
-                <StyledText styles={styles} style={styles.navOptionText}>{navOption.title}</StyledText>
-            </Pressable> )
-        });
+            <Pressable onPress={() => handleNavPress(navOption.index)} style={selectedItem == navOption.index ? styles.navOptionActive : styles.navOptionInactive }>
+                {getIcon(navOption.iconFamily,navOption.iconName,24,selectedItem == navOption.index ? styles.darkColor : styles.darkColor3)}
+                <StyledText styles={styles} style={selectedItem == navOption.index ? styles.navOptionTextActive : styles.navOptionTextInactive}>{navOption.title}</StyledText>
+            </Pressable> 
+        )
+    });
 
     return (
         <View style={styles.container}>
