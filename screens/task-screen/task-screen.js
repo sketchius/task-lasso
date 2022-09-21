@@ -6,7 +6,7 @@ import { useIsFocused } from '@react-navigation/native';
 import { format } from 'date-fns';
 import StyledText from './../../components/StyledText';
 
-import TodoItem from "../../screens/home-screen/todo-item"
+import TodoItem from "./todo-item"
 import TasklistSection from './../../screens/task-screen/tasklist-section';
 
 import { styles } from '../../styles/styles';

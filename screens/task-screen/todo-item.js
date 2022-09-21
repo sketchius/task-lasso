@@ -7,10 +7,10 @@ import differenceInHours from 'date-fns/differenceInHours'
 
 import { AntDesign, FontAwesome5, FontAwesome, MaterialIcons, Octicons, Entypo, Feather, Ionicons  } from '@expo/vector-icons';
 
-import { getDateInContext, getTime } from './../../tools/DateContext';
-import getIcon from './../../tools/Icons';
-import MultistateCheckbox from './../../components/MultistateCheckbox';
-import StyledText from './../../components/StyledText';
+import { getDateInContext, getTime } from '../../tools/DateContext';
+import getIcon from '../../tools/Icons';
+import MultistateCheckbox from '../../components/MultistateCheckbox';
+import StyledText from '../../components/StyledText';
 
 export default function TodoItem(props) {
 
@@ -45,22 +45,23 @@ export default function TodoItem(props) {
             <View>
                 {task.description && <StyledText style={[styles.fontSize00, styles.lightText, styles.marginRight3]} numberOfLines={expanded ? 4 : 1}>{task.description}</StyledText>}
                 <View style={[styles.alignedRow, styles.spaceBetween, styles.marginVertical3, styles.width300]}>
-                    <Pressable style={[styles.size80, styles.alignItems, styles.thinBorder, styles.margina, styles.paddingVertical4]}
+                
+                    <Pressable style={[styles.size80, styles.alignItems, styles.thinBorder, styles.margina, styles.paddingVertical4]}>
+                        {getIcon('FontAwesome','times',16,styles.colors.gray)}
+                        <StyledText style={[styles.paddingTop2]}>Delete</StyledText>
+                    </Pressable>
+
+                    <Pressable style={[styles.size80, styles.alignItems, styles.thinBorder, styles.margina, styles.paddingVertical4]} 
                     onPress={ () => {
-                        navigation.navigate('Tasks', { expandedId : task.uniqid })
+                        navigation.navigate('Editor',{action: 'edit', mode: 'task', task: 'uniqid'})
                     }}>
-                        <FontAwesome5 name="expand" size={16} color={styles.colors.gray3} />
-                        <StyledText style={[styles.paddingTop2, styles.colors.gray3Text]}>Details</StyledText>
+                        <Feather name="edit" size={16} color={styles.colors.gray}  />
+                        <StyledText style={[styles.paddingTop2]}>Edit</StyledText>
                     </Pressable>
                 
                     <Pressable style={[styles.size80, styles.alignItems, styles.thinBorder, styles.margina, styles.paddingVertical4]}>
-                        <Feather name="edit" size={16} color={styles.colors.gray3}  />
-                        <StyledText style={[styles.paddingTop2, styles.colors.gray3Text]}>Edit</StyledText>
-                    </Pressable>
-                
-                    <Pressable style={[styles.size80, styles.alignItems, styles.thinBorder, styles.margina, styles.paddingVertical4]}>
-                        <AntDesign name="arrowright" size={16} color={styles.colors.gray3}  />
-                        <StyledText style={[styles.paddingTop2, styles.colors.gray3Text]}>Defer</StyledText>
+                        <AntDesign name="arrowright" size={16} color={styles.colors.gray}  />
+                        <StyledText style={[styles.paddingTop2]}>Defer</StyledText>
                     </Pressable>
                 </View>
             </View>

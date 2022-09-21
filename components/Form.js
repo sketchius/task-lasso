@@ -17,7 +17,7 @@ export function EditField(props) {
 
     if (props.helpTips) {
         helpContent = <View style={styles.helpElement}>
-            {props.helpTips.map( (tip) => { return <View style={styles.alignedRow}>
+            {props.helpTips.map( (tip,index) => { return <View key={index} style={styles.alignedRow}>
                     <View style={styles.helpIcon}>{getIcon('FontAwesome5','arrow-circle-right',16,styles.colors.gray2)}</View>
                     <StyledText style={styles.helpText}>{tip}</StyledText>
                 </View> })}

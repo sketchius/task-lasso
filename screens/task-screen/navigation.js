@@ -7,7 +7,7 @@ import { useNavigation } from '@react-navigation/native';
 import { format } from 'date-fns';
 import StyledText from './../../components/StyledText';
 
-import TodoItem from "../../screens/home-screen/todo-item"
+import TodoItem from "./todo-item"
 import TasklistSection from './../../screens/task-screen/tasklist-section';
 
 import { styles } from '../../styles/styles';
@@ -16,6 +16,7 @@ import ToDoList from './todo';
 import TaskEditor from '../edit-screen/edit';
 import Tasklist from './task-screen';
 import AllTasklist from './tasklist';
+import DataInspector from '../../DataInspector';
 
 
 
@@ -66,7 +67,7 @@ export default function AppNavigation() {
             title: `Settings`,
             iconFamily: 'Ionicons',
             iconName: 'md-settings',
-            component: <AllTasklist key={4}></AllTasklist>
+            component: <DataInspector key={4}></DataInspector>
         }
     ]
 
@@ -75,9 +76,9 @@ export default function AppNavigation() {
             setSelectedItem(index);
     }
 
-    const navigationWidget = navOptions.map( (navOption) => {
+    const navigationWidget = navOptions.map( (navOption, index) => {
             return (
-            <Pressable onPress={() => navOption.onPress ? navOption.onPress() : handleNavPress(navOption.index)} style={selectedItem == navOption.index ? styles.navOptionActive : styles.navOptionInactive }>
+            <Pressable key={index} onPress={() => navOption.onPress ? navOption.onPress() : handleNavPress(navOption.index)} style={selectedItem == navOption.index ? styles.navOptionActive : styles.navOptionInactive }>
                 {getIcon(navOption.iconFamily,navOption.iconName,navOption.bigIcon ? 48 : 24,selectedItem == navOption.index ? styles.gray : styles.gray3)}
                 {!navOption.bigIcon && <StyledText style={selectedItem == navOption.index ? styles.navOptionTextActive : styles.navOptionTextInactive}>{navOption.title}</StyledText>}
             </Pressable> 

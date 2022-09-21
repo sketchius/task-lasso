@@ -1,29 +1,44 @@
 import React, {useState,useEffect} from 'react';
 import { Button, StyleSheet, ScrollView, View } from 'react-native';
 import { useIsFocused } from '@react-navigation/native';
+import { useSelector } from 'react-redux';
 import uuid from 'react-native-uuid';
 
 import { Logs } from 'expo'
 
 import { DateTimeComponent, EditField, SelectionList } from './../../components/Form';
+import { getTaskByUniqid } from './../../tools/tools';
 
 import { styles } from './../../styles/styles';
 
 Logs.enableExpoCliLogging()
 
 export default function TaskEditor({ route, navigation }) {
+    
+    const tasks = useSelector(state => state.tasks);
 
     const [action,setAction] = useState('new');
     const [mode,setMode] = useState('note');
     
     const [taskType,setTaskType] = useState('flexible');
-    const [taskPriority,setTaskPriority] = useState('med');
+    const [taskPriority,setTaskPriority] = useState(1);
     const [taskDuration,setTaskDuration] = useState(15);
 
     const isFocused = useIsFocused()
 
     useEffect(() => {
-            setMode(route.params.mode);
+        setMode(route.params.mode);
+        setAction(route.params.action);
+        if (route.params.task) {
+            const task = getTaskByUniqid(tasks, route.params.task);
+        
+            if (route.params.action == 'edit' && task) {
+                setTaskType(task.type.toLowerCase());
+                setTaskPriority(task.priority)
+                setTaskDuration(task.duration)
+                console.log(`params.task.dateDue = ${typeof route.params.task.dateDue}`)
+            }
+        }
     } , [isFocused])
 
     const form = {};
@@ -122,7 +137,7 @@ export default function TaskEditor({ route, navigation }) {
                     }
                 ]}></SelectionList>
             <ScrollView style = {styles.fill}>
-                <EditField styles={styles} data={'title'} label={mode == 'NOTE' ? 'NOTE' : 'TASK BREIF'} onChange={handleInput}
+                <EditField styles={styles} data={'title'} label={mode == 'note' ? 'NOTE' : 'TASK BREIF'} onChange={handleInput}
                     helpTips = {[
                         `Required.`,
                         `Describe the primary action to be done for a task.`,
@@ -188,7 +203,7 @@ export default function TaskEditor({ route, navigation }) {
                     selections={[
                         {
                             index: 0,
-                            stateValue: 'low',
+                            stateValue: 0,
                             iconFamily: 'Entypo',
                             iconName: 'dot-single',
                             iconSize: 20,
@@ -198,7 +213,7 @@ export default function TaskEditor({ route, navigation }) {
                         },
                         {
                             index: 1,
-                            stateValue: 'med',
+                            stateValue: 1,
                             iconFamily: 'Entypo',
                             iconName: 'minus',
                             iconSize: 20,
@@ -208,7 +223,7 @@ export default function TaskEditor({ route, navigation }) {
                         },
                         {
                             index: 2,
-                            stateValue: 'high',
+                            stateValue: 2,
                             iconFamily: 'Feather',
                             iconName: 'alert-circle',
                             iconSize: 20,

@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 
 import { format } from 'date-fns';
 
-import TodoItem from "../../screens/home-screen/todo-item";
+import TodoItem from "./todo-item";
 import StyledText from "./../../components/StyledText";
 import { SelectionList } from './../../components/Form';
 

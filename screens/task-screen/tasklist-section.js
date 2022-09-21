@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import { Logs } from 'expo'
 
 import TasklistItem from "./tasklist-item";
-import TodoItem from "./../home-screen/todo-item";
+import TodoItem from "./todo-item";
 import getIcon from '../../tools/Icons';
 
 

@@ -5,7 +5,6 @@ import { useSelector } from 'react-redux';
 
 import { format } from 'date-fns';
 
-import TodoItem from "../../screens/home-screen/todo-item";
 import StyledText from "./../../components/StyledText";
 import { SelectionList } from './../../components/Form';
 
@@ -17,11 +16,6 @@ export default function Home(navigation,route) {
     
 
     const taskList = useSelector(state => state.tasks.filter(task => task.assigned));
-
-    const toDoListItems = () => taskList
-        .map( task => {
-        return <TodoItem task={task} key={task.uniqid} styles={styles} navigation={navigation}/>
-    });
 
     const [status,setStatus] = useState('CHECK-IN');
 

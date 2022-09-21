@@ -211,7 +211,7 @@ export default function App() {
                 if (task.type == 'CAPTURED') {
                     task.type = 'NOTE';
                     task.iconLibrary = 'MaterialCommunityIcons';
-                    task.iconName = 'dots-circle';
+                    task.iconName = 'note-outline';
                 }
             });
             dispatch({ type: 'storage/loadedData', payload: parsedData })
