@@ -18,13 +18,14 @@ export const colors = {
 
     yellow: '#fdff48',
 
+    red2: '#e8abb7', 
     orange2: '#e2b590',
     yellow2: '#e1d890',
     green2: '#a5e9aa',
     teal2: '#53daea',
-    blue2: '#b5c4e8',
-};
-
+    blue2: '#b5c4e8'
+}; 
+ 
 export const space = {
     size000 : 0.125,
     size00 : 0.25,

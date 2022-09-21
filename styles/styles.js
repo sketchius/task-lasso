@@ -29,6 +29,7 @@ const styleArray = {
     },
     navWidget: {
         flexDirection: 'row',
+        alignItems: 'center',
         borderTopWidth: .25,
         borderBottomWidth: 2,
         borderColor: colors.gray
@@ -198,6 +199,9 @@ const styleArray = {
         borderWidth: space.size0,
         borderRadius: space.size3
     },
+    noBorder: {
+        borderWidth: 0
+    },
     smallIcon: {
         height: 16,
         width: 16,
@@ -233,10 +237,18 @@ const styleArray = {
         padding: space.size4
     },
     selectionItemRow: {
-        width: '31%',
         flexDirection: 'column',
         alignItems: 'center',
         padding: space.size4
+    },
+    oneColumns: {
+        width: '100%',
+    },
+    twoColumns: {
+        width: '50%',
+    },
+    threeColumns: {
+        width: '31%',
     },
     selectionText: {
         fontSize: font.size3,
@@ -249,6 +261,7 @@ const styleArray = {
         color: colors.gray
     },
     selectionSubtext: {
+        paddingLeft: .75,
         fontSize: font.size0,
         color: colors.gray2
     },
@@ -360,7 +373,7 @@ const styleArray = {
         alignItems: 'center',
         justifyContent: 'space-between'
     },
-    capturedTasksContainer: {
+    notesContainer: {
         backgroundColor: 'white'
     },
     flexibleTasksContainer: {
@@ -603,6 +616,24 @@ const styleArray = {
         borderRightWidth: .75,
         borderRadius: space.size2,
         borderColor: colors.teal2
+    },
+    hiddenHighlight: {
+        paddingLeft: space.size2,
+        paddingRight: space.size2,
+        backgroundColor: 'transparent',
+        borderLeftWidth: .75,
+        borderRightWidth: .75,
+        borderRadius: space.size2,
+        borderColor: 'transparent'
+    },
+    redHighlight: {
+        paddingLeft: space.size2,
+        paddingRight: space.size2,
+        backgroundColor: colors.red3,
+        borderLeftWidth: .75,
+        borderRightWidth: .75,
+        borderRadius: space.size2,
+        borderColor: colors.red2
     },
     yellowHighlight: {
         paddingLeft: space.size2,

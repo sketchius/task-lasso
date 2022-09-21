@@ -2,6 +2,7 @@ import React, {useState,useEffect} from 'react';
 import {ScrollView, View, Pressable, DeviceEventEmitter} from 'react-native';
 import { useSelector } from 'react-redux';
 import { useIsFocused } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 
 import { format } from 'date-fns';
 import StyledText from './../../components/StyledText';
@@ -12,6 +13,7 @@ import TasklistSection from './../../screens/task-screen/tasklist-section';
 import { styles } from '../../styles/styles';
 import getIcon from '../../tools/Icons';
 import ToDoList from './todo';
+import TaskEditor from '../edit-screen/edit';
 import Tasklist from './task-screen';
 import AllTasklist from './tasklist';
 
@@ -22,6 +24,12 @@ export default function AppNavigation() {
 
     const [selectedItem,setSelectedItem] = useState(0);
     const [expanded,setExpanded] = useState(false);
+
+    const navigation = useNavigation();
+
+    const openTaskEditor = () => {
+        navigation.navigate('Editor',{action: 'new', mode: 'task'});
+    }
 
     const navOptions = [
         {
@@ -39,11 +47,12 @@ export default function AppNavigation() {
             component: <AllTasklist key={1}></AllTasklist>
         },
         {
-            index: 2,
+            index: 1,
             title: `New`,
             iconFamily: 'Ionicons',
             iconName: 'ios-add-circle',
-            component: <AllTasklist key={2}></AllTasklist>
+            bigIcon: true,
+            onPress: openTaskEditor
         },
         {
             index: 3,
@@ -68,9 +77,9 @@ export default function AppNavigation() {
 
     const navigationWidget = navOptions.map( (navOption) => {
             return (
-            <Pressable onPress={() => handleNavPress(navOption.index)} style={selectedItem == navOption.index ? styles.navOptionActive : styles.navOptionInactive }>
-                {getIcon(navOption.iconFamily,navOption.iconName,24,selectedItem == navOption.index ? styles.gray : styles.gray3)}
-                <StyledText style={selectedItem == navOption.index ? styles.navOptionTextActive : styles.navOptionTextInactive}>{navOption.title}</StyledText>
+            <Pressable onPress={() => navOption.onPress ? navOption.onPress() : handleNavPress(navOption.index)} style={selectedItem == navOption.index ? styles.navOptionActive : styles.navOptionInactive }>
+                {getIcon(navOption.iconFamily,navOption.iconName,navOption.bigIcon ? 48 : 24,selectedItem == navOption.index ? styles.gray : styles.gray3)}
+                {!navOption.bigIcon && <StyledText style={selectedItem == navOption.index ? styles.navOptionTextActive : styles.navOptionTextInactive}>{navOption.title}</StyledText>}
             </Pressable> 
         )
     });

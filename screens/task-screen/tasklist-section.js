@@ -34,19 +34,31 @@ export default function TasklistSection(props) {
     }
 
     useEffect( () => {
+        if (filteredTaskList.length == 0) {
+            setExpanded(false);
+        }
+    },[])
+
+    useEffect( () => {
         if (didMount)
             LayoutAnimation.easeInEaseOut()
     },[expanded])
 
+    const expand = () => {
+        if (filteredTaskList.length > 0) {
+            setExpanded(!expanded)
+        }
+    }
+
 
     return ( <Pressable 
-    style={[styles.capturedTasksContainer, styles.paddingVertical4, {height : 'auto'}]}
-    onPress={ () => setExpanded(!expanded)}>
+    style={[styles.notesContainer, styles.paddingVertical4, {height : 'auto'}]}
+    onPress={ () => expand()}>
     <View style={[styles.alignedRow, styles.topBorder]}>
-        <Text style={[styles.defaultText, styles.taskListSectionHeader, styles.fontSize3, styles.marginLeft4, styles.bold, props.color]}>{props.type} TASKS</Text>
+        <Text style={[styles.defaultText, styles.taskListSectionHeader, styles.fontSize3, styles.marginLeft4, styles.bold, props.color,filteredTaskList.length == 0 && styles.gray3Text]}>{props.label}</Text>
         {!expanded && getSectionTaskCountElement(filteredTaskList)}
         <View style={styles.flex1}></View>
-        <View style={styles.caret}>{getIcon('AntDesign',expanded ? 'caretdown' : 'caretleft',16,styles.colors.gray3)}</View>
+        {filteredTaskList.length > 0 && <View style={styles.caret}>{getIcon('AntDesign',expanded ? 'caretdown' : 'caretleft',16,styles.colors.gray3)}</View>}
     </View>
     <View style={[styles.topBorder, expanded && styles.bottomBorder]}>{expanded && getTaskListItems(filteredTaskList)}</View>
     </Pressable> );

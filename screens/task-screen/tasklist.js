@@ -39,11 +39,11 @@ export default function AllTasklist() {
     
 
     const sections = [
-        <TasklistSection type={'CAPTURED'} key={0} showDate={false} styles={styles} color={styles.orangeHighlight} onTaskEvent={onTaskEvent} expandedId={expandedTaskID}/>,
-        <TasklistSection type={'FLEXIBLE'} key={1} showDate={false} styles={styles} color={styles.yellowHighlight} onTaskEvent={onTaskEvent} expandedId={expandedTaskID}/>,
-        <TasklistSection type={'DEADLINE'} key={2} showDate={true} styles={styles} color={styles.greenHighlight} onTaskEvent={onTaskEvent} expandedId={expandedTaskID}/>,
-        <TasklistSection type={'SCHEDULED'} key={3} showDate={true} styles={styles} color={styles.tealHighlight} onTaskEvent={onTaskEvent} expandedId={expandedTaskID}/>,
-        <TasklistSection type={'REPEATING'} key={4} showDate={true} styles={styles} color={styles.blueHighlight} onTaskEvent={onTaskEvent} expandedId={expandedTaskID}/>
+        <TasklistSection type={'NOTES'} label={'NOTES'} key={0} showDate={false} styles={styles} color={styles.orangeHighlight} onTaskEvent={onTaskEvent} expandedId={expandedTaskID}/>,
+        <TasklistSection type={'FLEXIBLE'} label={'FLEXIBLE TASKS'} key={1} showDate={false} styles={styles} color={styles.yellowHighlight} onTaskEvent={onTaskEvent} expandedId={expandedTaskID}/>,
+        <TasklistSection type={'DEADLINE'} label={'DEADLINE TASKS'} key={2} showDate={true} styles={styles} color={styles.greenHighlight} onTaskEvent={onTaskEvent} expandedId={expandedTaskID}/>,
+        <TasklistSection type={'SCHEDULED'} label={'SCHEDULED TASKS'} key={3} showDate={true} styles={styles} color={styles.tealHighlight} onTaskEvent={onTaskEvent} expandedId={expandedTaskID}/>,
+        <TasklistSection type={'REPEATING'} label={'REPEATING TASKS'} key={4} showDate={true} styles={styles} color={styles.blueHighlight} onTaskEvent={onTaskEvent} expandedId={expandedTaskID}/>
     ]
 /*
     const capturedTaskElement = 

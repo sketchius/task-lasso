@@ -25,9 +25,9 @@ export default function Home(navigation,route) {
 
     const [status,setStatus] = useState('CHECK-IN');
 
+    const [designation,setDesignation] = useState('work');
+    const [ambition,setAmbition] = useState('normal');
 
-
-   
     //.map(task => {
        
     //});
@@ -67,52 +67,70 @@ export default function Home(navigation,route) {
                 </View>
                 {status == 'CHECK-IN' &&
                 <View styles={styles.testtt}>
-                    <SelectionList styles={styles} data={'designation'} label={'WHAT KIND OF DAY IS IT?'} defaultSelection={0} invert={true} orientation={'row'} onChange={handleInput} iconStyle={2}
+                    <SelectionList styles={styles} data={'designation'} label={'WHAT KIND OF DAY IS IT?'} selection={designation} onPress={setDesignation} invert={true} orientation={'row'} onChange={handleInput} iconStyle={2}
                         selections={[
                         {
                             index: 0,
+                            stateValue: 'work',
                             iconFamily: 'Entypo',
                             iconName: 'laptop',
                             iconSize: 20,
-                            text: 'Work Day'
+                            text: 'Work Day',
+                            selectedStyle: styles.yellowHighlight,
+                            deselectedStyle: styles.hiddenHighlight
                         },
                         {
                             index: 1,
+                            stateValue: 'half',
                             iconFamily: 'FontAwesome5',
                             iconName: 'balance-scale',
                             iconSize: 20,
-                            text: 'Half Day'
+                            text: 'Half Day',
+                            selectedStyle: styles.greenHighlight,
+                            deselectedStyle: styles.hiddenHighlight
                         },
                         {
                             index: 2,
+                            stateValue: 'off',
                             iconFamily: 'FontAwesome5',
                             iconName: 'coffee',
                             iconSize: 20,
-                            text: 'Day Off'
+                            text: 'Day Off',
+                            selectedStyle: styles.blueHighlight,
+                            deselectedStyle: styles.hiddenHighlight
                         }
                     ]}></SelectionList>
-                    <SelectionList styles={styles} data={'ambition'} label={'HOW IS YOUR MOTIVATION TODAY?'} defaultSelection={1} invert={true} orientation={'row'} onChange={handleInput} iconStyle={2}
+                    <SelectionList styles={styles} data={'ambition'} label={'HOW IS YOUR MOTIVATION TODAY?'} selection={ambition} onPress={setAmbition} invert={true} orientation={'row'} onChange={handleInput} iconStyle={2}
                         selections={[
                         {
                             index: 0,
+                            stateValue: 'lazy',
                             iconFamily: 'MaterialCommunityIcons',
                             iconName: 'sleep',
                             iconSize: 20,
-                            text: 'Lazy'
+                            text: 'Lazy',
+                            selectedStyle: styles.tealHighlight,
+                            deselectedStyle: styles.hiddenHighlight
                         },
                         {
                             index: 1,
+                            stateValue: 'normal',
                             iconFamily: 'Entypo',
                             iconName: 'man',
                             iconSize: 20,
-                            text: 'Normal'
+                            text: 'Normal',
+                            selectedStyle: styles.blueHighlight,
+                            deselectedStyle: styles.hiddenHighlight
                         },
                         {
                             index: 2,
+                            stateValue: 'ambitious',
                             iconFamily: 'MaterialCommunityIcons',
                             iconName: 'arm-flex',
                             iconSize: 20,
-                            text: 'Ambitious'
+                            text: 'Ambitious',
+                            selectedStyle: styles.pinkHighlight,
+                            deselectedStyle: styles.hiddenHighlight
                         }
                     ]}></SelectionList>
                 </View>}

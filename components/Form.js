@@ -45,28 +45,41 @@ export function EditField(props) {
 export function SelectionList(props) {
     const styles = props.styles;
 
-    const inputField = useRef(null);
-    const [selected,setSelected] = useState(props.defaultSelection)
+    let itemWidth;
 
-    //const handlePress = (index) => {
-    //    setSelected(index);
-    //    props.onChange(props.data, index);
-    //}
+    if (props.orientation == 'row') {
+        switch (props.columns) {
+            case 1:
+                itemWidth = styles.oneColumn;
+                break;
+            case 2:
+                itemWidth = styles.twoColumns;
+                break;
+            case 3:
+                itemWidth = styles.threeColumns;
+                break;
+        }
+    } else
+        itemWidth = styles.oneColumn;
 
-    useEffect(() => {
-        props.onChange(props.data, selected);
-    }, [selected]);
+
+
 
     const optionContent = props.selections.map( (selection,i) => {
+        const selected = selection.stateValue == props.selection;
         return (
-            <Pressable key={i} style={[props.orientation == 'column' ? styles.selectionItemColumn : styles.selectionItemRow,props.invert && styles.whiteBackground,selection.index == selected && styles.selected]} onPress={() => setSelected(selection.index)}>
+            <Pressable key={i} style={[props.orientation == 'column' ? styles.selectionItemColumn : styles.selectionItemRow,props.invert && styles.whiteBackground, itemWidth]} onPress={() => props.onPress(selection.stateValue)}>
                 {props.iconStyle > 0 &&
-                <View style={[styles.selectionIcon, props.iconStyle == 2 && styles.selectionIconSmall]}>
-                    {getIcon(selection.iconFamily,selection.iconName,selection.iconSize,styles.colors.gray)}
+                <View style={[,styles.selectionIcon, props.iconStyle == 2 && styles.selectionIconSmall,selection.hideIconBorder && styles.noBorder]}>
+                    {getIcon(selection.iconFamily,selection.iconName,selection.iconSize,selected ? styles.colors.gray : styles.colors.gray3)}
                 </View>}
-                <View style={[styles.marginHorizontal4,props.orientation == 'column' ? styles.flex1 : styles.alignItems]}>
-                    <StyledText style={[styles.selectionText, props.orientation == 'row' && props.iconStyle == 2 && styles.selectionTextSmall]}>{selection.text}</StyledText>
-                    {props.useSubtext && <StyledText style={[styles.selectionSubtext]}>{selection.subtext}</StyledText>}
+                <View style={[styles.marginHorizontal4,props.orientation == 'column' ? {alignItems: 'flex-start'} : styles.alignItems]}>
+                    <StyledText style={[styles.selectionText, props.orientation == 'row' && 
+                    props.iconStyle == 2 && 
+                    styles.selectionTextSmall, selected ? selection.selectedStyle : [selection.deselectedStyle, styles.gray3Text]]}>
+                        {selection.text}
+                    </StyledText>
+                    {props.useSubtext && <StyledText style={[styles.selectionSubtext, !selected && styles.gray3Text]}>{selection.subtext}</StyledText>}
                 </View>
             </Pressable>
         )
@@ -81,7 +94,7 @@ export function SelectionList(props) {
                     {getIcon('MaterialCommunityIcons','help-circle-outline',24,props.invert ? styles.whiteColor : styles.colors.gray2)}
                 </Pressable>
             </View>            
-            <View style={[props.orientation=='row' && styles.row, props.wrap && styles.wrap, styles.spaceBetween]}>{optionContent}</View>
+            <View style={[props.orientation=='row' && styles.row, props.wrap && styles.wrap, styles.spaceBetween, optionContent.length == 2 && styles.twoOptions]}>{optionContent}</View>
         </View> )
 
 }

@@ -21,6 +21,7 @@ import store from './redux/store';
 import { styles } from './styles/styles';
 import TaskScreen from './screens/task-screen/task-screen';
 import { useFonts } from 'expo-font/build';
+import { createStackNavigator } from '@react-navigation/stack';
 
 const { UIManager } = NativeModules;
 
@@ -206,8 +207,9 @@ export default function App() {
                 else task.dateCreated = new Date();
                 if (task.dateModified)
                     task.dateModified = new Date(task.dateModified);
-                if (!task.type) task.type = 'CAPTURED';
+                if (!task.type) task.type = 'NOTES';
                 if (task.type == 'CAPTURED') {
+                    task.type = 'NOTE';
                     task.iconLibrary = 'MaterialCommunityIcons';
                     task.iconName = 'dots-circle';
                 }
@@ -277,6 +279,7 @@ export default function App() {
 
 
     const NavBar = createBottomTabNavigator();
+    const Stack = createStackNavigator();
 
     useEffect( () => {
         DeviceEventEmitter.addListener("event.taskEvent", eventData => handleTaskEvent(eventData));
@@ -311,13 +314,16 @@ export default function App() {
         tabBarInactiveTintColor: styles.colors.gray2,
         tabBarActiveBackgroundColor: styles.blue3,
         tabBarInactiveBackgroundColor: 'white'
-      };
+    };
 
     return (
             tasksLoaded && fontsLoaded ?
             <SafeAreaView style={[styles.safe]}>
-                <NavigationContainer>
-                    <Home/>
+                <NavigationContainer screenOptions={{headerShown:false}}>
+                    <Stack.Navigator>
+                        <Stack.Screen name='Main' component={Home} options={{headerShown: false}}/>
+                        <Stack.Screen name='Editor' component={TaskEditor} options={{headerShown: false}}/>
+                    </Stack.Navigator>
                 </NavigationContainer>
             </SafeAreaView> : <View></View>
     );
