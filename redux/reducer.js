@@ -175,6 +175,19 @@ export default function rootReducer(state = initialState, action) {
                   }
                 })
             }
+        case 'task/taskStatusChanged':
+            return {
+                ...state,
+                tasks: state.tasks.map(task => {
+                    if (task.uniqid !== action.uniqid) {
+                    return task
+                    }
+                    return {
+                    ...task,
+                    status: action.payload
+                    }
+                })
+            }
         case 'task/taskScored':
             return {
                 ...state,

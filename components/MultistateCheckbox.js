@@ -5,13 +5,12 @@ import Svg, { Path } from 'react-native-svg';
 
 
 export default function MultistateCheckbox(props) {
-    const [state,setState] = useState(props.initialState);
 
     const styles = props.styles;
 
     let boxComponent;
 
-    switch (state) {
+    switch (props.state) {
         case 0:
             boxComponent = <View style={styles.whiteBackground}>
                 <Svg height="20" width="20" viewBox="0 0 10 10" >                
@@ -58,16 +57,11 @@ export default function MultistateCheckbox(props) {
     }
 
     const toggleState = () => {
-        const newState = state==2 ? 0 : state+1;
-
-        props.onStateChange(newState)
-
-        setState(newState);
+        props.onStateChange()
     }
 
     return <Pressable style={[styles.padding4, styles.paddingTop4, styles.margin2]}
     onPress={toggleState}>
-        
             {boxComponent}
     </Pressable>
 }

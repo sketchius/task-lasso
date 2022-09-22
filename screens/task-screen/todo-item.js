@@ -32,10 +32,13 @@ export default function TodoItem(props) {
     const navigation = useNavigation();
 
 
-    const [checkBoxState, updateCheckBoxState] = useState(0);
+    const [checkboxState, updateCheckboxState] = useState(task.status || 0);
 
-    const handleCheckboxStateChange = (value) => {
-        DeviceEventEmitter.emit("event.taskEvent", {event:'setStatus', value, uniqid: task.uniqid});
+    const handleCheckboxStateChange = () => {
+        const newState = checkboxState==2 ? 0 : checkboxState+1;
+
+        updateCheckboxState(newState);
+        DeviceEventEmitter.emit("event.taskEvent", {event:'setStatus', newState, uniqid: task.uniqid});
     }
 
     let expandedContent;
@@ -53,7 +56,7 @@ export default function TodoItem(props) {
 
                     <Pressable style={[styles.size80, styles.alignItems, styles.thinBorder, styles.margina, styles.paddingVertical4]} 
                     onPress={ () => {
-                        navigation.navigate('Editor',{action: 'edit', mode: 'task', task: 'uniqid'})
+                        navigation.navigate('Editor',{action: 'edit', mode: 'task', uniqid: task.uniqid})
                     }}>
                         <Feather name="edit" size={16} color={styles.colors.gray}  />
                         <StyledText style={[styles.paddingTop2]}>Edit</StyledText>
@@ -107,7 +110,7 @@ export default function TodoItem(props) {
 
     return (
     <View style={[styles.row, styles.whiteBackground, styles.taskBorder]}>
-        {!props.compact ? <MultistateCheckbox states={3} styles={styles} initialState={task.status ? task.status : 0} onStateChange={handleCheckboxStateChange}></MultistateCheckbox> : <View style={styles.compactTaskElement}></View>}
+        {!props.compact ? <MultistateCheckbox states={3} state={checkboxState} onStateChange={handleCheckboxStateChange} styles={styles} initialState={task.status ? task.status : 0} ></MultistateCheckbox> : <View style={styles.compactTaskElement}></View>}
         <Pressable style={[ styles.paddingRight3, styles.paddingLeft4, styles.flex100, styles.leftBorder]} onPress={() => setExpanded(!expanded) }>
             <View style={props.compact ? styles.marginVertical0 : styles.marginVertical3}>
                 <View style={styles.alignedRow}>

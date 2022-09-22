@@ -20,24 +20,40 @@ export default function TaskEditor({ route, navigation }) {
     const [action,setAction] = useState('new');
     const [mode,setMode] = useState('note');
     
+    const [title,setTitle] = useState('');
+    const [description,setDescription] = useState('');
     const [taskType,setTaskType] = useState('flexible');
     const [taskPriority,setTaskPriority] = useState(1);
     const [taskDuration,setTaskDuration] = useState(15);
+    const [dateDue,setDateDue] = useState('');
+    const [timeDue,setTimeDue] = useState('');
 
     const isFocused = useIsFocused()
 
     useEffect(() => {
+        console.log(`====================`)
+        console.log(`Edit screen focused!`)
         setMode(route.params.mode);
+        console.log(`Setting mode to ${route.params.mode}`)
         setAction(route.params.action);
-        if (route.params.task) {
-            const task = getTaskByUniqid(tasks, route.params.task);
-        
+        console.log(`Setting action to ${route.params.action}`)
+        if (route.params.uniqid) {
+
+            console.log(`route.params.uniqid truthy`)
+            const task = getTaskByUniqid(tasks, route.params.uniqid);
             if (route.params.action == 'edit' && task) {
+                console.log(JSON.stringify(task,null,4))
+                setTitle(task.title);
+                setDescription(task.description);
                 setTaskType(task.type.toLowerCase());
                 setTaskPriority(task.priority)
                 setTaskDuration(task.duration)
-                console.log(`params.task.dateDue = ${typeof route.params.task.dateDue}`)
+
+                console.log(`params.task.dateDue = ${typeof task.dateDue}`)
             }
+        } else {
+            console.log(`route.params.task falsy`)
+
         }
     } , [isFocused])
 
@@ -108,36 +124,38 @@ export default function TaskEditor({ route, navigation }) {
 
 
     return (
-        <View>
-            <SelectionList styles={styles} data={'mode'} label={'NEW TASK'} selection={mode} onPress={setMode} orientation={'row'}  columns={2} iconStyle={1} useSubtext={true}
-                selections={[
-                    {
-                        index: 0,
-                        stateValue: 'note',
-                        iconFamily: 'MaterialCommunityIcons',
-                        iconName: 'note-outline',
-                        iconSize: 35,
-                        hideIconBorder: true,
-                        text: 'Note',
-                        subtext: "Quickly capture a thought. You can expand it into a task later.",
-                        selectedStyle: styles.orangeHighlight,
-                        deselectedStyle: styles.hiddenHighlight
-                    },
-                    {
-                        index: 1,
-                        stateValue: 'task',
-                        iconFamily: 'MaterialCommunityIcons',
-                        iconName: 'card-text-outline',
-                        iconSize: 35,
-                        hideIconBorder: true,
-                        text: 'Full Task',
-                        subtext: "Create a new task. Customize it with a variety of options.",
-                        selectedStyle: styles.yellowHighlight,
-                        deselectedStyle: styles.hiddenHighlight
-                    }
-                ]}></SelectionList>
-            <ScrollView style = {styles.fill}>
-                <EditField styles={styles} data={'title'} label={mode == 'note' ? 'NOTE' : 'TASK BREIF'} onChange={handleInput}
+        <View style={{flexDirection: 'column', height: '100%'}}>
+            <View style={{height: 'auto'}}>
+                <SelectionList styles={styles} label={'NEW TASK'} selection={mode} onPress={setMode} orientation={'row'}  columns={2} iconStyle={1} useSubtext={true}
+                    selections={[
+                        {
+                            index: 0,
+                            stateValue: 'note',
+                            iconFamily: 'MaterialCommunityIcons',
+                            iconName: 'note-outline',
+                            iconSize: 35,
+                            hideIconBorder: true,
+                            text: 'Note',
+                            subtext: "Quickly capture a thought. You can expand it into a task later.",
+                            selectedStyle: styles.orangeHighlight,
+                            deselectedStyle: styles.hiddenHighlight
+                        },
+                        {
+                            index: 1,
+                            stateValue: 'task',
+                            iconFamily: 'MaterialCommunityIcons',
+                            iconName: 'card-text-outline',
+                            iconSize: 35,
+                            hideIconBorder: true,
+                            text: 'Full Task',
+                            subtext: "Create a new task. Customize it with a variety of options.",
+                            selectedStyle: styles.yellowHighlight,
+                            deselectedStyle: styles.hiddenHighlight
+                        }
+                    ]}></SelectionList>
+            </View>
+            <ScrollView style = {{flex: 1}}>
+                <EditField styles={styles} text={title}  onChange={setTitle}  label={mode == 'note' ? 'NOTE' : 'TASK BREIF'}
                     helpTips = {[
                         `Required.`,
                         `Describe the primary action to be done for a task.`,
@@ -146,13 +164,13 @@ export default function TaskEditor({ route, navigation }) {
                     ]}
                 ></EditField>
                 {mode=='task' && <View>
-                    <EditField styles={styles} data={'desc'} label={'DESCRIPTION'} multiline={true} onChange={handleInput}
+                    <EditField styles={styles} text={description}  onChange={setDescription} label={'DESCRIPTION'} multiline={true}
                         helpTips = {[
                             `Optional.`,
                             `Add additional information need to complete the task.\nI.e. an address, phone number, or set of instructions.`
                         ]}
                     ></EditField>
-                    <SelectionList styles={styles} data={'type'} label={'TASK TYPE'} selection={taskType} onPress={setTaskType} orientation={'column'} onChange={handleInput} iconStyle={1} useSubtext={true}
+                    <SelectionList styles={styles} label={'TASK TYPE'} selection={taskType} onPress={setTaskType} orientation={'column'} onChange={handleInput} iconStyle={1} useSubtext={true}
                     selections={[
                         {
                             index: 0,
@@ -199,7 +217,7 @@ export default function TaskEditor({ route, navigation }) {
                             deselectedStyle: styles.hiddenHighlight
                         }
                     ]}></SelectionList>
-                    <SelectionList styles={styles} data={'priority'} label={'PRIORITY'} selection={taskPriority} onPress={setTaskPriority} orientation={'row'} columns={3} onChange={handleInput} iconStyle={0}
+                    <SelectionList styles={styles} label={'PRIORITY'} selection={taskPriority} onPress={setTaskPriority} orientation={'row'} columns={3} onChange={handleInput} iconStyle={0}
                     selections={[
                         {
                             index: 0,
@@ -232,7 +250,7 @@ export default function TaskEditor({ route, navigation }) {
                             deselectedStyle: styles.hiddenHighlight
                         }
                     ]}></SelectionList>
-                    <SelectionList styles={styles} data={'duration'} label={'TASK DURATION'}  selection={taskDuration} onPress={setTaskDuration}  orientation={'row'} columns={3} wrap={true} onChange={handleInput} iconStyle={0}
+                    <SelectionList styles={styles} label={'TASK DURATION'}  selection={taskDuration} onPress={setTaskDuration}  orientation={'row'} columns={6} wrap={true} onChange={handleInput} iconStyle={0}
                     selections={[
                         {
                             index: 0,
@@ -277,7 +295,16 @@ export default function TaskEditor({ route, navigation }) {
                             deselectedStyle: styles.hiddenHighlight
                         }
                     ]}></SelectionList>
-                    <DateTimeComponent styles={styles} dataKey={'due'} label={'DUE DATE / TIME'} onChange={handleInput}/>
+                    <EditField styles={styles} text={dateDue}  onChange={setDateDue} label={'DATE DUE'} multiline={true}
+                        helpTips = {[
+
+                        ]}
+                    ></EditField>
+                    <EditField styles={styles} text={timeDue}  onChange={setTimeDue} label={'TIME DUE'} multiline={true}
+                        helpTips = {[
+
+                        ]}
+                    ></EditField>
                 </View>}
             
                 <Button title='Save' onPress={reportData}/>
@@ -286,6 +313,8 @@ export default function TaskEditor({ route, navigation }) {
     )
 
 }
+
+// <DateTimeComponent styles={styles} dataKey={'due'} label={'DUE DATE / TIME'} onChange={handleInput}/>
 
 const myStyle = StyleSheet.create({
     container: {

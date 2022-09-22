@@ -9,7 +9,6 @@ export function EditField(props) {
     const styles = props.styles;
 
     const inputField = useRef(null);
-    const [input,setInput] = useState('');
 
     const [showHelp,setShowHelp] = useState(false);
 
@@ -35,7 +34,7 @@ export function EditField(props) {
                 </Pressable>
             </View>
             <View style={styles.textInputContainer}>
-                <TextInput style={styles.textInput} maxLength={props.maxLength} ref={inputField} multiline={props.multiline} onChangeText={text => props.onChange(props.data, text)}/>
+                <TextInput style={styles.textInput} value={props.text} maxLength={props.maxLength} ref={inputField} multiline={props.multiline} onChangeText={text => props.onChange(text)}/>
             </View>
             {showHelp && helpContent}
         </View>
@@ -58,6 +57,9 @@ export function SelectionList(props) {
             case 3:
                 itemWidth = styles.threeColumns;
                 break;
+            case 6:
+                itemWidth = styles.sixColumns;
+                break;
         }
     } else
         itemWidth = styles.oneColumn;
@@ -67,16 +69,28 @@ export function SelectionList(props) {
 
     const optionContent = props.selections.map( (selection,i) => {
         const selected = selection.stateValue == props.selection;
+        let itemBorderStyle;
+        let labelBorderStyle;
+        if (true) {
+            itemBorderStyle = selected ? [selection.selectedStyle, styles.selectionBorder1] : [selection.deselectedStyle, styles.hiddenBorder1];
+        } else {
+            labelBorderStyle = selected ? selection.selectedStyle : selection.deselectedStyle;
+            itemBorderStyle = selected ? styles.selectionListSelected : styles.selectionListDeselected
+        }
         return (
-            <Pressable key={i} style={[props.orientation == 'column' ? styles.selectionItemColumn : styles.selectionItemRow,props.invert && styles.whiteBackground, itemWidth]} onPress={() => props.onPress(selection.stateValue)}>
+            <Pressable
+                key={i}
+                style={[props.orientation == 'column' ? styles.selectionItemColumn : styles.selectionItemRow, itemWidth, itemBorderStyle]}
+                onPress={() => props.onPress(selection.stateValue)
+            }>
                 {props.iconStyle > 0 &&
                 <View style={[,styles.selectionIcon, props.iconStyle == 2 && styles.selectionIconSmall,selection.hideIconBorder && styles.noBorder]}>
                     {getIcon(selection.iconFamily,selection.iconName,selection.iconSize,selected ? styles.colors.gray : styles.colors.gray3)}
                 </View>}
-                <View style={[styles.marginHorizontal4,props.orientation == 'column' ? {alignItems: 'flex-start'} : styles.alignItems]}>
-                    <StyledText style={[styles.selectionText, props.orientation == 'row' && 
-                    props.iconStyle == 2 && 
-                    styles.selectionTextSmall, selected ? selection.selectedStyle : [selection.deselectedStyle, styles.gray3Text]]}>
+                <View style={[styles.marginHorizontal4,props.orientation == 'column' ? styles.flexStart : styles.alignItems, {alignSelf: 'center',width: '100%'}]}>
+                    <StyledText style={[styles.selectionText, props.orientation == 'row' &&
+                    props.iconStyle == 2 &&
+                    styles.selectionTextSmall]}>
                         {selection.text}
                     </StyledText>
                     {props.useSubtext && <StyledText style={[styles.selectionSubtext, !selected && styles.gray3Text]}>{selection.subtext}</StyledText>}

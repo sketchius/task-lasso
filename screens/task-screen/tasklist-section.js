@@ -55,7 +55,7 @@ export default function TasklistSection(props) {
     style={[styles.notesContainer, styles.paddingVertical4, {height : 'auto'}]}
     onPress={ () => expand()}>
     <View style={[styles.alignedRow, styles.topBorder]}>
-        <Text style={[styles.defaultText, styles.taskListSectionHeader, styles.fontSize3, styles.marginLeft4, styles.bold, props.color,filteredTaskList.length == 0 && styles.gray3Text]}>{props.label}</Text>
+        <Text style={[styles.defaultText, styles.taskListSectionHeader, styles.fontSize3, styles.marginLeft4, styles.bold, props.color, styles.paddingLeft4,filteredTaskList.length == 0 && styles.gray3Text]}>{props.label}</Text>
         {!expanded && getSectionTaskCountElement(filteredTaskList)}
         <View style={styles.flex1}></View>
         {filteredTaskList.length > 0 && <View style={styles.caret}>{getIcon('AntDesign',expanded ? 'caretdown' : 'caretleft',16,styles.colors.gray3)}</View>}

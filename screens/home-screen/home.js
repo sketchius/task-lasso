@@ -39,7 +39,7 @@ export default function Home(navigation,route) {
                 ambitionSelection = value;
                 break;
             case 'start':
-                DeviceEventEmitter.emit("event.dayEvent", {event:'assignTasks', designation:designationSelection,ambition:ambitionSelection});
+                DeviceEventEmitter.emit("event.dayEvent", {event:'assignTasks', designation,ambition});
                 setStatus('ASSIGNED');
                 break;
             case 'end':
@@ -65,7 +65,7 @@ export default function Home(navigation,route) {
                         selections={[
                         {
                             index: 0,
-                            stateValue: 'work',
+                            stateValue: 0,
                             iconFamily: 'Entypo',
                             iconName: 'laptop',
                             iconSize: 20,
@@ -75,7 +75,7 @@ export default function Home(navigation,route) {
                         },
                         {
                             index: 1,
-                            stateValue: 'half',
+                            stateValue: 1,
                             iconFamily: 'FontAwesome5',
                             iconName: 'balance-scale',
                             iconSize: 20,
@@ -85,7 +85,7 @@ export default function Home(navigation,route) {
                         },
                         {
                             index: 2,
-                            stateValue: 'off',
+                            stateValue: 2,
                             iconFamily: 'FontAwesome5',
                             iconName: 'coffee',
                             iconSize: 20,
@@ -98,7 +98,7 @@ export default function Home(navigation,route) {
                         selections={[
                         {
                             index: 0,
-                            stateValue: 'lazy',
+                            stateValue: 0,
                             iconFamily: 'MaterialCommunityIcons',
                             iconName: 'sleep',
                             iconSize: 20,
@@ -108,7 +108,7 @@ export default function Home(navigation,route) {
                         },
                         {
                             index: 1,
-                            stateValue: 'normal',
+                            stateValue: 1,
                             iconFamily: 'Entypo',
                             iconName: 'man',
                             iconSize: 20,
@@ -118,7 +118,7 @@ export default function Home(navigation,route) {
                         },
                         {
                             index: 2,
-                            stateValue: 'ambitious',
+                            stateValue: 2,
                             iconFamily: 'MaterialCommunityIcons',
                             iconName: 'arm-flex',
                             iconSize: 20,

@@ -187,6 +187,26 @@ const styleArray = {
     selected: {
         backgroundColor: '#fffe94'
     },
+    selectionListSelected: {
+        borderWidth: 1,
+        borderRadius: space.size2,
+        borderColor: colors.gray3
+    },
+    selectionListDeselected: {
+        borderWidth: 1,
+        borderRadius: space.size2,
+        borderColor: 'transparent'
+    },
+    colorBorder: {
+        borderWidth: 2,
+        borderRadius: space.size2,
+        borderColor: colors.blue3
+    },
+    colorlessBorder: {
+        borderWidth: 2,
+        borderRadius: space.size2,
+        borderColor: 'transparent'
+    },
     whiteBackground: {
         backgroundColor: 'white'
     },
@@ -194,10 +214,7 @@ const styleArray = {
         height: 40,
         width: 40,
         alignItems: 'center',
-        justifyContent: 'center',
-        borderColor: colors.gray,
-        borderWidth: space.size0,
-        borderRadius: space.size3
+        justifyContent: 'center'
     },
     noBorder: {
         borderWidth: 0
@@ -248,10 +265,13 @@ const styleArray = {
         width: '50%',
     },
     threeColumns: {
-        width: '31%',
+        width: '33%'
+    },
+    sixColumns: {
+        width: '15%'
     },
     selectionText: {
-        fontSize: font.size3,
+        fontSize: font.size1,
         fontFamily: 'RobotoMedium',
         color: colors.gray
     },
@@ -331,6 +351,9 @@ const styleArray = {
     },
     centerSelf: {
         alignSelf: 'center'
+    },
+    flexStart: {
+        alignItems: 'flex-start'
     },
 
     scrollContainer: {
@@ -612,26 +635,27 @@ const styleArray = {
         paddingLeft: space.size2,
         paddingRight: space.size2,
         backgroundColor: colors.teal3,
-        borderLeftWidth: .75,
-        borderRightWidth: .75,
-        borderRadius: space.size2,
+        borderLeftWidth: 4,
+        borderRightWidth: 4,
         borderColor: colors.teal2
     },
     hiddenHighlight: {
         paddingLeft: space.size2,
         paddingRight: space.size2,
         backgroundColor: 'transparent',
-        borderLeftWidth: .75,
-        borderRightWidth: .75,
-        borderRadius: space.size2,
-        borderColor: 'transparent'
+        borderLeftWidth: 4,
+        borderRightWidth: 4,
+        borderRightColor: 'transparent',
+        borderTopColor: 'transparent',
+        borderBottomColor: 'transparent',
+        borderLeftColor: colors.gray3,
     },
     redHighlight: {
         paddingLeft: space.size2,
         paddingRight: space.size2,
         backgroundColor: colors.red3,
-        borderLeftWidth: .75,
-        borderRightWidth: .75,
+        borderLeftWidth: 4,
+        borderRightWidth: 4,
         borderRadius: space.size2,
         borderColor: colors.red2
     },
@@ -639,37 +663,55 @@ const styleArray = {
         paddingLeft: space.size2,
         paddingRight: space.size2,
         backgroundColor: colors.yellow3,
-        borderLeftWidth: .75,
-        borderRightWidth: .75,
-        borderRadius: space.size2,
+        borderLeftWidth: 4,
+        borderRightWidth: 4,
         borderColor: colors.yellow2
     },
     greenHighlight: {
         paddingLeft: space.size2,
         paddingRight: space.size2,
         backgroundColor: colors.green3,
-        borderLeftWidth: .75,
-        borderRightWidth: .75,
-        borderRadius: space.size2,
+        borderLeftWidth: 4,
+        borderRightWidth: 4,
         borderColor: colors.green2
     },
     blueHighlight: {
         paddingLeft: space.size2,
         paddingRight: space.size2,
         backgroundColor: colors.blue3,
-        borderLeftWidth: .75,
-        borderRightWidth: .75,
-        borderRadius: space.size2,
+        borderLeftWidth: 4,
+        borderRightWidth: 4,
         borderColor: colors.blue2
     },
     orangeHighlight: {
         paddingLeft: space.size2,
         paddingRight: space.size2,
         backgroundColor: colors.orange3,
-        borderLeftWidth: .75,
-        borderRightWidth: .75,
-        borderRadius: space.size2,
+        borderLeftWidth: 4,
+        borderRightWidth: 4,
         borderColor: colors.orange2
+    },
+    selectionBorder1: {
+        borderTopWidth: 1,
+        borderBottomWidth: 1,
+        borderLeftWidth: 1,
+        borderRightWidth: 1,
+        //borderTopColor: colors.gray,
+        //borderBottomColor: colors.gray,
+        //borderLeftColor: colors.gray,
+        //borderRightColor: colors.gray,
+        borderRadius: space.size2
+    },
+    hiddenBorder1: {
+        borderTopWidth: 1,
+        borderBottomWidth: 1,
+        borderLeftWidth: 1,
+        borderRightWidth: 1,
+        borderTopColor: 'transparent',
+        borderBottomColor: 'transparent',
+        borderLeftColor: 'transparent',
+        borderRightColor: 'transparent',
+        borderRadius: space.size2
     },
     colors,
     space,

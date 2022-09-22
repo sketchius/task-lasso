@@ -109,6 +109,7 @@ export default function App() {
                 break;
         }
 
+        
         const assignTask = (task) => {  
             assignedValue.current += task.duration;
             dispatch({type:'task/taskAssigned', payload: task.uniqid})
@@ -138,6 +139,7 @@ export default function App() {
 
             const score = ( baseScore * priorityWeight * deadlineWeight * flexibleWeight * durationWeight);
             dispatch({type:'task/taskScored', uniqid: task.uniqid, payload: score})
+            
             return score;
         }
 
@@ -159,7 +161,7 @@ export default function App() {
             const updatedTaskes = store.getState().tasks;
 
             updatedTaskes
-            .filter( (task => task.type != 'SCHEDULED' && task.type != 'CAPTURED'))
+            .filter( (task => task.type != 'SCHEDULED' && task.type != 'NOTE'))
             .forEach( (task) => {
                 if (!task.assigned) {
                     let taskScore = scoreTask(task);
@@ -288,12 +290,14 @@ export default function App() {
     const handleTaskEvent = (eventData) => {
         switch (eventData.event) {
             case 'setStatus':
-                editTaskProperty(eventData.uniqid,'status',eventData.value);
+                dispatch({type:'task/taskStatusChanged',uniqid: eventData.uniqid, payload: eventData.newState} )
                 break;
         }
+        saveTasks(tasks)
     }
 
     const handleDayEvent = (eventData) => {
+        
         switch (eventData.event) {
             case 'assignTasks':
                 assignTasks(eventData.designation,eventData.ambition)
