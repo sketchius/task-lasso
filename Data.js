@@ -18,8 +18,6 @@ export async function loadTasks() {
     }
 }
 
-
-
 export async function saveData(key,data) {
     try {
         await AsyncStorage.setItem('@' + key, data)

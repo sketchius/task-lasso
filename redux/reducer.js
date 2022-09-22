@@ -149,8 +149,12 @@ const initialState = {
 };
 
 export default function rootReducer(state = initialState, action) {
+    
+    console.log(`*** REDUCER RUNNING ***`)
+    console.log(`UNIQID: ${action.uniqid}`)
     switch (action.type) {
         case 'storage/loadedData':
+            console.log(`*** LOADING DATA ***`)
             return {tasks: action.payload};
         case 'tasks/UnassignedAll':
             return {
@@ -159,6 +163,28 @@ export default function rootReducer(state = initialState, action) {
                     return {
                     ...task,
                     assigned: false
+                    }
+                })
+            }
+        case 'task/taskCreated':
+            return {
+                ...state,
+                tasks:[
+                    ...state.tasks,
+                    action.payload
+                ]
+            }
+        case 'task/taskUpdated':
+            console.log(`*** UPDATEDING TASK ***`)
+            return {
+                ...state,
+                tasks: state.tasks.map(task => {
+                    if (task.uniqid !== action.uniqid) {
+                    return task
+                    }
+                    return {
+                    ...task,
+                    ...action.payload
                     }
                 })
             }
@@ -176,6 +202,7 @@ export default function rootReducer(state = initialState, action) {
                 })
             }
         case 'task/taskStatusChanged':
+            console.log(`*** UPDATEDING TASK STATUS ***`)
             return {
                 ...state,
                 tasks: state.tasks.map(task => {

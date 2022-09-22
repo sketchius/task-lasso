@@ -284,16 +284,24 @@ export default function App() {
     const Stack = createStackNavigator();
 
     useEffect( () => {
+        console.log(`ADDING LISTENERS!`)
         DeviceEventEmitter.addListener("event.taskEvent", eventData => handleTaskEvent(eventData));
         DeviceEventEmitter.addListener("event.dayEvent", eventData => handleDayEvent(eventData));
     },[])
     const handleTaskEvent = (eventData) => {
+        console.log(`handleTaskEvent, eventData.event = ${eventData.event}`)
         switch (eventData.event) {
             case 'setStatus':
                 dispatch({type:'task/taskStatusChanged',uniqid: eventData.uniqid, payload: eventData.newState} )
                 break;
+            case 'newTask':
+                dispatch({type:'task/taskCreated',payload: eventData.task} )
+                break;
+            case 'updateTask':                
+                dispatch({type:'task/taskUpdated',uniqid: eventData.uniqid, payload: eventData.task} )
+                break;
         }
-        saveTasks(tasks)
+        //saveTasks(tasks)
     }
 
     const handleDayEvent = (eventData) => {

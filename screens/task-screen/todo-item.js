@@ -56,6 +56,8 @@ export default function TodoItem(props) {
 
                     <Pressable style={[styles.size80, styles.alignItems, styles.thinBorder, styles.margina, styles.paddingVertical4]} 
                     onPress={ () => {
+                        
+                        //DeviceEventEmitter.emit("event.taskEvent", {event: 'updateTask', uniqid: task.uniqid, task});
                         navigation.navigate('Editor',{action: 'edit', mode: 'task', uniqid: task.uniqid})
                     }}>
                         <Feather name="edit" size={16} color={styles.colors.gray}  />

@@ -1,5 +1,5 @@
 import React, {useState,useEffect} from 'react';
-import { Button, StyleSheet, ScrollView, View } from 'react-native';
+import { Button, StyleSheet, ScrollView, DeviceEventEmitter, View } from 'react-native';
 import { useIsFocused } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
 import uuid from 'react-native-uuid';
@@ -7,6 +7,9 @@ import uuid from 'react-native-uuid';
 import { Logs } from 'expo'
 
 import * as chrono from 'chrono-node';
+
+import formatDistance from 'date-fns/formatDistance'
+import formatRelative from 'date-fns/formatRelative'
 
 import { DateTimeComponent, EditField, SelectionList } from './../../components/Form';
 import { getTaskByUniqid } from './../../tools/tools';
@@ -25,40 +28,34 @@ export default function TaskEditor({ route, navigation }) {
     
     const [title,setTitle] = useState('');
     const [description,setDescription] = useState('');
+    const [taskId,setTaskId] = useState('');
     const [taskType,setTaskType] = useState('flexible');
     const [taskPriority,setTaskPriority] = useState(1);
     const [taskDuration,setTaskDuration] = useState(15);
     const [iconFamily,setIconFamily] = useState('');
     const [iconName,setIconName] = useState('');
     const [dateDue,setDateDue] = useState('');
-    const [timeDue,setTimeDue] = useState('');
 
     const isFocused = useIsFocused()
 
     useEffect(() => {
-        console.log(`====================`)
-        console.log(`Edit screen focused!`)
         setMode(route.params.mode);
-        console.log(`Setting mode to ${route.params.mode}`)
         setAction(route.params.action);
-        console.log(`Setting action to ${route.params.action}`)
         if (route.params.uniqid) {
 
-            console.log(`route.params.uniqid truthy`)
             const task = getTaskByUniqid(tasks, route.params.uniqid);
             if (route.params.action == 'edit' && task) {
                 console.log(JSON.stringify(task,null,4))
                 setTitle(task.title);
                 setDescription(task.description);
+                setTaskId(task.uniqid);
                 setTaskType(task.type.toLowerCase());
                 setTaskPriority(task.priority)
                 setTaskDuration(task.duration)
-
-                console.log(`params.task.dateDue = ${typeof task.dateDue}`)
+                setIconFamily(task.iconLibrary)
+                setIconName(task.iconName)
+                setDateDue(formatRelative(task.dateDue, new Date()))
             }
-        } else {
-            console.log(`route.params.task falsy`)
-
         }
     } , [isFocused])
 
@@ -74,62 +71,50 @@ export default function TaskEditor({ route, navigation }) {
     }
 
     const testNewDateThing = () => {
-        console.log(chrono.parseDate(dateDue),null,4);
+        console.log(chrono.parseDate(dateDue));
     }
 
-    const sendNewTask = () => {
-
-        const newTask = {
-            title: form.title,
-            description: form.desc,
-            uniqid: uuid.v4(),
-            prority: form.priority,
-            dateDue: form.due,
-            useTime: false,
-            assigned: false,
-            iconLibrary: 'Ionicons',
-            iconName: 'people'
+    const onSave = () => {
+        console.log(`*** ON SAVE ***`)
+        let newTask;
+        
+        if (mode == 'task') {
+            newTask = {
+                title,
+                description,
+                type: taskType.toUpperCase(),
+                priority: taskPriority,
+                duration: taskDuration,
+                dateDue: chrono.parseDate(dateDue),
+                useTime: false,
+                iconLibrary: iconFamily,
+                iconName,
+                dateModified: new Date()
+        }} else {
+            newTask = {
+                title,
+                type: 'NOTE',
+                useTime: false,
+                iconLibrary: 'MaterialCommunityIcons',
+                iconName: 'note-outline',
+                dateModified: new Date()
+            }    
         }
 
-        switch (form.type) {
-            case 0:
-                newTask.type = 'FLEXIBLE'
-                break;
-            case 1:
-                newTask.type = 'SCHEDULED'
-                break;
-            case 2:
-                newTask.type = 'DEADLINE'
-                break;
-            case 3:
-                newTask.type = 'REPEATING'
-                break;
-            
+        let event = 'updateTask';
+        if (action == 'new') {
+            newTask.uniqid = uuid.v4();
+            newTask.assigned = false;
+            newTask.status = 0;
+            newTask.dateCreated = new Date();
+            event = 'newTask';
+        } else {
+            newTask.uniqid = taskId;
         }
-
-        switch (form.duration) {
-            case 0:
-                newTask.duration = 5;
-                break;
-            case 1:
-                newTask.duration = 10;
-                break;
-            case 2:
-                newTask.duration = 15;
-                break;
-            case 3:
-                newTask.duration = 30;
-                break;
-            case 4:
-                newTask.duration = 45;
-                break;
-            case 5:
-                newTask.duration = 60;
-                break;
-        }
-
-        props.onSave(newTask)
+        
+        DeviceEventEmitter.emit("event.taskEvent", {event, uniqid: newTask.uniqid, task: newTask});
     }
+
 
 
     return (
@@ -320,14 +305,9 @@ export default function TaskEditor({ route, navigation }) {
 
                         ]}
                     ></EditField>
-                    <EditField styles={styles} text={timeDue}  onChange={setTimeDue} label={'TIME DUE'} multiline={true}
-                        helpTips = {[
-
-                        ]}
-                    ></EditField>
                 </View>}
             
-                <Button title='Save' onPress={testNewDateThing}/>
+                <Button title='Save' onPress={onSave}/>
             </ScrollView>
         </View>
     )
