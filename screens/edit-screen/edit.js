@@ -12,6 +12,7 @@ import { DateTimeComponent, EditField, SelectionList } from './../../components/
 import { getTaskByUniqid } from './../../tools/tools';
 
 import { styles } from './../../styles/styles';
+import getIcon from '../../tools/Icons';
 
 Logs.enableExpoCliLogging()
 
@@ -27,6 +28,8 @@ export default function TaskEditor({ route, navigation }) {
     const [taskType,setTaskType] = useState('flexible');
     const [taskPriority,setTaskPriority] = useState(1);
     const [taskDuration,setTaskDuration] = useState(15);
+    const [iconFamily,setIconFamily] = useState('');
+    const [iconName,setIconName] = useState('');
     const [dateDue,setDateDue] = useState('');
     const [timeDue,setTimeDue] = useState('');
 
@@ -131,7 +134,7 @@ export default function TaskEditor({ route, navigation }) {
 
     return (
         <View style={{flexDirection: 'column', height: '100%'}}>
-            <View style={{height: 'auto'}}>
+            {action == 'new' && <View style={{height: 'auto'}}>
                 <SelectionList styles={styles} label={'NEW TASK'} selection={mode} onPress={setMode} orientation={'row'}  columns={2} iconStyle={1} useSubtext={true}
                     selections={[
                         {
@@ -159,7 +162,7 @@ export default function TaskEditor({ route, navigation }) {
                             deselectedStyle: styles.hiddenHighlight
                         }
                     ]}></SelectionList>
-            </View>
+            </View>}
             <ScrollView style = {{flex: 1}}>
                 <EditField styles={styles} text={title}  onChange={setTitle}  label={mode == 'note' ? 'NOTE' : 'TASK BREIF'}
                     helpTips = {[
@@ -301,6 +304,17 @@ export default function TaskEditor({ route, navigation }) {
                             deselectedStyle: styles.hiddenHighlight
                         }
                     ]}></SelectionList>
+                    {getIcon(iconFamily,iconName,36,styles.colors.gray)}
+                    <EditField styles={styles} text={iconFamily}  onChange={setIconFamily} label={'ICON FAMILY'} multiline={true}
+                        helpTips = {[
+
+                        ]}
+                    ></EditField>
+                    <EditField styles={styles} text={iconName}  onChange={setIconName} label={'ICON NAME'} multiline={true}
+                        helpTips = {[
+
+                        ]}
+                    ></EditField>                    
                     <EditField styles={styles} text={dateDue}  onChange={setDateDue} label={'DATE DUE'} multiline={true}
                         helpTips = {[
 
