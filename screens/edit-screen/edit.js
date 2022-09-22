@@ -6,6 +6,8 @@ import uuid from 'react-native-uuid';
 
 import { Logs } from 'expo'
 
+import * as chrono from 'chrono-node';
+
 import { DateTimeComponent, EditField, SelectionList } from './../../components/Form';
 import { getTaskByUniqid } from './../../tools/tools';
 
@@ -66,6 +68,10 @@ export default function TaskEditor({ route, navigation }) {
     const reportData = () => {
         alert(JSON.stringify(form))
         sendNewTask();
+    }
+
+    const testNewDateThing = () => {
+        console.log(chrono.parseDate(dateDue),null,4);
     }
 
     const sendNewTask = () => {
@@ -307,7 +313,7 @@ export default function TaskEditor({ route, navigation }) {
                     ></EditField>
                 </View>}
             
-                <Button title='Save' onPress={reportData}/>
+                <Button title='Save' onPress={testNewDateThing}/>
             </ScrollView>
         </View>
     )
