@@ -19,6 +19,7 @@ import DataInspector from './DataInspector';
 import store from './redux/store';
 
 import { styles } from './styles/styles';
+import Main from './Main'
 import TaskScreen from './screens/task-screen/task-screen';
 import { useFonts } from 'expo-font/build';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -63,24 +64,30 @@ export default function App() {
     const tasks = state.tasks;
 
     useEffect(() => {
+        console.log(`READING TASKS FROM STORAGE`)
         readTasksFromStorage();
-        dispatch({type:'day/dayStateChanged',payload: 'CHECK-IN'} )
+        
+        //setTasksLoaded(true);
     }, []);
 
-    // useEffect(() => {
-    //    saveTasks(tasks);
-    // }, [tasks]);
+    useEffect( () => {
+        dispatch({type:'day/dayStateChanged',payload: 'CHECK-IN'} )
+    },[])
+
+    useEffect(() => {
+       console.log(`TASK STATE UPDATE DETECTED... SAVING TASKS TO STORAGE`)
+       saveTasks(tasks);
+    }, [tasks]);
 
     /*useEffect(() => {
         assignTasks();
     }, []);*/
 
-    const [status,setStatus] = useState('CHECK-IN');
 
     const assignedValue = useRef(0);
 
     const assignTasks = (designation,ambition) => {
-
+        console.log('Starting assignTasks()')
         dispatch({type:'tasks/UnassignedAll'})
 
         let assignmentBudget = 0;
@@ -108,9 +115,11 @@ export default function App() {
                 assignmentBudget = assignmentBudget * 1.25;
                 break;
         }
-
+        console.log(`Budget = ${assignmentBudget} minutes`)
+        console.log(`Assigned Time = ${assignedValue.current} minutes`)
         
         const assignTask = (task) => {  
+            console.log(`assigning '${task.title}`)
             assignedValue.current += task.duration;
             dispatch({type:'task/taskAssigned', payload: task.uniqid})
         }
@@ -143,6 +152,9 @@ export default function App() {
             return score;
         }
 
+        console.log(`tasks variable contains ${tasks.length} items`)
+
+
         tasks
         .filter( (task => {return (task.type == 'SCHEDULED' || task.type == 'DEADLINE') && isToday(task.dateDue)}))
         .forEach( (task => {
@@ -158,11 +170,14 @@ export default function App() {
             let highestScoreTask;
             let highestScore = 0;
 
-            const updatedTaskes = store.getState().tasks;
+            const updatedTasks = store.getState().tasks;
 
-            updatedTaskes
+            console.log(`Getting store.tasks. updatedTasks = variable contains ${updatedTasks.length} items`)
+
+            updatedTasks
             .filter( (task => task.type != 'SCHEDULED' && task.type != 'NOTE'))
-            .forEach( (task) => {
+            .forEach( (task) => {            
+                console.log(`Checking task ${task.title}`)
                 if (!task.assigned) {
                     let taskScore = scoreTask(task);
                     if (taskScore > highestScore) {
@@ -178,9 +193,6 @@ export default function App() {
                 break;
                 
         }
-        
-        setStatus('ASSIGNED');
-
     }
 
 
@@ -201,6 +213,8 @@ export default function App() {
         try {
             let rawData = await AsyncStorage.getItem('@taskArray');
             let parsedData = JSON.parse(rawData);
+            
+            console.log(`   ${parsedData.length} items read from storage`)
             parsedData.forEach((task) => {
                 if (task.dateDue)
                     task.dateDue = new Date(task.dateDue);
@@ -216,8 +230,12 @@ export default function App() {
                     task.iconName = 'note-outline';
                 }
             });
+            
+            console.log(`   dispatching storage/loadData`)
             dispatch({ type: 'storage/loadedData', payload: parsedData })
             setTasksLoaded(true);
+            
+            console.log(`   tasksLoaded = true`)
         } catch (error) {
             alert(error);
         }
@@ -284,12 +302,10 @@ export default function App() {
     const Stack = createStackNavigator();
 
     useEffect( () => {
-        console.log(`ADDING LISTENERS!`)
         DeviceEventEmitter.addListener("event.taskEvent", eventData => handleTaskEvent(eventData));
         DeviceEventEmitter.addListener("event.dayEvent", eventData => handleDayEvent(eventData));
     },[])
     const handleTaskEvent = (eventData) => {
-        console.log(`handleTaskEvent, eventData.event = ${eventData.event}`)
         switch (eventData.event) {
             case 'setStatus':
                 dispatch({type:'task/taskStatusChanged',uniqid: eventData.uniqid, payload: eventData.newState} )
@@ -299,15 +315,16 @@ export default function App() {
                 break;
             case 'updateTask':                
                 dispatch({type:'task/taskUpdated',uniqid: eventData.uniqid, payload: eventData.task} )
+                console.log(`UPDATE FINISHED`)
                 break;
         }
-        //saveTasks(tasks)
     }
 
     const handleDayEvent = (eventData) => {
-        
+        console.log(`handleDayEvent() eventData = ${JSON.stringify(eventData)}`)
         switch (eventData.event) {
             case 'assignTasks':
+                console.log(`case assignTasks:`)
                 assignTasks(eventData.designation,eventData.ambition)
                 dispatch({type:'day/dayStateChanged',payload: 'ASSIGNED'} )
                 break;
@@ -333,7 +350,7 @@ export default function App() {
             <SafeAreaView style={[styles.safe]}>
                 <NavigationContainer screenOptions={{headerShown:false}}>
                     <Stack.Navigator>
-                        <Stack.Screen name='Main' component={Home} options={{headerShown: false}}/>
+                        <Stack.Screen name='Main' component={Main} options={{headerShown: false}}/>
                         <Stack.Screen name='Editor' component={TaskEditor} options={{headerShown: false}}/>
                     </Stack.Navigator>
                 </NavigationContainer>

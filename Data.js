@@ -2,9 +2,12 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export async function saveTasks(tasks) {
     try {
+        console.log(`   saving tasks...`)
         const json = JSON.stringify(tasks)
         await AsyncStorage.setItem('@taskArray', json)
     } catch (e) {
+        
+        console.log(`   Error while saving tasks: ${e}`)
         // Handle Error
     }
 }

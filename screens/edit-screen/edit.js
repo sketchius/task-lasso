@@ -45,7 +45,6 @@ export default function TaskEditor({ route, navigation }) {
 
             const task = getTaskByUniqid(tasks, route.params.uniqid);
             if (route.params.action == 'edit' && task) {
-                console.log(JSON.stringify(task,null,4))
                 setTitle(task.title);
                 setDescription(task.description);
                 setTaskId(task.uniqid);
@@ -54,7 +53,8 @@ export default function TaskEditor({ route, navigation }) {
                 setTaskDuration(task.duration)
                 setIconFamily(task.iconLibrary)
                 setIconName(task.iconName)
-                setDateDue(formatRelative(task.dateDue, new Date()))
+                if (task.dateDue)
+                    setDateDue(formatRelative(task.dateDue, new Date()))
             }
         }
     } , [isFocused])
@@ -71,11 +71,9 @@ export default function TaskEditor({ route, navigation }) {
     }
 
     const testNewDateThing = () => {
-        console.log(chrono.parseDate(dateDue));
     }
 
     const onSave = () => {
-        console.log(`*** ON SAVE ***`)
         let newTask;
         
         if (mode == 'task') {

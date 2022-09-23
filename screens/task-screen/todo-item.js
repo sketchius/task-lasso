@@ -93,6 +93,12 @@ export default function TodoItem(props) {
                 case 'SCHEDULED':
                     const scheduledTime = getTime(task.dateDue);
                     const hoursAway = differenceInHours(task.dateDue,new Date());
+                    if (task.title == 'Find the car') {
+                        console.log(`****************************************************************`)
+                        console.log(`schedledTime = ${scheduledTime.toString()}`)
+                        console.log(`differenceInHours = ${hoursAway}`)
+                        console.log(`****************************************************************`)
+                    }
                     return (
                         <View style={[styles.taskTypeElement, hoursAway < 3 ? styles.redHighlight : styles.yellowHighlight]}>{getIcon('Octicons','clock',12,styles.colors.gray2)}
                             <StyledText style={styles.taskTypeText}>SCHEDULED TODAY{scheduledTime ? ` AT ${scheduledTime.toUpperCase()}` : ``}</StyledText>
