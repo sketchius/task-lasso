@@ -229,6 +229,7 @@ export default function App() {
                     task.iconLibrary = 'MaterialCommunityIcons';
                     task.iconName = 'note-outline';
                 }
+                task.checkboxStyle = 0;
             });
             
             console.log(`   dispatching storage/loadData`)

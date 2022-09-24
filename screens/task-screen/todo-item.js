@@ -35,7 +35,19 @@ export default function TodoItem(props) {
     const [checkboxState, updateCheckboxState] = useState(task.status || 0);
 
     const handleCheckboxStateChange = () => {
-        const newState = checkboxState==2 ? 0 : checkboxState+1;
+        let newState;
+        switch (task.checkboxStyle) {
+            default:
+            case 0:
+                if (checkboxState == 0)
+                    newState = 2;
+                else if (checkboxState == 2)
+                    newState = 0;
+                break;
+            case 1:
+                newState = checkboxState==2 ? 0 : checkboxState+1;
+                break;
+        }
 
         updateCheckboxState(newState);
         DeviceEventEmitter.emit("event.taskEvent", {event:'setStatus', newState, uniqid: task.uniqid});
@@ -93,12 +105,6 @@ export default function TodoItem(props) {
                 case 'SCHEDULED':
                     const scheduledTime = getTime(task.dateDue);
                     const hoursAway = differenceInHours(task.dateDue,new Date());
-                    if (task.title == 'Find the car') {
-                        console.log(`****************************************************************`)
-                        console.log(`schedledTime = ${scheduledTime.toString()}`)
-                        console.log(`differenceInHours = ${hoursAway}`)
-                        console.log(`****************************************************************`)
-                    }
                     return (
                         <View style={[styles.taskTypeElement, hoursAway < 3 ? styles.redHighlight : styles.yellowHighlight]}>{getIcon('Octicons','clock',12,styles.colors.gray2)}
                             <StyledText style={styles.taskTypeText}>SCHEDULED TODAY{scheduledTime ? ` AT ${scheduledTime.toUpperCase()}` : ``}</StyledText>
@@ -118,7 +124,7 @@ export default function TodoItem(props) {
 
     return (
     <View style={[styles.row, styles.whiteBackground, styles.taskBorder]}>
-        {!props.compact ? <MultistateCheckbox states={3} state={checkboxState} onStateChange={handleCheckboxStateChange} styles={styles} initialState={task.status ? task.status : 0} ></MultistateCheckbox> : <View style={styles.compactTaskElement}></View>}
+        {!props.compact ? <MultistateCheckbox state={checkboxState} onStateChange={handleCheckboxStateChange} style={[styles.padding2, styles.marginTop3, styles.paddingHorizontal4]} initialState={task.status ? task.status : 0} ></MultistateCheckbox> : <View style={styles.compactTaskElement}></View>}
         <Pressable style={[ styles.paddingRight3, styles.paddingLeft4, styles.flex100, styles.leftBorder]} onPress={() => setExpanded(!expanded) }>
             <View style={props.compact ? styles.marginVertical0 : styles.marginVertical3}>
                 <View style={styles.alignedRow}>

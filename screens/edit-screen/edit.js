@@ -35,16 +35,17 @@ export default function TaskEditor({ route, navigation }) {
     const [iconFamily,setIconFamily] = useState('');
     const [iconName,setIconName] = useState('');
     const [dateDue,setDateDue] = useState('');
+    const [checkboxStyle,setCheckboxStyle] = useState(0);
 
     const isFocused = useIsFocused()
 
     useEffect(() => {
         setMode(route.params.mode);
         setAction(route.params.action);
-        if (route.params.uniqid) {
+        if (route.params.action == 'edit' && route.params.uniqid) {
 
             const task = getTaskByUniqid(tasks, route.params.uniqid);
-            if (route.params.action == 'edit' && task) {
+            if (task) {
                 setTitle(task.title);
                 setDescription(task.description);
                 setTaskId(task.uniqid);
@@ -86,6 +87,7 @@ export default function TaskEditor({ route, navigation }) {
                 dateDue: chrono.parseDate(dateDue),
                 useTime: false,
                 iconLibrary: iconFamily,
+                checkboxStyle,
                 iconName,
                 dateModified: new Date()
         }} else {
@@ -111,6 +113,9 @@ export default function TaskEditor({ route, navigation }) {
         }
         
         DeviceEventEmitter.emit("event.taskEvent", {event, uniqid: newTask.uniqid, task: newTask});
+        navigation.goBack();
+        if (action == 'new')
+            DeviceEventEmitter.emit("event.navigationEvent", {event: 'navigate', index: 1});
     }
 
 
@@ -162,7 +167,7 @@ export default function TaskEditor({ route, navigation }) {
                             `Add additional information need to complete the task.\nI.e. an address, phone number, or set of instructions.`
                         ]}
                     ></EditField>
-                    <SelectionList styles={styles} label={'TASK TYPE'} selection={taskType} onPress={setTaskType} orientation={'column'} onChange={handleInput} iconStyle={1} useSubtext={true}
+                    <SelectionList styles={styles} label={'TASK TYPE'} selection={taskType} onPress={setTaskType} orientation={'column'} iconStyle={1} useSubtext={true}
                     selections={[
                         {
                             index: 0,
@@ -209,7 +214,7 @@ export default function TaskEditor({ route, navigation }) {
                             deselectedStyle: styles.hiddenHighlight
                         }
                     ]}></SelectionList>
-                    <SelectionList styles={styles} label={'PRIORITY'} selection={taskPriority} onPress={setTaskPriority} orientation={'row'} columns={3} onChange={handleInput} iconStyle={0}
+                    <SelectionList styles={styles} label={'PRIORITY'} selection={taskPriority} onPress={setTaskPriority} orientation={'row'} columns={3} iconStyle={0}
                     selections={[
                         {
                             index: 0,
@@ -242,7 +247,7 @@ export default function TaskEditor({ route, navigation }) {
                             deselectedStyle: styles.hiddenHighlight
                         }
                     ]}></SelectionList>
-                    <SelectionList styles={styles} label={'TASK DURATION'}  selection={taskDuration} onPress={setTaskDuration}  orientation={'row'} columns={6} wrap={true} onChange={handleInput} iconStyle={0}
+                    <SelectionList styles={styles} label={'TASK DURATION'}  selection={taskDuration} onPress={setTaskDuration}  orientation={'row'} columns={6} wrap={true} iconStyle={0}
                     selections={[
                         {
                             index: 0,
@@ -298,11 +303,37 @@ export default function TaskEditor({ route, navigation }) {
 
                         ]}
                     ></EditField>                    
-                    <EditField styles={styles} text={dateDue}  onChange={setDateDue} label={'DATE DUE'} multiline={true}
+                    {(taskType == 'scheduled' || taskType == 'deadline') && <EditField styles={styles} text={dateDue}  onChange={setDateDue} label={'DATE DUE'} multiline={true}
                         helpTips = {[
 
                         ]}
-                    ></EditField>
+                    ></EditField>}
+                    
+                    <SelectionList styles={styles} label={'CHECKBOX STYLE'} selection={checkboxStyle} onPress={setCheckboxStyle} orientation={'column'} columns={2}  iconStyle={1} useSubtext={true}
+                    selections={[
+                        {
+                            index: 0,
+                            stateValue: 0,
+                            iconFamily: 'MaterialCommunityIcons',
+                            iconName: 'numeric-2-box-outline',
+                            iconSize: 35,
+                            text: '2-State',
+                            subtext: "Can marked undone or done.",
+                            selectedStyle: styles.blueHighlight,
+                            deselectedStyle: styles.hiddenHighlight
+                        },
+                        {
+                            index: 1,
+                            stateValue: 1,
+                            iconFamily: 'MaterialCommunityIcons',
+                            iconName: 'numeric-3-box-outline',
+                            iconSize: 35,
+                            text: '3-State',
+                            subtext: "Can be undone, started, or done.",
+                            selectedStyle: styles.blueHighlight,
+                            deselectedStyle: styles.hiddenHighlight
+                        }
+                    ]}></SelectionList>
                 </View>}
             
                 <Button title='Save' onPress={onSave}/>

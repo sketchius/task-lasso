@@ -40,7 +40,7 @@ export default function ToDoList(navigation,route) {
         <View style={styles.container}>
             {status == 'CHECK-IN' ?
             <View styles={styles.testtt}>
-                <SelectionList styles={styles} data={'designation'} label={'WHAT KIND OF DAY IS IT?'} selection={designation} onPress={setDesignation} orientation={'row'} iconStyle={2}
+                <SelectionList styles={styles} data={'designation'} label={'WHAT KIND OF DAY IS IT?'} columns={3} selection={designation} onPress={setDesignation} orientation={'row'} iconStyle={2}
                     selections={[
                     {
                         index: 0,
@@ -73,7 +73,7 @@ export default function ToDoList(navigation,route) {
                         deselectedStyle: styles.hiddenHighlight
                     }
                 ]}></SelectionList>
-                <SelectionList styles={styles} data={'ambition'} label={'HOW IS YOUR MOTIVATION TODAY?'} selection={ambition} onPress={setAmbition} orientation={'row'} iconStyle={2}
+                <SelectionList styles={styles} data={'ambition'} label={'HOW IS YOUR MOTIVATION TODAY?'} columns={3} selection={ambition} onPress={setAmbition} orientation={'row'} iconStyle={2}
                     selections={[
                     {
                         index: 0,
@@ -110,7 +110,6 @@ export default function ToDoList(navigation,route) {
             </View>
             :
             <ScrollView style={styles.container}>
-                <StyledText>TO DO LIST:</StyledText>
                 {toDoListItems()}
             </ScrollView>}
         </View>

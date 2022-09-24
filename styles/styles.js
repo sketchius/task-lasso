@@ -628,16 +628,16 @@ const styleArray = {
         borderColor: colors.gray
     },
     taskBorder: {
-        borderBottomWidth: 0.5,
+        borderBottomWidth: 1,
         borderColor: colors.gray
     },
     tealHighlight: {
         paddingLeft: space.size2,
         paddingRight: space.size2,
-        backgroundColor: colors.teal3,
+        backgroundColor: colors.teal4,
         borderLeftWidth: 4,
         borderRightWidth: 4,
-        borderColor: colors.teal2
+        borderColor: colors.teal
     },
     hiddenHighlight: {
         paddingLeft: space.size2,
@@ -653,43 +653,51 @@ const styleArray = {
     redHighlight: {
         paddingLeft: space.size2,
         paddingRight: space.size2,
-        backgroundColor: colors.red3,
+        backgroundColor: colors.red4,
         borderLeftWidth: 4,
         borderRightWidth: 4,
         borderRadius: space.size2,
-        borderColor: colors.red2
+        borderColor: colors.red
     },
     yellowHighlight: {
         paddingLeft: space.size2,
         paddingRight: space.size2,
-        backgroundColor: colors.yellow3,
+        backgroundColor: colors.yellow4,
         borderLeftWidth: 4,
         borderRightWidth: 4,
-        borderColor: colors.yellow2
+        borderColor: colors.yellow
     },
     greenHighlight: {
         paddingLeft: space.size2,
         paddingRight: space.size2,
-        backgroundColor: colors.green3,
+        backgroundColor: colors.green4,
         borderLeftWidth: 4,
         borderRightWidth: 4,
-        borderColor: colors.green2
+        borderColor: colors.green
     },
     blueHighlight: {
         paddingLeft: space.size2,
         paddingRight: space.size2,
-        backgroundColor: colors.blue3,
+        backgroundColor: colors.blue4,
         borderLeftWidth: 4,
         borderRightWidth: 4,
-        borderColor: colors.blue2
+        borderColor: colors.blue
     },
     orangeHighlight: {
         paddingLeft: space.size2,
         paddingRight: space.size2,
-        backgroundColor: colors.orange3,
+        backgroundColor: colors.orange4,
         borderLeftWidth: 4,
         borderRightWidth: 4,
-        borderColor: colors.orange2
+        borderColor: colors.orange
+    },
+    pinkHighlight: {
+        paddingLeft: space.size2,
+        paddingRight: space.size2,
+        backgroundColor: colors.pink4,
+        borderLeftWidth: 4,
+        borderRightWidth: 4,
+        borderColor: colors.pink
     },
     selectionBorder1: {
         borderTopWidth: 1,

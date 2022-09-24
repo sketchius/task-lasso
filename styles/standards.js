@@ -6,13 +6,22 @@ export const colors = {
     gray5: '#d1d1d1',
     gray6: '#dbdbdb',
 
+    red4: '#fff4f4',
+    orange4: '#fff2e4',
+    yellow4: '#feffcf',
+    teal4: '#eaffff',
+    green4: '#ebffec',
+    blue4: '#e0e9ff',
+    pink4: '#ffeff7',
+
     red3: '#ffe1e1',
     orange3: '#ffe7cd',
-    yellow3: '#feffcf',
+    yellow3: '#f2f4a6',
     teal3: '#c3feff',
     green3: '#dbffdd',
     blue3: '#dae5ff',
     pink3: '#ffe1f0',
+
 
     blue1: '#97a8d1',
 
@@ -23,7 +32,17 @@ export const colors = {
     yellow2: '#e1d890',
     green2: '#a5e9aa',
     teal2: '#53daea',
-    blue2: '#b5c4e8'
+    blue2: '#b5c4e8',
+    pink2: '#e3a3c3',
+
+    
+    red: '#b65e6f', 
+    orange: '#c78e5f',
+    yellow: '#c8bb52',
+    green: '#5dc864',
+    teal: '#1ab8cb',
+    blue: '#859dd8',
+    pink: '#d1669c'
 }; 
  
 export const space = {

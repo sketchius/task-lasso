@@ -53,7 +53,7 @@ export default function Home(navigation,route) {
         <View>
             {status == 'CHECK-IN' &&
             <View styles={styles.testtt}>
-                <SelectionList styles={styles} data={'designation'} label={'WHAT KIND OF DAY IS IT?'} selection={designation} onPress={setDesignation} invert={true} orientation={'row'} iconStyle={2}
+                <SelectionList styles={styles} data={'designation'} label={'WHAT KIND OF DAY IS IT?'} columns={3} selection={designation} onPress={setDesignation} invert={true} orientation={'row'} iconStyle={2}
                     selections={[
                     {
                         index: 0,
@@ -86,7 +86,7 @@ export default function Home(navigation,route) {
                         deselectedStyle: styles.hiddenHighlight
                     }
                 ]}></SelectionList>
-                <SelectionList styles={styles} data={'ambition'} label={'HOW IS YOUR MOTIVATION TODAY?'} selection={ambition} onPress={setAmbition} invert={true} orientation={'row'} iconStyle={2}
+                <SelectionList styles={styles} data={'ambition'} label={'HOW IS YOUR MOTIVATION TODAY?'} columns={3} selection={ambition} onPress={setAmbition} invert={true} orientation={'row'} iconStyle={2}
                     selections={[
                     {
                         index: 0,

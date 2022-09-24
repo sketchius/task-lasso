@@ -32,6 +32,20 @@ export default function AppNavigation() {
         navigation.navigate('Editor',{action: 'new', mode: 'task'});
     }
 
+    
+    useEffect( () => {
+        DeviceEventEmitter.addListener("event.navigationEvent", eventData => handleNavigationEvent(eventData));
+    },[])
+
+    const handleNavigationEvent = (eventData) => {
+        console.log(`attemptingHandleVagiationEvent`)
+        switch (eventData.event) {
+            case 'navigate':
+                setSelectedItem(eventData.index);
+                break;
+        }
+    }
+
     const navOptions = [
         {
             index: 0,
