@@ -28,11 +28,16 @@ export function EditField(props) {
         <View style={[styles.editField]}>
             <View style={[styles.alignedRow]}>
                 <StyledText style={styles.formFieldLabel}>{props.label.toUpperCase()}</StyledText>
+                {props.required ?
+                    <StyledText style={styles.requiredText}>(required)</StyledText> :
+                    <StyledText style={styles.optionalText}>(optional)</StyledText>
+                }
                 <View style={styles.horizontalLine}></View>
                 <Pressable style={styles.helpButton} onPress={() => (setShowHelp(!showHelp))}>
                     {getIcon('MaterialCommunityIcons',showHelp ? 'help-circle' :'help-circle-outline',24,styles.colors.gray2)}
                 </Pressable>
             </View>
+            {props.subtext && <StyledText style={[styles.selectionSubtext, styles.marginBottom3]}>{props.subtext}</StyledText>}
             <View style={styles.textInputContainer}>
                 <TextInput style={styles.textInput} value={props.text} maxLength={props.maxLength} ref={inputField} multiline={props.multiline} onChangeText={text => props.onChange(text)}/>
             </View>

@@ -152,7 +152,8 @@ export default function TaskEditor({ route, navigation }) {
                     ]}></SelectionList>
             </View>}
             <ScrollView style = {{flex: 1}}>
-                <EditField styles={styles} text={title}  onChange={setTitle}  label={mode == 'note' ? 'NOTE' : 'TASK BREIF'}
+                <EditField styles={styles} text={title}  onChange={setTitle}  label={mode == 'note' ? 'NOTE' : 'TASK TITLE'}
+                    required = {true}
                     helpTips = {[
                         `Required.`,
                         `Describe the primary action to be done for a task.`,
@@ -161,7 +162,8 @@ export default function TaskEditor({ route, navigation }) {
                     ]}
                 ></EditField>
                 {mode=='task' && <View>
-                    <EditField styles={styles} text={description}  onChange={setDescription} label={'DESCRIPTION'} multiline={true}
+                    <EditField styles={styles} text={description}  onChange={setDescription} label={'DETAILS'} multiline={true}
+                        subtext = {`Additional information to help complete the task.`}
                         helpTips = {[
                             `Optional.`,
                             `Add additional information need to complete the task.\nI.e. an address, phone number, or set of instructions.`

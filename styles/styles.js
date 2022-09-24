@@ -176,6 +176,8 @@ const styleArray = {
     },
     textInputContainer: {
         width: '100%',
+        borderWidth: space.size1,
+        borderColor: colors.gray
     },
     textInput: {
         textAlignVertical: 'top',
@@ -183,6 +185,16 @@ const styleArray = {
         padding: space.size4,
         width: 'auto',
         backgroundColor: 'white'
+    },
+    requiredText: {
+        color: colors.red,
+        fontSize: font.size1,
+        marginHorizontal: space.size3
+    },
+    optionalText: {
+        color: colors.blue,
+        fontSize: font.size1,
+        marginHorizontal: space.size3
     },
     selected: {
         backgroundColor: '#fffe94'
