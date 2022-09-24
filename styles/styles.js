@@ -263,12 +263,18 @@ const styleArray = {
     },
     selectionItemColumn: {
         flexDirection: 'row',
-        padding: space.size4
+        padding: space.size3
     },
     selectionItemRow: {
         flexDirection: 'column',
         alignItems: 'center',
         padding: space.size4
+    },
+    thinTopBorder: {
+        borderTopWidth: space.size0,
+        borderTopColor: colors.gray,
+        borderBottomWidth: space.size0,
+        borderBottomColor: colors.gray
     },
     oneColumns: {
         width: '100%',
@@ -277,7 +283,7 @@ const styleArray = {
         width: '50%',
     },
     threeColumns: {
-        width: '33%'
+        width: '32%'
     },
     sixColumns: {
         width: '15%'
@@ -711,6 +717,48 @@ const styleArray = {
         borderRightWidth: 4,
         borderColor: colors.pink
     },
+    tealText: {
+        color: colors.teal
+    },
+    teal2Text: {
+        color: colors.teal2
+    },
+    redText: {
+        color: colors.red
+    },
+    red2Text: {
+        color: colors.red2
+    },
+    yellowText: {
+        color: colors.yellow
+    },
+    yellow2Text: {
+        color: colors.yellow2
+    },
+    greenText: {
+        color: colors.green
+    },
+    green2Text: {
+        color: colors.green2
+    },
+    blueText: {
+        color: colors.blue
+    },
+    blue2Text: {
+        color: colors.blue2
+    },
+    orangeText: {
+        color: colors.orange
+    },
+    orange2Text: {
+        color: colors.orange2
+    },
+    pinkText: {
+        color: colors.pink
+    },
+    pink2Text: {
+        color: colors.pink2
+    },
     selectionBorder1: {
         borderTopWidth: 1,
         borderBottomWidth: 1,
@@ -727,10 +775,10 @@ const styleArray = {
         borderBottomWidth: 1,
         borderLeftWidth: 1,
         borderRightWidth: 1,
-        borderTopColor: 'transparent',
-        borderBottomColor: 'transparent',
-        borderLeftColor: 'transparent',
-        borderRightColor: 'transparent',
+        borderTopColor: colors.gray4,
+        borderBottomColor: colors.gray4,
+        borderLeftColor: colors.gray4,
+        borderRightColor: colors.gray4,
         borderRadius: space.size2
     },
     colors,

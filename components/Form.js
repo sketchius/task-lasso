@@ -70,8 +70,6 @@ export function SelectionList(props) {
         itemWidth = styles.oneColumn;
 
 
-
-
     const optionContent = props.selections.map( (selection,i) => {
         const selected = selection.stateValue == props.selection;
         let itemBorderStyle;
@@ -82,23 +80,73 @@ export function SelectionList(props) {
             labelBorderStyle = selected ? selection.selectedStyle : selection.deselectedStyle;
             itemBorderStyle = selected ? styles.selectionListSelected : styles.selectionListDeselected
         }
+        let activeIconColor;
+        let activeTextStyle;
+        let activeSubtextstyle;
+        let activeViewStyle;
+
+        switch (selection.activeColor) {
+            case 'red':
+                activeIconColor = styles.colors.red
+                activeTextStyle = styles.redText
+                activeSubtextstyle = styles.red2Text
+                activeViewStyle = styles.redHighlight
+                break;
+            case 'orange':
+                activeIconColor = styles.colors.orange
+                activeTextStyle = styles.orangeText
+                activeSubtextstyle = styles.orange2Text
+                activeViewStyle = styles.orangeHighlight
+                break;
+            case 'yellow':
+                activeIconColor = styles.colors.yellow
+                activeTextStyle = styles.yellowText
+                activeSubtextstyle = styles.yellow2Text
+                activeViewStyle = styles.yellowHighlight
+                break;
+            case 'green':
+                activeIconColor = styles.colors.green
+                activeTextStyle = styles.greenText
+                activeSubtextstyle = styles.green2Text
+                activeViewStyle = styles.greenHighlight
+                break;
+            case 'teal':
+                activeIconColor = styles.colors.teal
+                activeTextStyle = styles.tealText
+                activeSubtextstyle = styles.teal2Text
+                activeViewStyle = styles.tealHighlight
+                break;
+            case 'blue':
+                activeIconColor = styles.colors.blue
+                activeTextStyle = styles.blueText
+                activeSubtextstyle = styles.blue2Text
+                activeViewStyle = styles.blueHighlight
+                break;
+            case 'pink':
+                activeIconColor = styles.colors.pink
+                activeTextStyle = styles.pinkText
+                activeSubtextstyle = styles.pink2Text
+                activeViewStyle = styles.pinkHighlight
+                break;
+        }
+
         return (
             <Pressable
                 key={i}
-                style={[props.orientation == 'column' ? styles.selectionItemColumn : styles.selectionItemRow, itemWidth, itemBorderStyle]}
+                style={[props.orientation == 'column' ? styles.selectionItemColumn : styles.selectionItemRow, itemWidth, selected ? [activeViewStyle, styles.selectionBorder1] : [styles.hiddenHighlight, styles.hiddenBorder1], styles.margin2]}
                 onPress={() => props.onPress(selection.stateValue)
             }>
                 {props.iconStyle > 0 &&
                 <View style={[,styles.selectionIcon, props.iconStyle == 2 && styles.selectionIconSmall,selection.hideIconBorder && styles.noBorder]}>
-                    {getIcon(selection.iconFamily,selection.iconName,selection.iconSize,selected ? styles.colors.gray : styles.colors.gray3)}
+                    {getIcon(selection.iconFamily,selection.iconName,selection.iconSize,selected ? activeIconColor : styles.colors.gray3)}
                 </View>}
                 <View style={[styles.marginHorizontal4,props.orientation == 'column' ? styles.flexStart : styles.alignItems, {alignSelf: 'center',width: '100%'}]}>
                     <StyledText style={[styles.selectionText, props.orientation == 'row' &&
                     props.iconStyle == 2 &&
-                    styles.selectionTextSmall]}>
+                    styles.selectionTextSmall, selected && activeTextStyle]}>
                         {selection.text}
                     </StyledText>
-                    {props.useSubtext && <StyledText style={[styles.selectionSubtext, !selected && styles.gray3Text]}>{selection.subtext}</StyledText>}
+                    {props.useSubtext && <StyledText style={[styles.selectionSubtext, selected ? activeSubtextstyle : styles.gray3Text]}>{selection.subtext}</StyledText>}
                 </View>
             </Pressable>
         )
