@@ -1,23 +1,47 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export async function saveTasks(tasks) {
+    if (tasks) {
+        try {
+            tasks.forEach( (task) => {
+                saveTask(task);
+            })
+        } catch (e) {
+            
+            console.log(`   Error while saving tasks: ${e}`)
+            // Handle Error
+        }}
+}
+
+async function saveTask(task) {
+    const json = JSON.stringify(task)
+    await AsyncStorage.setItem(`@tasks/${task.uniqid}`, json);
+    //console.log(`AsyncStorage: setting key '@tasks/${task.uniqid}' to ${json}`);
+}
+
+export async function printKeys() {
+    let keys = await AsyncStorage.getAllKeys();
+    console.log(`keys = ${JSON.stringify(keys)}`);
+}
+
+export async function saveStatus(status) {
     try {
-        console.log(`   saving tasks...`)
-        const json = JSON.stringify(tasks)
-        await AsyncStorage.setItem('@taskArray', json)
+        await AsyncStorage.setItem('@status', status)
     } catch (e) {
         
-        console.log(`   Error while saving tasks: ${e}`)
+        console.log(`   Error while saving status: ${e}`)
         // Handle Error
     }
 }
 
+
 export async function loadTasks() {
-    try {
-        const json = await AsyncStorage.getItem('@taskArray')
-        return json != null ? JSON.parse(json) : null;
+    try { 
+        const keys = await AsyncStorage.getAllKeys();
+        const taskKeys = keys.filter( key => key.includes('tasks/'));
+        return await AsyncStorage.multiGet(taskKeys);
     } catch(e) {
-        alert('failed to read tasks')
+        alert(`failed to read tasks: ${e}`)
     }
 }
 

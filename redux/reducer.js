@@ -4,12 +4,15 @@ const initialState = {
 
 export default function rootReducer(state = initialState, action) {
     switch (action.type) {
+        case 'app/reset':
+            return {state:'',tasks:[]};
         case 'storage/loadedData':
-            console.log(`REDUCER UPDATING STATE. NEW STATE =`)
-            console.log(JSON.stringify({...state,
-                tasks: action.payload},null,4))
             return {...state,
                 tasks: action.payload};
+        case 'storage/loadedStatus':
+            console.log(`Reducer running loadedStatus. Payload = ${action.payload}`)
+            return {...state,
+                status: action.payload};
         case 'tasks/UnassignedAll':
             return {
                 ...state,
@@ -42,6 +45,7 @@ export default function rootReducer(state = initialState, action) {
                 })
             }
         case 'task/taskAssigned':
+            console.log(`Reducer running taskAssigned. Payload = ${action.payload}`)
             return {
                 ...state,
                 tasks: state.tasks.map(task => {

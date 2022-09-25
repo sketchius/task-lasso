@@ -23,7 +23,6 @@ export default function ToDoList(navigation,route) {
 
     useEffect( () => {
         const updatedStatus = store.getState().status;
-        console.log(`status = ${status}. updated status = ${updatedStatus}`)
     },[status])
 
     const handleCheckIn = () => {

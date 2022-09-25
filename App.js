@@ -7,7 +7,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { Ionicons, FontAwesome, AntDesign } from '@expo/vector-icons'; 
 import * as Font from 'expo-font';
-import { saveTasks, loadTasks } from './Data'
+import { saveTasks, saveStatus, loadTasks, printKeys } from './Data'
 import { Logs } from 'expo';
 
 import isToday from 'date-fns/isToday'
@@ -43,9 +43,10 @@ export default function App() {
 
 
     const dispatch = useDispatch()
-
+    
     
     const [tasksLoaded,setTasksLoaded] = useState(false);
+
 
     const [fontsLoaded] = useFonts({
         'RobotoLight': require('./assets/fonts/RobotoLight.ttf'),
@@ -58,26 +59,37 @@ export default function App() {
     });
 
     
+    //const state = 
 
-    const state = useSelector(state => state);
-
-    const tasks = state.tasks;
+    const tasks = useSelector(state => state.tasks);
+    const status = useSelector(state => state.status);
 
     useEffect(() => {
         console.log(`READING TASKS FROM STORAGE`)
-        readTasksFromStorage();
+        loadTasksFromStorage();
+        printKeys();
+
+        loadStatusFromStorage();
         
         //setTasksLoaded(true);
     }, []);
 
-    useEffect( () => {
-        dispatch({type:'day/dayStateChanged',payload: 'CHECK-IN'} )
-    },[])
+    // useEffect( () => {
+    //     if (tasksLoaded) {
+    //         console.log(`RESETING DAY TO CHECK-IN!!!!!!!!!!`)
+    //         dispatch({type:'day/dayStateChanged',payload: 'CHECK-IN' })
+    //     }
+    // },[tasksLoaded])
 
     useEffect(() => {
-       console.log(`TASK STATE UPDATE DETECTED... SAVING TASKS TO STORAGE`)
-       saveTasks(tasks);
+        console.log(`TASK DATA UPDATE DETECTED (SIZE NOW: ${tasks.length}) SAVING TASKS TO STORAGE`)
+       if (tasks.length > 0 && tasksLoaded) saveTasks(tasks);
     }, [tasks]);
+
+    useEffect(() => {
+        console.log(`STATUS UPDATE DETECTED (NOW: ${status}) SAVING STATUS TO STORAGE`)
+        saveStatus(status);
+     }, [status]);
 
     /*useEffect(() => {
         assignTasks();
@@ -209,13 +221,13 @@ export default function App() {
         setStatus('CHECK-IN');
     }
 
-    const readTasksFromStorage = async () => {
+    const loadTasksFromStorage = async () => {
         try {
-            let rawData = await AsyncStorage.getItem('@taskArray');
-            let parsedData = JSON.parse(rawData);
+            const data = await loadTasks();
             
-            console.log(`   ${parsedData.length} items read from storage`)
-            parsedData.forEach((task) => {
+
+            data.forEach((entry) => {
+                let task = JSON.parse(entry[1]);
                 if (task.dateDue)
                     task.dateDue = new Date(task.dateDue);
                 if (task.dateCreated)
@@ -229,15 +241,29 @@ export default function App() {
                     task.iconLibrary = 'MaterialCommunityIcons';
                     task.iconName = 'note-outline';
                 }
-                //if (task.checklist) task.checklist = undefined;
+                
                 task.checkboxStyle = 0;
+                dispatch({ type: 'task/taskCreated', payload: task })
             });
             
-            console.log(`   dispatching storage/loadData`)
-            dispatch({ type: 'storage/loadedData', payload: parsedData })
             setTasksLoaded(true);
             
-            console.log(`   tasksLoaded = true`)
+        } catch (error) {
+            alert(error);
+        }
+    };
+
+    const loadStatusFromStorage = async () => {
+        try {
+            let data = await AsyncStorage.getItem('@status');
+            
+            if (!data)
+                data = 'CHECK-IN'
+
+            console.log(`   dispatching storage/loadData`)
+            dispatch({ type: 'storage/loadedStatus', payload: data })
+
+
         } catch (error) {
             alert(error);
         }
@@ -317,16 +343,15 @@ export default function App() {
                 break;
             case 'updateTask':                
                 dispatch({type:'task/taskUpdated',uniqid: eventData.uniqid, payload: eventData.task} )
-                console.log(`UPDATE FINISHED`)
+                console.log(`UPDATE FINISHED!`)
                 break;
         }
     }
 
     const handleDayEvent = (eventData) => {
-        console.log(`handleDayEvent() eventData = ${JSON.stringify(eventData)}`)
         switch (eventData.event) {
             case 'assignTasks':
-                console.log(`case assignTasks:`)
+                console.log(`recieved assignTasks:`)
                 assignTasks(eventData.designation,eventData.ambition)
                 dispatch({type:'day/dayStateChanged',payload: 'ASSIGNED'} )
                 break;

@@ -124,7 +124,6 @@ export default function TaskEditor({ route, navigation }) {
     }
 
     const handleChecklistOnAdd = () => {
-        console.log(`Running handleChecklistOnAdd`)
         const newList = [...checklistContent]
         newList.push('');
         setChecklistContent(newList);

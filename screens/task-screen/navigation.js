@@ -17,6 +17,7 @@ import TaskEditor from '../edit-screen/edit';
 import Tasklist from './task-screen';
 import AllTasklist from './tasklist';
 import DataInspector from '../../DataInspector';
+import IconPicker from '../../iconPicker';
 
 
 
@@ -38,7 +39,6 @@ export default function AppNavigation() {
     },[])
 
     const handleNavigationEvent = (eventData) => {
-        console.log(`attemptingHandleVagiationEvent`)
         switch (eventData.event) {
             case 'navigate':
                 setSelectedItem(eventData.index);
@@ -74,7 +74,7 @@ export default function AppNavigation() {
             title: `Planner`,
             iconFamily: 'FontAwesome5',
             iconName: 'calendar-alt',
-            component: <AllTasklist key={3}></AllTasklist>
+            component: <IconPicker key={3}></IconPicker>
         },
         {
             index: 4,

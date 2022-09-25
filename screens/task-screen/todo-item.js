@@ -184,6 +184,9 @@ export default function TodoItem(props) {
         !taskTypeContent &&
         !expanded
 
+
+    
+
     return (
     <View style={[styles.row, styles.whiteBackground, styles.taskBorder]}>
         {!props.compact ? <MultistateCheckbox state={checkboxState} onStateChange={handleCheckboxStateChange} style={[styles.padding2, styles.marginTop3, styles.paddingHorizontal4]}  size={24} ></MultistateCheckbox> : <View style={styles.compactTaskElement}></View>}
