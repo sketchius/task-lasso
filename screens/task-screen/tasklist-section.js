@@ -7,6 +7,7 @@ import { Logs } from 'expo'
 import TasklistItem from "./tasklist-item";
 import TodoItem from "./todo-item";
 import getIcon from '../../tools/Icons';
+import StyledText from "../../components/StyledText";
 
 
 Logs.enableExpoCliLogging()
@@ -50,12 +51,30 @@ export default function TasklistSection(props) {
         }
     }
 
+    const getIconElement = () => {
+        switch (props.type) {
+            case 'DRAFT':
+                return getIcon('Entypo','pencil',20,styles.colors.gray);
+            case 'FLEXIBLE':
+                return getIcon('FontAwesome','arrows',20,styles.colors.gray);
+            case 'DEADLINE':
+                return getIcon('FontAwesome','dot-circle-o',20,styles.colors.gray);
+            case 'SCHEDULED':
+                return getIcon('AntDesign','pushpin',20,styles.colors.gray);
+            case 'REPEATING':
+                return getIcon('FontAwesome','refresh',20,styles.colors.gray);
+        }
+    }
+
 
     return ( <Pressable 
     style={[styles.notesContainer, styles.paddingVertical4, {height : 'auto'}]}
     onPress={ () => expand()}>
-    <View style={[styles.alignedRow, styles.topBorder]}>
-        <Text style={[styles.defaultText, styles.taskListSectionHeader, styles.fontSize3, styles.marginLeft4, styles.bold, props.color, styles.paddingLeft4,filteredTaskList.length == 0 && styles.gray3Text]}>{props.label}</Text>
+    <View style={[styles.alignedRow, styles.topBorders]}>
+        <View style={[ styles.sectionHeaderStyle, styles.alignedRow]}>
+            <View style={styles.sectionHeaderIcon}>{getIconElement()}</View>
+            <StyledText style={[styles.fontSize3, styles.marginLeft3, styles.sectionHeaderTextStyle, filteredTaskList.length == 0 && styles.gray3Text]}>{props.label}</StyledText>
+        </View>
         {!expanded && getSectionTaskCountElement(filteredTaskList)}
         <View style={styles.flex1}></View>
         {filteredTaskList.length > 0 && <View style={styles.caret}>{getIcon('AntDesign',expanded ? 'caretdown' : 'caretleft',16,styles.colors.gray3)}</View>}

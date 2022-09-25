@@ -18,8 +18,8 @@ export default function ToDoList(navigation,route) {
     const status = useSelector(state => state.status);
     const taskList = useSelector(state => state.tasks.filter(task => task.assigned));
 
-    const [designation,setDesignation] = useState('work');
-    const [ambition,setAmbition] = useState('normal');
+    const [designation,setDesignation] = useState(0);
+    const [ambition,setAmbition] = useState(1);
 
     useEffect( () => {
         const updatedStatus = store.getState().status;
@@ -50,7 +50,8 @@ export default function ToDoList(navigation,route) {
                         iconSize: 20,
                         text: 'Work Day',
                         selectedStyle: styles.yellowHighlight,
-                        deselectedStyle: styles.hiddenHighlight
+                        deselectedStyle: styles.hiddenHighlight,
+                        activeColor: 'teal'
                     },
                     {
                         index: 1,
@@ -60,7 +61,8 @@ export default function ToDoList(navigation,route) {
                         iconSize: 20,
                         text: 'Half Day',
                         selectedStyle: styles.greenHighlight,
-                        deselectedStyle: styles.hiddenHighlight
+                        deselectedStyle: styles.hiddenHighlight,
+                        activeColor: 'teal'
                     },
                     {
                         index: 2,
@@ -70,7 +72,8 @@ export default function ToDoList(navigation,route) {
                         iconSize: 20,
                         text: 'Day Off',
                         selectedStyle: styles.blueHighlight,
-                        deselectedStyle: styles.hiddenHighlight
+                        deselectedStyle: styles.hiddenHighlight,
+                        activeColor: 'teal'
                     }
                 ]}></SelectionList>
                 <SelectionList styles={styles} data={'ambition'} label={'HOW IS YOUR MOTIVATION TODAY?'} columns={3} selection={ambition} onPress={setAmbition} orientation={'row'} iconStyle={2}
@@ -83,7 +86,8 @@ export default function ToDoList(navigation,route) {
                         iconSize: 20,
                         text: 'Lazy',
                         selectedStyle: styles.tealHighlight,
-                        deselectedStyle: styles.hiddenHighlight
+                        deselectedStyle: styles.hiddenHighlight,
+                        activeColor: 'teal'
                     },
                     {
                         index: 1,
@@ -93,7 +97,8 @@ export default function ToDoList(navigation,route) {
                         iconSize: 20,
                         text: 'Normal',
                         selectedStyle: styles.blueHighlight,
-                        deselectedStyle: styles.hiddenHighlight
+                        deselectedStyle: styles.hiddenHighlight,
+                        activeColor: 'teal'
                     },
                     {
                         index: 2,
@@ -103,7 +108,8 @@ export default function ToDoList(navigation,route) {
                         iconSize: 20,
                         text: 'Ambitious',
                         selectedStyle: styles.pinkHighlight,
-                        deselectedStyle: styles.hiddenHighlight
+                        deselectedStyle: styles.hiddenHighlight,
+                        activeColor: 'teal'
                     }
                 ]}></SelectionList>
                 <Pressable style={[styles.screenHeaderButton,styles.marginBottom6]} onPress={() => handleCheckIn()}><StyledText>Start the day!</StyledText></Pressable>

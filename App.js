@@ -175,7 +175,7 @@ export default function App() {
             console.log(`Getting store.tasks. updatedTasks = variable contains ${updatedTasks.length} items`)
 
             updatedTasks
-            .filter( (task => task.type != 'SCHEDULED' && task.type != 'NOTE'))
+            .filter( (task => task.type != 'SCHEDULED' && task.type != 'DRAFT'))
             .forEach( (task) => {            
                 console.log(`Checking task ${task.title}`)
                 if (!task.assigned) {
@@ -223,12 +223,13 @@ export default function App() {
                 else task.dateCreated = new Date();
                 if (task.dateModified)
                     task.dateModified = new Date(task.dateModified);
-                if (!task.type) task.type = 'NOTES';
+                if (!task.type) task.type = 'DRAFT';
                 if (task.type == 'CAPTURED') {
                     task.type = 'NOTE';
                     task.iconLibrary = 'MaterialCommunityIcons';
                     task.iconName = 'note-outline';
                 }
+                //if (task.checklist) task.checklist = undefined;
                 task.checkboxStyle = 0;
             });
             

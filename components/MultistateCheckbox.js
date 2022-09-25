@@ -6,6 +6,7 @@ import getIcon from '../tools/Icons';
 import Svg, { Path } from 'react-native-svg';
 
 import { styles } from '../styles/styles';
+import StyledText from './StyledText';
 
 export default function MultistateCheckbox(props) {
 
@@ -61,13 +62,13 @@ export default function MultistateCheckbox(props) {
     
     switch (props.state) {
         case 0:
-            boxComponent = getIcon('FontAwesome5','square',24,styles.colors.gray)
+            boxComponent = getIcon('FontAwesome5','square',props.size,props.iconColor)
+            break;
+        case .5:
+            boxComponent =  getIcon('FontAwesome5','minus-square',props.size,props.iconColor)
             break;
         case 1:
-            boxComponent =  getIcon('FontAwesome5','minus-square',24,styles.colors.gray)
-            break;
-        case 2:
-            boxComponent =  getIcon('FontAwesome5','check-square',24,styles.colors.gray)
+            boxComponent =  getIcon('FontAwesome5','check-square',props.size,props.iconColor)
             break;
         default:
             boxComponent = <View></View>;
@@ -76,11 +77,12 @@ export default function MultistateCheckbox(props) {
     }
 
     const toggleState = () => {
-        props.onStateChange()
+        props.onStateChange(props.index)
     }
 
-    return <Pressable style={props.style}
+    return <Pressable style={[props.style, props.label && styles.alignedRow]}
     onPress={toggleState}>
             {boxComponent}
+            {props.label && <StyledText style={props.labelStyle}>{props.label}</StyledText>}
     </Pressable>
 }

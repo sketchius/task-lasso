@@ -9,17 +9,17 @@ export const colors = {
     red5: '#fff4f4',
     orange5: '#fff2e4',
     yellow5: '#feffcf',
-    teal5: '#eaffff',
+    teal5: '#d7f1f1',
     green5: '#ebffec',
     blue5: '#e0e9ff',
     pink5: '#ffeff7',
 
     red4: '#ffe1e1',
     orange4: '#ffe7cd',
-    yellow4: '#f2f4a6',
-    teal4: '#c3feff',
+    yellow4: '#f1f2be',
+    teal4: '#baf7f8',
     green4: '#dbffdd',
-    blue4: '#dae5ff',
+    blue4: '#ccdbff',
     pink4: '#ffe1f0',
 
 
@@ -30,7 +30,7 @@ export const colors = {
     orange3: '#e2b590',
     yellow3: '#e1d890',
     green3: '#a5e9aa',
-    teal3: '#53daea',
+    teal3: '#72c6d0',
     blue3: '#b5c4e8',
     pink3: '#e3a3c3',
 
@@ -39,7 +39,7 @@ export const colors = {
     orange2: '#c78e5f',
     yellow2: '#b8a640',
     green2: '#5dc864',
-    teal2: '#1ab8cb',
+    teal2: '#50a2ac',
     blue2: '#859dd8',
     pink2: '#d1669c',
 
@@ -48,7 +48,7 @@ export const colors = {
     orange: '#7a5130',
     yellow: '#75681e',
     green: '#28712d',
-    teal: '#0e6d78',
+    teal: '#31696f',
     blue: '#3c4f7e',
     pink: '#8b2b5b'
 }; 

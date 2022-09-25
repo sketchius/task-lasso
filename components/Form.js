@@ -46,6 +46,64 @@ export function EditField(props) {
     </View> )
 }
 
+export function EditFieldArray(props) {
+    const styles = props.styles;
+
+    const inputField = useRef(null);
+
+    const [showHelp,setShowHelp] = useState(false);
+
+    let helpContent;
+
+    if (props.helpTips) {
+        helpContent = <View style={styles.helpElement}>
+            {props.helpTips.map( (tip,index) => { return <View key={index} style={styles.alignedRow}>
+                    <View style={styles.helpIcon}>{getIcon('FontAwesome5','arrow-circle-right',16,styles.colors.gray2)}</View>
+                    <StyledText style={styles.helpText}>{tip}</StyledText>
+                </View> })}
+        </View>
+    }
+
+    const fields = props.content.map( (fieldText,index) => {
+        return <View style={[styles.alignedRow, styles.marginVertical2]}>
+            <View style={styles.padding3}>{getIcon('FontAwesome','circle',16,styles.colors.gray2)}</View>
+            <View style={styles.textInputContainer}>
+                <TextInput style={styles.textInputSmall} value={fieldText} maxLength={props.maxLength} ref={inputField} onChangeText={text => props.onChange(text,index)}/>
+            </View>
+            <Pressable style={styles.paddingHorizontal4} onPress={() => props.onDelete(index)}>{getIcon('FontAwesome5','times',20,styles.colors.red2)}</Pressable>
+        </View>
+    })
+
+    const addItem = () => {
+
+    }
+
+    return (
+    <View style={styles.formSectionBorder}>
+        <View style={[styles.editField]}>
+            <View style={[styles.alignedRow]}>
+                <StyledText style={styles.formFieldLabel}>{props.label.toUpperCase()}</StyledText>
+                {props.required ?
+                    <StyledText style={styles.requiredText}>(required)</StyledText> :
+                    <StyledText style={styles.optionalText}>(optional)</StyledText>
+                }
+                <View style={styles.horizontalLine}></View>
+                <Pressable style={styles.helpButton} onPress={() => (setShowHelp(!showHelp))}>
+                    {getIcon('MaterialCommunityIcons',showHelp ? 'help-circle' :'help-circle-outline',24,styles.colors.gray2)}
+                </Pressable>
+            </View>
+            {props.subtext && <StyledText style={[styles.selectionSubtext, styles.marginBottom3]}>{props.subtext}</StyledText>}
+            {fields}
+            <Pressable style={styles.styledButton} onPress={() => props.onAdd()}>
+                {getIcon('MaterialIcons','add',20,'white')}
+                <StyledText style={styles.styledButtonText}>ADD ITEM</StyledText>
+            </Pressable>
+            
+            {showHelp && helpContent}
+        </View>
+    </View> )
+}
+
 export function SelectionList(props) {
     const styles = props.styles;
 
@@ -128,6 +186,12 @@ export function SelectionList(props) {
                 activeSubtextstyle = styles.pink2Text
                 activeViewStyle = styles.pinkHighlight
                 break;
+            case 'gray':
+                activeIconColor = styles.colors.gray
+                activeTextStyle = styles.grayText
+                activeSubtextstyle = styles.gray2Text
+                activeViewStyle = styles.grayHighlight
+                break;
         }
 
         return (
@@ -142,7 +206,7 @@ export function SelectionList(props) {
                 </View>}
                 <View style={[styles.marginHorizontal4,props.orientation == 'column' ? styles.flexStart : styles.alignItems, {alignSelf: 'center',width: '100%'}]}>
                     <StyledText style={[styles.selectionText, props.orientation == 'row' &&
-                    props.iconStyle == 2 &&
+                    props.iconStyle == 2 && 
                     styles.selectionTextSmall, selected && activeTextStyle]}>
                         {selection.text}
                     </StyledText>

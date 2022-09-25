@@ -49,24 +49,22 @@ const styleArray = {
     navOptionTextActive: {
         fontFamily: 'RobotoMedium',
         fontSize: font.size1,
-        paddingLeft: space.size2,
-        paddingRight: space.size2,
+        paddingLeft: space.size3,
+        paddingRight: space.size3,
         color: colors.gray,
-        backgroundColor: colors.teal3,
-        borderLeftWidth: .75,
-        borderRightWidth: .75,
-        borderRadius: space.size2,
-        borderColor: colors.teal2
+        backgroundColor: colors.teal4,
+        borderLeftWidth: 1,
+        borderRightWidth: 1,
+        borderColor: colors.teal
     },
     navOptionTextInactive: {
         fontFamily: 'RobotoMedium',
-        paddingLeft: space.size2,
-        paddingRight: space.size2,
+        paddingLeft: space.size3,
+        paddingRight: space.size3,
         fontSize: font.size1,
         color: colors.gray3,
-        borderLeftWidth: .75,
-        borderRightWidth: .75,
-        borderRadius: space.size2,
+        borderLeftWidth: 1,
+        borderRightWidth: 1,
         borderColor: 'white'
     },
     navContent: {
@@ -175,7 +173,7 @@ const styleArray = {
         color: 'white'
     },
     textInputContainer: {
-        width: '100%',
+        flex: 1,
         borderWidth: space.size1,
         borderColor: colors.gray
     },
@@ -185,6 +183,34 @@ const styleArray = {
         padding: space.size4,
         width: 'auto',
         backgroundColor: 'white'
+    },
+    textInputSmall: {
+        textAlignVertical: 'top',
+        minHeight: 30,
+        height: 30,
+        fontSize: font.size1,
+        padding: space.size4,
+        paddingBottom: space.size3,
+        width: 'auto',
+        backgroundColor: 'white'
+    },
+    styledButton: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginLeft: space.size6,
+        alignSelf: 'flex-start',
+        padding: space.size3,
+        paddingLeft: space.size,
+        paddingRight: space.size5,
+        backgroundColor: colors.teal2,
+        borderColor: colors.teal,
+        borderWidth: space.size2
+    },
+    styledButtonText: {
+        color: 'white',
+        marginLeft: space.size3,
+        fontSize: font.size3,
+        fontFamily: 'TitilliumWebSemibold'
     },
     requiredText: {
         color: colors.red,
@@ -304,17 +330,32 @@ const styleArray = {
         color: colors.gray2
     },
     taskTypeElement: {
-        paddingLeft: space.size1,
         paddingRight: space.size1,
         marginRight: space.size3,
+        marginBottom: space.size2,
         alignItems: 'center',
         flexDirection: 'row'
     },
     taskTypeText: {
         marginLeft: space.size2,
-        fontSize: font.size00,
+        fontSize: font.size0,
         color: colors.gray3,
         fontFamily: 'TitilliumWebBold'    
+    },
+    lowPriority: {
+        height: '80%',
+        width: 3,
+        backgroundColor: colors.teal4
+    },
+    medPriority: {
+        height: '80%',
+        width: 3,
+        backgroundColor: colors.yellow4
+    },
+    hiPriority: {  
+        height: '80%',
+        width: 3,      
+        backgroundColor: colors.red4
     },
     taskDetailDescription: {
         fontSize: font.size2,
@@ -405,9 +446,6 @@ const styleArray = {
         borderRightWidth: .25,
         borderColor: colors.gray
     },
-    taskListSectionHeader: {
-        fontFamily: 'TitilliumWebSemibold'
-    },
     taskListItemRow: {
         flexDirection: 'row',
         width: '95%',
@@ -463,6 +501,10 @@ const styleArray = {
         alignItems: 'center',
         justifyContent: 'center',
         marginRight: space.size3
+    },
+    checklistLabel: {
+        paddingLeft: space.size3,
+        color: colors.teal
     },
     taskIconCompact: {
         height: 20,
@@ -588,6 +630,32 @@ const styleArray = {
     spaceEvenly: {
         justifyContent: 'space-evenly'
     },
+    sectionHeaderStyle: {
+        marginLeft: space.size4,
+        paddingLeft: space.size4,
+        paddingRight: space.size4,
+        backgroundColor: colors.teal4,
+        borderLeftWidth: 4,
+        borderRightWidth: 4,
+        borderTopWidth: 2,
+        borderColor: colors.teal3
+    },
+    sectionHeaderTextStyle: {
+        fontFamily: 'TitilliumWebSemibold'
+    },
+    sectionHeaderIcon: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        height: 24,
+        width: 24
+    },
+    itemButton: {
+        borderColor: colors.teal,
+        borderWidth: 1.5
+    },
+    itemButtonText: {
+        backgroundColor: colors.teal5,
+    },
     horizontalLine: {
         marginLeft: space.size2,
         marginRight: space.size2,
@@ -630,10 +698,10 @@ const styleArray = {
     },
     leftBorder: {
         borderLeftWidth: 1,
-        borderLeftColor: colors.blue2
+        borderLeftColor: colors.teal2,
     },
     topBorder: {
-        borderTopWidth: 1,
+        borderTopWidth: 2,
         borderColor: colors.gray
     },
     leftBorder2: {
@@ -646,7 +714,7 @@ const styleArray = {
         borderColor: colors.gray
     },
     taskBorder: {
-        borderBottomWidth: 1,
+        borderBottomWidth: 2,
         borderColor: colors.gray
     },
     tealHighlight: {
@@ -655,7 +723,8 @@ const styleArray = {
         backgroundColor: colors.teal4,
         borderLeftWidth: 4,
         borderRightWidth: 4,
-        borderColor: colors.teal
+        borderTopWidth: 1,
+        borderColor: colors.teal3
     },
     hiddenHighlight: {
         paddingLeft: space.size2,
@@ -717,6 +786,17 @@ const styleArray = {
         borderRightWidth: 4,
         borderColor: colors.pink
     },
+    grayHighlight: {
+        paddingLeft: space.size2,
+        paddingRight: space.size2,
+        backgroundColor: colors.gray5,
+        borderLeftWidth: 4,
+        borderRightWidth: 4,
+        borderColor: colors.gray
+    },
+    yellowAlert: {
+        backgroundColor: colors.yellow5
+    },
     tealText: {
         color: colors.teal
     },
@@ -758,6 +838,12 @@ const styleArray = {
     },
     pink2Text: {
         color: colors.pink2
+    },
+    grayText: {
+        color: colors.gray
+    },
+    gray2Text: {
+        color: colors.gray2
     },
     selectionBorder1: {
         borderTopWidth: 1,

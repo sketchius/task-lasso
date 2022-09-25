@@ -11,7 +11,7 @@ import * as chrono from 'chrono-node';
 import formatDistance from 'date-fns/formatDistance'
 import formatRelative from 'date-fns/formatRelative'
 
-import { DateTimeComponent, EditField, SelectionList } from './../../components/Form';
+import { DateTimeComponent, EditField, EditFieldArray, SelectionList } from './../../components/Form';
 import { getTaskByUniqid } from './../../tools/tools';
 
 import { styles } from './../../styles/styles';
@@ -27,7 +27,8 @@ export default function TaskEditor({ route, navigation }) {
     
     const [taskType,setTaskType] = useState('flexible');
     const [title,setTitle] = useState('');
-    const [contextType,setContextType] = useState('flexible');
+    const [checklistMode,setChecklistMode] = useState(0);
+    const [checklistContent,setChecklistContent] = useState(['Take out the trash','Do the dishes']);
     const [description,setDescription] = useState('');
     const [taskId,setTaskId] = useState('');
     const [taskPriority,setTaskPriority] = useState(1);
@@ -88,6 +89,15 @@ export default function TaskEditor({ route, navigation }) {
                 dateModified: new Date()
         }
 
+        if (checklistMode == 1)
+            newTask.checklist = checklistContent.map( (item, index) => {
+                return {
+                    text: item,
+                    state: 0,
+                    index
+                }
+            });
+
         let event = 'updateTask';
         if (action == 'new') {
             newTask.uniqid = uuid.v4();
@@ -105,6 +115,30 @@ export default function TaskEditor({ route, navigation }) {
             DeviceEventEmitter.emit("event.navigationEvent", {event: 'navigate', index: 1});
     }
 
+    const handleChecklistOnChange = (text,index) => {
+        if (index < checklistContent.length) {
+            const newList = [...checklistContent]
+            newList[index] = text;
+            setChecklistContent(newList);
+        }
+    }
+
+    const handleChecklistOnAdd = () => {
+        console.log(`Running handleChecklistOnAdd`)
+        const newList = [...checklistContent]
+        newList.push('');
+        setChecklistContent(newList);
+    }
+
+    const handleChecklistOnDelete = (index) => {
+        if (index < checklistContent.length) {
+            const newList = [...checklistContent]
+            newList.splice(index,1);
+            setChecklistContent(newList);
+        }
+    }
+
+
 
 
     return (
@@ -120,7 +154,7 @@ export default function TaskEditor({ route, navigation }) {
                             iconSize: 32,
                             text: 'Draft',
                             subtext: "A quick note of a task, to be expanded on later",
-                            activeColor: 'orange'
+                            activeColor: 'teal'
                         },
                         {
                             index: 1,
@@ -130,7 +164,7 @@ export default function TaskEditor({ route, navigation }) {
                             iconSize: 32,
                             text: 'Flexible',
                             subtext: "A task that needs to be done eventually",
-                            activeColor:  'yellow'
+                            activeColor:  'teal'
                         },
                         {
                             index: 2,
@@ -140,7 +174,7 @@ export default function TaskEditor({ route, navigation }) {
                             iconSize: 32,
                             text: 'Deadline',
                             subtext: "A task that needs to be done by a certain date",
-                            activeColor: 'green'
+                            activeColor: 'teal'
                         },
                         {
                             index: 3,
@@ -160,9 +194,7 @@ export default function TaskEditor({ route, navigation }) {
                             iconSize: 32,
                             text: 'Repeating',
                             subtext: "A task that needs to be done regularly",
-                            selectedStyle: styles.blueHighlight,
-                            deselectedStyle: styles.hiddenHighlight,
-                            activeColor: 'blue'
+                            activeColor: 'teal'
                         }
                     ]}></SelectionList>
                 <EditField styles={styles} text={title}  onChange={setTitle}  label={'TASK TITLE'}
@@ -182,7 +214,35 @@ export default function TaskEditor({ route, navigation }) {
                             `Add additional information need to complete the task.\nI.e. an address, phone number, or set of instructions.`
                         ]}
                     ></EditField>
-
+                    <SelectionList styles={styles} label={'CHECKLIST'} selection={checklistMode} onPress={setChecklistMode} orientation={'row'} columns={2} iconStyle={1}
+                    selections={[
+                        {
+                            index: 0,
+                            stateValue: 0,
+                            iconFamily: 'MaterialIcons',
+                            iconName: 'not-interested',
+                            iconSize: 24,
+                            text: 'No Checklist',
+                            subtext: "",
+                            activeColor: 'gray'
+                        },
+                        {
+                            index: 1,
+                            stateValue: 1,
+                            iconFamily: 'FontAwesome',
+                            iconName: 'list-ul',
+                            iconSize: 24,
+                            text: 'Attach Checklist ',
+                            subtext: "A set of subtasks to be done in any order",
+                            activeColor: 'teal'
+                        }
+                    ]}></SelectionList>
+                    {checklistMode != 0 && <EditFieldArray styles={styles} label={'CHECKLIST ITEMS'} content={checklistContent}
+                        onChange={handleChecklistOnChange}
+                        onAdd={handleChecklistOnAdd}
+                        onDelete={handleChecklistOnDelete}
+                        helpTips = {[]}
+                    ></EditFieldArray>}
                     <SelectionList styles={styles} label={'PRIORITY'} selection={taskPriority} onPress={setTaskPriority} orientation={'row'} columns={3} iconStyle={0}
                     selections={[
                         {
@@ -192,7 +252,7 @@ export default function TaskEditor({ route, navigation }) {
                             iconName: 'dot-single',
                             iconSize: 20,
                             text: 'Low',
-                            activeColor: 'blue'
+                            activeColor: 'teal'
                         },
                         {
                             index: 1,
@@ -201,7 +261,7 @@ export default function TaskEditor({ route, navigation }) {
                             iconName: 'minus',
                             iconSize: 20,
                             text: 'Med',
-                            activeColor: 'yellow'
+                            activeColor: 'teal'
                         },
                         {
                             index: 2,
@@ -210,7 +270,7 @@ export default function TaskEditor({ route, navigation }) {
                             iconName: 'alert-circle',
                             iconSize: 20,
                             text: 'High',
-                            activeColor: 'red'
+                            activeColor: 'teal'
                         }
                     ]}></SelectionList>
                     <SelectionList styles={styles} label={'TASK DURATION'}  selection={taskDuration} onPress={setTaskDuration}  orientation={'row'} columns={6} wrap={true} iconStyle={0}
@@ -219,37 +279,37 @@ export default function TaskEditor({ route, navigation }) {
                             index: 0,
                             stateValue: 5,
                             text: '5m',
-                            activeColor: 'blue'
+                            activeColor: 'teal'
                         },
                         {
                             index: 1,
                             stateValue: 10,
                             text: '10m',
-                            activeColor: 'blue'
+                            activeColor: 'teal'
                         },
                         {
                             index: 2,
                             stateValue: 15,
                             text: '15m',
-                            activeColor: 'blue'
+                            activeColor: 'teal'
                         },
                         {
                             index: 3,
                             stateValue: 30,
                             text: '30m',
-                            activeColor: 'blue'
+                            activeColor: 'teal'
                         },
                         {
                             index: 4,
                             stateValue: 45,
                             text: '45m',
-                            activeColor: 'blue'
+                            activeColor: 'teal'
                         },
                         {
                             index: 5,
                             stateValue: 60,
                             text: '60m',
-                            activeColor: 'blue'
+                            activeColor: 'teal'
                         }
                     ]}></SelectionList>
                     {getIcon(iconFamily,iconName,36,styles.colors.gray)}
@@ -280,7 +340,8 @@ export default function TaskEditor({ route, navigation }) {
                             text: '2-State',
                             subtext: "Can marked undone or done.",
                             selectedStyle: styles.blueHighlight,
-                            deselectedStyle: styles.hiddenHighlight
+                            deselectedStyle: styles.hiddenHighlight,
+                            activeColor: 'teal'
                         },
                         {
                             index: 1,
@@ -291,7 +352,8 @@ export default function TaskEditor({ route, navigation }) {
                             text: '3-State',
                             subtext: "Can be undone, started, or done.",
                             selectedStyle: styles.blueHighlight,
-                            deselectedStyle: styles.hiddenHighlight
+                            deselectedStyle: styles.hiddenHighlight,
+                            activeColor: 'teal'
                         }
                     ]}></SelectionList>
                 </View>}
