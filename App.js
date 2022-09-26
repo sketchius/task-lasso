@@ -5,22 +5,17 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import { Ionicons, FontAwesome, AntDesign } from '@expo/vector-icons'; 
-import * as Font from 'expo-font';
 import { saveTasks, saveStatus, loadTasks, printKeys } from './Data'
 import { Logs } from 'expo';
 
 import isToday from 'date-fns/isToday'
 import differenceInDays from 'date-fns/differenceInDays'
 
-import Home from './screens/home-screen/home';
 import TaskEditor from './screens/edit-screen/edit';
-import DataInspector from './DataInspector';
 import store from './redux/store';
 
 import { styles } from './styles/styles';
 import Main from './Main'
-import TaskScreen from './screens/task-screen/task-screen';
 import { useFonts } from 'expo-font/build';
 import { createStackNavigator } from '@react-navigation/stack';
 
@@ -313,9 +308,11 @@ export default function App() {
     const Stack = createStackNavigator();
 
     useEffect( () => {
-        DeviceEventEmitter.addListener("event.taskEvent", eventData => handleTaskEvent(eventData));
-        DeviceEventEmitter.addListener("event.dayEvent", eventData => handleDayEvent(eventData));
+        const taskEventListener = DeviceEventEmitter.addListener("event.taskEvent", eventData => handleTaskEvent(eventData));
+        const dayEventListener = DeviceEventEmitter.addListener("event.dayEvent", eventData => handleDayEvent(eventData));
+        return () => { taskEventListener.remove(); dayEventListener.remove() }
     },[])
+
     const handleTaskEvent = (eventData) => {
         switch (eventData.event) {
             case 'setStatus':
@@ -341,19 +338,6 @@ export default function App() {
 
         }
     }
-
-    const options = {    
-        headerShown: false,
-        headerBackTitleVisible: false,
-        headerStyle: {
-          backgroundColor: styles.colors.gray,
-        },
-        headerTintColor: "#fff",
-        tabBarActiveTintColor: styles.colors.gray,
-        tabBarInactiveTintColor: styles.colors.gray2,
-        tabBarActiveBackgroundColor: styles.blue3,
-        tabBarInactiveBackgroundColor: 'white'
-    };
 
     return (
             tasksLoaded && fontsLoaded ?

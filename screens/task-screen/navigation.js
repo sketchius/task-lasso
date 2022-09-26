@@ -1,20 +1,12 @@
 import React, {useState,useEffect} from 'react';
-import {ScrollView, View, Pressable, DeviceEventEmitter} from 'react-native';
-import { useSelector } from 'react-redux';
-import { useIsFocused } from '@react-navigation/native';
+import { View, Pressable, DeviceEventEmitter} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
-import { format } from 'date-fns';
 import StyledText from './../../components/StyledText';
-
-import TodoItem from "./todo-item"
-import TasklistSection from './../../screens/task-screen/tasklist-section';
 
 import { styles } from '../../styles/styles';
 import getIcon from '../../tools/Icons';
 import ToDoList from './todo';
-import TaskEditor from '../edit-screen/edit';
-import Tasklist from './task-screen';
 import AllTasklist from './tasklist';
 import DataInspector from '../../DataInspector';
 import IconPicker from '../../iconPicker';

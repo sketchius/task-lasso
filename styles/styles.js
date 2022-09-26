@@ -512,10 +512,6 @@ const styleArray = {
         paddingRight: space.size2,
         alignItems: 'center',
         justifyContent: 'center',
-        marginRight: space.size3,
-        borderRightWidth: 1,
-        borderStyle: 'dotted',
-        borderColor: colors.gray3
     },
     
 

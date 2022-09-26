@@ -4,7 +4,6 @@ import { useSelector } from 'react-redux';
 
 import { Logs } from 'expo'
 
-import TasklistItem from "./tasklist-item";
 import TodoItem from "./todo-item";
 import getIcon from '../../tools/Icons';
 import StyledText from "../../components/StyledText";
@@ -27,7 +26,7 @@ export default function TasklistSection(props) {
     const [h,setH] = useState('auto');
     
     const getTaskListItems = () => {
-        return filteredTaskList.map( (task, i) => <TodoItem key={i} styles={styles} task={task} navigation={props} compact={true}/>)
+        return filteredTaskList.map( (task, i) => <TodoItem key={i} styles={styles} task={task} navigation={props} tasklist={true}/>)
     }
 
     const getSectionTaskCountElement = () => {

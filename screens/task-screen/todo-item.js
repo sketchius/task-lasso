@@ -11,6 +11,7 @@ import { getDateInContext, getTime } from '../../tools/DateContext';
 import getIcon from '../../tools/Icons';
 import MultistateCheckbox from '../../components/MultistateCheckbox';
 import StyledText from '../../components/StyledText';
+import StyledButton from '../../components/StyledButton';
 
 export default function TodoItem(props) {
 
@@ -96,6 +97,75 @@ export default function TodoItem(props) {
         }
     }
 
+    const getTaskButtons = () => {
+        const buttonConfigType = `${props.tasklist ? 'tasklist/' : 'todo/'}${task.type}`;
+        const buttons = [];
+        switch (buttonConfigType) {
+            case 'todo/DRAFT':
+                break;
+            case 'tasklist/DRAFT':
+                buttons.push(getButtonOfType('delete'))
+                buttons.push(getButtonOfType('expand'))
+                break;
+            case 'todo/FLEXIBLE':
+                buttons.push(getButtonOfType('edit'))
+                buttons.push(getButtonOfType('schedule'))
+                buttons.push(getButtonOfType('defer'))
+                break;
+            case 'tasklist/FLEXIBLE':
+                buttons.push(getButtonOfType('delete'))
+                buttons.push(getButtonOfType('edit'))
+                buttons.push(getButtonOfType('schedule'))
+                break;
+            case 'todo/DEADLINE':
+                buttons.push(getButtonOfType('edit'))
+                buttons.push(getButtonOfType('extend'))
+                break;
+            case 'tasklist/DEADLINE':
+                buttons.push(getButtonOfType('delete'))
+                buttons.push(getButtonOfType('edit'))
+                buttons.push(getButtonOfType('extend'))
+                break;
+            case 'todo/SCHEDULED':
+                buttons.push(getButtonOfType('edit'))
+                buttons.push(getButtonOfType('reschedule'))
+                break;
+            case 'tasklist/SCHEDULED':
+                buttons.push(getButtonOfType('delete'))
+                buttons.push(getButtonOfType('edit'))
+                buttons.push(getButtonOfType('reschedule'))
+                break;
+            case 'todo/REPEATING':
+                buttons.push(getButtonOfType('edit'))
+                buttons.push(getButtonOfType('defer'))
+                break;
+            case 'tasklist/REPEATING':
+                buttons.push(getButtonOfType('delete'))
+                buttons.push(getButtonOfType('edit'))
+                break;
+        }
+        return buttons;
+    }
+
+    const getButtonOfType = (buttonType) => {
+        switch (buttonType) {
+            case 'edit':
+                return <StyledButton onPress={ () => { navigation.navigate('Editor',{action: 'edit', mode: 'task', uniqid: task.uniqid}) }} data='edit' label='Edit' iconFamily='Feather' iconName='edit'/>;
+            case 'delete':
+                return <StyledButton label='Delete' iconFamily='FontAwesome' iconName='times'/>;
+            case 'defer':
+                return <StyledButton label='Defer' iconFamily='AntDesign' iconName='arrowright'/>;
+            case 'schedule':
+                return <StyledButton label='Schedule' iconFamily='Feather' iconName='calendar'/>;
+            case 'reschedule':
+                return <StyledButton label='Reschedule' iconFamily='Feather' iconName='calendar'/>;
+            case 'extend':
+                return <StyledButton label='Extend' iconFamily='Ionicons' iconName='play-skip-forward'/>;
+            case 'expand':
+                return <StyledButton label='Expand' iconFamily='MaterialCommunityIcons' iconName='arrow-expand-all'/>;
+        }
+    }
+
 
     if (expanded) {
         expandedContent = (
@@ -116,27 +186,8 @@ export default function TodoItem(props) {
                     </View>
                     <View style={{borderLeftWidth: 1, borderLeftColor: styles.colors.teal2, paddingLeft: 8}}>{getChecklistContent()}</View>
                 </View>}
-                <View style={[styles.alignedRow, styles.spaceBetween, styles.marginVertical3, styles.width300]}>
-                
-                    <Pressable style={[styles.size80, styles.alignItems, styles.thinBorder, styles.margina, styles.paddingVertical4, styles.itemButton]}>
-                        {getIcon('FontAwesome','times',16,styles.colors.gray)}
-                        <StyledText style={[styles.paddingTop2]}>Delete</StyledText>
-                    </Pressable>
-
-                    <Pressable style={[styles.size80, styles.alignItems, styles.thinBorder, styles.margina, styles.paddingVertical4, styles.itemButton]} 
-                    onPress={ () => {
-                        
-                        //DeviceEventEmitter.emit("event.taskEvent", {event: 'updateTask', uniqid: task.uniqid, task});
-                        navigation.navigate('Editor',{action: 'edit', mode: 'task', uniqid: task.uniqid})
-                    }}>
-                        <Feather name="edit" size={16} color={styles.colors.gray}  />
-                        <StyledText style={[styles.paddingTop2]}>Edit</StyledText>
-                    </Pressable>
-                
-                    <Pressable style={[styles.size80, styles.alignItems, styles.thinBorder, styles.margin, styles.paddingVertical4, styles.itemButton]}>
-                        <AntDesign name="arrowright" size={16} color={styles.colors.gray}  />
-                        <StyledText style={[styles.paddingTop2]}>Defer</StyledText>
-                    </Pressable>
+                <View style={[styles.alignedRow, styles.marginVertical3]}>
+                    {getTaskButtons()}
                 </View>
             </View>
         )
@@ -189,18 +240,18 @@ export default function TodoItem(props) {
 
     return (
     <View style={[styles.row, styles.whiteBackground, styles.taskBorder]}>
-        {!props.compact ? <MultistateCheckbox state={checkboxState} onStateChange={handleCheckboxStateChange} style={[styles.padding2, styles.marginTop3, styles.paddingHorizontal4]}  size={24} ></MultistateCheckbox> : <View style={styles.compactTaskElement}></View>}
+        {!props.tasklist ? <MultistateCheckbox state={checkboxState} onStateChange={handleCheckboxStateChange} style={[styles.padding2, styles.marginTop3, styles.paddingHorizontal4]}  size={24} ></MultistateCheckbox> : <View style={styles.compactTaskElement}></View>}
         <View style={[ styles.flex100, styles.leftBorder]} >
             <View>
-                <Pressable style={[styles.alignedRow, styles.paddingLeft2, !props.compact && styles.marginVertical2]} onPress={() => setExpanded(!expanded) }>    
-                    <View style={props.compact ? styles.taskIconCompact : styles.taskIcon}>
-                        {getIcon(task.iconLibrary,task.iconName,props.compact ? 16 : 24,styles.colors.gray)}
+                <Pressable style={[styles.alignedRow, styles.paddingLeft2, !props.tasklist && styles.marginVertical2]} onPress={() => setExpanded(!expanded) }>    
+                    <View style={props.tasklist ? styles.taskIconCompact : styles.taskIcon}>
+                        {getIcon(task.iconLibrary,task.iconName,props.tasklist ? 16 : 24,styles.colors.gray)}
                     </View>            
                     {getPriorityElement()}
                     <StyledText style={[styles.listItem, styles.fontSize2, styles.headerFont, styles.marginLeft3, styles.paddingLeft1]}>{task.title}</StyledText>
                 </Pressable>
-                {(!hideBottomContent && (!props.compact || expanded)) && <View style={[styles.paddingHorizontal4, {borderColor: styles.colors.teal3, borderTopWidth: styles.space.size0}]}>
-                    {(!props.compact || expanded) && <View style={[styles.alignedRow, styles.marginTop3]}>
+                {(!hideBottomContent && (!props.tasklist || expanded)) && <View style={[styles.paddingHorizontal4, {borderColor: styles.colors.teal3, borderTopWidth: styles.space.size0}]}>
+                    {(!props.tasklist || expanded) && <View style={[styles.alignedRow, styles.marginTop3]}>
                         {task.prority === 2 && <View style={[styles.marginRight4, styles.alignedRow, styles.orangeBackground]}>
                             <FontAwesome5 name="exclamation-circle" size={12} color="#999" style={styles.paddingRight2}/>
                             <StyledText style={styles.alertText}>HIGH PRIORITY</StyledText>
