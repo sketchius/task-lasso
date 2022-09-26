@@ -41,13 +41,8 @@ async function getData() {
 
 export default function App() {
 
-
     const dispatch = useDispatch()
     
-    
-    const [tasksLoaded,setTasksLoaded] = useState(false);
-
-
     const [fontsLoaded] = useFonts({
         'RobotoLight': require('./assets/fonts/RobotoLight.ttf'),
         'RobotoRegular': require('./assets/fonts/RobotoRegular.ttf'),
@@ -58,43 +53,31 @@ export default function App() {
         'TitilliumWebBold': require('./assets/fonts/TitilliumWebBold.ttf'),
     });
 
-    
-    //const state = 
-
     const tasks = useSelector(state => state.tasks);
     const status = useSelector(state => state.status);
+    const tasksLoaded = useSelector(state => state.localStorageLoaded);
 
     useEffect(() => {
         console.log(`READING TASKS FROM STORAGE`)
-        loadTasksFromStorage();
-        printKeys();
+        if (!tasksLoaded)
+            loadTasksFromStorage();
 
         loadStatusFromStorage();
         
-        //setTasksLoaded(true);
+        //setTasksLoaded(true)
     }, []);
 
-    // useEffect( () => {
-    //     if (tasksLoaded) {
-    //         console.log(`RESETING DAY TO CHECK-IN!!!!!!!!!!`)
-    //         dispatch({type:'day/dayStateChanged',payload: 'CHECK-IN' })
-    //     }
-    // },[tasksLoaded])
-
     useEffect(() => {
-        console.log(`TASK DATA UPDATE DETECTED (SIZE NOW: ${tasks.length}) SAVING TASKS TO STORAGE`)
-       if (tasks.length > 0 && tasksLoaded) saveTasks(tasks);
+        if (tasks.length > 0 && tasksLoaded) { 
+            console.log(`TASK DATA UPDATE DETECTED (SIZE NOW: ${tasks.length}) SAVING TASKS TO STORAGE`)
+            saveTasks(tasks);
+        }
     }, [tasks]);
 
     useEffect(() => {
         console.log(`STATUS UPDATE DETECTED (NOW: ${status}) SAVING STATUS TO STORAGE`)
         saveStatus(status);
      }, [status]);
-
-    /*useEffect(() => {
-        assignTasks();
-    }, []);*/
-
 
     const assignedValue = useRef(0);
 
@@ -225,7 +208,7 @@ export default function App() {
         try {
             const data = await loadTasks();
             
-
+            //Yall
             data.forEach((entry) => {
                 let task = JSON.parse(entry[1]);
                 if (task.dateDue)
@@ -246,7 +229,7 @@ export default function App() {
                 dispatch({ type: 'task/taskCreated', payload: task })
             });
             
-            setTasksLoaded(true);
+            dispatch({ type: 'app/localStorageLoaded'})
             
         } catch (error) {
             alert(error);

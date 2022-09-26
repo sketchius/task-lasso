@@ -45,12 +45,12 @@ export const iconOptions = [
         iconName: 'shoppingcart'
     },
     {
-        category: 'communication',
+        category: 'social',
         iconFamily: 'AntDesign',
         iconName: 'team'
     },
     {
-        category: 'communication',
+        category: 'social',
         iconFamily: 'AntDesign',
         iconName: 'phone'
     },
@@ -82,7 +82,7 @@ export const iconOptions = [
     {
         category: 'household',
         iconFamily: 'AntDesign',
-        iconName: 'search'
+        iconName: 'search1'
     },
     {
         category: 'office',
@@ -90,7 +90,7 @@ export const iconOptions = [
         iconName: 'calendar'
     },
     {
-        category: 'personal',
+        category: 'tech',
         iconFamily: 'AntDesign',
         iconName: 'mobile1'
     },
@@ -100,7 +100,7 @@ export const iconOptions = [
         iconName: 'key'
     },
     {
-        category: 'office',
+        category: 'tech',
         iconFamily: 'AntDesign',
         iconName: 'printer'
     },
@@ -115,17 +115,17 @@ export const iconOptions = [
         iconName: 'car'
     },
     {
-        category: 'people',
+        category: 'social',
         iconFamily: 'AntDesign',
         iconName: 'gift'
     },
     {
-        category: 'personal',
+        category: 'household',
         iconFamily: 'AntDesign',
         iconName: 'rest'
     },
     {
-        category: 'personal',
+        category: 'household',
         iconFamily: 'AntDesign',
         iconName: 'bulb1'
     },
@@ -140,7 +140,7 @@ export const iconOptions = [
         iconName: 'sync'
     },
     {
-        category: 'communication',
+        category: 'social',
         iconFamily: 'AntDesign',
         iconName: 'message1'
     },
@@ -172,7 +172,7 @@ export const iconOptions = [
     {
         category: 'travel',
         iconFamily: 'Entypo',
-        iconName: 'airplane'
+        iconName: 'aircraft'
     },
     {
         category: 'office',
@@ -200,7 +200,7 @@ export const iconOptions = [
         iconName: 'arrow-bold-right'
     },
     {
-        category: 'technology',
+        category: 'tech',
         iconFamily: 'Entypo',
         iconName: 'battery'
     },
@@ -227,7 +227,7 @@ export const iconOptions = [
     {
         category: 'office',
         iconFamily: 'Entypo',
-        iconName: 'breifcase'
+        iconName: 'briefcase'
     },
     {
         category: 'household',
@@ -250,12 +250,12 @@ export const iconOptions = [
         iconName: 'calendar'
     },
     {
-        category: 'household',
+        category: 'tech',
         iconFamily: 'Entypo',
         iconName: 'camera'
     },
     {
-        category: 'people',
+        category: 'social',
         iconFamily: 'Entypo',
         iconName: 'chat'
     },
@@ -270,7 +270,7 @@ export const iconOptions = [
         iconName: 'clipboard'
     },
     {
-        category: 'technology',
+        category: 'tech',
         iconFamily: 'Entypo',
         iconName: 'code'
     },
@@ -300,7 +300,7 @@ export const iconOptions = [
         iconName: 'cycle'
     },
     {
-        category: 'technology',
+        category: 'tech',
         iconFamily: 'Entypo',
         iconName: 'database'
     },
@@ -315,12 +315,12 @@ export const iconOptions = [
         iconName: 'edit'
     },
     {
-        category: 'people',
+        category: 'social',
         iconFamily: 'Entypo',
         iconName: 'emoji-happy'
     },
     {
-        category: 'people',
+        category: 'social',
         iconFamily: 'Entypo',
         iconName: 'emoji-sad'
     },
@@ -330,7 +330,7 @@ export const iconOptions = [
         iconName: 'eraser'
     },
     {
-        category: 'people',
+        category: 'social',
         iconFamily: 'Entypo',
         iconName: 'eye'
     },
@@ -355,7 +355,7 @@ export const iconOptions = [
         iconName: 'folder'
     },
     {
-        category: 'people',
+        category: 'social',
         iconFamily: 'Entypo',
         iconName: 'hand'
     },
@@ -380,7 +380,7 @@ export const iconOptions = [
         iconName: 'key'
     },
     {
-        category: 'office',
+        category: 'tech',
         iconFamily: 'Entypo',
         iconName: 'keyboard'
     },
@@ -390,7 +390,7 @@ export const iconOptions = [
         iconName: 'lab-flask'
     },
     {
-        category: 'office',
+        category: 'tech',
         iconFamily: 'Entypo',
         iconName: 'laptop'
     },
@@ -425,7 +425,7 @@ export const iconOptions = [
         iconName: 'mail'
     },
     {
-        category: 'people',
+        category: 'social',
         iconFamily: 'Entypo',
         iconName: 'man'
     },
@@ -435,17 +435,17 @@ export const iconOptions = [
         iconName: 'map'
     },
     {
-        category: 'office',
+        category: 'tech',
         iconFamily: 'Entypo',
         iconName: 'mic'
     },
     {
-        category: 'office',
+        category: 'tech',
         iconFamily: 'Entypo',
         iconName: 'mobile'
     },
     {
-        category: 'office',
+        category: 'tech',
         iconFamily: 'Entypo',
         iconName: 'mouse-pointer'
     },
@@ -465,17 +465,17 @@ export const iconOptions = [
         iconName: 'pencil'
     },
     {
-        category: 'people',
+        category: 'social',
         iconFamily: 'Entypo',
         iconName: 'phone'
     },
     {
-        category: 'office',
+        category: 'tech',
         iconFamily: 'Entypo',
         iconName: 'power-plug'
     },
     {
-        category: 'office',
+        category: 'tech',
         iconFamily: 'Entypo',
         iconName: 'print'
     },
@@ -515,7 +515,7 @@ export const iconOptions = [
         iconName: 'shuffle'
     },
     {
-        category: 'office',
+        category: 'tech',
         iconFamily: 'Entypo',
         iconName: 'sound-mix'
     },
@@ -535,7 +535,7 @@ export const iconOptions = [
         iconName: 'suitcase'
     },
     {
-        category: 'office',
+        category: 'tech',
         iconFamily: 'Entypo',
         iconName: 'tablet'
     },
@@ -570,7 +570,7 @@ export const iconOptions = [
         iconName: 'tv'
     },
     {
-        category: 'people',
+        category: 'social',
         iconFamily: 'Entypo',
         iconName: 'users'
     },
@@ -589,4 +589,643 @@ export const iconOptions = [
         iconFamily: 'Entypo',
         iconName: 'warning'
     },
+    {
+        category: 'household',
+        iconFamily: 'Feather',
+        iconName: 'coffee'
+    },
+    {
+        category: 'household',
+        iconFamily: 'Feather',
+        iconName: 'coffee'
+    },
+    {
+        category: 'nature',
+        iconFamily: 'Feather',
+        iconName: 'droplet'
+    },
+    {
+        category: 'symbols',
+        iconFamily: 'Feather',
+        iconName: 'hexagon'
+    },
+    {
+        category: 'symbols',
+        iconFamily: 'Feather',
+        iconName: 'heart'
+    },
+    {
+        category: 'symbols',
+        iconFamily: 'Feather',
+        iconName: 'layers'
+    },
+    {
+        category: 'office',
+        iconFamily: 'Feather',
+        iconName: 'mail'
+    },
+    {
+        category: 'nature',
+        iconFamily: 'Feather',
+        iconName: 'moon'
+    },
+    {
+        category: 'symbols',
+        iconFamily: 'Feather',
+        iconName: 'move'
+    },
+    {
+        category: 'symbols',
+        iconFamily: 'Feather',
+        iconName: 'octagon'
+    },
+    {
+        category: 'social',
+        iconFamily: 'Feather',
+        iconName: 'phone'
+    },
+    {
+        category: 'symbols',
+        iconFamily: 'Feather',
+        iconName: 'power'
+    },
+    {
+        category: 'household',
+        iconFamily: 'Feather',
+        iconName: 'settings'
+    },
+    {
+        category: 'nature',
+        iconFamily: 'Feather',
+        iconName: 'sun'
+    },
+    {
+        category: 'household',
+        iconFamily: 'Feather',
+        iconName: 'thermometer'
+    },
+    {
+        category: 'household',
+        iconFamily: 'Feather',
+        iconName: 'tool'
+    },
+    {
+        category: 'household',
+        iconFamily: 'Feather',
+        iconName: 'trash-2'
+    },
+    {
+        category: 'symbols',
+        iconFamily: 'Feather',
+        iconName: 'trending-down'
+    },
+    {
+        category: 'symbols',
+        iconFamily: 'Feather',
+        iconName: 'trending-up'
+    },
+    {
+        category: 'symbols',
+        iconFamily: 'Feather',
+        iconName: 'triangle'
+    },
+    {
+        category: 'travel',
+        iconFamily: 'Feather',
+        iconName: 'truck'
+    },
+    {
+        category: 'household',
+        iconFamily: 'Feather',
+        iconName: 'tv'
+    },
+    {
+        category: 'household',
+        iconFamily: 'Feather',
+        iconName: 'umbrella'
+    },
+    {
+        category: 'social',
+        iconFamily: 'Feather',
+        iconName: 'user'
+    },
+    {
+        category: 'household',
+        iconFamily: 'Feather',
+        iconName: 'watch'
+    },
+    {
+        category: 'nature',
+        iconFamily: 'Feather',
+        iconName: 'wind'
+    },
+    {
+        category: 'symbols',
+        iconFamily: 'Feather',
+        iconName: 'zap'
+    },
+    {
+        category: 'household',
+        iconFamily: 'FontAwesome',
+        iconName: 'glass'
+    },
+    {
+        category: 'fun',
+        iconFamily: 'FontAwesome',
+        iconName: 'music'
+    },
+    {
+        category: 'household',
+        iconFamily: 'FontAwesome',
+        iconName: 'search'
+    },
+    {
+        category: 'symbols',
+        iconFamily: 'FontAwesome',
+        iconName: 'heart'
+    },
+    {
+        category: 'symbols',
+        iconFamily: 'FontAwesome',
+        iconName: 'star'
+    },
+    {
+        category: 'symbols',
+        iconFamily: 'FontAwesome',
+        iconName: 'check'
+    },
+    {
+        category: 'symbols',
+        iconFamily: 'FontAwesome',
+        iconName: 'remove'
+    },
+    {
+        category: 'household',
+        iconFamily: 'FontAwesome',
+        iconName: 'gear'
+    },
+    {
+        category: 'household',
+        iconFamily: 'FontAwesome',
+        iconName: 'home'
+    },
+    {
+        category: 'time',
+        iconFamily: 'FontAwesome',
+        iconName: 'clock-o'
+    },
+    {
+        category: 'household',
+        iconFamily: 'FontAwesome',
+        iconName: 'lock'
+    },
+    {
+        category: 'symbols',
+        iconFamily: 'FontAwesome',
+        iconName: 'flag'
+    },
+    {
+        category: 'household',
+        iconFamily: 'FontAwesome',
+        iconName: 'book'
+    },
+    {
+        category: 'tech',
+        iconFamily: 'FontAwesome',
+        iconName: 'print'
+    },
+    {
+        category: 'tech',
+        iconFamily: 'FontAwesome',
+        iconName: 'video-camera'
+    },
+    {
+        category: 'tech',
+        iconFamily: 'FontAwesome',
+        iconName: 'photo'
+    },
+    {
+        category: 'office',
+        iconFamily: 'FontAwesome',
+        iconName: 'pencil'
+    },
+    {
+        category: 'symbols',
+        iconFamily: 'FontAwesome',
+        iconName: 'arrows'
+    },
+    {
+        category: 'symbols',
+        iconFamily: 'FontAwesome',
+        iconName: 'expand'
+    },
+    {
+        category: 'symbols',
+        iconFamily: 'FontAwesome',
+        iconName: 'compress'
+    },
+    {
+        category: 'symbols',
+        iconFamily: 'FontAwesome',
+        iconName: 'asterisk'
+    },
+    {
+        category: 'household',
+        iconFamily: 'FontAwesome',
+        iconName: 'gift'
+    },
+    {
+        category: 'nature',
+        iconFamily: 'FontAwesome',
+        iconName: 'leaf'
+    },
+    {
+        category: 'nature',
+        iconFamily: 'FontAwesome',
+        iconName: 'fire'
+    },
+    {
+        category: 'travel',
+        iconFamily: 'FontAwesome',
+        iconName: 'plane'
+    },
+    {
+        category: 'household',
+        iconFamily: 'FontAwesome',
+        iconName: 'magnet'
+    },
+    {
+        category: 'household',
+        iconFamily: 'FontAwesome',
+        iconName: 'shopping-cart'
+    },
+    {
+        category: 'household',
+        iconFamily: 'FontAwesome',
+        iconName: 'gears'
+    },
+    {
+        category: 'social',
+        iconFamily: 'FontAwesome',
+        iconName: 'comments'
+    },
+    {
+        category: 'symbols',
+        iconFamily: 'FontAwesome',
+        iconName: 'sign-out'
+    },
+    {
+        category: 'symbols',
+        iconFamily: 'FontAwesome',
+        iconName: 'sign-in'
+    },
+    {
+        category: 'household',
+        iconFamily: 'FontAwesome',
+        iconName: 'thumb-tack'
+    },
+    {
+        category: 'social',
+        iconFamily: 'FontAwesome',
+        iconName: 'phone'
+    },
+    {
+        category: 'household',
+        iconFamily: 'FontAwesome',
+        iconName: 'unlock'
+    },
+    {
+        category: 'social',
+        iconFamily: 'FontAwesome',
+        iconName: 'bullhorn'
+    },
+    {
+        category: 'household',
+        iconFamily: 'FontAwesome',
+        iconName: 'wrench'
+    },
+    {
+        category: 'travel',
+        iconFamily: 'FontAwesome',
+        iconName: 'briefcase'
+    },
+    {
+        category: 'household',
+        iconFamily: 'FontAwesome',
+        iconName: 'chain'
+    },
+    {
+        category: 'household',
+        iconFamily: 'FontAwesome',
+        iconName: 'flask'
+    },
+    {
+        category: 'household',
+        iconFamily: 'FontAwesome',
+        iconName: 'scissors'
+    },
+    {
+        category: 'office',
+        iconFamily: 'FontAwesome',
+        iconName: 'copy'
+    },
+    {
+        category: 'household',
+        iconFamily: 'FontAwesome',
+        iconName: 'magic'
+    },
+    {
+        category: 'travel',
+        iconFamily: 'FontAwesome',
+        iconName: 'truck'
+    },
+    {
+        category: 'household',
+        iconFamily: 'FontAwesome',
+        iconName: 'money'
+    },
+    {
+        category: 'household',
+        iconFamily: 'FontAwesome',
+        iconName: 'gavel'
+    },
+    {
+        category: 'office',
+        iconFamily: 'FontAwesome',
+        iconName: 'envelope'
+    },
+    {
+        category: 'tech',
+        iconFamily: 'FontAwesome',
+        iconName: 'dashboard'
+    },
+    {
+        category: 'symbols',
+        iconFamily: 'FontAwesome',
+        iconName: 'flash'
+    },
+    {
+        category: 'household',
+        iconFamily: 'FontAwesome',
+        iconName: 'umbrella'
+    },
+    {
+        category: 'household',
+        iconFamily: 'FontAwesome',
+        iconName: 'lightbulb-o'
+    },
+    {
+        category: 'household',
+        iconFamily: 'FontAwesome',
+        iconName: 'bell-o'
+    },
+    {
+        category: 'household',
+        iconFamily: 'FontAwesome',
+        iconName: 'coffee'
+    },
+    {
+        category: 'household',
+        iconFamily: 'FontAwesome',
+        iconName: 'cutlery'
+    },
+    {
+        category: 'travel',
+        iconFamily: 'FontAwesome',
+        iconName: 'building-o'
+    },
+    {
+        category: 'household',
+        iconFamily: 'FontAwesome',
+        iconName: 'medkit'
+    },
+    {
+        category: 'travel',
+        iconFamily: 'FontAwesome',
+        iconName: 'ambulance'
+    },
+    {
+        category: 'social',
+        iconFamily: 'FontAwesome',
+        iconName: 'reply'
+    },
+    {
+        category: 'social',
+        iconFamily: 'FontAwesome',
+        iconName: 'forward'
+    },
+    {
+        category: 'symbols',
+        iconFamily: 'FontAwesome',
+        iconName: 'quote-left'
+    },
+    {
+        category: 'tech',
+        iconFamily: 'FontAwesome',
+        iconName: 'gamepad'
+    },
+    {
+        category: 'tech',
+        iconFamily: 'FontAwesome',
+        iconName: 'keyboard-o'
+    },
+    {
+        category: 'symbols',
+        iconFamily: 'FontAwesome',
+        iconName: 'shield'
+    },
+    {
+        category: 'travel',
+        iconFamily: 'FontAwesome',
+        iconName: 'anchor'
+    },
+    {
+        category: 'travel',
+        iconFamily: 'FontAwesome',
+        iconName: 'compass'
+    },
+    {
+        category: 'commerce',
+        iconFamily: 'FontAwesome',
+        iconName: 'dollar'
+    },
+    {
+        category: 'commerce',
+        iconFamily: 'FontAwesome',
+        iconName: 'euro'
+    },
+    {
+        category: 'commerce',
+        iconFamily: 'FontAwesome',
+        iconName: 'gbp'
+    },
+    {
+        category: 'travel',
+        iconFamily: 'FontAwesome',
+        iconName: 'bank'
+    },
+    {
+        category: 'travel',
+        iconFamily: 'FontAwesome',
+        iconName: 'building'
+    },
+    {
+        category: 'household',
+        iconFamily: 'FontAwesome',
+        iconName: 'spoon'
+    },
+    {
+        category: 'household',
+        iconFamily: 'FontAwesome',
+        iconName: 'paw'
+    },
+    {
+        category: 'symbols',
+        iconFamily: 'FontAwesome',
+        iconName: 'cube'
+    },
+    {
+        category: 'household',
+        iconFamily: 'FontAwesome',
+        iconName: 'recycle'
+    },
+    {
+        category: 'travel',
+        iconFamily: 'FontAwesome',
+        iconName: 'car'
+    },
+    {
+        category: 'nature',
+        iconFamily: 'FontAwesome',
+        iconName: 'tree'
+    },
+    {
+        category: 'fun',
+        iconFamily: 'FontAwesome',
+        iconName: 'soccer-ball-o'
+    },
+    {
+        category: 'travel',
+        iconFamily: 'FontAwesome',
+        iconName: 'binoculars'
+    },
+    {
+        category: 'household',
+        iconFamily: 'FontAwesome',
+        iconName: 'newspaper-o'
+    },
+    {
+        category: 'office',
+        iconFamily: 'FontAwesome',
+        iconName: 'calculator'
+    },
+    {
+        category: 'household',
+        iconFamily: 'FontAwesome',
+        iconName: 'trash'
+    },
+    {
+        category: 'household',
+        iconFamily: 'FontAwesome',
+        iconName: 'birthday-cake'
+    },
+    {
+        category: 'travel',
+        iconFamily: 'FontAwesome',
+        iconName: 'bicycle'
+    },
+    {
+        category: 'symbols',
+        iconFamily: 'FontAwesome',
+        iconName: 'diamond'
+    },
+    {
+        category: 'travel',
+        iconFamily: 'FontAwesome',
+        iconName: 'motorcycle'
+    },
+    {
+        category: 'social',
+        iconFamily: 'FontAwesome',
+        iconName: 'venus'
+    },
+    {
+        category: 'social',
+        iconFamily: 'FontAwesome',
+        iconName: 'mars'
+    },
+    {
+        category: 'household',
+        iconFamily: 'FontAwesome',
+        iconName: 'bed'
+    },
+    {
+        category: 'travel',
+        iconFamily: 'FontAwesome',
+        iconName: 'train'
+    },
+    {
+        category: 'travel',
+        iconFamily: 'FontAwesome',
+        iconName: 'subway'
+    },
+    {
+        category: 'tech',
+        iconFamily: 'FontAwesome',
+        iconName: 'battery'
+    },
+    {
+        category: 'travel',
+        iconFamily: 'FontAwesome',
+        iconName: 'mouse-pointer'
+    },
+    {
+        category: 'office',
+        iconFamily: 'FontAwesome',
+        iconName: 'sticky-note'
+    },
+    {
+        category: 'tech',
+        iconFamily: 'FontAwesome',
+        iconName: 'tv'
+    },
+    {
+        category: 'travel',
+        iconFamily: 'FontAwesome',
+        iconName: 'map'
+    },
+    {
+        category: 'symbols',
+        iconFamily: 'FontAwesome',
+        iconName: 'percent'
+    },
+    {
+        category: 'social',
+        iconFamily: 'FontAwesome',
+        iconName: 'handshake-o'
+    },
+    {
+        category: 'household',
+        iconFamily: 'FontAwesome',
+        iconName: 'thermometer-3'
+    },
+    {
+        category: 'household',
+        iconFamily: 'FontAwesome',
+        iconName: 'shower'
+    },
+    {
+        category: 'household',
+        iconFamily: 'FontAwesome',
+        iconName: 'bathtub'
+    },
+    {
+        category: 'nature',
+        iconFamily: 'FontAwesome',
+        iconName: 'snowflake-o'
+    },
+
+
+
+
 ]

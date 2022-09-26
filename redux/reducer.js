@@ -4,8 +4,9 @@ const initialState = {
 
 export default function rootReducer(state = initialState, action) {
     switch (action.type) {
-        case 'app/reset':
-            return {state:'',tasks:[]};
+        case 'app/localStorageLoaded':
+            return {...state,
+                localStorageLoaded: true};
         case 'storage/loadedData':
             return {...state,
                 tasks: action.payload};

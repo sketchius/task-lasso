@@ -1,4 +1,4 @@
-import { View } from "react-native";
+import { View, ScrollView } from "react-native";
 import { iconOptions } from "./iconOptions";
 import StyledText from "./components/StyledText";
 import getIcon from "./tools/Icons";
@@ -23,15 +23,17 @@ export default function IconPicker() {
     const getCategoryIconOptions = (category) => {
         return iconOptions
         .filter( iconOption => iconOption.category == category)
+        .sort( (a,b) => a.iconName > b.iconName )
         .map( (iconOption) => {
             return <View style={styles.padding2}>{getIcon(iconOption.iconFamily,iconOption.iconName,24,'black')}</View>;
         })
     }
 
-    return categories.map( (category) => {
+    return <ScrollView>{categories.map( (category) => {
         return <View>
             <StyledText>{category}</StyledText>
             <View style={[styles.row, {flexWrap: 'wrap'}]}>{getCategoryIconOptions(category)}</View>
         </View>
-    })
+        
+    })}</ScrollView>
 }
