@@ -652,6 +652,9 @@ const styleArray = {
     itemButtonText: {
         backgroundColor: colors.teal5,
     },
+    criticalButton: {
+        backgroundColor: colors.red3
+    },
     horizontalLine: {
         marginLeft: space.size2,
         marginRight: space.size2,

@@ -37,6 +37,8 @@ export default function TodoItem(props) {
 
     const [checklistCheckboxState, updateChecklistCheckboxState] = useState(task.checklist ? task.checklist.map( (item) => item.state) : []);
 
+    const [buttonMode, setButtonMode] = useState('normal');
+
     const handleCheckboxStateChange = () => {
         let newState;
         switch (task.checkboxStyle) {
@@ -98,8 +100,11 @@ export default function TodoItem(props) {
     }
 
     const getTaskButtons = () => {
-        const buttonConfigType = `${props.tasklist ? 'tasklist/' : 'todo/'}${task.type}`;
+        let buttonConfigType = `${props.tasklist ? 'tasklist/' : 'todo/'}${task.type}`;
         const buttons = [];
+        if (buttonMode == 'delete') {
+            buttonConfigType = 'special/DELETE'
+        }
         switch (buttonConfigType) {
             case 'todo/DRAFT':
                 break;
@@ -143,6 +148,10 @@ export default function TodoItem(props) {
                 buttons.push(getButtonOfType('delete'))
                 buttons.push(getButtonOfType('edit'))
                 break;
+            case 'special/DELETE':
+                buttons.push(getButtonOfType('cancel'))
+                buttons.push(getButtonOfType('delete-confirm'))
+                break;
         }
         return buttons;
     }
@@ -150,9 +159,13 @@ export default function TodoItem(props) {
     const getButtonOfType = (buttonType) => {
         switch (buttonType) {
             case 'edit':
-                return <StyledButton onPress={ () => { navigation.navigate('Editor',{action: 'edit', mode: 'task', uniqid: task.uniqid}) }} data='edit' label='Edit' iconFamily='Feather' iconName='edit'/>;
+                return <StyledButton
+                    onPress={ () => { navigation.navigate('Editor',{action: 'edit', uniqid: task.uniqid}) }}
+                    data='edit' label='Edit' iconFamily='Feather' iconName='edit'/>;
             case 'delete':
-                return <StyledButton label='Delete' iconFamily='FontAwesome' iconName='times'/>;
+                return <StyledButton
+                    onPress={ () => { setButtonMode('delete') }}
+                    label='Delete' iconFamily='FontAwesome' iconName='times'/>;
             case 'defer':
                 return <StyledButton label='Defer' iconFamily='AntDesign' iconName='arrowright'/>;
             case 'schedule':
@@ -162,7 +175,17 @@ export default function TodoItem(props) {
             case 'extend':
                 return <StyledButton label='Extend' iconFamily='Ionicons' iconName='play-skip-forward'/>;
             case 'expand':
-                return <StyledButton label='Expand' iconFamily='MaterialCommunityIcons' iconName='arrow-expand-all'/>;
+                return <StyledButton
+                onPress={ () => { navigation.navigate('Editor',{action: 'expand', uniqid: task.uniqid}) }}
+                label='Expand' iconFamily='MaterialCommunityIcons' iconName='arrow-expand-all'/>;
+            case 'cancel':
+                return <StyledButton
+                onPress={ () => { setButtonMode('normal') }}
+                label='Cancel' iconFamily='Ionicons' iconName='arrow-back'/>;
+            case 'delete-confirm':
+                return <StyledButton
+                onPress={ () => { setButtonMode('normal') }}
+                label='Delete' iconFamily='FontAwesome' iconName='times' styling={'critical'}/>;
         }
     }
 

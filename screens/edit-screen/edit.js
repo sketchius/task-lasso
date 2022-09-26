@@ -42,14 +42,17 @@ export default function TaskEditor({ route, navigation }) {
 
     useEffect(() => {
         setAction(route.params.action);
-        if (route.params.action == 'edit' && route.params.uniqid) {
+        if (action == 'edit' || action == 'expand' && route.params.uniqid) {
 
             const task = getTaskByUniqid(tasks, route.params.uniqid);
             if (task) {
                 setTitle(task.title);
                 setDescription(task.description);
                 setTaskId(task.uniqid);
-                setTaskType(task.type.toLowerCase());
+                if (action == 'expand')
+                    setTaskType('FLEXIBLE')
+                else
+                   setTaskType(task.type.toLowerCase());
                 setTaskPriority(task.priority)
                 setTaskDuration(task.duration)
                 setIconFamily(task.iconLibrary)
@@ -153,7 +156,8 @@ export default function TaskEditor({ route, navigation }) {
                             iconSize: 32,
                             text: 'Draft',
                             subtext: "A quick note of a task, to be expanded on later",
-                            activeColor: 'teal'
+                            activeColor: 'teal',
+                            hide: action == 'expand'
                         },
                         {
                             index: 1,

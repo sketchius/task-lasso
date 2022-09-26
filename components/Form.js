@@ -128,7 +128,9 @@ export function SelectionList(props) {
         itemWidth = styles.oneColumn;
 
 
-    const optionContent = props.selections.map( (selection,i) => {
+    const optionContent = props.selections
+        .filter( selection => !selection.hide )
+        .map( (selection,i) => {
         const selected = selection.stateValue == props.selection;
         let itemBorderStyle;
         let labelBorderStyle;

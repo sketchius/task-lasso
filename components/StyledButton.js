@@ -11,7 +11,7 @@ export default function StyledButton(props) {
             props.onPress(props.data);
     }
     
-    return <Pressable onPress={handlePress} style={[styles.size80, styles.alignItems, styles.thinBorder, styles.margin, styles.paddingVertical4, styles.margin2, styles.itemButton]}>
+    return <Pressable onPress={handlePress} style={[styles.size80, styles.alignItems, styles.thinBorder, styles.margin, styles.paddingVertical4, styles.margin2, styles.itemButton, props.styling=='critical' && styles.criticalButton]}>
         {getIcon(props.iconFamily,props.iconName,16,styles.colors.gray)}
     <StyledText style={[styles.paddingTop2]}>{props.label}</StyledText>
 </Pressable>
