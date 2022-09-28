@@ -4,6 +4,9 @@ import differenceInDays from 'date-fns/differenceInDays'
 export function getDateInContext(date,useTime) {
     if (!date) return '';
 
+    if (typeof date == 'string')
+        return 'error';
+
     const dateMinusTime = date;
     dateMinusTime.setHours(0,0,0,0);
 

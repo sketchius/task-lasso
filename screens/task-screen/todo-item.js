@@ -12,6 +12,7 @@ import getIcon from '../../tools/Icons';
 import MultistateCheckbox from '../../components/MultistateCheckbox';
 import StyledText from '../../components/StyledText';
 import StyledButton from '../../components/StyledButton';
+import { setTaskProperty } from '../../redux/data';
 
 export default function TodoItem(props) {
 
@@ -55,7 +56,7 @@ export default function TodoItem(props) {
         }
 
         updateCheckboxState(newState);
-        DeviceEventEmitter.emit("event.taskEvent", {event:'setStatus', newState, uniqid: task.uniqid});
+        setTaskProperty(task,'status',newState);
     }
 
     const handleChecklistCheckboxStateChange = (index) => {        
@@ -167,7 +168,9 @@ export default function TodoItem(props) {
                     onPress={ () => { setButtonMode('delete') }}
                     label='Delete' iconFamily='FontAwesome' iconName='times'/>;
             case 'defer':
-                return <StyledButton key={index} label='Defer' iconFamily='AntDesign' iconName='arrowright'/>;
+                return <StyledButton key={index}
+                onPress={ () => { updateCheckboxState(2); setTaskProperty('status',2) }}
+                label='Defer' iconFamily='AntDesign' iconName='arrowright'/>;
             case 'schedule':
                 return <StyledButton key={index} label='Schedule' iconFamily='Feather' iconName='calendar'/>;
             case 'reschedule':
@@ -263,7 +266,7 @@ export default function TodoItem(props) {
 
     return (
     <View style={[styles.row, styles.whiteBackground, styles.taskBorder]}>
-        {!props.tasklist ? <MultistateCheckbox state={checkboxState} onStateChange={handleCheckboxStateChange} style={[styles.padding2, styles.marginTop3, styles.paddingHorizontal4]}  size={24} ></MultistateCheckbox> : <View style={styles.compactTaskElement}></View>}
+        {!props.tasklist ? <MultistateCheckbox state={checkboxState} onStateChange={handleCheckboxStateChange} style={[styles.padding2, styles.marginTop3, styles.paddingHorizontal4]}  size={20} ></MultistateCheckbox> : <View style={styles.compactTaskElement}></View>}
         <View style={[ styles.flex100, styles.leftBorder]} >
             <View>
                 <Pressable style={[styles.alignedRow, styles.paddingLeft2, !props.tasklist && styles.marginVertical2]} onPress={() => setExpanded(!expanded) }>    

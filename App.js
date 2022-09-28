@@ -89,8 +89,6 @@ export default function App() {
         return () => clearInterval(interval);
       }, []);
 
-    const assignedValue = useRef(0);
-
     const checkForEndOfDay = () => {
         if (store.getState().app.status == 'ASSIGNED') {//} && !isToday(lastUpdateDate)) {
             endDay()
@@ -103,6 +101,10 @@ export default function App() {
     const assignTasks = (designation, ambition) => {
         console.log('Starting assignTasks()');
         setTaskPropertyAll('assigned',false);
+
+        let assignedValue = (store.getState().app.assignedValue || 0);
+
+        console.log(`Currently assigned value = ${assignedValue}`);
 
         let assignmentBudget = 0;
 
@@ -129,12 +131,9 @@ export default function App() {
                 assignmentBudget = assignmentBudget * 1.25;
                 break;
         }
-        console.log(`Budget = ${assignmentBudget} minutes`);
-        console.log(`Assigned Time = ${assignedValue.current} minutes`);
-
         const assignTask = (task) => {
             console.log(`assigning '${task.title}`);
-            assignedValue.current += task.duration;
+            assignedValue += task.duration;
             setTaskProperty(task,'assigned',true);
         };
 
@@ -160,6 +159,9 @@ export default function App() {
                     ) /
                         30;
 
+            let defermentWeight = 1;
+            if (task.deferments) defermentWeight = 1 + (task.deferments / 3);
+
             let durationWeight = 1;
             if (task.duration) durationWeight = 1 - task.duration / 100;
 
@@ -168,6 +170,7 @@ export default function App() {
                 priorityWeight *
                 deadlineWeight *
                 flexibleWeight *
+                defermentWeight *
                 durationWeight;
 
             setTaskProperty(task,'score',score);
@@ -185,11 +188,13 @@ export default function App() {
                 );
             })
             .forEach((task) => {
+                console.log(`Assigning due today task:`)
                 scoreTask(task);
                 assignTask(task);
             });
 
-        while (assignedValue.current < assignmentBudget) {
+        while (assignedValue < assignmentBudget) {
+            console.log(`Value = ${assignedValue}/${assignmentBudget}`)
             let highestScoreTask;
             let highestScore = 0;
 
@@ -198,6 +203,12 @@ export default function App() {
             console.log(
                 `Getting store.tasks. updatedTasks = variable contains ${updatedTasks.length} items`
             );
+
+            updatedTasks
+            .filter(
+                (task) => !((task.status || 0) < 1 && task.type != 'SCHEDULED' && task.type != 'DRAFT')
+            )
+            .forEach( task => console.log(`${task.title}, status ${task.status}, type ${task.type}`))
 
             updatedTasks
                 .filter(
@@ -217,6 +228,8 @@ export default function App() {
             if (highestScoreTask) assignTask(highestScoreTask);
             else break;
         }
+
+        setAppProperty('assignedValue',assignedValue);
     };
 
     const endDay = () => {
@@ -263,7 +276,7 @@ export default function App() {
         setAppProperty('summaryDate',lastUpdate);
 
         console.log('ending day')
-        assignedValue.current = 0;
+        setAppProperty('assignedValue',0)
 
         setTaskPropertyAll('assigned',false);
         setAppProperty('status','CHECK-IN');

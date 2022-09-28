@@ -502,6 +502,15 @@ const styleArray = {
         justifyContent: 'center',
         marginRight: space.size3
     },
+    checkboxBox: {
+        height: 30,
+        width: 30,
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderWidth: 3,
+        borderColor: colors.gray,
+        borderRadius: space.size3
+    },
     checklistLabel: {
         paddingLeft: space.size3,
         color: colors.teal

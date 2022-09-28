@@ -62,13 +62,16 @@ export default function MultistateCheckbox(props) {
     
     switch (props.state) {
         case 0:
-            boxComponent = getIcon('FontAwesome5','square',props.size,props.iconColor)
+            boxComponent =<View style={styles.checkboxBox}></View>
             break;
         case .5:
-            boxComponent =  getIcon('FontAwesome5','minus-square',props.size,props.iconColor)
+            boxComponent = <View style={styles.checkboxBox}>{getIcon('FontAwesome','ellipsis-h',props.size,props.iconColor)}</View>
             break;
         case 1:
-            boxComponent =  getIcon('FontAwesome5','check-square',props.size,props.iconColor)
+            boxComponent = <View style={styles.checkboxBox}>{getIcon('FontAwesome','check',props.size,props.iconColor)}</View>
+            break;
+        case 2:
+            boxComponent = <View style={styles.checkboxBox}>{getIcon('FontAwesome','chevron-right',props.size,props.iconColor)}</View>
             break;
         default:
             boxComponent = <View></View>;

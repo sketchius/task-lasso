@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { processAppData } from './data-preprocessor';
+import { processAppData, processTaskData } from './data-preprocessor';
 
 export async function saveTasksToLocal(tasks) {
     if (tasks) {
@@ -56,9 +56,8 @@ export async function loadTasks() {
         const taskKeys = keys.filter( key => key.includes('tasks/'));
         const taskData = await AsyncStorage.multiGet(taskKeys);
         const tasks = taskData.map( entry => {
-            return JSON.parse(entry[1])
+            return processTaskData(JSON.parse(entry[1]))
         });
-        tasks.forEach( task => processAppData(task));
         return tasks;
     } catch(e) {
         alert(`failed to read tasks: ${e}`)

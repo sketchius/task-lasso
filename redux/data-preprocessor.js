@@ -7,13 +7,14 @@ export function processTaskData(task) {
     if (task.dateModified)
         task.dateModified = new Date(task.dateModified);
     if (!task.type) task.type = 'DRAFT';
-    if (task.type == 'CAPTURED') {
-        task.type = 'NOTE';
+    if (task.type == 'DRAFT' || task.type == 'NOTE') {
+        task.type = 'DRAFT';
         task.iconLibrary = 'MaterialCommunityIcons';
         task.iconName = 'note-outline';
     }
+    task.checkboxStyle = 1;
+    task.status = 0;
 
-    task.checkboxStyle = 0;
     return task;
 }
 

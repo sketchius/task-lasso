@@ -30,7 +30,7 @@ export function setTaskPropertyAll(property, value) {
 
 export function setAppProperty(property, value) {
     store.dispatch({ type: `app/appPropertyChanged`, property, payload: value });
-    saveAppProperty(property,value);
+    saveAppProperty(property,value + '');
 }
 
 export function setRamProperty(property, value) {

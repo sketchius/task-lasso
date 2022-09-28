@@ -62,6 +62,8 @@ export default function TasklistSection(props) {
                 return getIcon('AntDesign','pushpin',20,styles.colors.gray);
             case 'REPEATING':
                 return getIcon('FontAwesome','refresh',20,styles.colors.gray);
+            case 'COMPLETED':
+                return getIcon('FontAwesome5','check',20,styles.colors.gray);
         }
     }
 
