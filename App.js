@@ -1,32 +1,37 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { SafeAreaView, View, DeviceEventEmitter, NativeModules } from 'react-native';
+import {
+    SafeAreaView,
+    View,
+    DeviceEventEmitter,
+    NativeModules,
+    AppState,
+} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { useDispatch, useSelector, shallowEqual } from 'react-redux';
+import { useSelector, shallowEqual } from 'react-redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import { saveTasks, saveStatus, loadTasks, printKeys } from './Data'
+import { saveTasksToLocal, saveStatusToLocal, saveLastUpdateDate, loadTasks, printKeys } from './redux/local-storage';
 import { Logs } from 'expo';
 
-import isToday from 'date-fns/isToday'
-import differenceInDays from 'date-fns/differenceInDays'
+import isToday from 'date-fns/isToday';
+import differenceInCalendarDays from 'date-fns/differenceInCalendarDays';
 
 import TaskEditor from './screens/edit-screen/edit';
 import store from './redux/store';
 
 import { styles } from './styles/styles';
-import Main from './Main'
+import Main from './Main';
 import { useFonts } from 'expo-font/build';
 import { createStackNavigator } from '@react-navigation/stack';
+import { newTask, setAppProperty, setTaskProperty, setTaskPropertyAll, setRamProperty } from './redux/data';
 
 const { UIManager } = NativeModules;
 
 UIManager.setLayoutAnimationEnabledExperimental &&
-  UIManager.setLayoutAnimationEnabledExperimental(true);
+    UIManager.setLayoutAnimationEnabledExperimental(true);
 
-
-
-Logs.enableExpoCliLogging()
+Logs.enableExpoCliLogging();
 
 async function getData() {
     let data = await loadTasks();
@@ -36,49 +41,68 @@ async function getData() {
 
 export default function App() {
 
-    const dispatch = useDispatch()
-    
     const [fontsLoaded] = useFonts({
-        'RobotoLight': require('./assets/fonts/RobotoLight.ttf'),
-        'RobotoRegular': require('./assets/fonts/RobotoRegular.ttf'),
-        'RobotoMedium': require('./assets/fonts/RobotoMedium.ttf'),
-        'RobotoBold': require('./assets/fonts/RobotoBold.ttf'),
-        'TitilliumWebRegular': require('./assets/fonts/TitilliumWebRegular.ttf'),
-        'TitilliumWebSemibold': require('./assets/fonts/TitilliumWebSemiBold.ttf'),
-        'TitilliumWebBold': require('./assets/fonts/TitilliumWebBold.ttf'),
+        RobotoLight: require('./assets/fonts/RobotoLight.ttf'),
+        RobotoRegular: require('./assets/fonts/RobotoRegular.ttf'),
+        RobotoMedium: require('./assets/fonts/RobotoMedium.ttf'),
+        RobotoBold: require('./assets/fonts/RobotoBold.ttf'),
+        TitilliumWebRegular: require('./assets/fonts/TitilliumWebRegular.ttf'),
+        TitilliumWebSemibold: require('./assets/fonts/TitilliumWebSemiBold.ttf'),
+        TitilliumWebBold: require('./assets/fonts/TitilliumWebBold.ttf'),
     });
 
-    const tasks = useSelector(state => state.tasks);
-    const status = useSelector(state => state.status);
-    const tasksLoaded = useSelector(state => state.localStorageLoaded);
+    const tasks = useSelector((state) => state.tasks);
+    const status = useSelector((state) => state.app.status);
+    const dataLoaded = useSelector((state) => state.ram.localStorageLoaded);
+    const lastUpdateDate = useSelector((state) => state.app.lastUpdateDate);
 
     useEffect(() => {
-        console.log(`READING TASKS FROM STORAGE`)
-        if (!tasksLoaded)
-            loadTasksFromStorage();
+        if (!dataLoaded) loadDataFromStorage();
+    }, []);
 
-        loadStatusFromStorage();
-        
-        //setTasksLoaded(true)
+
+    const appState = useRef(AppState.currentState);
+    const [appStateVisible, setAppStateVisible] = useState(appState.current);
+
+    useEffect(() => {
+        const subscription = AppState.addEventListener(
+            'change',
+            (newAppState) => {
+                if ( appState.current.match(/inactive|background/) && newAppState === 'active' && store.getState().ram.localStorageLoaded ) {
+                    checkForEndOfDay()
+                }
+
+                appState.current = newAppState;
+                setAppStateVisible(appState.current);
+            }
+        );
+
+        return () => {
+            subscription.remove();
+        };
     }, []);
 
     useEffect(() => {
-        if (tasks.length > 0 && tasksLoaded) { 
-            console.log(`TASK DATA UPDATE DETECTED (SIZE NOW: ${tasks.length}) SAVING TASKS TO STORAGE`)
-            saveTasks(tasks);
-        }
-    }, [tasks]);
-
-    useEffect(() => {
-        console.log(`STATUS UPDATE DETECTED (NOW: ${status}) SAVING STATUS TO STORAGE`)
-        saveStatus(status);
-     }, [status]);
+        const interval = setInterval(() => {
+            checkForEndOfDay();
+        }, 60000);
+        return () => clearInterval(interval);
+      }, []);
 
     const assignedValue = useRef(0);
 
-    const assignTasks = (designation,ambition) => {
-        console.log('Starting assignTasks()')
-        dispatch({type:'tasks/UnassignedAll'})
+    const checkForEndOfDay = () => {
+        if (store.getState().app.status == 'ASSIGNED') {//} && !isToday(lastUpdateDate)) {
+            endDay()
+        }
+        let newDate = new Date();
+        setAppProperty('lastUpdateDate', newDate);
+        //saveLastUpdateDate(newDate);
+    }
+
+    const assignTasks = (designation, ambition) => {
+        console.log('Starting assignTasks()');
+        setTaskPropertyAll('assigned',false);
 
         let assignmentBudget = 0;
 
@@ -105,56 +129,65 @@ export default function App() {
                 assignmentBudget = assignmentBudget * 1.25;
                 break;
         }
-        console.log(`Budget = ${assignmentBudget} minutes`)
-        console.log(`Assigned Time = ${assignedValue.current} minutes`)
-        
-        const assignTask = (task) => {  
-            console.log(`assigning '${task.title}`)
+        console.log(`Budget = ${assignmentBudget} minutes`);
+        console.log(`Assigned Time = ${assignedValue.current} minutes`);
+
+        const assignTask = (task) => {
+            console.log(`assigning '${task.title}`);
             assignedValue.current += task.duration;
-            dispatch({type:'task/taskAssigned', payload: task.uniqid})
-        }
+            setTaskProperty(task,'assigned',true);
+        };
 
         const scoreTask = (task) => {
             let baseScore = 1;
 
-            if (task.type == 'SCHEDULED')
-            baseScore = 20;
+            if (task.type == 'SCHEDULED') baseScore = 20;
 
             let priorityWeight = 1;
-            if (task.priority)
-                priorityWeight = (task.priority + 1) / 2;
+            if (task.priority) priorityWeight = (task.priority + 1) / 2;
 
             let deadlineWeight = 1;
             if (task.type == 'DEADLINE')
-                deadlineWeight = 1 + 7 / Math.pow(differenceInDays(task.dateDue,new Date().setHours(0,0,0,0)),2);
+                deadlineWeight = 1 + 7 / Math.pow(differenceInCalendarDays(task.dateDue,new Date()),2);
 
             let flexibleWeight = 1;
             if (task.type == 'FLEXIBLE' && task.dateCreated)
-                flexibleWeight = 1 + differenceInDays(new Date().setHours(0,0,0,0),task.dateCreated) / 30;
+                flexibleWeight =
+                    1 +
+                    differenceInCalendarDays(
+                        new Date(),
+                        task.dateCreated
+                    ) /
+                        30;
 
             let durationWeight = 1;
-            if (task.duration)
-                durationWeight = 1 - (task.duration / 100);
+            if (task.duration) durationWeight = 1 - task.duration / 100;
 
-            const score = ( baseScore * priorityWeight * deadlineWeight * flexibleWeight * durationWeight);
-            dispatch({type:'task/taskScored', uniqid: task.uniqid, payload: score})
-            
+            const score =
+                baseScore *
+                priorityWeight *
+                deadlineWeight *
+                flexibleWeight *
+                durationWeight;
+
+            setTaskProperty(task,'score',score);
+
             return score;
-        }
+        };
 
-        console.log(`tasks variable contains ${tasks.length} items`)
-
+        console.log(`tasks variable contains ${tasks.length} items`);
 
         tasks
-        .filter( (task => {return (task.type == 'SCHEDULED' || task.type == 'DEADLINE') && isToday(task.dateDue)}))
-        .forEach( (task => {
-            scoreTask(task);
-            assignTask(task);
-        }))
-
-
-
-        
+            .filter((task) => {
+                return (
+                    ((task.status || 0) < 1 && task.type == 'SCHEDULED' || task.type == 'DEADLINE') &&
+                    isToday(task.dateDue)
+                );
+            })
+            .forEach((task) => {
+                scoreTask(task);
+                assignTask(task);
+            });
 
         while (assignedValue.current < assignmentBudget) {
             let highestScoreTask;
@@ -162,52 +195,88 @@ export default function App() {
 
             const updatedTasks = store.getState().tasks;
 
-            console.log(`Getting store.tasks. updatedTasks = variable contains ${updatedTasks.length} items`)
+            console.log(
+                `Getting store.tasks. updatedTasks = variable contains ${updatedTasks.length} items`
+            );
 
             updatedTasks
-            .filter( (task => task.type != 'SCHEDULED' && task.type != 'DRAFT'))
-            .forEach( (task) => {            
-                console.log(`Checking task ${task.title}`)
-                if (!task.assigned) {
-                    let taskScore = scoreTask(task);
-                    if (taskScore > highestScore) {
-                        highestScore = taskScore;
-                        highestScoreTask = task;
+                .filter(
+                    (task) => (task.status || 0) < 1 && task.type != 'SCHEDULED' && task.type != 'DRAFT'
+                )
+                .forEach((task) => {
+                    console.log(`Checking task ${task.title}`);
+                    if (!task.assigned) {
+                        let taskScore = scoreTask(task);
+                        if (taskScore > highestScore) {
+                            highestScore = taskScore;
+                            highestScoreTask = task;
+                        }
                     }
-                }
-            })
+                });
 
-            if (highestScoreTask)
-                assignTask(highestScoreTask)
-            else
-                break;
-                
+            if (highestScoreTask) assignTask(highestScoreTask);
+            else break;
         }
-    }
+    };
 
-
-    const endDay = () => {    
-        const tasksCopy = tasks.filter( (task => task.status != 2 ))
-        
-        tasksCopy.forEach( (task) => {
-            task.assigned = false;
+    const endDay = () => {
+        let completedTasks = 0;
+        let deferredTasks = 0;
+        let missedTasks = 0;
+        console.log(`End day: task count = ${store.getState().tasks.filter( task => task.assigned ).length}`)
+        store.getState().tasks.filter( task => task.assigned )
+        .forEach( task => {
+            switch (task.status) {
+                case 1: // Complete
+                    if (task.status == 1) {
+                        completedTasks++;
+                    }
+                    break;
+                case 0:
+                case 0.5:
+                case 2: // Deferred
+                    if (task.type == 'FLEXIBLE' || (task.type == 'DEADLINE' && task.dateDue && differenceInCalendarDays(task.dateDue,lastUpdateDate) > 0)){
+                        deferredTasks++;
+                        setTaskProperty(task,'deferments',(task.deferments || 0) + 1);
+                        if (status == 2) {
+                            setTaskProperty(task,'status',0);
+                        }
+                    } else {
+                        missedTasks++;
+                        setTaskProperty(task,'status',4);
+                    }
+                    break;
+            }
         })
 
-        assignedValue.current = 0;
+        console.log(`completedTasks = ${completedTasks}`)
+        console.log(`deferredTasks = ${deferredTasks}`)
+        console.log(`missedTasks = ${missedTasks}`)
         
-        setTasks(tasksCopy);
-        setStatus('CHECK-IN');
-    }
+        
+        setAppProperty('summaryCompletedTasks',completedTasks);
+        setAppProperty('summaryDeferredTasks',deferredTasks);
+        setAppProperty('summaryMissedTasks',missedTasks);
 
-    const loadTasksFromStorage = async () => {
+
+        let lastUpdate = store.getState().lastUpdateDate  
+        setAppProperty('summaryDate',lastUpdate);
+
+        console.log('ending day')
+        assignedValue.current = 0;
+
+        setTaskPropertyAll('assigned',false);
+        setAppProperty('status','CHECK-IN');
+    };
+
+    const loadDataFromStorage = async () => {
         try {
             const data = await loadTasks();
-            
+
             //Yall
             data.forEach((entry) => {
                 let task = JSON.parse(entry[1]);
-                if (task.dateDue)
-                    task.dateDue = new Date(task.dateDue);
+                if (task.dateDue) task.dateDue = new Date(task.dateDue);
                 if (task.dateCreated)
                     task.dateCreated = new Date(task.dateCreated);
                 else task.dateCreated = new Date();
@@ -219,33 +288,37 @@ export default function App() {
                     task.iconLibrary = 'MaterialCommunityIcons';
                     task.iconName = 'note-outline';
                 }
-                
+
                 task.checkboxStyle = 0;
-                dispatch({ type: 'task/taskCreated', payload: task })
+                newTask(task);
             });
+
+
+
+            let statusData = await AsyncStorage.getItem('@status');
+            console.log(`AsyncStorage: recieved ${statusData} from @status`)
+            if (!statusData) statusData = 'CHECK-IN';
+            console.log(`dispatching ${statusData} to state.status`)
             
-            dispatch({ type: 'app/localStorageLoaded'})
-            
+            setAppProperty('status',statusData);
+
+
+            let lastUpdateDate = await AsyncStorage.getItem('@lastUpdateDate');
+            console.log(`AsyncStorage: recieved ${lastUpdateDate} from @lastUpdateDate`)
+            if (!lastUpdateDate)
+                lastUpdateDate = new Date();
+            else
+                lastUpdateDate = new Date(lastUpdateDate);
+            console.log(`dispatching ${lastUpdateDate} to state.lastUpdateDate`)
+            setAppProperty('lastUpdateDate',lastUpdateDate)
+
+            setRamProperty('localStorageLoaded',true);
         } catch (error) {
             alert(error);
         }
     };
 
-    const loadStatusFromStorage = async () => {
-        try {
-            let data = await AsyncStorage.getItem('@status');
-            
-            if (!data)
-                data = 'CHECK-IN'
 
-            console.log(`   dispatching storage/loadData`)
-            dispatch({ type: 'storage/loadedStatus', payload: data })
-
-
-        } catch (error) {
-            alert(error);
-        }
-    };
 
     const addTask = (task) => {
         setTasks([...tasks, task]);
@@ -303,53 +376,79 @@ export default function App() {
         deleteTask(1);
     };
 
-
     const NavBar = createBottomTabNavigator();
     const Stack = createStackNavigator();
 
-    useEffect( () => {
-        const taskEventListener = DeviceEventEmitter.addListener("event.taskEvent", eventData => handleTaskEvent(eventData));
-        const dayEventListener = DeviceEventEmitter.addListener("event.dayEvent", eventData => handleDayEvent(eventData));
-        return () => { taskEventListener.remove(); dayEventListener.remove() }
-    },[])
+    useEffect(() => {
+        const taskEventListener = DeviceEventEmitter.addListener(
+            'event.taskEvent',
+            (eventData) => handleTaskEvent(eventData)
+        );
+        const dayEventListener = DeviceEventEmitter.addListener(
+            'event.dayEvent',
+            (eventData) => handleDayEvent(eventData)
+        );
+        return () => {
+            taskEventListener.remove();
+            dayEventListener.remove();
+        };
+    }, []);
 
     const handleTaskEvent = (eventData) => {
         switch (eventData.event) {
             case 'setStatus':
-                dispatch({type:'task/taskStatusChanged',uniqid: eventData.uniqid, payload: eventData.newState} )
+                // dispatch({
+                //     type: 'task/taskPropertyChanged',
+                //     property: 'status',
+                //     uniqid: eventData.uniqid,
+                //     payload: eventData.newState,
+                // });
+                // setTaskProperty(task,'status',eventData.newState);
                 break;
             case 'newTask':
-                dispatch({type:'task/taskCreated',payload: eventData.task} )
+                //dispatch({ type: 'task/taskCreated', payload: eventData.task });
+                newTask(eventData.task);
                 break;
-            case 'updateTask':                
-                dispatch({type:'task/taskUpdated',uniqid: eventData.uniqid, payload: eventData.task} )
-                console.log(`UPDATE FINISHED!`)
+            case 'updateTask':
+                // dispatch({
+                //     type: 'task/taskUpdated',
+                //     uniqid: eventData.uniqid,
+                //     payload: eventData.task,
+                // });
+                updatedTask(eventData.task);
                 break;
         }
-    }
+    };
 
     const handleDayEvent = (eventData) => {
         switch (eventData.event) {
             case 'assignTasks':
-                console.log(`recieved assignTasks:`)
-                assignTasks(eventData.designation,eventData.ambition)
-                dispatch({type:'day/dayStateChanged',payload: 'ASSIGNED'} )
+                console.log(`recieved assignTasks:`);
+                assignTasks(eventData.designation, eventData.ambition);
+                // dispatch({ type: 'day/dayStatusChanged', payload: 'ASSIGNED' });
+                setAppProperty('status','ASSIGNED');
                 break;
-
         }
-    }
+    };
 
-    return (
-            tasksLoaded && fontsLoaded ?
-            <SafeAreaView style={[styles.safe]}>
-                <NavigationContainer screenOptions={{headerShown:false}}>
-                    <Stack.Navigator>
-                        <Stack.Screen name='Main' component={Main} options={{headerShown: false}}/>
-                        <Stack.Screen name='Editor' component={TaskEditor} options={{headerShown: false}}/>
-                    </Stack.Navigator>
-                </NavigationContainer>
-            </SafeAreaView> : <View></View>
+    return dataLoaded && fontsLoaded ? (
+        <SafeAreaView style={[styles.safe]}>
+            <NavigationContainer screenOptions={{ headerShown: false }}>
+                <Stack.Navigator>
+                    <Stack.Screen
+                        name="Main"
+                        component={Main}
+                        options={{ headerShown: false }}
+                    />
+                    <Stack.Screen
+                        name="Editor"
+                        component={TaskEditor}
+                        options={{ headerShown: false }}
+                    />
+                </Stack.Navigator>
+            </NavigationContainer>
+        </SafeAreaView>
+    ) : (
+        <View></View>
     );
 }
-
-

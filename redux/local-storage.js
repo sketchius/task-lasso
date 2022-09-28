@@ -1,10 +1,10 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export async function saveTasks(tasks) {
+export async function saveTasksToLocal(tasks) {
     if (tasks) {
         try {
             tasks.forEach( (task) => {
-                saveTask(task);
+                saveTaskToLocal(task);
             })
         } catch (e) {
             
@@ -13,7 +13,7 @@ export async function saveTasks(tasks) {
         }}
 }
 
-async function saveTask(task) {
+export async function saveTaskToLocal(task) {
     const json = JSON.stringify(task)
     await AsyncStorage.setItem(`@tasks/${task.uniqid}`, json);
     //console.log(`AsyncStorage: setting key '@tasks/${task.uniqid}' to ${json}`);
@@ -24,9 +24,23 @@ export async function printKeys() {
     console.log(`keys = ${JSON.stringify(keys)}`);
 }
 
-export async function saveStatus(status) {
+export async function saveStatusToLocal(status) {
     try {
         await AsyncStorage.setItem('@status', status)
+    } catch (e) {
+        
+        console.log(`   Error while saving status: ${e}`)
+        // Handle Error
+    }
+}
+
+
+export async function saveLastUpdateDate(date) {
+    if (typeof date != 'string')
+        date = date.toISOString();
+    console.log(`Saving ${date} to local storgae at key: @lastUpdateDate`)
+    try {
+        await AsyncStorage.setItem('@lastUpdateDate', date)
     } catch (e) {
         
         console.log(`   Error while saving status: ${e}`)

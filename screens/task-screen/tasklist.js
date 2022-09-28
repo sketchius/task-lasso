@@ -43,7 +43,8 @@ export default function AllTasklist() {
         <TasklistSection type={'FLEXIBLE'} label={'FLEXIBLE TASKS'} key={1} showDate={false} styles={styles} color={styles.tealHighlight} onTaskEvent={onTaskEvent} expandedId={expandedTaskID}/>,
         <TasklistSection type={'DEADLINE'} label={'DEADLINE TASKS'} key={2} showDate={true} styles={styles} color={styles.tealHighlight} onTaskEvent={onTaskEvent} expandedId={expandedTaskID}/>,
         <TasklistSection type={'SCHEDULED'} label={'SCHEDULED TASKS'} key={3} showDate={true} styles={styles} color={styles.tealHighlight} onTaskEvent={onTaskEvent} expandedId={expandedTaskID}/>,
-        <TasklistSection type={'REPEATING'} label={'REPEATING TASKS'} key={4} showDate={true} styles={styles} color={styles.tealHighlight} onTaskEvent={onTaskEvent} expandedId={expandedTaskID}/>
+        <TasklistSection type={'REPEATING'} label={'REPEATING TASKS'} key={4} showDate={true} styles={styles} color={styles.tealHighlight} onTaskEvent={onTaskEvent} expandedId={expandedTaskID}/>,
+        <TasklistSection type={'COMPLETED'} label={'COMPLETED TASKS'} key={5} showDate={true} styles={styles} color={styles.tealHighlight} onTaskEvent={onTaskEvent} expandedId={expandedTaskID}/>
     ]
 /*
     const capturedTaskElement = 

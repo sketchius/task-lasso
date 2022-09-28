@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import {ScrollView, View, Pressable, DeviceEventEmitter} from 'react-native';
 
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
-import { format } from 'date-fns';
+import formatRelative from 'date-fns/formatRelative'
 
 import TodoItem from "./todo-item";
 import StyledText from "./../../components/StyledText";
@@ -11,11 +11,13 @@ import { SelectionList } from './../../components/Form';
 
 import { styles } from '../../styles/styles';
 import store from '../../redux/store';
+import StyledProgressBar from '../../components/StyledProgressBar';
+import getIcon from '../../tools/Icons';
+import { setAppProperty } from '../../redux/data';
 
 export default function ToDoList(navigation,route) {
-    const dispatch = useDispatch();
 
-    const status = useSelector(state => state.status);
+    const status = useSelector(state => state.app.status);
     const taskList = useSelector(state => state.tasks.filter(task => task.assigned));
 
     const [designation,setDesignation] = useState(0);
@@ -27,7 +29,7 @@ export default function ToDoList(navigation,route) {
 
     const handleCheckIn = () => {
         DeviceEventEmitter.emit("event.dayEvent", {event:'assignTasks', designation,ambition});
-        dispatch({type:'day/dayStateChanged',payload: 'ASSIGNED'} )
+        setAppProperty('status','ASSIGNED');
     }
 
     const toDoListItems = () => taskList
@@ -35,10 +37,47 @@ export default function ToDoList(navigation,route) {
         return <TodoItem task={task} key={task.uniqid} styles={styles} navigation={navigation} compact={false}/>
     });
 
+    
+    const completedTasks = (store.getState().summaryCompletedTasks || 0);
+    const deferredTasks = (store.getState().summaryDeferredTasks || 0);
+    const missedTasks = (store.getState().summaryMissedTasks || 0);
+
     return (
+
         <View style={styles.container}>
             {status == 'CHECK-IN' ?
-            <View styles={styles.testtt}>
+            <View>
+                {store.getState().summaryDate && <View>
+                    <StyledText style={styles.summaryHeaderText}>Summary for {formatRelative(store.getState().summaryDate,new Date())}</StyledText>
+                    <StyledProgressBar
+                        sections={[
+                            {
+                                color: styles.colors.teal4,
+                                portion: completedTasks
+                            },
+                            {
+                                color: styles.colors.blue3,
+                                portion: deferredTasks
+                            },
+                            {
+                                color: styles.colors.red2,
+                                portion: missedTasks
+                            }
+                        ]}
+                    />
+                    <View style={[styles.alignedRow, styles.marginLeft5]}>
+                        {getIcon('Ionicons','checkmark-sharp',30,styles.colors.teal)}
+                        <StyledText style={[styles.summaryTaskText, styles.tealText]}>{completedTasks} TASKS COMPLETED</StyledText>
+                    </View>
+                    <View style={[styles.alignedRow, styles.marginLeft5]}>
+                        {getIcon('AntDesign','arrowright',30,styles.colors.blue)}
+                        <StyledText style={[styles.summaryTaskText, styles.blueText]}>{deferredTasks} TASKS DEFERED</StyledText>
+                    </View>
+                    <View style={[styles.alignedRow, styles.marginLeft5]}>
+                        {getIcon('MaterialCommunityIcons','emoticon-sad-outline',30,styles.colors.red)}
+                        <StyledText style={[styles.summaryTaskText, styles.redText]}>{missedTasks} TASKS MISSED</StyledText>
+                    </View>
+                </View>}
                 <SelectionList styles={styles} data={'designation'} label={'WHAT KIND OF DAY IS IT?'} columns={3} selection={designation} onPress={setDesignation} orientation={'row'} iconStyle={2}
                     selections={[
                     {

@@ -31,20 +31,20 @@ const styleArray = {
         flexDirection: 'row',
         alignItems: 'center',
         borderTopWidth: .25,
-        borderBottomWidth: 2,
-        borderColor: colors.gray
+        borderBottomWidth: 3,
+        backgroundColor: 'white'
     },
     navOptionActive: {
         width: '20%',
         alignItems: 'center',
         padding: space.size3,
-        backgroundColor: 'white'
+        backgroundColor: 'transparent'
     },
     navOptionInactive: {
         width: '20%',
         alignItems: 'center',
         padding: space.size3,
-        backgroundColor: 'white'
+        backgroundColor: 'transparent'
     },
     navOptionTextActive: {
         fontFamily: 'RobotoMedium',
@@ -576,6 +576,16 @@ const styleArray = {
     },
     centerText: {
         textAlign: 'center'
+    },
+    summaryHeaderText: {
+        marginTop: space.size4,
+        marginLeft: space.size4,
+        fontSize: font.size5
+    },
+    summaryTaskText: {
+        marginLeft: space.size4,
+        fontSize: font.size3,
+        fontFamily: 'TitilliumWebSemibold'
     },
     flex100: {
         flex: 1,

@@ -12,7 +12,7 @@ import StyledText from "../../components/StyledText";
 Logs.enableExpoCliLogging()
 
 export default function TasklistSection(props) {
-    const filteredTaskList = useSelector(state => state.tasks.filter(task => task.type === props.type));
+    const filteredTaskList = useSelector(state => state.tasks.filter(task => props.type=='COMPLETED' ? task.status == 1 : (task.type === props.type && task.status != 1)));
 
 
     const styles = props.styles;

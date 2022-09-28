@@ -1,10 +1,13 @@
 const initialState = {
-    tasks: []
+    tasks: [],
+    app: {},
+    ram: {}
 };
 
 export default function rootReducer(state = initialState, action) {
     switch (action.type) {
         case 'app/localStorageLoaded':
+            console.log(`Setting localStorageLoaded to True`)
             return {...state,
                 localStorageLoaded: true};
         case 'storage/loadedData':
@@ -12,6 +15,10 @@ export default function rootReducer(state = initialState, action) {
                 tasks: action.payload};
         case 'storage/loadedStatus':
             console.log(`Reducer running loadedStatus. Payload = ${action.payload}`)
+            return {...state,
+                status: action.payload};
+        case 'storage/loadedStatus':
+            console.log(`Reducer running loaded. Payload = ${action.payload}`)
             return {...state,
                 status: action.payload};
         case 'tasks/UnassignedAll':
@@ -45,21 +52,8 @@ export default function rootReducer(state = initialState, action) {
                     }
                 })
             }
-        case 'task/taskAssigned':
-            console.log(`Reducer running taskAssigned. Payload = ${action.payload}`)
-            return {
-                ...state,
-                tasks: state.tasks.map(task => {
-                  if (task.uniqid !== action.payload) {
-                    return task
-                  }
-                  return {
-                    ...task,
-                    assigned: true
-                  }
-                })
-            }
-        case 'task/taskStatusChanged':
+
+        case 'task/taskPropertyChanged':
             return {
                 ...state,
                 tasks: state.tasks.map(task => {
@@ -68,29 +62,53 @@ export default function rootReducer(state = initialState, action) {
                     }
                     return {
                     ...task,
-                    status: action.payload
+                    [action.property]: action.payload
                     }
                 })
             }
-        case 'task/taskScored':
+        case 'task/taskPropertyChangedAll':
             return {
                 ...state,
                 tasks: state.tasks.map(task => {
-                    if (task.uniqid !== action.uniqid) {
-                    return task
-                    }
                     return {
                     ...task,
-                    score: action.payload
+                    [action.property]: action.payload
                     }
                 })
             }
-        case 'day/dayStateChanged':
+        case 'app/statusUpdated':
             return {
                 ...state,
                 status: action.payload
             }
-
+        case 'day/dayPropertyChanged':
+            console.log(`day/dayPropertyChanged: setting state.${action.property} to ${action.payload}`)
+            return {
+                ...state,
+                [action.property]: action.payload
+            }
+        case 'day/lastUpdateDateChanged':
+            return {
+                ...state,
+                lastUpdateDate: action.payload
+            }
+            
+        case 'app/appPropertyChanged':
+            return {
+                ...state,
+                app: {
+                    ...state.app,
+                    [action.property]: action.payload 
+                }
+            }
+        case 'ram/ramPropertyChanged':
+            return {
+                ...state,
+                ram: {
+                    ...state.ram,
+                    [action.property]: action.payload 
+                }
+            }
         default:
             return state;
     }
