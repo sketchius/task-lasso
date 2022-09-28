@@ -1,4 +1,7 @@
-export function getTaskByUniqid(tasks, uniqid) {
+import store from "../redux/store";
+
+export function getTaskByUniqid(uniqid) {
+    let tasks = store.getState().tasks;
     for (let i = 0; i < tasks.length; i++) {
         const task = tasks[i];
         if (task.uniqid === uniqid) {

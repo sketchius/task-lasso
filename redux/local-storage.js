@@ -1,4 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { processAppData } from './data-preprocessor';
 
 export async function saveTasksToLocal(tasks) {
     if (tasks) {
@@ -53,7 +54,12 @@ export async function loadTasks() {
     try { 
         const keys = await AsyncStorage.getAllKeys();
         const taskKeys = keys.filter( key => key.includes('tasks/'));
-        return await AsyncStorage.multiGet(taskKeys);
+        const taskData = await AsyncStorage.multiGet(taskKeys);
+        const tasks = taskData.map( entry => {
+            return JSON.parse(entry[1])
+        });
+        tasks.forEach( task => processAppData(task));
+        return tasks;
     } catch(e) {
         alert(`failed to read tasks: ${e}`)
     }
@@ -73,4 +79,28 @@ export async function loadData(key) {
     } catch(e) {
         // error reading value
     }
+}
+
+export async function loadAppData() {
+    try { 
+        const keys = await AsyncStorage.getAllKeys();
+        const appKeys = keys.filter( key => key.includes('app/'));
+        const appDataArray = await AsyncStorage.multiGet(appKeys);
+        const appDataObject = {};
+        appDataArray.forEach( entry => {
+            appDataObject[entry[0].replace('@app/',`$'`)] = entry[1];
+        })
+        console.log(`local-storage.js -> processAppData(appDataObject)`)
+        return processAppData(appDataObject)
+    } catch(e) {
+        alert(`failed to read tasks: ${e}`)
+    }
+}
+
+export async function saveAppProperty(property, data) {
+    await AsyncStorage.setItem(`@app/${property}`, data);
+}
+
+export async function loadAppPropertyFromLocal(property) {
+    return await AsyncStorage.getItem(`@app/${property}`)
 }

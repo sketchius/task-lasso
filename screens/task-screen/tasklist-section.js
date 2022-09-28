@@ -26,7 +26,7 @@ export default function TasklistSection(props) {
     const [h,setH] = useState('auto');
     
     const getTaskListItems = () => {
-        return filteredTaskList.map( (task, i) => <TodoItem key={i} styles={styles} task={task} navigation={props} tasklist={true}/>)
+        return filteredTaskList.map( (task, i) => <TodoItem key={task.uniqid} styles={styles} task={task} navigation={props} tasklist={true}/>)
     }
 
     const getSectionTaskCountElement = () => {

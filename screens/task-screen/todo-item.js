@@ -109,81 +109,81 @@ export default function TodoItem(props) {
             case 'todo/DRAFT':
                 break;
             case 'tasklist/DRAFT':
-                buttons.push(getButtonOfType('delete'))
-                buttons.push(getButtonOfType('expand'))
+                buttons.push(getButtonOfType(buttons.length,'delete'))
+                buttons.push(getButtonOfType(buttons.length,'expand'))
                 break;
             case 'todo/FLEXIBLE':
-                buttons.push(getButtonOfType('edit'))
-                buttons.push(getButtonOfType('schedule'))
-                buttons.push(getButtonOfType('defer'))
+                buttons.push(getButtonOfType(buttons.length,'edit'))
+                buttons.push(getButtonOfType(buttons.length,'schedule'))
+                buttons.push(getButtonOfType(buttons.length,'defer'))
                 break;
             case 'tasklist/FLEXIBLE':
-                buttons.push(getButtonOfType('delete'))
-                buttons.push(getButtonOfType('edit'))
-                buttons.push(getButtonOfType('schedule'))
+                buttons.push(getButtonOfType(buttons.length,'delete'))
+                buttons.push(getButtonOfType(buttons.length,'edit'))
+                buttons.push(getButtonOfType(buttons.length,'schedule'))
                 break;
             case 'todo/DEADLINE':
-                buttons.push(getButtonOfType('edit'))
-                buttons.push(getButtonOfType('extend'))
+                buttons.push(getButtonOfType(buttons.length,'edit'))
+                buttons.push(getButtonOfType(buttons.length,'extend'))
                 break;
             case 'tasklist/DEADLINE':
-                buttons.push(getButtonOfType('delete'))
-                buttons.push(getButtonOfType('edit'))
-                buttons.push(getButtonOfType('extend'))
+                buttons.push(getButtonOfType(buttons.length,'delete'))
+                buttons.push(getButtonOfType(buttons.length,'edit'))
+                buttons.push(getButtonOfType(buttons.length,'extend'))
                 break;
             case 'todo/SCHEDULED':
-                buttons.push(getButtonOfType('edit'))
-                buttons.push(getButtonOfType('reschedule'))
+                buttons.push(getButtonOfType(buttons.length,'edit'))
+                buttons.push(getButtonOfType(buttons.length,'reschedule'))
                 break;
             case 'tasklist/SCHEDULED':
-                buttons.push(getButtonOfType('delete'))
-                buttons.push(getButtonOfType('edit'))
-                buttons.push(getButtonOfType('reschedule'))
+                buttons.push(getButtonOfType(buttons.length,'delete'))
+                buttons.push(getButtonOfType(buttons.length,'edit'))
+                buttons.push(getButtonOfType(buttons.length,'reschedule'))
                 break;
             case 'todo/REPEATING':
-                buttons.push(getButtonOfType('edit'))
-                buttons.push(getButtonOfType('defer'))
+                buttons.push(getButtonOfType(buttons.length,'edit'))
+                buttons.push(getButtonOfType(buttons.length,'defer'))
                 break;
             case 'tasklist/REPEATING':
-                buttons.push(getButtonOfType('delete'))
-                buttons.push(getButtonOfType('edit'))
+                buttons.push(getButtonOfType(buttons.length,'delete'))
+                buttons.push(getButtonOfType(buttons.length,'edit'))
                 break;
             case 'special/DELETE':
-                buttons.push(getButtonOfType('cancel'))
-                buttons.push(getButtonOfType('delete-confirm'))
+                buttons.push(getButtonOfType(buttons.length,'cancel'))
+                buttons.push(getButtonOfType(buttons.length,'delete-confirm'))
                 break;
         }
         return buttons;
     }
 
-    const getButtonOfType = (buttonType) => {
+    const getButtonOfType = (index, buttonType) => {
         switch (buttonType) {
             case 'edit':
-                return <StyledButton
+                return <StyledButton key={index}
                     onPress={ () => { navigation.navigate('Editor',{action: 'edit', uniqid: task.uniqid}) }}
                     data='edit' label='Edit' iconFamily='Feather' iconName='edit'/>;
             case 'delete':
-                return <StyledButton
+                return <StyledButton key={index}
                     onPress={ () => { setButtonMode('delete') }}
                     label='Delete' iconFamily='FontAwesome' iconName='times'/>;
             case 'defer':
-                return <StyledButton label='Defer' iconFamily='AntDesign' iconName='arrowright'/>;
+                return <StyledButton key={index} label='Defer' iconFamily='AntDesign' iconName='arrowright'/>;
             case 'schedule':
-                return <StyledButton label='Schedule' iconFamily='Feather' iconName='calendar'/>;
+                return <StyledButton key={index} label='Schedule' iconFamily='Feather' iconName='calendar'/>;
             case 'reschedule':
-                return <StyledButton label='Reschedule' iconFamily='Feather' iconName='calendar'/>;
+                return <StyledButton key={index} label='Reschedule' iconFamily='Feather' iconName='calendar'/>;
             case 'extend':
-                return <StyledButton label='Extend' iconFamily='Ionicons' iconName='play-skip-forward'/>;
+                return <StyledButton key={index} label='Extend' iconFamily='Ionicons' iconName='play-skip-forward'/>;
             case 'expand':
-                return <StyledButton
+                return <StyledButton key={index}
                 onPress={ () => { navigation.navigate('Editor',{action: 'expand', uniqid: task.uniqid}) }}
                 label='Expand' iconFamily='MaterialCommunityIcons' iconName='arrow-expand-all'/>;
             case 'cancel':
-                return <StyledButton
+                return <StyledButton key={index}
                 onPress={ () => { setButtonMode('normal') }}
                 label='Cancel' iconFamily='Ionicons' iconName='arrow-back'/>;
             case 'delete-confirm':
-                return <StyledButton
+                return <StyledButton key={index}
                 onPress={ () => { setButtonMode('normal') }}
                 label='Delete' iconFamily='FontAwesome' iconName='times' styling={'critical'}/>;
         }

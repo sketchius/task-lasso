@@ -24,7 +24,7 @@ import { styles } from './styles/styles';
 import Main from './Main';
 import { useFonts } from 'expo-font/build';
 import { createStackNavigator } from '@react-navigation/stack';
-import { newTask, setAppProperty, setTaskProperty, setTaskPropertyAll, setRamProperty } from './redux/data';
+import { newTask, setAppProperty, setTaskProperty, setTaskPropertyAll, setRamProperty, loadAppDataFromLocal, loadTaskDataFromLocal } from './redux/data';
 
 const { UIManager } = NativeModules;
 
@@ -269,53 +269,11 @@ export default function App() {
         setAppProperty('status','CHECK-IN');
     };
 
-    const loadDataFromStorage = async () => {
-        try {
-            const data = await loadTasks();
-
-            //Yall
-            data.forEach((entry) => {
-                let task = JSON.parse(entry[1]);
-                if (task.dateDue) task.dateDue = new Date(task.dateDue);
-                if (task.dateCreated)
-                    task.dateCreated = new Date(task.dateCreated);
-                else task.dateCreated = new Date();
-                if (task.dateModified)
-                    task.dateModified = new Date(task.dateModified);
-                if (!task.type) task.type = 'DRAFT';
-                if (task.type == 'CAPTURED') {
-                    task.type = 'NOTE';
-                    task.iconLibrary = 'MaterialCommunityIcons';
-                    task.iconName = 'note-outline';
-                }
-
-                task.checkboxStyle = 0;
-                newTask(task);
-            });
-
-
-
-            let statusData = await AsyncStorage.getItem('@status');
-            console.log(`AsyncStorage: recieved ${statusData} from @status`)
-            if (!statusData) statusData = 'CHECK-IN';
-            console.log(`dispatching ${statusData} to state.status`)
-            
-            setAppProperty('status',statusData);
-
-
-            let lastUpdateDate = await AsyncStorage.getItem('@lastUpdateDate');
-            console.log(`AsyncStorage: recieved ${lastUpdateDate} from @lastUpdateDate`)
-            if (!lastUpdateDate)
-                lastUpdateDate = new Date();
-            else
-                lastUpdateDate = new Date(lastUpdateDate);
-            console.log(`dispatching ${lastUpdateDate} to state.lastUpdateDate`)
-            setAppProperty('lastUpdateDate',lastUpdateDate)
-
-            setRamProperty('localStorageLoaded',true);
-        } catch (error) {
-            alert(error);
-        }
+    const loadDataFromStorage = () => {
+        console.log(`App.js -> loadAppDataFromLocal()`)
+        loadAppDataFromLocal()
+        loadTaskDataFromLocal()
+        setRamProperty('localStorageLoaded',true)
     };
 
 

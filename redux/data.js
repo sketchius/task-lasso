@@ -1,5 +1,6 @@
 import { useDispatch } from 'react-redux';
-import {saveTaskToLocal,saveStatusToLocal} from './local-storage';
+import { getTaskByUniqid } from '../tools/tools';
+import {saveTaskToLocal, saveAppProperty, loadAppData, loadTasks} from './local-storage';
 import store from './store';
 
 
@@ -7,20 +8,18 @@ import store from './store';
 
 export function newTask(task) {
     store.dispatch({ type: `task/taskCreated`, payload: task });
-    //saveTaskToLocal(task);
+    saveTaskToLocal(task);
 }
 
 export function updateTask(task) {
-    store.dispatch({ type: `task/taskUpdated`, payload: task });
-    //saveTaskToLocal(task);
+    store.dispatch({ type: `task/taskUpdated`, uniqid:task.uniqid, payload: task });
+    task = getTaskByUniqid(task.uniqid);
+    saveTaskToLocal(task);
 }
 
 export function setTaskProperty(task, property, value) {
-    console.log(`-Update test- TASK DATA BEFORE DISPATCH:`)
-    console.log(JSON.stringify(task,null,4));
     store.dispatch({ type: `task/taskPropertyChanged`, uniqid: task.uniqid, property, payload: value });
-    console.log(`-Update test- TASK DATA AFTER DISPATCH:`)
-    console.log(JSON.stringify(task,null,4));
+    task = getTaskByUniqid(task.uniqid);
     //saveTaskToLocal(task);
 }
 
@@ -31,10 +30,21 @@ export function setTaskPropertyAll(property, value) {
 
 export function setAppProperty(property, value) {
     store.dispatch({ type: `app/appPropertyChanged`, property, payload: value });
-    //saveAppProperties(status);
+    saveAppProperty(property,value);
 }
 
 export function setRamProperty(property, value) {
     store.dispatch({ type: `ram/ramPropertyChanged`, property, payload: value });
     //saveAppProperties(status);
 }
+
+export async function loadTaskDataFromLocal() {
+    const tasks = await loadTasks();
+    store.dispatch({ type: `task/tasksLoadedFromStorage`, payload: tasks });
+}
+
+export async function loadAppDataFromLocal() {
+    const appData = await loadAppData();
+    store.dispatch({ type: `app/appDataLoadedFromStorage`, payload: appData });
+}
+

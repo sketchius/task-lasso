@@ -65,7 +65,7 @@ export function EditFieldArray(props) {
     }
 
     const fields = props.content.map( (fieldText,index) => {
-        return <View style={[styles.alignedRow, styles.marginVertical2]}>
+        return <View style={[styles.alignedRow, styles.marginVertical2]} key={index}>
             <View style={styles.padding3}>{getIcon('FontAwesome','circle',16,styles.colors.gray2)}</View>
             <View style={styles.textInputContainer}>
                 <TextInput style={styles.textInputSmall} value={fieldText} maxLength={props.maxLength} ref={inputField} onChangeText={text => props.onChange(text,index)}/>

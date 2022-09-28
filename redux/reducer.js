@@ -6,31 +6,9 @@ const initialState = {
 
 export default function rootReducer(state = initialState, action) {
     switch (action.type) {
-        case 'app/localStorageLoaded':
-            console.log(`Setting localStorageLoaded to True`)
-            return {...state,
-                localStorageLoaded: true};
-        case 'storage/loadedData':
+        case 'task/tasksLoadedFromStorage':
             return {...state,
                 tasks: action.payload};
-        case 'storage/loadedStatus':
-            console.log(`Reducer running loadedStatus. Payload = ${action.payload}`)
-            return {...state,
-                status: action.payload};
-        case 'storage/loadedStatus':
-            console.log(`Reducer running loaded. Payload = ${action.payload}`)
-            return {...state,
-                status: action.payload};
-        case 'tasks/UnassignedAll':
-            return {
-                ...state,
-                tasks: state.tasks.map(task => {
-                    return {
-                    ...task,
-                    assigned: false
-                    }
-                })
-            }
         case 'task/taskCreated':
             return {
                 ...state,
@@ -40,6 +18,7 @@ export default function rootReducer(state = initialState, action) {
                 ]
             }
         case 'task/taskUpdated':
+            console.log(`Running reducer: task/taskUpdated uniqid:${action.uniqid}, payload:${action.payload}`)
             return {
                 ...state,
                 tasks: state.tasks.map(task => {
@@ -76,23 +55,12 @@ export default function rootReducer(state = initialState, action) {
                     }
                 })
             }
-        case 'app/statusUpdated':
-            return {
-                ...state,
-                status: action.payload
-            }
-        case 'day/dayPropertyChanged':
-            console.log(`day/dayPropertyChanged: setting state.${action.property} to ${action.payload}`)
-            return {
-                ...state,
-                [action.property]: action.payload
-            }
-        case 'day/lastUpdateDateChanged':
-            return {
-                ...state,
-                lastUpdateDate: action.payload
-            }
             
+
+
+        case 'app/appDataLoadedFromStorage':
+            return {...state,
+                app: action.payload}; 
         case 'app/appPropertyChanged':
             return {
                 ...state,
@@ -101,6 +69,8 @@ export default function rootReducer(state = initialState, action) {
                     [action.property]: action.payload 
                 }
             }
+
+
         case 'ram/ramPropertyChanged':
             return {
                 ...state,

@@ -23,9 +23,6 @@ export default function ToDoList(navigation,route) {
     const [designation,setDesignation] = useState(0);
     const [ambition,setAmbition] = useState(1);
 
-    useEffect( () => {
-        const updatedStatus = store.getState().status;
-    },[status])
 
     const handleCheckIn = () => {
         DeviceEventEmitter.emit("event.dayEvent", {event:'assignTasks', designation,ambition});

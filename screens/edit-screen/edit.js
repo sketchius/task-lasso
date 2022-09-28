@@ -16,6 +16,7 @@ import { getTaskByUniqid } from './../../tools/tools';
 
 import { styles } from './../../styles/styles';
 import getIcon from '../../tools/Icons';
+import { updateTask } from '../../redux/data';
 
 Logs.enableExpoCliLogging()
 
@@ -41,10 +42,8 @@ export default function TaskEditor({ route, navigation }) {
     const isFocused = useIsFocused()
 
     useEffect(() => {
-        setAction(route.params.action);
-        if (action == 'edit' || action == 'expand' && route.params.uniqid) {
-
-            const task = getTaskByUniqid(tasks, route.params.uniqid);
+        if (route.params.action == 'edit' || route.params.action == 'expand' && route.params.uniqid) {
+            const task = getTaskByUniqid(route.params.uniqid);
             if (task) {
                 setTitle(task.title);
                 setDescription(task.description);
@@ -61,6 +60,7 @@ export default function TaskEditor({ route, navigation }) {
                     setDateDue(formatRelative(task.dateDue, new Date()))
             }
         }
+        setAction(route.params.action);
     } , [isFocused])
 
     const form = {};
@@ -112,7 +112,7 @@ export default function TaskEditor({ route, navigation }) {
             newTask.uniqid = taskId;
         }
         
-        DeviceEventEmitter.emit("event.taskEvent", {event, uniqid: newTask.uniqid, task: newTask});
+        updateTask(newTask);
         navigation.goBack();
         if (action == 'new')
             DeviceEventEmitter.emit("event.navigationEvent", {event: 'navigate', index: 1});
