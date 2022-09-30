@@ -20,6 +20,12 @@ export async function saveTaskToLocal(task) {
     //console.log(`AsyncStorage: setting key '@tasks/${task.uniqid}' to ${json}`);
 }
 
+export async function recycleTaskAtLocal(task) {
+    const json = JSON.stringify(task)
+    await AsyncStorage.setItem(`@recycledTasks/${task.uniqid}`, json);
+    await AsyncStorage.removeItem(`@tasks/${task.uniqid}`);
+}
+
 export async function printKeys() {
     let keys = await AsyncStorage.getAllKeys();
     console.log(`keys = ${JSON.stringify(keys)}`);

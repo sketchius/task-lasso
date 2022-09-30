@@ -1,6 +1,6 @@
-import { AntDesign, FontAwesome5, FontAwesome, MaterialIcons, MaterialCommunityIcons, Octicons, Entypo, Feather, Ionicons  } from '@expo/vector-icons';
+import { AntDesign, FontAwesome5, FontAwesome, Fontisto, MaterialIcons, MaterialCommunityIcons, Octicons, Entypo, Feather, Ionicons  } from '@expo/vector-icons';
 
-const componentsMap = { AntDesign, FontAwesome5, FontAwesome, MaterialIcons, MaterialCommunityIcons, Octicons, Entypo, Feather, Ionicons  };
+const componentsMap = { AntDesign, FontAwesome5, FontAwesome, Fontisto, MaterialIcons, MaterialCommunityIcons, Octicons, Entypo, Feather, Ionicons  };
 
 export default function getIcon(iconLibrary, iconName, size, color) {
     let Library = componentsMap[iconLibrary];

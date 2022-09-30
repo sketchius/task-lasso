@@ -12,7 +12,7 @@ import getIcon from '../../tools/Icons';
 import MultistateCheckbox from '../../components/MultistateCheckbox';
 import StyledText from '../../components/StyledText';
 import StyledButton from '../../components/StyledButton';
-import { setTaskProperty } from '../../redux/data';
+import { deleteTask, setTaskProperty } from '../../redux/data';
 
 export default function TodoItem(props) {
 
@@ -187,7 +187,7 @@ export default function TodoItem(props) {
                 label='Cancel' iconFamily='Ionicons' iconName='arrow-back'/>;
             case 'delete-confirm':
                 return <StyledButton key={index}
-                onPress={ () => { setButtonMode('normal') }}
+                onPress={ () => { deleteTask(task) }}
                 label='Delete' iconFamily='FontAwesome' iconName='times' styling={'critical'}/>;
         }
     }

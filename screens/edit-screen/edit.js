@@ -14,9 +14,11 @@ import formatRelative from 'date-fns/formatRelative'
 import { DateTimeComponent, EditField, EditFieldArray, SelectionList } from './../../components/Form';
 import { getTaskByUniqid } from './../../tools/tools';
 
+import { navigate } from './../task-screen/navigation'
+
 import { styles } from './../../styles/styles';
 import getIcon from '../../tools/Icons';
-import { updateTask } from '../../redux/data';
+import { newTask, setRamProperty, updateTask } from '../../redux/data';
 
 Logs.enableExpoCliLogging()
 
@@ -78,7 +80,7 @@ export default function TaskEditor({ route, navigation }) {
     }
 
     const onSave = () => {
-        let newTask = {
+        let task = {
                 title,
                 description,
                 type: taskType.toUpperCase(),
@@ -93,7 +95,7 @@ export default function TaskEditor({ route, navigation }) {
         }
 
         if (checklistMode == 1)
-            newTask.checklist = checklistContent.map( (item, index) => {
+            task.checklist = checklistContent.map( (item, index) => {
                 return {
                     text: item,
                     state: 0,
@@ -103,19 +105,23 @@ export default function TaskEditor({ route, navigation }) {
 
         let event = 'updateTask';
         if (action == 'new') {
-            newTask.uniqid = uuid.v4();
-            newTask.assigned = false;
-            newTask.status = 0;
-            newTask.dateCreated = new Date();
+            task.uniqid = uuid.v4();
+            task.assigned = false;
+            task.status = 0;
+            task.dateCreated = new Date();
             event = 'newTask';
         } else {
-            newTask.uniqid = taskId;
+            task.uniqid = taskId;
         }
         
-        updateTask(newTask);
+        if (action == 'new') {
+            setRamProperty('navigationTab',1);
+            newTask(task);
+
+        } else if (action = 'edit') {
+            updateTask(task);
+        }
         navigation.goBack();
-        if (action == 'new')
-            DeviceEventEmitter.emit("event.navigationEvent", {event: 'navigate', index: 1});
     }
 
     const handleChecklistOnChange = (text,index) => {

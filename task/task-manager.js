@@ -1,0 +1,135 @@
+import { setAppProperty } from "../redux/data";
+
+export function assignTasks(designation, ambition) {
+    setTaskPropertyAll('assigned',false);
+
+    let assignedValue = (store.getState().app.assignedValue || 0);
+
+    console.log(`Currently assigned value = ${assignedValue}`);
+
+    let assignmentBudget = 0;
+
+    switch (designation) {
+        case 0:
+            assignmentBudget = 60;
+            break;
+        case 1:
+            assignmentBudget = 150;
+            break;
+        case 2:
+            assignmentBudget = 240;
+            break;
+    }
+
+    switch (ambition) {
+        case 0:
+            assignmentBudget = assignmentBudget * 0.75;
+            break;
+        case 1:
+            assignmentBudget = assignmentBudget * 1;
+            break;
+        case 2:
+            assignmentBudget = assignmentBudget * 1.25;
+            break;
+    }
+    const assignTask = (task) => {
+        console.log(`assigning '${task.title}`);
+        assignedValue += task.duration;
+        setTaskProperty(task,'assigned',true);
+    };
+
+    const scoreTask = (task) => {
+        let baseScore = 1;
+
+        if (task.type == 'SCHEDULED') baseScore = 20;
+
+        let priorityWeight = 1;
+        if (task.priority) priorityWeight = (task.priority + 1) / 2;
+
+        let deadlineWeight = 1;
+        if (task.type == 'DEADLINE')
+            deadlineWeight = 1 + 7 / Math.pow(differenceInCalendarDays(task.dateDue,new Date()),2);
+
+        let flexibleWeight = 1;
+        if (task.type == 'FLEXIBLE' && task.dateCreated)
+            flexibleWeight =
+                1 +
+                differenceInCalendarDays(
+                    new Date(),
+                    task.dateCreated
+                ) /
+                    30;
+
+        let defermentWeight = 1;
+        if (task.deferments) defermentWeight = 1 + (task.deferments / 3);
+
+        let durationWeight = 1;
+        if (task.duration) durationWeight = 1 - task.duration / 100;
+
+        const score =
+            baseScore *
+            priorityWeight *
+            deadlineWeight *
+            flexibleWeight *
+            defermentWeight *
+            durationWeight;
+
+        setTaskProperty(task,'score',score);
+
+        return score;
+    };
+
+    console.log(`tasks variable contains ${tasks.length} items`);
+
+    tasks
+        .filter((task) => {
+            return (
+                ((task.status || 0) < 1 && task.type == 'SCHEDULED' || task.type == 'DEADLINE') &&
+                isToday(task.dateDue)
+            );
+        })
+        .forEach((task) => {
+            console.log(`Assigning due today task:`)
+            scoreTask(task);
+            assignTask(task);
+        });
+
+    while (assignedValue < assignmentBudget) {
+        console.log(`Value = ${assignedValue}/${assignmentBudget}`)
+        let highestScoreTask;
+        let highestScore = 0;
+
+        const updatedTasks = store.getState().tasks;
+
+        console.log(
+            `Getting store.tasks. updatedTasks = variable contains ${updatedTasks.length} items`
+        );
+
+        updatedTasks
+        .filter(
+            (task) => !((task.status || 0) < 1 && task.type != 'SCHEDULED' && task.type != 'DRAFT')
+        )
+        .forEach( task => console.log(`${task.title}, status ${task.status}, type ${task.type}`))
+
+        updatedTasks
+            .filter(
+                (task) => (task.status || 0) < 1 && task.type != 'SCHEDULED' && task.type != 'DRAFT'
+            )
+            .forEach((task) => {
+                console.log(`Checking task ${task.title}`);
+                if (!task.assigned) {
+                    let taskScore = scoreTask(task);
+                    if (taskScore > highestScore) {
+                        highestScore = taskScore;
+                        highestScoreTask = task;
+                    }
+                }
+            });
+
+        if (highestScoreTask) assignTask(highestScoreTask);
+        else break;
+    }
+
+    setAppProperty('assignedValue',assignedValue);
+    setAppProperty('status','ASSIGNED');
+}

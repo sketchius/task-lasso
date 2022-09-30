@@ -10,14 +10,15 @@ import ToDoList from './todo';
 import AllTasklist from './tasklist';
 import DataInspector from '../../DataInspector';
 import IconPicker from '../../iconPicker';
-
-
+import { useSelector } from 'react-redux';
+import { setRamProperty } from '../../redux/data';
 
 export default function AppNavigation() {
     let test = test;
 
-    const [selectedItem,setSelectedItem] = useState(0);
+    const navigationTab = useSelector(state => state.ram.navigationTab);
     const [expanded,setExpanded] = useState(false);
+
 
     const navigation = useNavigation();
 
@@ -27,16 +28,8 @@ export default function AppNavigation() {
 
     
     useEffect( () => {
-        DeviceEventEmitter.addListener("event.navigationEvent", eventData => handleNavigationEvent(eventData));
+        if (!navigationTab) setRamProperty('navigationTab',0);
     },[])
-
-    const handleNavigationEvent = (eventData) => {
-        switch (eventData.event) {
-            case 'navigate':
-                setSelectedItem(eventData.index);
-                break;
-        }
-    }
 
     const navOptions = [
         {
@@ -78,15 +71,15 @@ export default function AppNavigation() {
     ]
 
     const handleNavPress = (index) => {
-        if (index != selectedItem)
+        if (index != navigationTab)
             setSelectedItem(index);
     }
 
     const navigationWidget = navOptions.map( (navOption, index) => {
             return (
-            <Pressable key={index} onPress={() => navOption.onPress ? navOption.onPress() : handleNavPress(navOption.index)} style={selectedItem == navOption.index ? styles.navOptionActive : styles.navOptionInactive }>
-                {getIcon(navOption.iconFamily,navOption.iconName,navOption.bigIcon ? 48 : 24,selectedItem == navOption.index ? styles.gray3 : styles.gray3)}
-                {!navOption.bigIcon && <StyledText style={selectedItem == navOption.index ? styles.navOptionTextActive : styles.navOptionTextInactive}>{navOption.title}</StyledText>}
+            <Pressable key={index} onPress={() => navOption.onPress ? navOption.onPress() : setRamProperty('navigationTab',navOption.index)} style={navigationTab == navOption.index ? styles.navOptionActive : styles.navOptionInactive }>
+                {getIcon(navOption.iconFamily,navOption.iconName,navOption.bigIcon ? 48 : 24,navigationTab == navOption.index ? styles.gray3 : styles.gray3)}
+                {!navOption.bigIcon && <StyledText style={navigationTab == navOption.index ? styles.navOptionTextActive : styles.navOptionTextInactive}>{navOption.title}</StyledText>}
             </Pressable> 
         )
     });
@@ -97,7 +90,7 @@ export default function AppNavigation() {
                 {navigationWidget}
             </View>
             <View style={styles.navContent}>
-                {navOptions[selectedItem].component}
+                {navOptions[navigationTab || 0].component}
             </View>
         </View>
     )

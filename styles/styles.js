@@ -502,6 +502,12 @@ const styleArray = {
         justifyContent: 'center',
         marginRight: space.size3
     },
+    iconPickerOption: {
+        height: 30,
+        width: 30,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
     checkboxBox: {
         height: 30,
         width: 30,

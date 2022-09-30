@@ -11,13 +11,14 @@ import { SelectionList } from './../../components/Form';
 import { styles } from '../../styles/styles';
 import Tasklist from '../task-screen/task-screen';
 import AppNavigation from '../task-screen/navigation';
+import { assignTasks } from '../../task/task-manager';
 
 export default function Home(navigation,route) {
     
 
     const taskList = useSelector(state => state.tasks.filter(task => task.assigned));
 
-    const [status,setStatus] = useState('CHECK-IN');
+    const status = useSelector(state => state.app.status);
 
     const [designation,setDesignation] = useState('work');
     const [ambition,setAmbition] = useState('normal');
@@ -39,8 +40,7 @@ export default function Home(navigation,route) {
                 ambitionSelection = value;
                 break;
             case 'start':
-                DeviceEventEmitter.emit("event.dayEvent", {event:'assignTasks', designation,ambition});
-                setStatus('ASSIGNED');
+                assignTasks(designation,ambition);
                 break;
             case 'end':
                 route.params.onEndDay();

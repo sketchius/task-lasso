@@ -31,7 +31,12 @@ export default function rootReducer(state = initialState, action) {
                     }
                 })
             }
-
+        case 'task/taskDeleted':
+            console.log(`Running reducer: task/taskUpdated uniqid:${action.uniqid}, payload:${action.payload}`)
+            return {
+                ...state,
+                tasks: state.tasks.filter(task => task.uniqid !== action.uniqid) 
+            }
         case 'task/taskPropertyChanged':
             return {
                 ...state,
