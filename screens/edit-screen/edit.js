@@ -165,7 +165,7 @@ export default function TaskEditor({ route, navigation }) {
                 styling='horizontal' label='SAVE' iconFamily='MaterialCommunityIcons' iconName='check'/>
             </View>
             <ScrollView style = {{flex: 1}}>
-            <SelectionList styles={styles} label={'TASK TYPE'} selection={taskType} onPress={setTaskType} orientation={'column'} iconStyle={1} useSubtext={true}
+            <SelectionList styles={styles} label={'TASK TYPE'} labelIconFamily={'MaterialCommunityIcons'} labelIconName={'animation'}  selection={taskType} onPress={setTaskType} orientation={'column'} iconStyle={1} useSubtext={true}
                     selections={[
                         {
                             index: 0,
@@ -219,7 +219,7 @@ export default function TaskEditor({ route, navigation }) {
                             activeColor: 'blue'
                         }
                     ]}></SelectionList>
-                <EditField styles={styles} text={title}  onChange={setTitle}  label={'TASK TITLE'}
+                <EditField styles={styles} text={title} labelIconFamily={'MaterialCommunityIcons'} labelIconName={'card-text'} onChange={setTitle}  label={'TASK TITLE'}
                     required = {true}
                     helpTips = {[
                         `Required.`,
@@ -229,15 +229,15 @@ export default function TaskEditor({ route, navigation }) {
                     ]}
                 ></EditField>
                 {taskType != 'draft' && <View>
-                    <EditField styles={styles} text={description}  onChange={setDescription} label={'DETAILS'} multiline={true}
+                    <EditField styles={styles} text={description} labelIconFamily={'MaterialCommunityIcons'} labelIconName={'text-box'}  onChange={setDescription} label={'DETAILS'} multiline={true}
                         subtext = {`Additional information to help complete the task.`}
                         helpTips = {[
                             `Optional.`,
                             `Add additional information need to complete the task.\nI.e. an address, phone number, or set of instructions.`
                         ]}
                     ></EditField>
-                    <IconPicker label={'TASK ICON'} taskTitle={title}/>
-                    <SelectionList styles={styles} label={'CHECKLIST'} selection={checklistMode} onPress={setChecklistMode} orientation={'row'} columns={2} iconStyle={1}
+                    <IconPicker label={'TASK ICON'} labelIconFamily={'MaterialIcons'} labelIconName={'image'} taskTitle={title}/>
+                    <SelectionList styles={styles} label={'CHECKLIST'} labelIconFamily={'MaterialCommunityIcons'} labelIconName={'view-list-outline'}  selection={checklistMode} onPress={setChecklistMode} orientation={'row'} columns={2} iconStyle={1}
                     selections={[
                         {
                             index: 0,
@@ -252,8 +252,8 @@ export default function TaskEditor({ route, navigation }) {
                         {
                             index: 1,
                             stateValue: 1,
-                            iconFamily: 'FontAwesome',
-                            iconName: 'list-ul',
+                            iconFamily: 'MaterialIcons',
+                            iconName: 'check',
                             iconSize: 24,
                             text: 'Attach Checklist ',
                             subtext: "A set of subtasks to be done in any order",
@@ -266,7 +266,7 @@ export default function TaskEditor({ route, navigation }) {
                         onDelete={handleChecklistOnDelete}
                         helpTips = {[]}
                     ></EditFieldArray>}
-                    <SelectionList styles={styles} label={'PRIORITY'} selection={taskPriority} onPress={setTaskPriority} orientation={'row'} columns={3} iconStyle={0}
+                    <SelectionList styles={styles} label={'PRIORITY'} labelIconFamily={'MaterialCommunityIcons'} labelIconName={'alert-box'}  selection={taskPriority} onPress={setTaskPriority} orientation={'row'} columns={3} iconStyle={0}
                     selections={[
                         {
                             index: 0,
@@ -296,7 +296,7 @@ export default function TaskEditor({ route, navigation }) {
                             activeColor: 'blue'
                         }
                     ]}></SelectionList>
-                    <SelectionList styles={styles} label={'TASK DURATION'}  selection={taskDuration} onPress={setTaskDuration}  orientation={'row'} columns={6} wrap={true} iconStyle={0}
+                    <SelectionList styles={styles} label={'TASK DURATION'} labelIconFamily={'MaterialCommunityIcons'} labelIconName={'clock-time-four'}  selection={taskDuration} onPress={setTaskDuration}  orientation={'row'} columns={6} wrap={true} iconStyle={0}
                     selections={[
                         {
                             index: 0,
@@ -341,7 +341,7 @@ export default function TaskEditor({ route, navigation }) {
                         ]}
                     ></EditField>}
                     
-                    <SelectionList styles={styles} label={'CHECKBOX STYLE'} selection={checkboxStyle} onPress={setCheckboxStyle} orientation={'column'} columns={2}  iconStyle={1} useSubtext={true}
+                    <SelectionList styles={styles} label={'CHECKBOX STYLE'} labelIconFamily={'MaterialCommunityIcons'} labelIconName={'checkbox-marked'} selection={checkboxStyle} onPress={setCheckboxStyle} orientation={'column'} columns={2}  iconStyle={1} useSubtext={true}
                     selections={[
                         {
                             index: 0,

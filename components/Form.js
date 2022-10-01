@@ -26,13 +26,16 @@ export function EditField(props) {
     return (
     <View style={styles.formSectionBorder}>
         <View style={[styles.editField]}>
-            <View style={[styles.alignedRow]}>
+            <View style={styles.formHeader}>
+                <View style={[styles.marginRight3, styles.formLabelIcon]}>
+                    {getIcon(props.labelIconFamily,props.labelIconName,24,styles.colors.blue2)}
+                </View>
                 <StyledText style={styles.formFieldLabel}>{props.label.toUpperCase()}</StyledText>
                 {props.required ?
                     <StyledText style={styles.requiredText}>(required)</StyledText> :
                     <StyledText style={styles.optionalText}>(optional)</StyledText>
                 }
-                <View style={styles.horizontalLine}></View>
+                <View style={styles.formUpperBorder}></View>
                 <Pressable style={styles.helpButton} onPress={() => (setShowHelp(!showHelp))}>
                     {getIcon('MaterialCommunityIcons',showHelp ? 'help-circle' :'help-circle-outline',24,styles.colors.gray2)}
                 </Pressable>
@@ -84,13 +87,16 @@ export function EditFieldArray(props) {
     return (
     <View style={styles.formSectionBorder}>
         <View style={[styles.editField]}>
-            <View style={[styles.alignedRow]}>
+            <View style={styles.formHeader}>
+                <View style={[styles.marginRight3, styles.formLabelIcon]}>
+                    {getIcon(props.labelIconFamily,props.labelIconName,24,styles.colors.blue2)}
+                </View>
                 <StyledText style={styles.formFieldLabel}>{props.label.toUpperCase()}</StyledText>
                 {props.required ?
                     <StyledText style={styles.requiredText}>(required)</StyledText> :
                     <StyledText style={styles.optionalText}>(optional)</StyledText>
                 }
-                <View style={styles.horizontalLine}></View>
+                <View style={styles.formUpperBorder}></View>
                 <Pressable style={styles.helpButton} onPress={() => (setShowHelp(!showHelp))}>
                     {getIcon('MaterialCommunityIcons',showHelp ? 'help-circle' :'help-circle-outline',24,styles.colors.gray2)}
                 </Pressable>
@@ -150,7 +156,8 @@ export function SelectionList(props) {
         let activeSubtextstyle;
         let activeViewStyle;
 
-        switch (selection.activeColor) {
+        //switch (selection.activeColor) {
+        switch ('blue') {
             case 'red':
                 activeIconColor = styles.colors.red
                 activeTextStyle = styles.redText
@@ -225,9 +232,12 @@ export function SelectionList(props) {
 
     return (
         <View style={[styles.editField]}>
-            <View style={[styles.alignedRow, styles.marginBottom3]}>
-                <StyledText style={props.invert ? styles.formFieldLabelWhite : styles.formFieldLabel}>{props.label.toUpperCase()}</StyledText>
-                <View style={props.invert ? styles.horizontalLineWhite : styles.horizontalLine}></View>
+            <View style={styles.formHeader}>
+                <View style={[styles.marginRight3, styles.formLabelIcon]}>
+                    {getIcon(props.labelIconFamily,props.labelIconName,24,styles.colors.blue2)}
+                </View>
+                <StyledText style={styles.formFieldLabel}>{props.label.toUpperCase()}</StyledText>
+                <View style={styles.formUpperBorder}></View>
                 <Pressable style={styles.helpButton}>
                     {getIcon('MaterialCommunityIcons','help-circle-outline',24,props.invert ? styles.whiteColor : styles.colors.gray2)}
                 </Pressable>
@@ -268,7 +278,7 @@ export function DateTimeComponent (props) {
     return <View style={styles.editField}>
         <View style={[styles.alignedRow]}>
             <StyledText style={styles.formFieldLabel}>{props.label.toUpperCase()}</StyledText>
-            <View style={styles.horizontalLine}></View>
+            <View style={styles.formUpperBorder}></View>
             <Pressable style={styles.helpButton}>
                 {getIcon('MaterialCommunityIcons','help-circle-outline',24,styles.colors.gray2)}
             </Pressable>

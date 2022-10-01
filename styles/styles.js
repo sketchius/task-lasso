@@ -128,15 +128,28 @@ const styleArray = {
         alignSelf: 'center',
         borderRadius: space.size3
     },
+    formHeader: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginBottom: space.size3
+    },
     formBody: {
-        marginLeft: space.size2,
+        marginLeft: space.size3,
         marginRight: space.size4,
         padding: space.size4,
         paddingBottom: space.size5,
-        borderBottomWidth: .5,
-        borderLeftWidth: .5,
-        borderRightWidth: .5,
-        borderColor: colors.gray3
+        borderBottomWidth: 1,
+        borderLeftWidth: 1,
+        borderRightWidth: 1,
+        borderColor: colors.blue2
+    },
+    formUpperBorder: {
+        marginLeft: space.size2,
+        marginRight: space.size2,
+        flex: 1,
+        height: 1,
+        borderTopWidth: 1,
+        borderColor: colors.blue2
     },
     editScreenHeaderText: {
         margin: space.size4,
@@ -159,6 +172,12 @@ const styleArray = {
         alignItems: 'center',
         justifyContent: 'center'
     },
+    formLabelIcon: {
+        height: 24,
+        width: 24,
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
     helpElement: {
         margin: space.size4,
     },
@@ -173,11 +192,10 @@ const styleArray = {
         color: colors.gray2
     },
     formFieldLabel: {
-        marginBottom: space.size3,
         marginRight: space.size2,
         fontSize: font.size3,
         fontFamily: 'TitilliumWebSemibold',
-        color: colors.gray
+        color: colors.blue
     },
     formFieldLabelWhite: {
         marginBottom: space.size3,
@@ -688,11 +706,11 @@ const styleArray = {
         marginLeft: space.size4,
         paddingLeft: space.size4,
         paddingRight: space.size4,
-        backgroundColor: colors.teal4,
+        backgroundColor: colors.blue4,
         borderLeftWidth: 4,
         borderRightWidth: 4,
         borderTopWidth: 2,
-        borderColor: colors.teal3
+        borderColor: colors.blue3
     },
     sectionHeaderTextStyle: {
         fontFamily: 'TitilliumWebSemibold'

@@ -2459,4 +2459,10 @@ export const iconOptions = [
         iconName: 'door-closed',
         tags: ['door'],
     },
+    {
+        subcategory: 'nature',
+        iconFamily: 'MaterialCommunityIcons',
+        iconName: 'mushroom',
+        tags: ['shroom'],
+    },
 ];

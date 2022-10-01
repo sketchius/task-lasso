@@ -148,6 +148,9 @@ export default function IconPicker(props) {
     <View style={styles.formSectionBorder}>
         <View style={[styles.editField]}>
             <View style={[styles.alignedRow]}>
+                <View style={[styles.marginRight3, styles.formLabelIcon]}>
+                    {getIcon(props.labelIconFamily,props.labelIconName,24,styles.colors.blue2)}
+                </View>
                 <StyledText style={styles.formFieldLabel}>{props.label.toUpperCase()}</StyledText>
                 <View style={styles.horizontalLine}></View>
                 <Pressable style={styles.helpButton} onPress={() => (setShowHelp(!showHelp))}>

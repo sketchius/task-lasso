@@ -7,49 +7,64 @@ export const colors = {
     gray6: '#dbdbdb',
 
     red5: '#fff4f4',
-    orange5: '#fff2e4',
-    yellow5: '#feffcf',
-    teal5: '#d7f1f1',
-    green5: '#ebffec',
-    blue5: '#e0e9ff',
-    pink5: '#ffeff7',
-
     red4: '#ffe1e1',
+    red3: '#e8abb7', 
+    red2: '#b65e6f', 
+    red: '#712b39', 
+
+    orange5: '#fff2e4',
     orange4: '#ffe7cd',
+    orange3: '#e2b590',
+    orange2: '#c78e5f',
+    orange: '#7a5130',
+    
+    yellow5: '#feffcf',
     yellow4: '#f1f2be',
+    yellow3: '#e1d890',
+    yellow2: '#b8a640',
+    yellow: '#75681e',
+
+    teal5: '#d7f1f1',
     teal4: '#baf7f8',
+    teal3: '#72c6d0',
+    teal2: '#50a2ac',
+    teal: '#31696f',
+
+    green5: '#ebffec',
     green4: '#dbffdd',
-    blue4: '#ccdbff',
+    green3: '#a5e9aa',
+    green2: '#5dc864',
+    green: '#28712d',
+
+    blue5: '#e0e9ff',
+    blue4: '#b9ceff',
+    blue3: '#8aa8ef',
+    blue2: '#859dd8',
+    blue: '#3c4f7e',
+
+    pink5: '#ffeff7',
     pink4: '#ffe1f0',
-
-
+    pink3: '#e3a3c3',
+    pink2: '#d1669c',
     blue1: '#97a8d1',
 
 
-    red3: '#e8abb7', 
-    orange3: '#e2b590',
-    yellow3: '#e1d890',
-    green3: '#a5e9aa',
-    teal3: '#72c6d0',
-    blue3: '#b5c4e8',
-    pink3: '#e3a3c3',
+    
+    
+    
+    
 
     
-    red2: '#b65e6f', 
-    orange2: '#c78e5f',
-    yellow2: '#b8a640',
-    green2: '#5dc864',
-    teal2: '#50a2ac',
-    blue2: '#859dd8',
-    pink2: '#d1669c',
+    
+    
+    
+    
 
         
-    red: '#712b39', 
-    orange: '#7a5130',
-    yellow: '#75681e',
-    green: '#28712d',
-    teal: '#31696f',
-    blue: '#3c4f7e',
+    
+    
+    
+    
     pink: '#8b2b5b'
 }; 
  
