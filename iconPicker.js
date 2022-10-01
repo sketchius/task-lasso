@@ -5,12 +5,20 @@ import getIcon from "./tools/Icons";
 import { styles } from "./styles/styles";
 import Pressable from "react-native/Libraries/Components/Pressable/Pressable";
 import { useState } from "react";
+import StyledButton from "./components/StyledButton";
 
-export default function IconPicker() {
+export default function IconPicker(props) {
 
-    const prompt = 'Setup meeting for next thurs';
 
     const [selectedCategory,setSelectedCategory] = useState(1);
+    const [expanded,setExpanded] = useState(false);
+
+    const [displayIconFamilyPrevious,setDisplayIconFamilyPrevious] = useState('MaterialCommunityIcons');
+    const [displayIconNamePrevious,setDisplayIconNamePrevious] = useState('card-text');
+
+    const [displayIconFamily,setDisplayIconFamily] = useState('MaterialCommunityIcons');
+    const [displayIconName,setDisplayIconName] = useState('card-text');
+    const [showHelp,setShowHelp] = useState(false);
 
     const categories = [
         {
@@ -34,8 +42,8 @@ export default function IconPicker() {
             name: 'Tools, Tech, and Fun',
             subcategories: [
                 'tools',
-                'fun',
-                'tech'
+                'tech',
+                'fun'
             ],
             iconFamily: 'Ionicons',
             iconName: 'construct'
@@ -73,7 +81,7 @@ export default function IconPicker() {
 
     const getCategoryButtons = () => {
         return categories.map( (category, index) => {
-            return <Pressable key={index} onPress={() => setSelectedCategory(index)}>{getIcon(category.iconFamily,category.iconName,24,styles.colors.gray)}</Pressable>
+            return <Pressable style={styles.margin3} key={index} onPress={() => setSelectedCategory(index)}>{getIcon(category.iconFamily,category.iconName,30,styles.colors.gray)}</Pressable>
         })
     }
 
@@ -90,7 +98,7 @@ export default function IconPicker() {
         .filter( iconOption => subcategory == iconOption.subcategory)
         .sort( (a,b) => a.iconName > b.iconName )
         .map( (iconOption) => {
-            return <View style={[styles.padding2, styles.iconPickerOption]}>{getIcon(iconOption.iconFamily,iconOption.iconName,iconOption.iconFamily == 'FontAwesome5' || iconOption.iconFamily == 'FontAwesome' ? 20: 24,'black')}</View>;
+            return getOptionElement(iconOption.iconFamily,iconOption.iconName)
         })
     }
 
@@ -99,23 +107,83 @@ export default function IconPicker() {
         iconOptions.forEach( option => {
             for (let i = 0; i < option.tags.length; i++) {
                 const tag = option.tags[i];
-                if (prompt.includes(tag))
+                if (props.taskTitle.includes(tag)){
                     suggestedIconOptions.push({option,score:(1/(i+1))});
-            }
+                    console.log(`Adding suggestion: ${option.iconName} from ${option.iconFamily} (TAG=${tag})`)
+                    break;
+                }
+           }
         })
-        console.log(JSON.stringify(suggestedIconOptions,null,4))
         return suggestedIconOptions
         .sort( (a,b) => a.score < b.score )
         .map( (iconOption) => {
-            return <View style={[styles.padding2, styles.iconPickerOption]}>{getIcon(iconOption.option.iconFamily,iconOption.option.iconName,iconOption.option.iconFamily == 'FontAwesome5' || iconOption.option.iconFamily == 'FontAwesome' ? 20: 24,'black')}</View>;
+            return getOptionElement(iconOption.option.iconFamily,iconOption.option.iconName)
         })
     }
 
-    return <View>
-        <View style={styles.alignedRow}>{getCategoryButtons()}</View>
-        <StyledText>{categories[selectedCategory].name}</StyledText>
-        <View>
-            <View>{getIconOptions()}</View>
+    const getOptionElement = (family,name) => {
+        const selected = family == displayIconFamily && name == displayIconName;
+        return <Pressable
+                style={[styles.padding2, selected ? styles.iconPickerOptionSelected : styles.iconPickerOption]}
+                onPress={() => {
+                    console.log(`setting displayIconFamily to: ${family}`)
+                    console.log(`setting displayIconName to: ${name}`)
+                    setDisplayIconFamily(family);
+                    setDisplayIconName(name);
+                }}>
+                {getIcon(family,name,family == 'FontAwesome5' ? 20: 24,'black')}
+            </Pressable>;
+    }
+    
+    if (props.helpTips) {
+        helpContent = <View style={styles.helpElement}>
+            {props.helpTips.map( (tip,index) => { return <View key={index} style={styles.alignedRow}>
+                    <View style={styles.helpIcon}>{getIcon('FontAwesome5','arrow-circle-right',16,styles.colors.gray2)}</View>
+                    <StyledText style={styles.helpText}>{tip}</StyledText>
+                </View> })}
         </View>
-    </View>
+    }
+
+    return (
+    <View style={styles.formSectionBorder}>
+        <View style={[styles.editField]}>
+            <View style={[styles.alignedRow]}>
+                <StyledText style={styles.formFieldLabel}>{props.label.toUpperCase()}</StyledText>
+                <View style={styles.horizontalLine}></View>
+                <Pressable style={styles.helpButton} onPress={() => (setShowHelp(!showHelp))}>
+                    {getIcon('MaterialCommunityIcons',showHelp ? 'help-circle' :'help-circle-outline',24,styles.colors.gray2)}
+                </Pressable>
+            </View>
+            <View style={styles.formBody}>
+            <View style={[styles.alignedRow, styles.marginLeft2]}>
+                <View style={styles.iconPickerDisplayIcon}>
+                    {getIcon(displayIconFamily,displayIconName,36,styles.colors.gray)}
+                </View>
+                    {expanded ?
+                    [<StyledButton
+                    onPress={ () => {
+                        setExpanded(false);
+                        setDisplayIconName(displayIconNamePrevious);
+                        setDisplayIconFamily(displayIconFamilyPrevious);
+                    }}
+                    label='Cancel' iconFamily='MaterialCommunityIcons' iconName='cancel'/>,
+                    <StyledButton
+                    onPress={ () => { setExpanded(false) }}
+                    label='Save' iconFamily='MaterialCommunityIcons' iconName='check'/>]
+                    :
+                    <StyledButton
+                    onPress={ () => { setExpanded(true) }}
+                    label='Change' iconFamily='MaterialCommunityIcons' iconName='square-edit-outline'/>}
+            </View>
+                {showHelp && helpContent}
+                {expanded && <View>
+                    <View style={styles.alignedRow}>{getCategoryButtons()}</View>
+                    <StyledText>{categories[selectedCategory].name}</StyledText>
+                    <View>
+                        <View>{getIconOptions()}</View>
+                    </View>
+                </View>}
+            </View>
+        </View>
+    </View> )
 }

@@ -11,8 +11,18 @@ export default function StyledButton(props) {
             props.onPress(props.data);
     }
     
-    return <Pressable onPress={handlePress} style={[styles.size80, styles.alignItems, styles.thinBorder, styles.margin, styles.paddingVertical4, styles.margin2, styles.itemButton, props.styling=='critical' && styles.criticalButton]}>
-        {getIcon(props.iconFamily,props.iconName,16,styles.colors.gray)}
-    <StyledText style={[styles.paddingTop2]}>{props.label}</StyledText>
+    return <Pressable onPress={handlePress}
+            style={[props.styling=='small' ? styles.smallButton : styles.size80,
+            styles.alignItems,
+            styles.thinBorder,
+            styles.paddingVertical4,
+            styles.margin2,
+            styles.itemButton,
+            props.styling=='critical' && styles.criticalButton,
+            props.styling=='subtle' && [styles.subtleButton, styles.smallButton],
+            props.styling == 'horizontal' && styles.horizontalButton]
+            }>
+        {getIcon(props.iconFamily,props.iconName,props.label ? 20 : 30,styles.colors.gray)}
+    {props.label && <StyledText style={[styles.itemButtonText, props.styling == 'horizontal' && styles.paddingHorizontal3]}>{props.label.toUpperCase()}</StyledText>}
 </Pressable>
 }

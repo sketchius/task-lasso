@@ -19,6 +19,9 @@ import { navigate } from './../task-screen/navigation'
 import { styles } from './../../styles/styles';
 import getIcon from '../../tools/Icons';
 import { newTask, setRamProperty, updateTask } from '../../redux/data';
+import IconPicker from '../../iconPicker';
+import StyledText from '../../components/StyledText';
+import StyledButton from '../../components/StyledButton';
 
 Logs.enableExpoCliLogging()
 
@@ -151,6 +154,16 @@ export default function TaskEditor({ route, navigation }) {
 
     return (
         <View style={{flexDirection: 'column', height: '100%'}}>
+            <View style={[{backgroundColor: styles.colors.teal5}, styles.alignedRow, styles.padding4]}>
+                <StyledButton
+                    onPress={ () => {}}
+                    styling='subtle' iconFamily='MaterialCommunityIcons' iconName='arrow-left'/>
+                <StyledText style={styles.editScreenHeaderText}>{action == 'new' ? 'NEW TASK' : 'EDIT TASK'}</StyledText>
+                <View style={styles.flex1}/>
+                <StyledButton
+                onPress={ () => {onSave}}
+                styling='horizontal' label='SAVE' iconFamily='MaterialCommunityIcons' iconName='check'/>
+            </View>
             <ScrollView style = {{flex: 1}}>
             <SelectionList styles={styles} label={'TASK TYPE'} selection={taskType} onPress={setTaskType} orientation={'column'} iconStyle={1} useSubtext={true}
                     selections={[
@@ -162,7 +175,7 @@ export default function TaskEditor({ route, navigation }) {
                             iconSize: 32,
                             text: 'Draft',
                             subtext: "A quick note of a task, to be expanded on later",
-                            activeColor: 'teal',
+                            activeColor: 'blue',
                             hide: action == 'expand'
                         },
                         {
@@ -173,7 +186,7 @@ export default function TaskEditor({ route, navigation }) {
                             iconSize: 32,
                             text: 'Flexible',
                             subtext: "A task that needs to be done eventually",
-                            activeColor:  'teal'
+                           activeColor: 'blue'
                         },
                         {
                             index: 2,
@@ -183,7 +196,7 @@ export default function TaskEditor({ route, navigation }) {
                             iconSize: 32,
                             text: 'Deadline',
                             subtext: "A task that needs to be done by a certain date",
-                            activeColor: 'teal'
+                            activeColor: 'blue'
                         },
                         {
                             index: 3,
@@ -193,7 +206,7 @@ export default function TaskEditor({ route, navigation }) {
                             iconSize: 32,
                             text: 'Scheduled',
                             subtext: "A task that needs to be done on a certain date",
-                            activeColor: 'teal'
+                            activeColor: 'blue'
                         },
                         {
                             index: 4,
@@ -203,7 +216,7 @@ export default function TaskEditor({ route, navigation }) {
                             iconSize: 32,
                             text: 'Repeating',
                             subtext: "A task that needs to be done regularly",
-                            activeColor: 'teal'
+                            activeColor: 'blue'
                         }
                     ]}></SelectionList>
                 <EditField styles={styles} text={title}  onChange={setTitle}  label={'TASK TITLE'}
@@ -223,6 +236,7 @@ export default function TaskEditor({ route, navigation }) {
                             `Add additional information need to complete the task.\nI.e. an address, phone number, or set of instructions.`
                         ]}
                     ></EditField>
+                    <IconPicker label={'TASK ICON'} taskTitle={title}/>
                     <SelectionList styles={styles} label={'CHECKLIST'} selection={checklistMode} onPress={setChecklistMode} orientation={'row'} columns={2} iconStyle={1}
                     selections={[
                         {
@@ -243,7 +257,7 @@ export default function TaskEditor({ route, navigation }) {
                             iconSize: 24,
                             text: 'Attach Checklist ',
                             subtext: "A set of subtasks to be done in any order",
-                            activeColor: 'teal'
+                            activeColor: 'blue'
                         }
                     ]}></SelectionList>
                     {checklistMode != 0 && <EditFieldArray styles={styles} label={'CHECKLIST ITEMS'} content={checklistContent}
@@ -261,7 +275,7 @@ export default function TaskEditor({ route, navigation }) {
                             iconName: 'dot-single',
                             iconSize: 20,
                             text: 'Low',
-                            activeColor: 'teal'
+                            activeColor: 'blue'
                         },
                         {
                             index: 1,
@@ -270,7 +284,7 @@ export default function TaskEditor({ route, navigation }) {
                             iconName: 'minus',
                             iconSize: 20,
                             text: 'Med',
-                            activeColor: 'teal'
+                            activeColor: 'blue'
                         },
                         {
                             index: 2,
@@ -279,7 +293,7 @@ export default function TaskEditor({ route, navigation }) {
                             iconName: 'alert-circle',
                             iconSize: 20,
                             text: 'High',
-                            activeColor: 'teal'
+                            activeColor: 'blue'
                         }
                     ]}></SelectionList>
                     <SelectionList styles={styles} label={'TASK DURATION'}  selection={taskDuration} onPress={setTaskDuration}  orientation={'row'} columns={6} wrap={true} iconStyle={0}
@@ -288,50 +302,39 @@ export default function TaskEditor({ route, navigation }) {
                             index: 0,
                             stateValue: 5,
                             text: '5m',
-                            activeColor: 'teal'
+                            activeColor: 'blue'
                         },
                         {
                             index: 1,
                             stateValue: 10,
                             text: '10m',
-                            activeColor: 'teal'
+                            activeColor: 'blue'
                         },
                         {
                             index: 2,
                             stateValue: 15,
                             text: '15m',
-                            activeColor: 'teal'
+                            activeColor: 'blue'
                         },
                         {
                             index: 3,
                             stateValue: 30,
                             text: '30m',
-                            activeColor: 'teal'
+                            activeColor: 'blue'
                         },
                         {
                             index: 4,
                             stateValue: 45,
                             text: '45m',
-                            activeColor: 'teal'
+                            activeColor: 'blue'
                         },
                         {
                             index: 5,
                             stateValue: 60,
                             text: '60m',
-                            activeColor: 'teal'
+                            activeColor: 'blue'
                         }
-                    ]}></SelectionList>
-                    {getIcon(iconFamily,iconName,36,styles.colors.gray)}
-                    <EditField styles={styles} text={iconFamily}  onChange={setIconFamily} label={'ICON FAMILY'} multiline={true}
-                        helpTips = {[
-
-                        ]}
-                    ></EditField>
-                    <EditField styles={styles} text={iconName}  onChange={setIconName} label={'ICON NAME'} multiline={true}
-                        helpTips = {[
-
-                        ]}
-                    ></EditField>                    
+                    ]}></SelectionList>                  
                     {(taskType == 'scheduled' || taskType == 'deadline') && <EditField styles={styles} text={dateDue}  onChange={setDateDue} label={'DATE DUE'} multiline={true}
                         helpTips = {[
 
@@ -350,7 +353,7 @@ export default function TaskEditor({ route, navigation }) {
                             subtext: "Can marked undone or done.",
                             selectedStyle: styles.blueHighlight,
                             deselectedStyle: styles.hiddenHighlight,
-                            activeColor: 'teal'
+                            activeColor: 'blue'
                         },
                         {
                             index: 1,
@@ -362,12 +365,10 @@ export default function TaskEditor({ route, navigation }) {
                             subtext: "Can be undone, started, or done.",
                             selectedStyle: styles.blueHighlight,
                             deselectedStyle: styles.hiddenHighlight,
-                            activeColor: 'teal'
+                            activeColor: 'blue'
                         }
                     ]}></SelectionList>
                 </View>}
-            
-                <Button title='Save' onPress={onSave}/>
             </ScrollView>
         </View>
     )

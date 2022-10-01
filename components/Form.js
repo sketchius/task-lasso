@@ -37,11 +37,14 @@ export function EditField(props) {
                     {getIcon('MaterialCommunityIcons',showHelp ? 'help-circle' :'help-circle-outline',24,styles.colors.gray2)}
                 </Pressable>
             </View>
-            {props.subtext && <StyledText style={[styles.selectionSubtext, styles.marginBottom3]}>{props.subtext}</StyledText>}
-            <View style={styles.textInputContainer}>
-                <TextInput style={styles.textInput} value={props.text} maxLength={props.maxLength} ref={inputField} multiline={props.multiline} onChangeText={text => props.onChange(text)}/>
+            <View style={styles.formBody}>
+                
+                {props.subtext && <StyledText style={[styles.selectionSubtext, styles.marginBottom3]}>{props.subtext}</StyledText>}
+                <View style={styles.textInputContainer}>
+                    <TextInput style={styles.textInput} value={props.text} maxLength={props.maxLength} ref={inputField} multiline={props.multiline} onChangeText={text => props.onChange(text)}/>
+                </View>
+                {showHelp && helpContent}
             </View>
-            {showHelp && helpContent}
         </View>
     </View> )
 }
@@ -92,14 +95,16 @@ export function EditFieldArray(props) {
                     {getIcon('MaterialCommunityIcons',showHelp ? 'help-circle' :'help-circle-outline',24,styles.colors.gray2)}
                 </Pressable>
             </View>
-            {props.subtext && <StyledText style={[styles.selectionSubtext, styles.marginBottom3]}>{props.subtext}</StyledText>}
-            {fields}
-            <Pressable style={styles.styledButton} onPress={() => props.onAdd()}>
-                {getIcon('MaterialIcons','add',20,'white')}
-                <StyledText style={styles.styledButtonText}>ADD ITEM</StyledText>
-            </Pressable>
-            
-            {showHelp && helpContent}
+            <View style={styles.formBody}>
+                {props.subtext && <StyledText style={[styles.selectionSubtext, styles.marginBottom3]}>{props.subtext}</StyledText>}
+                {fields}
+                <Pressable style={styles.styledButton} onPress={() => props.onAdd()}>
+                    {getIcon('MaterialIcons','add',20,'white')}
+                    <StyledText style={styles.styledButtonText}>ADD ITEM</StyledText>
+                </Pressable>
+                
+                {showHelp && helpContent}
+            </View>
         </View>
     </View> )
 }
@@ -227,7 +232,10 @@ export function SelectionList(props) {
                     {getIcon('MaterialCommunityIcons','help-circle-outline',24,props.invert ? styles.whiteColor : styles.colors.gray2)}
                 </Pressable>
             </View>            
-            <View style={[props.orientation=='row' && styles.row, props.wrap && styles.wrap, styles.spaceBetween, optionContent.length == 2 && styles.twoOptions]}>{optionContent}</View>
+            <View style={styles.formBody}>
+                <View style={[props.orientation=='row' && styles.row, props.wrap && styles.wrap, styles.spaceBetween, optionContent.length == 2 && styles.twoOptions]}>{optionContent}</View>
+                
+            </View>
         </View> )
 
 }

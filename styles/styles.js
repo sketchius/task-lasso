@@ -128,6 +128,20 @@ const styleArray = {
         alignSelf: 'center',
         borderRadius: space.size3
     },
+    formBody: {
+        marginLeft: space.size2,
+        marginRight: space.size4,
+        padding: space.size4,
+        paddingBottom: space.size5,
+        borderBottomWidth: .5,
+        borderLeftWidth: .5,
+        borderRightWidth: .5,
+        borderColor: colors.gray3
+    },
+    editScreenHeaderText: {
+        margin: space.size4,
+        fontSize: 30
+    },
     editField: {
         margin: space.size2,
         marginLeft: space.size4,
@@ -502,11 +516,30 @@ const styleArray = {
         justifyContent: 'center',
         marginRight: space.size3
     },
+    iconPickerDisplayIcon: {
+        height: 56,
+        width: 56,
+        backgroundColor: colors.blue4,
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginRight: space.size4,
+        borderWidth: 2,
+        borderRadius: space.size3,
+        borderColor: colors.blue4
+    },
     iconPickerOption: {
         height: 30,
         width: 30,
         alignItems: 'center',
         justifyContent: 'center',
+    },
+    iconPickerOptionSelected: {
+        height: 30,
+        width: 30,
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderWidth: 1,
+        borderColor: colors.gray
     },
     checkboxBox: {
         height: 30,
@@ -637,7 +670,7 @@ const styleArray = {
         backgroundColor: 'white'
     },
     size80: {
-        width: '32%'
+        flex: 1
     },
     width300: {
         width: '100%'
@@ -671,11 +704,30 @@ const styleArray = {
         width: 24
     },
     itemButton: {
+        backgroundColor: colors.teal4,
         borderColor: colors.teal,
-        borderWidth: 1.5
+        borderWidth: 2
+    },
+    subtleButton: {
+        borderColor: 'transparent',
+        backgroundColor: 'transparent'
+    },
+    horizontalButton: {
+        flexDirection: 'row',
+        width: 'auto',
+        flex: 0,
+        paddingLeft: space.size3,
+        paddingRight: space.size3
     },
     itemButtonText: {
-        backgroundColor: colors.teal5,
+        fontFamily: 'TitilliumWebSemibold',
+        fontSize: font.size2,
+        color: colors.teal3,
+        color: colors.teal
+    },
+    smallButton: {
+        flex: 0,
+        width: 40
     },
     criticalButton: {
         backgroundColor: colors.red3
@@ -748,7 +800,8 @@ const styleArray = {
         borderLeftWidth: 4,
         borderRightWidth: 4,
         borderTopWidth: 1,
-        borderColor: colors.teal3
+        borderColor: colors.teal4,
+        //borderColor: colors.teal3
     },
     hiddenHighlight: {
         paddingLeft: space.size2,
@@ -792,7 +845,7 @@ const styleArray = {
         backgroundColor: colors.blue4,
         borderLeftWidth: 4,
         borderRightWidth: 4,
-        borderColor: colors.blue
+        borderColor: colors.blue4
     },
     orangeHighlight: {
         paddingLeft: space.size2,
@@ -885,10 +938,8 @@ const styleArray = {
         borderBottomWidth: 1,
         borderLeftWidth: 1,
         borderRightWidth: 1,
-        borderTopColor: colors.gray4,
-        borderBottomColor: colors.gray4,
-        borderLeftColor: colors.gray4,
-        borderRightColor: colors.gray4,
+        backgroundColor: colors.gray6,
+        borderColor: 'transparent',
         borderRadius: space.size2
     },
     colors,
