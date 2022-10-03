@@ -70,6 +70,19 @@ export async function loadTasks() {
     }
 }
 
+export async function removeAllTasks() {
+    try { 
+        const keys = await AsyncStorage.getAllKeys();
+        const taskKeys = keys.filter( key => key.includes('tasks/'));
+        const taskData = await AsyncStorage.multiGet(taskKeys);
+        taskData.forEach( async (entry) => {
+            await AsyncStorage.removeItem(entry[0]); 
+        });
+    } catch(e) {
+        alert(`failed to read tasks: ${e}`)
+    }   
+}
+
 export async function saveData(key,data) {
     try {
         await AsyncStorage.setItem('@' + key, data)

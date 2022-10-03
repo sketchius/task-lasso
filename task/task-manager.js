@@ -1,7 +1,13 @@
-import { setAppProperty } from "../redux/data";
+import { setTaskProperty, setAppProperty, setTaskPropertyAll } from "../redux/data";
+import store from "../redux/store";
 
-export function assignTasks(designation, ambition) {
-    setTaskPropertyAll('assigned',false);
+import isToday from 'date-fns/isToday';
+import differenceInCalendarDays from 'date-fns/differenceInCalendarDays';
+
+export function assignTasks( designation, ambition) {
+    const tasks = store.getState().tasks;
+
+    setTaskPropertyAll(tasks,'assigned',false);
 
     let assignedValue = (store.getState().app.assignedValue || 0);
 
@@ -48,7 +54,7 @@ export function assignTasks(designation, ambition) {
 
         let deadlineWeight = 1;
         if (task.type == 'DEADLINE')
-            deadlineWeight = 1 + 7 / Math.pow(differenceInCalendarDays(task.dateDue,new Date()),2);
+            deadlineWeight = .5 + 7 / Math.pow(differenceInCalendarDays(task.dateDue,new Date()),2);
 
         let flexibleWeight = 1;
         if (task.type == 'FLEXIBLE' && task.dateCreated)
@@ -132,4 +138,5 @@ export function assignTasks(designation, ambition) {
 
     setAppProperty('assignedValue',assignedValue);
     setAppProperty('status','ASSIGNED');
+    setAppProperty('lastUpdateDate', new Date());
 }

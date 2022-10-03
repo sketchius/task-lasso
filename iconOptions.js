@@ -2465,4 +2465,10 @@ export const iconOptions = [
         iconName: 'mushroom',
         tags: ['shroom'],
     },
+    {
+        subcategory: 'tech',
+        iconFamily: 'MaterialCommunityIcons',
+        iconName: 'volume-high',
+        tags: ['audio','sound','volume','music'],
+    },
 ];

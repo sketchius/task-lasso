@@ -90,7 +90,8 @@ export default function App() {
       }, []);
 
     const checkForEndOfDay = () => {
-        if (store.getState().app.status == 'ASSIGNED') {//} && !isToday(lastUpdateDate)) {
+        let lastUpdate = store.getState().app.lastUpdateDate
+        if (store.getState().app.status == 'ASSIGNED' && !isToday(lastUpdate)) {
             endDay()
         }
         let newDate = new Date();
@@ -146,7 +147,7 @@ export default function App() {
         console.log('ending day')
         setAppProperty('assignedValue',0)
 
-        setTaskPropertyAll('assigned',false);
+        setTaskPropertyAll(tasks,'assigned',false);
         setAppProperty('status','CHECK-IN');
     };
 

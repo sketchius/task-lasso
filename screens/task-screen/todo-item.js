@@ -125,7 +125,10 @@ export default function TodoItem(props) {
                 break;
             case 'todo/DEADLINE':
                 buttons.push(getButtonOfType(buttons.length,'edit'))
-                buttons.push(getButtonOfType(buttons.length,'extend'))
+                if (isToday(task.dateDue))
+                    buttons.push(getButtonOfType(buttons.length,'extend'))
+                else
+                    buttons.push(getButtonOfType(buttons.length,'defer'))
                 break;
             case 'tasklist/DEADLINE':
                 buttons.push(getButtonOfType(buttons.length,'delete'))
@@ -169,8 +172,18 @@ export default function TodoItem(props) {
                     label='Delete' iconFamily='FontAwesome' iconName='times'/>;
             case 'defer':
                 return <StyledButton key={index}
-                onPress={ () => { updateCheckboxState(2); setTaskProperty('status',2) }}
-                label='Defer' iconFamily='AntDesign' iconName='arrowright'/>;
+                onPress={ () => {
+                    if (task.status == 2) {
+                        updateCheckboxState(0); 
+                        setTaskProperty(task,'status',0);
+                    }
+                    else {
+                        updateCheckboxState(2);
+                        setTaskProperty(task,'status',2);
+                    }
+                }
+                }
+                label={task.status == 2 ? 'Undefer' : 'Defer'} iconFamily='AntDesign' iconName='arrowright'/>;
             case 'schedule':
                 return <StyledButton key={index} label='Schedule' iconFamily='Feather' iconName='calendar'/>;
             case 'reschedule':

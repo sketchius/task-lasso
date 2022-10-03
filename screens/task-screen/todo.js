@@ -15,6 +15,8 @@ import StyledProgressBar from '../../components/StyledProgressBar';
 import getIcon from '../../tools/Icons';
 import { setAppProperty } from '../../redux/data';
 
+import { assignTasks } from '../../task/task-manager';
+
 export default function ToDoList(navigation,route) {
 
     const status = useSelector(state => state.app.status);
@@ -25,8 +27,7 @@ export default function ToDoList(navigation,route) {
 
 
     const handleCheckIn = () => {
-        DeviceEventEmitter.emit("event.dayEvent", {event:'assignTasks', designation,ambition});
-        setAppProperty('status','ASSIGNED');
+        assignTasks(designation,ambition);
     }
 
     const toDoListItems = () => taskList

@@ -106,13 +106,11 @@ export default function TaskEditor({ route, navigation }) {
                 }
             });
 
-        let event = 'updateTask';
         if (action == 'new') {
             task.uniqid = uuid.v4();
             task.assigned = false;
             task.status = 0;
             task.dateCreated = new Date();
-            event = 'newTask';
         } else {
             task.uniqid = taskId;
         }
@@ -121,7 +119,7 @@ export default function TaskEditor({ route, navigation }) {
             setRamProperty('navigationTab',1);
             newTask(task);
 
-        } else if (action = 'edit') {
+        } else if (action == 'edit' || action == 'expand') {
             updateTask(task);
         }
         navigation.goBack();
@@ -149,7 +147,10 @@ export default function TaskEditor({ route, navigation }) {
         }
     }
 
-
+    const handleIconPickerOnChange = (family,name) => {
+        setIconFamily(family);
+        setIconName(name);
+    }
 
 
     return (
@@ -161,7 +162,7 @@ export default function TaskEditor({ route, navigation }) {
                 <StyledText style={styles.editScreenHeaderText}>{action == 'new' ? 'NEW TASK' : 'EDIT TASK'}</StyledText>
                 <View style={styles.flex1}/>
                 <StyledButton
-                onPress={ () => {onSave}}
+                onPress={onSave}
                 styling='horizontal' label='SAVE' iconFamily='MaterialCommunityIcons' iconName='check'/>
             </View>
             <ScrollView style = {{flex: 1}}>
@@ -236,7 +237,7 @@ export default function TaskEditor({ route, navigation }) {
                             `Add additional information need to complete the task.\nI.e. an address, phone number, or set of instructions.`
                         ]}
                     ></EditField>
-                    <IconPicker label={'TASK ICON'} labelIconFamily={'MaterialIcons'} labelIconName={'image'} taskTitle={title}/>
+                    <IconPicker label={'TASK ICON'} family={iconFamily} name={iconName} labelIconFamily={'MaterialIcons'} labelIconName={'image'} onChange={handleIconPickerOnChange} taskTitle={title}/>
                     <SelectionList styles={styles} label={'CHECKLIST'} labelIconFamily={'MaterialCommunityIcons'} labelIconName={'view-list-outline'}  selection={checklistMode} onPress={setChecklistMode} orientation={'row'} columns={2} iconStyle={1}
                     selections={[
                         {

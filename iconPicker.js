@@ -16,8 +16,6 @@ export default function IconPicker(props) {
     const [displayIconFamilyPrevious,setDisplayIconFamilyPrevious] = useState('MaterialCommunityIcons');
     const [displayIconNamePrevious,setDisplayIconNamePrevious] = useState('card-text');
 
-    const [displayIconFamily,setDisplayIconFamily] = useState('MaterialCommunityIcons');
-    const [displayIconName,setDisplayIconName] = useState('card-text');
     const [showHelp,setShowHelp] = useState(false);
 
     const categories = [
@@ -107,7 +105,7 @@ export default function IconPicker(props) {
         iconOptions.forEach( option => {
             for (let i = 0; i < option.tags.length; i++) {
                 const tag = option.tags[i];
-                if (props.taskTitle.includes(tag)){
+                if (props.taskTitle.toLowerCase().includes(tag)){
                     suggestedIconOptions.push({option,score:(1/(i+1))});
                     console.log(`Adding suggestion: ${option.iconName} from ${option.iconFamily} (TAG=${tag})`)
                     break;
@@ -122,14 +120,11 @@ export default function IconPicker(props) {
     }
 
     const getOptionElement = (family,name) => {
-        const selected = family == displayIconFamily && name == displayIconName;
+        const selected = family == props.family && name == props.name;
         return <Pressable
                 style={[styles.padding2, selected ? styles.iconPickerOptionSelected : styles.iconPickerOption]}
                 onPress={() => {
-                    console.log(`setting displayIconFamily to: ${family}`)
-                    console.log(`setting displayIconName to: ${name}`)
-                    setDisplayIconFamily(family);
-                    setDisplayIconName(name);
+                    props.onChange(family,name)
                 }}>
                 {getIcon(family,name,family == 'FontAwesome5' ? 20: 24,'black')}
             </Pressable>;
@@ -160,18 +155,21 @@ export default function IconPicker(props) {
             <View style={styles.formBody}>
             <View style={[styles.alignedRow, styles.marginLeft2]}>
                 <View style={styles.iconPickerDisplayIcon}>
-                    {getIcon(displayIconFamily,displayIconName,36,styles.colors.gray)}
+                    {getIcon(props.family,props.name,36,styles.colors.gray)}
                 </View>
                     {expanded ?
                     [<StyledButton
                     onPress={ () => {
                         setExpanded(false);
-                        setDisplayIconName(displayIconNamePrevious);
-                        setDisplayIconFamily(displayIconFamilyPrevious);
+                        props.onChange(displayIconNamePrevious,displayIconFamilyPrevious);
                     }}
                     label='Cancel' iconFamily='MaterialCommunityIcons' iconName='cancel'/>,
                     <StyledButton
-                    onPress={ () => { setExpanded(false) }}
+                    onPress={ () => {
+                        setExpanded(false)
+                        setDisplayIconNamePrevious(props.name);
+                        setDisplayIconFamilyPrevious(props.family);
+                    }}
                     label='Save' iconFamily='MaterialCommunityIcons' iconName='check'/>]
                     :
                     <StyledButton

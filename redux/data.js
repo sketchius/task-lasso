@@ -1,6 +1,6 @@
 import { useDispatch } from 'react-redux';
 import { getTaskByUniqid } from '../tools/tools';
-import {saveTaskToLocal, saveAppProperty, loadAppData, loadTasks, recycleTaskAtLocal} from './local-storage';
+import {saveTaskToLocal, saveTasksToLocal, saveAppProperty, loadAppData, loadTasks, recycleTaskAtLocal} from './local-storage';
 import store from './store';
 
 
@@ -23,7 +23,7 @@ export function setTaskProperty(task, property, value) {
     saveTaskToLocal(task);
 }
 
-export function setTaskPropertyAll(property, value) {
+export function setTaskPropertyAll(tasks, property, value) {
     store.dispatch({ type: `task/taskPropertyChangedAll`, property, payload: value });
     saveTasksToLocal(tasks);
 }

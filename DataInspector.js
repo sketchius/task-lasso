@@ -1,5 +1,7 @@
 import { ScrollView, Text } from 'react-native';
 import { useSelector } from 'react-redux';
+import StyledButton from './components/StyledButton';
+import { removeAllTasks } from './redux/local-storage';
 
 export default function DataInspector(props) {
     const tasks = useSelector(state => state);
