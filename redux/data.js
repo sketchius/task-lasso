@@ -69,6 +69,8 @@ export function completeTask(task) {
 }
 
 export function setAppProperty(property, value) {
+	if (typeof value != 'string' && typeof value != 'number')
+		throw `setAppProperty(property: ${property}, value ${value}): value must be a string or number.`;
 	store.dispatch({
 		type: `app/appPropertyChanged`,
 		property,
@@ -96,5 +98,5 @@ export async function loadAppDataFromLocal() {
 	// console.log(`Loading app data!`);
 	// console.log(`This is the object representing data from local storage:`);
 	// console.log(JSON.stringify(appData, null, 4));
-	store.dispatch({ type: `app/appDataLoadedFromStsorage`, payload: appData });
+	store.dispatch({ type: `app/appDataLoadedFromStorage`, payload: appData });
 }

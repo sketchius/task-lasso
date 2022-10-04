@@ -21,6 +21,7 @@ import {
 import { Logs } from 'expo';
 
 import isToday from 'date-fns/isToday';
+import parseISO from 'date-fns/parseISO';
 import differenceInCalendarDays from 'date-fns/differenceInCalendarDays';
 
 import TaskEditor from './screens/edit-screen/edit';
@@ -38,7 +39,9 @@ import {
 	setRamProperty,
 	loadAppDataFromLocal,
 	loadTaskDataFromLocal,
+	completeTask,
 } from './redux/data';
+import { parseJSON } from 'date-fns';
 
 const { UIManager } = NativeModules;
 
@@ -106,12 +109,18 @@ export default function App() {
 	}, []);
 
 	const checkForEndOfDay = () => {
-		let lastUpdate = store.getState().app.lastUpdateDate;
-		if (store.getState().app.status == 'ASSIGNED' && !isToday(lastUpdate)) {
+		let lastCheckIn = store.getState().app.lastCheckInDate;
+		console.log(parseJSON(lastCheckIn));
+		console.log(`dtype = ${typeof new Date()}`);
+		if (
+			store.getState().app.status == 'ASSIGNED' &&
+			false &&
+			!isToday(lastCheckIn)
+		) {
 			endDay();
 		}
 		let newDate = new Date();
-		setAppProperty('lastUpdateDate', newDate);
+		setAppProperty('lastUpdateDate', newDate.toJSON());
 		//saveLastUpdateDate(newDate);
 	};
 
@@ -131,6 +140,7 @@ export default function App() {
 				switch (task.status) {
 					case 1: // Complete
 						if (task.status == 1) {
+							completeTask(task);
 							completedTasks++;
 						}
 						break;

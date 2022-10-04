@@ -16,6 +16,7 @@ export function processAppData(appData) {
 	appData.status = appData.status || 'CHECK-IN';
 	if (!appData.lastUpdateDate) appData.lastUpdateDate = new Date();
 	else appData.lastUpdateDate = new Date(appData.lastUpdateDate);
-
+	console.log(`Final processedAppDate from local-storage:`);
+	console.log(JSON.stringify(appData, null, 4));
 	return appData;
 }
