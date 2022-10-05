@@ -111,11 +111,9 @@ export default function App() {
 	const checkForEndOfDay = () => {
 		let lastCheckIn = store.getState().app.lastCheckInDate;
 		console.log(parseJSON(lastCheckIn));
-		console.log(`dtype = ${typeof new Date()}`);
 		if (
 			store.getState().app.status == 'ASSIGNED' &&
-			false &&
-			!isToday(lastCheckIn)
+			!isToday(parseJSON(lastCheckIn))
 		) {
 			endDay();
 		}
@@ -181,7 +179,7 @@ export default function App() {
 		setAppProperty('summaryDeferredTasks', deferredTasks);
 		setAppProperty('summaryMissedTasks', missedTasks);
 
-		let lastUpdate = store.getState().lastUpdateDate;
+		let lastUpdate = store.getState().app.lastCheckInDate;
 		setAppProperty('summaryDate', lastUpdate);
 
 		console.log('ending day');

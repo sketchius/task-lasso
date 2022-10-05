@@ -9,6 +9,7 @@ export function processTaskData(task) {
 		task.iconLibrary = 'MaterialCommunityIcons';
 		task.iconName = 'note-outline';
 	}
+	if (task.status == 4) task.status = 0;
 	return task;
 }
 
