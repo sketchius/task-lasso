@@ -61,3 +61,7 @@ Examples:
 -   Repeating Tasks
 -   Button to assign additional tasks for the day
 -   Task requirements (must complete one task before another)
+-   "Expand Tasks" - Automatic task shown on to do list if there are any draft tasks
+-   An optional model for longer tasks that need to be worked on for several days (checking complete would mean that you worked on it for the day)
+-   Full date picker implementation.
+-   Work vs Non-work tasks
