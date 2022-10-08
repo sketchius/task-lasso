@@ -40,8 +40,13 @@ import {
 	loadAppDataFromLocal,
 	loadTaskDataFromLocal,
 	completeTask,
+	saveTasksToServer,
 } from './redux/data';
 import { parseJSON } from 'date-fns';
+import { unassign } from './task/task-manager';
+import StyledText from './components/StyledText';
+import { getTaskByUniqid } from './tools/tools';
+import StyledButton from './components/StyledButton';
 
 const { UIManager } = NativeModules;
 
@@ -108,7 +113,12 @@ export default function App() {
 		return () => clearInterval(interval);
 	}, []);
 
+	useEffect(() => {
+		getTaskByUniqid();
+	}, []);
+
 	const checkForEndOfDay = () => {
+		// unassign();
 		let lastCheckIn = store.getState().app.lastCheckInDate;
 		console.log(parseJSON(lastCheckIn));
 		if (
@@ -137,13 +147,14 @@ export default function App() {
 			.forEach(task => {
 				switch (task.status) {
 					case 1: // Complete
-						if (task.status == 1) {
-							completeTask(task);
-							completedTasks++;
-						}
+						completeTask(task);
+						completedTasks++;
+						break;
+					case 0.5: // Done Today
+						setTaskProperty(task, 'status', 0);
+						completedTasks++;
 						break;
 					case 0:
-					case 0.5:
 					case 2: // Deferred
 						if (
 							task.type == 'FLEXIBLE' ||
@@ -310,6 +321,12 @@ export default function App() {
 
 	return dataLoaded && fontsLoaded ? (
 		<SafeAreaView style={[styles.safe]}>
+			<StyledButton
+				onPress={() => {
+					saveTasksToServer(store.getState().tasks);
+				}}>
+				Upload
+			</StyledButton>
 			<NavigationContainer screenOptions={{ headerShown: false }}>
 				<Stack.Navigator>
 					<Stack.Screen

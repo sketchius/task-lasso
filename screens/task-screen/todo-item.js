@@ -27,6 +27,7 @@ import MultistateCheckbox from '../../components/MultistateCheckbox';
 import StyledText from '../../components/StyledText';
 import StyledButton from '../../components/StyledButton';
 import { completeTask, deleteTask, setTaskProperty } from '../../redux/data';
+import { saveTask } from '../../network/network';
 
 export default function TodoItem(props) {
 	const [expanded, setExpanded] = useState(false);
@@ -56,22 +57,16 @@ export default function TodoItem(props) {
 	const [buttonMode, setButtonMode] = useState('normal');
 
 	const handleCheckboxStateChange = () => {
-		console.log(
-			`**********************************************************`
-		);
-		console.log(`Running on change!`);
-		console.log(
-			`**********************************************************`
-		);
 		let newState;
 		switch (task.checkboxStyle) {
 			default:
 			case 0:
 				if (checkboxState == 0) newState = 1;
-				else if (checkboxState == 1) newState = 0;
+				else newState = 0;
 				break;
 			case 1:
-				newState = checkboxState == 1 ? 0 : checkboxState + 0.5;
+				if (checkboxState == 0) newState = 0.5;
+				else newState = 0;
 				break;
 		}
 
@@ -190,10 +185,11 @@ export default function TodoItem(props) {
 					<StyledButton
 						key={index}
 						onPress={() => {
-							navigation.navigate('Editor', {
-								action: 'edit',
-								uniqid: task.uniqid,
-							});
+							// navigation.navigate('Editor', {
+							// 	action: 'edit',
+							// 	uniqid: task.uniqid,
+							// });
+							saveTask(task);
 						}}
 						data='edit'
 						label='Edit'

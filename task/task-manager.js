@@ -8,6 +8,14 @@ import store from '../redux/store';
 import isToday from 'date-fns/isToday';
 import differenceInCalendarDays from 'date-fns/differenceInCalendarDays';
 
+export function unassign() {
+	const tasks = store.getState().tasks;
+	setTaskPropertyAll(tasks, 'assigned', false);
+	setAppProperty('status', 'CHECK-IN');
+
+	setAppProperty('assignedValue', 0);
+}
+
 export function assignTasks(designation, ambition) {
 	const tasks = store.getState().tasks;
 
@@ -24,10 +32,10 @@ export function assignTasks(designation, ambition) {
 			assignmentBudget = 60;
 			break;
 		case 1:
-			assignmentBudget = 90;
+			assignmentBudget = 150;
 			break;
 		case 2:
-			assignmentBudget = 120;
+			assignmentBudget = 240;
 			break;
 	}
 

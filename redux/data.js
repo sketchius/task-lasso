@@ -9,6 +9,7 @@ import {
 	completeTaskAtLocal,
 	recycleTaskAtLocal,
 } from './local-storage';
+import * as Server from './../network/network';
 import store from './store';
 
 export function newTask(task) {
@@ -33,11 +34,7 @@ export function setTaskProperty(task, property, value) {
 		property,
 		payload: value,
 	});
-	console.log(`Task before:`);
-	console.log(JSON.stringify(task, null, 4));
 	task = getTaskByUniqid(task.uniqid);
-	console.log(`Task after:`);
-	console.log(JSON.stringify(task, null, 4));
 	saveTaskToLocal(task);
 }
 
@@ -99,4 +96,10 @@ export async function loadAppDataFromLocal() {
 	// console.log(`This is the object representing data from local storage:`);
 	// console.log(JSON.stringify(appData, null, 4));
 	store.dispatch({ type: `app/appDataLoadedFromStorage`, payload: appData });
+}
+
+export async function saveTasksToServer(tasks) {
+	tasks.forEach(task => {
+		Server.saveTask(task);
+	});
 }
