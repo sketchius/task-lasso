@@ -100,6 +100,6 @@ export async function loadAppDataFromLocal() {
 
 export async function saveTasksToServer(tasks) {
 	tasks.forEach(task => {
-		Server.saveTask(task);
+		Server.enqueueAction({ data: task });
 	});
 }

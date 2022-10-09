@@ -46,6 +46,7 @@ import { unassign } from './task/task-manager';
 import StyledText from './components/StyledText';
 import { getTaskByUniqid } from './tools/tools';
 import StyledButton from './components/StyledButton';
+import { establishServerConnection } from './network/network';
 
 const { UIManager } = NativeModules;
 
@@ -106,10 +107,18 @@ export default function App() {
 	}, []);
 
 	useEffect(() => {
-		const interval = setInterval(() => {
+		const refreshInterval = setInterval(() => {
 			checkForEndOfDay();
 		}, 60000);
-		return () => clearInterval(interval);
+
+		const pingInterval = setInterval(() => {
+			const connected = store.getState().ram.connected;
+			if (!connected) establishServerConnection();
+		}, 10000);
+		return () => {
+			clearInterval(refreshInterval);
+			clearInterval(pingInterval);
+		};
 	}, []);
 
 	const checkForEndOfDay = () => {
@@ -316,6 +325,13 @@ export default function App() {
 
 	return dataLoaded && fontsLoaded ? (
 		<SafeAreaView style={[styles.safe]}>
+			<StyledButton
+				onPress={() => {
+					console.log('Button pressed!');
+					saveTasksToServer(tasks);
+				}}
+				style={{ height: 100 }}
+				label={'Connect'}></StyledButton>
 			<NavigationContainer screenOptions={{ headerShown: false }}>
 				<Stack.Navigator>
 					<Stack.Screen
