@@ -439,9 +439,9 @@ export default function TaskEditor({ route, navigation }) {
 
 						<SelectionList
 							styles={styles}
-							label={'CHECKBOX STYLE'}
+							label={'Task Scale'}
 							labelIconFamily={'MaterialCommunityIcons'}
-							labelIconName={'checkbox-marked'}
+							labelIconName={'arrow-expand-horizontal'}
 							selection={checkboxStyle}
 							onPress={setCheckboxStyle}
 							orientation={'column'}
@@ -453,10 +453,11 @@ export default function TaskEditor({ route, navigation }) {
 									index: 0,
 									stateValue: 0,
 									iconFamily: 'MaterialCommunityIcons',
-									iconName: 'numeric-2-box-outline',
+									iconName: 'circle-medium',
 									iconSize: 35,
-									text: '2-State',
-									subtext: 'Can marked undone or done.',
+									text: 'Normal',
+									subtext:
+										'Task can be completed in one day.',
 									selectedStyle: styles.blueHighlight,
 									deselectedStyle: styles.hiddenHighlight,
 									activeColor: 'blue',
@@ -465,10 +466,10 @@ export default function TaskEditor({ route, navigation }) {
 									index: 1,
 									stateValue: 1,
 									iconFamily: 'MaterialCommunityIcons',
-									iconName: 'numeric-3-box-outline',
+									iconName: 'dots-horizontal',
 									iconSize: 35,
-									text: '3-State',
-									subtext: 'Can be undone, started, or done.',
+									text: 'Extended',
+									subtext: `Task will take multiple days to complete. Task will persist until you click 'Mark Complete'.`,
 									selectedStyle: styles.blueHighlight,
 									deselectedStyle: styles.hiddenHighlight,
 									activeColor: 'blue',

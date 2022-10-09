@@ -37,18 +37,8 @@ export async function printKeys() {
 	console.log(`keys = ${JSON.stringify(keys)}`);
 }
 
-export async function saveStatusToLocal(status) {
-	try {
-		await AsyncStorage.setItem('@status', status);
-	} catch (e) {
-		console.log(`   Error while saving status: ${e}`);
-		// Handle Error
-	}
-}
-
 export async function saveLastUpdateDate(date) {
 	if (typeof date != 'string') date = date.toISOString();
-	console.log(`Saving ${date} to local storgae at key: @lastUpdateDate`);
 	try {
 		await AsyncStorage.setItem('@lastUpdateDate', date);
 	} catch (e) {
@@ -67,7 +57,7 @@ export async function loadTasks() {
 		});
 		return tasks;
 	} catch (e) {
-		alert(`failed to read tasks: ${e}`);
+		console.log(`   Error while loading tasks: ${e}`);
 	}
 }
 
@@ -84,45 +74,18 @@ export async function removeAllTasks() {
 	}
 }
 
-export async function saveData(key, data) {
-	try {
-		await AsyncStorage.setItem('@' + key, data);
-	} catch (e) {
-		// Handle Error
-	}
-}
-
-export async function loadData(key) {
-	try {
-		return await AsyncStorage.getItem('@' + key);
-	} catch (e) {
-		// error reading value
-	}
-}
-
 export async function loadAppData() {
 	try {
 		const keys = await AsyncStorage.getAllKeys();
 
-		console.log(`ALL KEYS = `);
-		console.log(JSON.stringify(keys, null, 4));
-		console.log(`##########################`);
 		const appKeys = keys.filter(key => key.includes('app/'));
 
-		console.log(`APP KEYS = `);
-		console.log(JSON.stringify(appKeys, null, 4));
-		console.log(`##########################`);
 		const appDataArray = await AsyncStorage.multiGet(appKeys);
-		console.log(`appDataArray = `);
-		console.log(JSON.stringify(appDataArray, null, 4));
-		console.log(`##########################`);
 		const appDataObject = {};
 		appDataArray.forEach(entry => {
 			appDataObject[entry[0].replace('@app/', '')] = entry[1];
 		});
-		console.log(`appDataArray afte replace = `);
-		console.log(JSON.stringify(appDataObject, null, 4));
-		console.log(`##########################`);
+
 		return processAppData(appDataObject);
 	} catch (e) {
 		alert(`failed to read tasks: ${e}`);

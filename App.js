@@ -13,7 +13,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import {
 	saveTasksToLocal,
-	saveStatusToLocal,
 	saveLastUpdateDate,
 	loadTasks,
 	printKeys,
@@ -111,10 +110,6 @@ export default function App() {
 			checkForEndOfDay();
 		}, 60000);
 		return () => clearInterval(interval);
-	}, []);
-
-	useEffect(() => {
-		getTaskByUniqid();
 	}, []);
 
 	const checkForEndOfDay = () => {
@@ -321,12 +316,6 @@ export default function App() {
 
 	return dataLoaded && fontsLoaded ? (
 		<SafeAreaView style={[styles.safe]}>
-			<StyledButton
-				onPress={() => {
-					saveTasksToServer(store.getState().tasks);
-				}}>
-				Upload
-			</StyledButton>
 			<NavigationContainer screenOptions={{ headerShown: false }}>
 				<Stack.Navigator>
 					<Stack.Screen

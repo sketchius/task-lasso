@@ -8,6 +8,7 @@ import {
 import { useNavigation } from '@react-navigation/native';
 
 import { isToday } from 'date-fns';
+import { formatRelative } from '../../tools/date';
 import differenceInHours from 'date-fns/differenceInHours';
 
 import {
@@ -94,8 +95,13 @@ export default function TodoItem(props) {
 					<MultistateCheckbox
 						state={checklistCheckboxState[checklistItem.index]}
 						onStateChange={handleChecklistCheckboxStateChange}
+						style={[
+							styles.padding2,
+							styles.marginTop3,
+							styles.paddingHorizontal4,
+						]}
+						checkboxStyle={styles.checkboxBoxSmall}
 						index={checklistItem.index}
-						style={[]}
 						size={16}
 						iconColor={styles.colors.teal}
 						label={checklistItem.text}
@@ -411,10 +417,7 @@ export default function TodoItem(props) {
 								today ? styles.yellow2Text : styles.teal2Text,
 							]}>
 							{expanded ? 'DEADLINE: ' : ''}DUE BY{' '}
-							{getDateInContext(
-								task.dateDue,
-								false
-							).toUpperCase()}
+							{formatRelative(task.dateDue, false).toUpperCase()}
 						</StyledText>
 					</View>
 				);
@@ -431,10 +434,11 @@ export default function TodoItem(props) {
 						]}>
 						{getIcon('Octicons', 'clock', 12, styles.colors.gray2)}
 						<StyledText style={styles.taskTypeText}>
-							SCHEDULED TODAY
-							{scheduledTime
-								? ` AT ${scheduledTime.toUpperCase()}`
-								: ``}
+							SCHEDULED{' '}
+							{formatRelative(
+								task.dateDue,
+								new Date()
+							).toUpperCase()}
 						</StyledText>
 					</View>
 				);
@@ -471,6 +475,7 @@ export default function TodoItem(props) {
 						styles.marginTop3,
 						styles.paddingHorizontal4,
 					]}
+					checkboxStyle={styles.checkboxBox}
 					size={20}></MultistateCheckbox>
 			) : (
 				<View style={styles.compactTaskElement}></View>

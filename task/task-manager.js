@@ -12,7 +12,6 @@ export function unassign() {
 	const tasks = store.getState().tasks;
 	setTaskPropertyAll(tasks, 'assigned', false);
 	setAppProperty('status', 'CHECK-IN');
-
 	setAppProperty('assignedValue', 0);
 }
 
@@ -52,8 +51,9 @@ export function assignTasks(designation, ambition) {
 	}
 	const assignTask = task => {
 		console.log(`assigning '${task.title}`);
-		assignedValue += task.duration;
+		assignedValue = parseInt(assignedValue) + task.duration;
 		setTaskProperty(task, 'assigned', true);
+		setTaskProperty(task, 'dateLastAssigned', new Date());
 	};
 
 	const scoreTask = task => {
@@ -85,13 +85,25 @@ export function assignTasks(designation, ambition) {
 		let durationWeight = 1;
 		if (task.duration) durationWeight = 1 - task.duration / 100;
 
+		let reassignmentWeight = 1;
+		if (task.dateLastAssigned)
+			reassignmentWeight =
+				1 -
+				1 /
+					(differenceInCalendarDays(
+						new Date(),
+						task.dateLastAssigned
+					) +
+						1);
+
 		const score =
 			baseScore *
 			priorityWeight *
 			deadlineWeight *
 			flexibleWeight *
 			defermentWeight *
-			durationWeight;
+			durationWeight *
+			reassignmentWeight;
 
 		setTaskProperty(task, 'score', score);
 

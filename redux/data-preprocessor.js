@@ -10,6 +10,19 @@ export function processTaskData(task) {
 		task.iconName = 'note-outline';
 	}
 	if (task.status == 4) task.status = 0;
+	// if (
+	// 	task.title.includes('Mamaw') ||
+	// 	task.title.includes('standing') ||
+	// 	task.title.includes('trees')
+	// ) {
+	// 	task.dateLastAssigned = new Date('2022-10-08T14:46:02.954Z');
+	// }
+	// if (task.title.includes('progress')) {
+	// 	task.dateDue = new Date('2022-10-11T14:46:02.954Z');
+	// }
+	if (task.title.includes('Test')) {
+		console.log(task);
+	}
 	return task;
 }
 
