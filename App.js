@@ -46,7 +46,7 @@ import { unassign } from './task/task-manager';
 import StyledText from './components/StyledText';
 import { getTaskByUniqid } from './tools/tools';
 import StyledButton from './components/StyledButton';
-import { establishServerConnection } from './network/network';
+import { enqueueAction, establishServerConnection } from './network/network';
 
 const { UIManager } = NativeModules;
 
@@ -312,6 +312,27 @@ export default function App() {
 		}
 	};
 
+	const testServer = () => {
+		enqueueAction({
+			type: 'newTask',
+			data: {
+				uniqid: '4',
+				title: 'Test task',
+			},
+		});
+		enqueueAction({
+			type: 'updateTask',
+			data: {
+				uniqid: '4',
+				title: 'Test test task',
+			},
+		});
+		enqueueAction({
+			type: 'recycleTask',
+			uniqid: 4,
+		});
+	};
+
 	// const handleDayEvent = (eventData) => {
 	//     switch (eventData.event) {
 	//         case 'assignTasks':
@@ -325,13 +346,6 @@ export default function App() {
 
 	return dataLoaded && fontsLoaded ? (
 		<SafeAreaView style={[styles.safe]}>
-			<StyledButton
-				onPress={() => {
-					console.log('Button pressed!');
-					saveTasksToServer(tasks);
-				}}
-				style={{ height: 100 }}
-				label={'Connect'}></StyledButton>
 			<NavigationContainer screenOptions={{ headerShown: false }}>
 				<Stack.Navigator>
 					<Stack.Screen

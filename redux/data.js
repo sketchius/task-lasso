@@ -15,6 +15,10 @@ import store from './store';
 export function newTask(task) {
 	store.dispatch({ type: `task/taskCreated`, payload: task });
 	saveTaskToLocal(task);
+	Server.enqueueAction({
+		type: 'createTask',
+		data: task,
+	});
 }
 
 export function updateTask(task) {
@@ -25,6 +29,10 @@ export function updateTask(task) {
 	});
 	task = getTaskByUniqid(task.uniqid);
 	saveTaskToLocal(task);
+	Server.enqueueAction({
+		type: 'writeTask',
+		data: task,
+	});
 }
 
 export function setTaskProperty(task, property, value) {
@@ -36,6 +44,10 @@ export function setTaskProperty(task, property, value) {
 	});
 	task = getTaskByUniqid(task.uniqid);
 	saveTaskToLocal(task);
+	Server.enqueueAction({
+		type: 'patchTask',
+		data: { uniqid: task.uniqid, [property]: value },
+	});
 }
 
 export function setTaskPropertyAll(tasks, property, value) {
@@ -45,6 +57,12 @@ export function setTaskPropertyAll(tasks, property, value) {
 		payload: value,
 	});
 	saveTasksToLocal(tasks);
+	tasks.forEach(task => {
+		Server.enqueueAction({
+			type: 'patchTask',
+			data: { uniqid: task.uniqid, [property]: value },
+		});
+	});
 }
 
 export function deleteTask(task) {
@@ -54,6 +72,10 @@ export function deleteTask(task) {
 		uniqid: task.uniqid,
 		payload: task,
 	});
+	Server.enqueueAction({
+		type: 'recycleTask',
+		data: { uniqid: task.uniqid },
+	});
 }
 
 export function completeTask(task) {
@@ -62,6 +84,11 @@ export function completeTask(task) {
 		type: `task/taskDeleted`,
 		uniqid: task.uniqid,
 		payload: task,
+	});
+
+	Server.enqueueAction({
+		type: 'completeTask',
+		data: { uniqid: task.uniqid },
 	});
 }
 
@@ -100,6 +127,6 @@ export async function loadAppDataFromLocal() {
 
 export async function saveTasksToServer(tasks) {
 	tasks.forEach(task => {
-		Server.enqueueAction({ data: task });
+		Server.enqueueAction({ type: 'createTask', data: task });
 	});
 }

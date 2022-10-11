@@ -13,11 +13,13 @@ export const establishServerConnection = async () => {
 	setTimeout(() => controller.abort(), 5000);
 	console.log('Attempting to connect.');
 	try {
-		const response = await fetch(`http://192.168.0.191:3000/connect`, {
+		const response = await fetch(`http://172.25.59.20:3000/connect`, {
 			signal,
 		});
 		const res = await response.json();
-		if (res.resultCode == 10) {
+
+		console.log(`Ping result: ${res}`);
+		if (res.resultCode == 200) {
 			console.log('Connected to server.');
 			setRamProperty('connected', true);
 			if (actionQueue.length > 0 && !processing) processQueue();
@@ -41,8 +43,9 @@ const processQueue = async () => {
 	processing = true;
 	console.log(`processQueue: Length ${actionQueue.length}`);
 	if (actionQueue.length > 0 && store.getState().ram.connected) {
-		const result = await saveTask(actionQueue[0].data);
-		if (result == 10 || result == 21) actionQueue.shift();
+		const result = await executeAction(actionQueue[0]);
+		console.log('result was', result);
+		if (result >= 200 && result < 300) actionQueue.shift();
 		setTimeout(() => {
 			processQueue();
 		}, 0);
@@ -51,62 +54,55 @@ const processQueue = async () => {
 	}
 };
 
-export const fetchTaskByUniqid = async uniqid => {
-	try {
-		const response = await fetch(
-			`http://192.168.0.191:3000/task/read/${taskId}`
-		);
-		const json = await response.json();
-	} catch (error) {
-		console.error(error);
+const executeAction = async action => {
+	console.log(`doing action`, action);
+	switch (action.type) {
+		case 'createTask':
+			console.log(`createTask...`);
+			return await sendRequest('POST', 'task', action.data, 'create');
+		case 'writeTask':
+			return await sendRequest('PUT', 'task', action.data);
+		case 'patchTask':
+			return await sendRequest('PATCH', 'task', action.data);
+		case 'recycleTask':
+			return await sendRequest('POST', 'task', action.data, 'recycle');
+		case 'completeTask':
+			return await sendRequest('POST', 'task', action.data, 'complete');
+		default:
+			return 400;
 	}
 };
 
-// export const saveTas2k = async task => {
-// 	try {
-// 		const response = await fetch(`http://192.168.0.191:3000/task/create`, {
-// 			method: 'POST',
-// 			headers: {
-// 				Accept: 'application/json',
-// 				'Content-Type': 'application/json',
-// 			},
-// 			body: JSON.stringify(task),
-// 		});
-// 		const json = await response.json();
-// 	} catch (error) {
-// 		console.error(error);
-// 	}
-// };
-
-export const saveTask = async task => {
+const sendRequest = async (method, route, body, action) => {
+	console.log(`in send request`);
 	const controller = new AbortController();
 	const signal = controller.signal;
-	let resultCode = 0;
+	let statusCode = 0;
 	requestActive = true;
 	setTimeout(() => controller.abort(), 5000);
-	console.log('Attempting to POST a task.');
 	try {
+		console.log(`running fetch`);
 		const response = await fetch(
-			`http://192.168.0.191:3000/task/create`,
+			`http://172.25.59.20:3000/${route}`,
 			{
-				method: 'POST',
+				method,
 				headers: {
 					Accept: 'application/json',
 					'Content-Type': 'application/json',
+					action: action || 'none',
 				},
-				body: JSON.stringify(task),
+				body: JSON.stringify(body),
 			},
 			{
 				signal,
 			}
 		);
-		const res = await response.json();
-		resultCode = res.resultCode;
+		statusCode = response.status;
 	} catch (error) {
-		resultCode = 30;
+		console.log(`error: ${error}`);
+		statusCode = 400;
 		setRamProperty('connected', false);
 	}
-	console.log(`Task POST result: ${resultCode}`);
 	requestActive = false;
-	return resultCode;
+	return statusCode;
 };
