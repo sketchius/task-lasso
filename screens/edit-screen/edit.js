@@ -1,11 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {
-	Button,
-	StyleSheet,
-	ScrollView,
-	DeviceEventEmitter,
-	View,
-} from 'react-native';
+import { Button, StyleSheet, ScrollView, DeviceEventEmitter, View, Modal } from 'react-native';
 import { useIsFocused } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
 import uuid from 'react-native-uuid';
@@ -17,20 +11,16 @@ import * as chrono from 'chrono-node';
 import formatDistance from 'date-fns/formatDistance';
 import formatRelative from 'date-fns/formatRelative';
 
-import {
-	DateTimeComponent,
-	EditField,
-	EditFieldArray,
-	SelectionList,
-} from './../../components/Form';
+import { DateTimeComponent, EditField, EditFieldArray, SelectionList, IconPicker } from './../../components/Form';
 import { getTaskByUniqid } from './../../tools/tools';
 
 import { navigate } from './../task-screen/navigation';
 
+import EmojiModal from 'react-native-emoji-modal';
+
 import { styles } from './../../styles/styles';
 import getIcon from '../../tools/Icons';
 import { newTask, setRamProperty, updateTask } from '../../redux/data';
-import IconPicker from '../../iconPicker';
 import StyledText from '../../components/StyledText';
 import StyledButton from '../../components/StyledButton';
 import { addDays, differenceInCalendarDays, format } from 'date-fns';
@@ -45,28 +35,23 @@ export default function TaskEditor({ route, navigation }) {
 	const [taskType, setTaskType] = useState('flexible');
 	const [title, setTitle] = useState('');
 	const [checklistMode, setChecklistMode] = useState(0);
-	const [checklistContent, setChecklistContent] = useState([
-		'Take out the trash',
-		'Do the dishes',
-	]);
+	const [checklistContent, setChecklistContent] = useState(['Take out the trash', 'Do the dishes']);
 	const [description, setDescription] = useState('');
 	const [taskId, setTaskId] = useState('');
 	const [taskPriority, setTaskPriority] = useState(1);
 	const [taskDuration, setTaskDuration] = useState(15);
-	const [iconFamily, setIconFamily] = useState('');
-	const [iconName, setIconName] = useState('');
 	const [dateDue, setDateDue] = useState('');
 	const [dateSeed, setDateSeed] = useState('');
 	const [frequency, setFrequency] = useState('');
 	const [checkboxStyle, setCheckboxStyle] = useState(0);
 
+	const [emoji, setEmoji] = useState('🗒️');
+	const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+
 	const isFocused = useIsFocused();
 
 	useEffect(() => {
-		if (
-			route.params.action == 'edit' ||
-			(route.params.action == 'expand' && route.params.uniqid)
-		) {
+		if (route.params.action == 'edit' || (route.params.action == 'expand' && route.params.uniqid)) {
 			const task = getTaskByUniqid(route.params.uniqid);
 			if (task) {
 				setTitle(task.title);
@@ -76,10 +61,10 @@ export default function TaskEditor({ route, navigation }) {
 				else setTaskType(task.type.toLowerCase());
 				setTaskPriority(task.priority);
 				setTaskDuration(task.duration);
-				setIconFamily(task.iconLibrary);
-				setIconName(task.iconName);
-				if (task.dateDue)
-					setDateDue(formatRelative(task.dateDue, new Date()));
+				setEmoji(task.emoji || '🗒️');
+				setFrequency(task.frequency + '');
+				if (task.dateSeed) setDateSeed(format(new Date(task.dateSeed), 'MM/dd/yyyy'));
+				if (task.dateDue) setDateDue(formatRelative(task.dateDue, new Date()));
 			}
 		}
 		setAction(route.params.action);
@@ -109,9 +94,8 @@ export default function TaskEditor({ route, navigation }) {
 			dateSeed: dateSeed ? chrono.parseDate(dateSeed) : undefined,
 			frequency: frequency ? parseInt(frequency) : undefined,
 			useTime: false,
-			iconLibrary: iconFamily,
+			emoji,
 			checkboxStyle,
-			iconName,
 			dateModified: new Date().newDate,
 		};
 
@@ -164,24 +148,27 @@ export default function TaskEditor({ route, navigation }) {
 		}
 	};
 
-	const handleIconPickerOnChange = (family, name) => {
-		setIconFamily(family);
-		setIconName(name);
-	};
-
 	const handleFrequencyChange = newFrequency => {
 		if (newFrequency < 1 && newFrequency != '') setFrequency('1');
 		else setFrequency(newFrequency + '');
 	};
 
+	const getEmojiPickerElement = () => {
+		return (
+			<EmojiModal
+				onEmojiSelected={emoji => {
+					setEmoji(emoji);
+					setShowEmojiPicker(false);
+					console.log(emoji);
+				}}
+				onPressOutside={() => setShowEmojiPicker(false)}
+			/>
+		);
+	};
+
 	return (
 		<View style={{ flexDirection: 'column', height: '100%' }}>
-			<View
-				style={[
-					{ backgroundColor: styles.colors.teal5 },
-					styles.alignedRow,
-					styles.padding4,
-				]}>
+			<View style={[{ backgroundColor: styles.colors.teal5 }, styles.alignedRow, styles.padding4]}>
 				<StyledButton
 					onPress={() => {}}
 					styling='subtle'
@@ -219,8 +206,7 @@ export default function TaskEditor({ route, navigation }) {
 							iconName: 'pencil',
 							iconSize: 32,
 							text: 'Draft',
-							subtext:
-								'A quick note of a task, to be expanded on later',
+							subtext: 'A quick note of a task, to be expanded on later',
 							activeColor: 'blue',
 							hide: action == 'expand',
 						},
@@ -241,8 +227,7 @@ export default function TaskEditor({ route, navigation }) {
 							iconName: 'dot-circle-o',
 							iconSize: 32,
 							text: 'Deadline',
-							subtext:
-								'A task that needs to be done by a certain date',
+							subtext: 'A task that needs to be done by a certain date',
 							activeColor: 'blue',
 						},
 						{
@@ -252,8 +237,7 @@ export default function TaskEditor({ route, navigation }) {
 							iconName: 'pushpin',
 							iconSize: 32,
 							text: 'Scheduled',
-							subtext:
-								'A task that needs to be done on a certain date',
+							subtext: 'A task that needs to be done on a certain date',
 							activeColor: 'blue',
 						},
 						{
@@ -297,14 +281,13 @@ export default function TaskEditor({ route, navigation }) {
 								`Add additional information need to complete the task.\nI.e. an address, phone number, or set of instructions.`,
 							]}></EditField>
 						<IconPicker
+							labelIconFamily='FontAwesome5'
+							labelIconName='icons'
 							label={'TASK ICON'}
-							family={iconFamily}
-							name={iconName}
-							labelIconFamily={'MaterialIcons'}
-							labelIconName={'image'}
-							onChange={handleIconPickerOnChange}
-							taskTitle={title}
+							onPress={() => setShowEmojiPicker(true)}
+							emoji={emoji}
 						/>
+						<Modal visible={showEmojiPicker}>{getEmojiPickerElement()}</Modal>
 						<SelectionList
 							styles={styles}
 							label={'CHECKLIST'}
@@ -333,8 +316,7 @@ export default function TaskEditor({ route, navigation }) {
 									iconName: 'check',
 									iconSize: 24,
 									text: 'Attach Checklist ',
-									subtext:
-										'A set of subtasks to be done in any order',
+									subtext: 'A set of subtasks to be done in any order',
 									activeColor: 'blue',
 								},
 							]}></SelectionList>
@@ -436,8 +418,7 @@ export default function TaskEditor({ route, navigation }) {
 									activeColor: 'blue',
 								},
 							]}></SelectionList>
-						{(taskType == 'scheduled' ||
-							taskType == 'deadline') && (
+						{(taskType == 'scheduled' || taskType == 'deadline') && (
 							<EditField
 								styles={styles}
 								text={dateDue}
@@ -456,7 +437,6 @@ export default function TaskEditor({ route, navigation }) {
 								number={true}
 								helpTips={[]}></EditField>
 						)}
-
 						{taskType == 'repeating' && (
 							<EditField
 								styles={styles}
@@ -466,7 +446,6 @@ export default function TaskEditor({ route, navigation }) {
 								multiline={false}
 								helpTips={[]}></EditField>
 						)}
-
 						<SelectionList
 							styles={styles}
 							label={'Task Scale'}
@@ -486,8 +465,7 @@ export default function TaskEditor({ route, navigation }) {
 									iconName: 'circle-medium',
 									iconSize: 35,
 									text: 'Normal',
-									subtext:
-										'Task can be completed in one day.',
+									subtext: 'Task can be completed in one day.',
 									selectedStyle: styles.blueHighlight,
 									deselectedStyle: styles.hiddenHighlight,
 									activeColor: 'blue',

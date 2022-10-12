@@ -109,7 +109,6 @@ export function setRamProperty(property, value) {
 		property,
 		payload: value,
 	});
-	//saveAppProperties(status);
 }
 
 export async function loadTaskDataFromLocal() {

@@ -5,7 +5,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { useSelector, shallowEqual } from 'react-redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import { saveTasksToLocal, saveLastUpdateDate, loadTasks, printKeys } from './redux/local-storage';
+import { saveTasksToLocal, saveLastUpdateDate, loadTasks, printKeys, saveTaskToLocal } from './redux/local-storage';
 import { Logs } from 'expo';
 
 import isToday from 'date-fns/isToday';
@@ -97,7 +97,7 @@ export default function App() {
 		}, 60000);
 
 		const pingInterval = setInterval(() => {
-			const connected = store.getState().ram.connected;
+			const connected = store.getState().ram.connectedToServer;
 			if (!connected) establishServerConnection();
 		}, 10000);
 		return () => {
@@ -177,10 +177,10 @@ export default function App() {
 		setAppProperty('status', 'CHECK-IN');
 	};
 
-	const loadDataFromStorage = () => {
+	const loadDataFromStorage = async () => {
 		console.log(`App.js -> loadAppDataFromLocal()`);
-		loadAppDataFromLocal();
-		loadTaskDataFromLocal();
+		await loadAppDataFromLocal();
+		await loadTaskDataFromLocal();
 		setRamProperty('localStorageLoaded', true);
 		printKeys();
 	};
@@ -234,6 +234,11 @@ export default function App() {
 				updatedTask(eventData.task);
 				break;
 		}
+	};
+
+	const pushData = () => {
+		// saveTasksToServer(tasks);
+		saveTasksToLocal(tasks);
 	};
 
 	const testServer = () => {

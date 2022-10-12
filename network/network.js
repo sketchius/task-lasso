@@ -1,7 +1,5 @@
-import { setAppProperty, setRamProperty } from '../redux/data';
+import { saveAppProperty } from '../redux/local-storage';
 import store from '../redux/store';
-
-const actionQueue = [];
 
 let requestActive = false;
 let processing = false;
@@ -21,29 +19,61 @@ export const establishServerConnection = async () => {
 		console.log(`Ping result: ${res}`);
 		if (res.resultCode == 200) {
 			console.log('Connected to server.');
-			setRamProperty('connected', true);
-			if (actionQueue.length > 0 && !processing) processQueue();
+			setConnectionStatus(true);
+			if (!processing) processQueue();
 		} else {
 			console.log('Server error.');
-			setRamProperty('connected', false);
+			setConnectionStatus(false);
 		}
 	} catch (error) {
 		console.log('Timeout connecting to server.');
-		setRamProperty('connected', false);
+		setConnectionStatus(false);
 	}
 	requestActive = false;
 };
 
+const setConnectionStatus = status => {
+	store.dispatch({
+		type: `ram/ramPropertyChanged`,
+		property: 'connectedToServer',
+		payload: status,
+	});
+};
+
 export const enqueueAction = action => {
-	actionQueue.push(action);
+	const actionQueue = store.getState().app.actionQueue || [];
+	console.log(`actionQueue = `);
+	console.log(actionQueue);
+	actionQueuePush(action);
 	if (!processing) processQueue();
 };
 
+const actionQueuePush = action => {
+	store.dispatch({
+		type: `app/actionAdded`,
+		payload: action,
+	});
+	const actionQueue = store.getState().app.actionQueue;
+	saveAppProperty('actionQueue', JSON.stringify(actionQueue));
+};
+
+const actionQueueShift = () => {
+	store.dispatch({
+		type: `app/actionShifted`,
+	});
+	const actionQueue = store.getState().app.actionQueue;
+	saveAppProperty('actionQueue', JSON.stringify(actionQueue));
+};
+
 const processQueue = async () => {
+	console.log(`Processing is ${processing}`);
+	const actionQueue = store.getState().app.actionQueue || [];
 	processing = true;
-	if (actionQueue.length > 0 && store.getState().ram.connected) {
+	if (actionQueue.length > 0 && store.getState().ram.connectedToServer) {
 		const result = await executeAction(actionQueue[0]);
-		if (result >= 200 && result < 300) actionQueue.shift();
+		if (result >= 200 && result < 300) {
+			actionQueueShift();
+		}
 		setTimeout(() => {
 			processQueue();
 		}, 0);
@@ -95,7 +125,7 @@ const sendRequest = async (method, route, body, action) => {
 	} catch (error) {
 		console.log(`error: ${error}`);
 		statusCode = 400;
-		setRamProperty('connected', false);
+		setConnectionStatus(false);
 	}
 	requestActive = false;
 	return statusCode;

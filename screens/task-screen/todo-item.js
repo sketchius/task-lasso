@@ -406,7 +406,9 @@ export default function TodoItem(props) {
 						style={[styles.alignedRow, styles.paddingLeft2, !props.tasklist && styles.marginVertical2]}
 						onPress={() => setExpanded(!expanded)}>
 						<View style={props.tasklist ? styles.taskIconCompact : styles.taskIcon}>
-							{getIcon(task.iconLibrary, task.iconName, props.tasklist ? 16 : 24, styles.colors.gray)}
+							<StyledText style={props.tasklist ? styles.taskEmojiSmall : styles.taskEmoji}>
+								{task.emoji}
+							</StyledText>
 						</View>
 						{getPriorityElement()}
 						<StyledText

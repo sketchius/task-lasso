@@ -49,12 +49,18 @@ export async function saveLastUpdateDate(date) {
 
 export async function loadTasks() {
 	try {
+		console.log('Loading Tasks...');
 		const keys = await AsyncStorage.getAllKeys();
+		console.log(`Found ${keys.length} keys.`);
 		const taskKeys = keys.filter(key => key.includes('tasks/'));
+		console.log(`Found ${taskKeys.length} task keys.`);
 		const taskData = await AsyncStorage.multiGet(taskKeys);
 		const tasks = taskData.map(entry => {
 			return processTaskData(JSON.parse(entry[1]));
 		});
+
+		console.log(`Final processed task count: ${tasks.length}`);
+		let i = 1 / 0;
 		return tasks;
 	} catch (e) {
 		console.log(`   Error while loading tasks: ${e}`);
@@ -93,6 +99,9 @@ export async function loadAppData() {
 }
 
 export async function saveAppProperty(property, data) {
+	console.log(`Save App Data to Storage.`);
+	console.log(`property = ${property}`);
+	console.log(`data = ${data}`);
 	await AsyncStorage.setItem(`@app/${property}`, data);
 }
 
