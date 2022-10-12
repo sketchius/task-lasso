@@ -1,22 +1,11 @@
 import React, { useEffect, useState, useRef } from 'react';
-import {
-	SafeAreaView,
-	View,
-	DeviceEventEmitter,
-	NativeModules,
-	AppState,
-} from 'react-native';
+import { SafeAreaView, View, DeviceEventEmitter, NativeModules, AppState } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { useSelector, shallowEqual } from 'react-redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import {
-	saveTasksToLocal,
-	saveLastUpdateDate,
-	loadTasks,
-	printKeys,
-} from './redux/local-storage';
+import { saveTasksToLocal, saveLastUpdateDate, loadTasks, printKeys } from './redux/local-storage';
 import { Logs } from 'expo';
 
 import isToday from 'date-fns/isToday';
@@ -50,8 +39,7 @@ import { enqueueAction, establishServerConnection } from './network/network';
 
 const { UIManager } = NativeModules;
 
-UIManager.setLayoutAnimationEnabledExperimental &&
-	UIManager.setLayoutAnimationEnabledExperimental(true);
+UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true);
 
 Logs.enableExpoCliLogging();
 
@@ -85,21 +73,18 @@ export default function App() {
 	const [appStateVisible, setAppStateVisible] = useState(appState.current);
 
 	useEffect(() => {
-		const subscription = AppState.addEventListener(
-			'change',
-			newAppState => {
-				if (
-					appState.current.match(/inactive|background/) &&
-					newAppState === 'active' &&
-					store.getState().ram.localStorageLoaded
-				) {
-					checkForEndOfDay();
-				}
-
-				appState.current = newAppState;
-				setAppStateVisible(appState.current);
+		const subscription = AppState.addEventListener('change', newAppState => {
+			if (
+				appState.current.match(/inactive|background/) &&
+				newAppState === 'active' &&
+				store.getState().ram.localStorageLoaded
+			) {
+				checkForEndOfDay();
 			}
-		);
+
+			appState.current = newAppState;
+			setAppStateVisible(appState.current);
+		});
 
 		return () => {
 			subscription.remove();
@@ -123,12 +108,10 @@ export default function App() {
 
 	const checkForEndOfDay = () => {
 		// unassign();
+		// saveTasksToServer(store.getState().tasks);
 		let lastCheckIn = store.getState().app.lastCheckInDate;
 		console.log(parseJSON(lastCheckIn));
-		if (
-			store.getState().app.status == 'ASSIGNED' &&
-			!isToday(parseJSON(lastCheckIn))
-		) {
+		if (store.getState().app.status == 'ASSIGNED' && !isToday(parseJSON(lastCheckIn))) {
 			endDay();
 		}
 		let newDate = new Date();
@@ -140,18 +123,15 @@ export default function App() {
 		let completedTasks = 0;
 		let deferredTasks = 0;
 		let missedTasks = 0;
-		console.log(
-			`End day: task count = ${
-				store.getState().tasks.filter(task => task.assigned).length
-			}`
-		);
+		console.log(`End day: task count = ${store.getState().tasks.filter(task => task.assigned).length}`);
 		store
 			.getState()
 			.tasks.filter(task => task.assigned)
 			.forEach(task => {
 				switch (task.status) {
 					case 1: // Complete
-						completeTask(task);
+						if (task.type != 'REPEATING') completeTask(task);
+						else setTaskProperty(task, 'status', 0);
 						completedTasks++;
 						break;
 					case 0.5: // Done Today
@@ -164,17 +144,10 @@ export default function App() {
 							task.type == 'FLEXIBLE' ||
 							(task.type == 'DEADLINE' &&
 								task.dateDue &&
-								differenceInCalendarDays(
-									task.dateDue,
-									lastUpdateDate
-								) > 0)
+								differenceInCalendarDays(task.dateDue, lastUpdateDate) > 0)
 						) {
 							deferredTasks++;
-							setTaskProperty(
-								task,
-								'deferments',
-								(task.deferments || 0) + 1
-							);
+							setTaskProperty(task, 'deferments', (task.deferments || 0) + 1);
 							if (status == 2) {
 								setTaskProperty(task, 'status', 0);
 							}
@@ -212,53 +185,6 @@ export default function App() {
 		printKeys();
 	};
 
-	const addTask = task => {
-		setTasks([...tasks, task]);
-	};
-
-	const editTask = (uniqid, updatedTask) => {
-		let index;
-
-		for (let i = 0; i < tasks.length; i++) {
-			const task = tasks[i];
-			if (task.uniqid === uniqid) {
-				index = i;
-			}
-		}
-
-		if (index) {
-			const newTasks = [...tasks];
-			newTasks[index] = updatedTask;
-			setTasks(newTasks);
-		}
-	};
-
-	const editTaskProperty = (uniqid, property, value) => {
-		let index;
-
-		for (let i = 0; i < tasks.length; i++) {
-			const task = tasks[i];
-			if (task.uniqid === uniqid) {
-				index = i;
-			}
-		}
-
-		if (index) {
-			const newTasks = [...tasks];
-			newTasks[index][property] = value;
-			setTasks(newTasks);
-		}
-	};
-
-	const deleteTask = uniqid => {
-		const newTasks = tasks.filter(task => task.uniqid !== uniqid);
-		setTasks(newTasks);
-	};
-
-	const recieveNewTask = task => {
-		addTask(task);
-	};
-
 	const handleEditTaskButton = title => {
 		const updatedTask = { title, uniqid: 2 };
 		editTask(updatedTask.uniqid, updatedTask);
@@ -272,13 +198,11 @@ export default function App() {
 	const Stack = createStackNavigator();
 
 	useEffect(() => {
-		const taskEventListener = DeviceEventEmitter.addListener(
-			'event.taskEvent',
-			eventData => handleTaskEvent(eventData)
+		const taskEventListener = DeviceEventEmitter.addListener('event.taskEvent', eventData =>
+			handleTaskEvent(eventData)
 		);
-		const dayEventListener = DeviceEventEmitter.addListener(
-			'event.dayEvent',
-			eventData => handleDayEvent(eventData)
+		const dayEventListener = DeviceEventEmitter.addListener('event.dayEvent', eventData =>
+			handleDayEvent(eventData)
 		);
 		return () => {
 			taskEventListener.remove();
@@ -348,16 +272,8 @@ export default function App() {
 		<SafeAreaView style={[styles.safe]}>
 			<NavigationContainer screenOptions={{ headerShown: false }}>
 				<Stack.Navigator>
-					<Stack.Screen
-						name='Main'
-						component={Main}
-						options={{ headerShown: false }}
-					/>
-					<Stack.Screen
-						name='Editor'
-						component={TaskEditor}
-						options={{ headerShown: false }}
-					/>
+					<Stack.Screen name='Main' component={Main} options={{ headerShown: false }} />
+					<Stack.Screen name='Editor' component={TaskEditor} options={{ headerShown: false }} />
 				</Stack.Navigator>
 			</NavigationContainer>
 		</SafeAreaView>

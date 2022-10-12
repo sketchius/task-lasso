@@ -66,7 +66,7 @@ export function setTaskPropertyAll(tasks, property, value) {
 }
 
 export function deleteTask(task) {
-	if (task.type != 'DRAFT') recycleTaskAtLocal(task);
+	recycleTaskAtLocal(task);
 	store.dispatch({
 		type: `task/taskDeleted`,
 		uniqid: task.uniqid,
@@ -119,14 +119,11 @@ export async function loadTaskDataFromLocal() {
 
 export async function loadAppDataFromLocal() {
 	const appData = await loadAppData();
-	// console.log(`Loading app data!`);
-	// console.log(`This is the object representing data from local storage:`);
-	// console.log(JSON.stringify(appData, null, 4));
 	store.dispatch({ type: `app/appDataLoadedFromStorage`, payload: appData });
 }
 
 export async function saveTasksToServer(tasks) {
 	tasks.forEach(task => {
-		Server.enqueueAction({ type: 'createTask', data: task });
+		Server.enqueueAction({ type: 'writeTask', data: task });
 	});
 }

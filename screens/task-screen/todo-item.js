@@ -1,10 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {
-	View,
-	Pressable,
-	DeviceEventEmitter,
-	LayoutAnimation,
-} from 'react-native';
+import { View, Pressable, DeviceEventEmitter, LayoutAnimation } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 import { isToday } from 'date-fns';
@@ -95,11 +90,7 @@ export default function TodoItem(props) {
 					<MultistateCheckbox
 						state={checklistCheckboxState[checklistItem.index]}
 						onStateChange={handleChecklistCheckboxStateChange}
-						style={[
-							styles.padding2,
-							styles.marginTop3,
-							styles.paddingHorizontal4,
-						]}
+						style={[styles.padding2, styles.marginTop3, styles.paddingHorizontal4]}
 						checkboxStyle={styles.checkboxBoxSmall}
 						index={checklistItem.index}
 						size={16}
@@ -124,9 +115,7 @@ export default function TodoItem(props) {
 	};
 
 	const getTaskButtons = () => {
-		let buttonConfigType = `${props.tasklist ? 'tasklist/' : 'todo/'}${
-			task.type
-		}`;
+		let buttonConfigType = `${props.tasklist ? 'tasklist/' : 'todo/'}${task.type}`;
 		const buttons = [];
 		if (buttonMode == 'delete') {
 			buttonConfigType = 'special/DELETE';
@@ -139,7 +128,8 @@ export default function TodoItem(props) {
 				buttons.push(getButtonOfType(buttons.length, 'expand'));
 				break;
 			case 'todo/FLEXIBLE':
-				buttons.push(getButtonOfType(buttons.length, 'edit'));
+				if (task.checkboxStyle == 0) buttons.push(getButtonOfType(buttons.length, 'edit'));
+				else buttons.push(getButtonOfType(buttons.length, 'mark complete'));
 				buttons.push(getButtonOfType(buttons.length, 'schedule'));
 				buttons.push(getButtonOfType(buttons.length, 'defer'));
 				break;
@@ -149,9 +139,9 @@ export default function TodoItem(props) {
 				buttons.push(getButtonOfType(buttons.length, 'schedule'));
 				break;
 			case 'todo/DEADLINE':
+				if (task.checkboxStyle == 1) buttons.push(getButtonOfType(buttons.length, 'mark complete'));
 				buttons.push(getButtonOfType(buttons.length, 'edit'));
-				if (isToday(task.dateDue))
-					buttons.push(getButtonOfType(buttons.length, 'extend'));
+				if (isToday(task.dateDue)) buttons.push(getButtonOfType(buttons.length, 'extend'));
 				else buttons.push(getButtonOfType(buttons.length, 'defer'));
 				break;
 			case 'tasklist/DEADLINE':
@@ -191,11 +181,10 @@ export default function TodoItem(props) {
 					<StyledButton
 						key={index}
 						onPress={() => {
-							// navigation.navigate('Editor', {
-							// 	action: 'edit',
-							// 	uniqid: task.uniqid,
-							// });
-							saveTask(task);
+							navigation.navigate('Editor', {
+								action: 'edit',
+								uniqid: task.uniqid,
+							});
 						}}
 						data='edit'
 						label='Edit'
@@ -234,30 +223,22 @@ export default function TodoItem(props) {
 					/>
 				);
 			case 'schedule':
-				return (
-					<StyledButton
-						key={index}
-						label='Schedule'
-						iconFamily='Feather'
-						iconName='calendar'
-					/>
-				);
+				return <StyledButton key={index} label='Schedule' iconFamily='Feather' iconName='calendar' />;
 			case 'reschedule':
-				return (
-					<StyledButton
-						key={index}
-						label='Reschedule'
-						iconFamily='Feather'
-						iconName='calendar'
-					/>
-				);
+				return <StyledButton key={index} label='Reschedule' iconFamily='Feather' iconName='calendar' />;
 			case 'extend':
+				return <StyledButton key={index} label='Extend' iconFamily='Ionicons' iconName='play-skip-forward' />;
+			case 'mark complete':
 				return (
 					<StyledButton
 						key={index}
-						label='Extend'
-						iconFamily='Ionicons'
-						iconName='play-skip-forward'
+						onPress={() => {
+							updateCheckboxState(1);
+							setTaskProperty(task, 'status', 1);
+						}}
+						label={'Mark Complete'}
+						iconFamily='MaterialCommunityIcons'
+						iconName='check-bold'
 					/>
 				);
 			case 'expand':
@@ -315,16 +296,8 @@ export default function TodoItem(props) {
 								styles.alignedRow,
 								{ alignSelf: 'flex-start', width: 60 },
 							]}>
-							{getIcon(
-								'MaterialCommunityIcons',
-								'card-text-outline',
-								12,
-								styles.colors.teal
-							)}
-							<StyledText
-								style={[styles.taskTypeText, styles.teal2Text]}>
-								DETAILS
-							</StyledText>
+							{getIcon('MaterialCommunityIcons', 'card-text-outline', 12, styles.colors.teal)}
+							<StyledText style={[styles.taskTypeText, styles.teal2Text]}>DETAILS</StyledText>
 						</View>
 						<StyledText
 							style={[
@@ -352,16 +325,8 @@ export default function TodoItem(props) {
 								styles.alignedRow,
 								{ alignSelf: 'flex-start', width: 60 },
 							]}>
-							{getIcon(
-								'FontAwesome',
-								'list-ul',
-								12,
-								styles.colors.teal
-							)}
-							<StyledText
-								style={[styles.taskTypeText, styles.teal2Text]}>
-								CHECKLIST
-							</StyledText>
+							{getIcon('FontAwesome', 'list-ul', 12, styles.colors.teal)}
+							<StyledText style={[styles.taskTypeText, styles.teal2Text]}>CHECKLIST</StyledText>
 						</View>
 						<View
 							style={{
@@ -373,9 +338,7 @@ export default function TodoItem(props) {
 						</View>
 					</View>
 				)}
-				<View style={[styles.alignedRow, styles.marginVertical3]}>
-					{getTaskButtons()}
-				</View>
+				<View style={[styles.alignedRow, styles.marginVertical3]}>{getTaskButtons()}</View>
 			</View>
 		);
 	}
@@ -385,39 +348,17 @@ export default function TodoItem(props) {
 			case 'FLEXIBLE':
 				return expanded ? (
 					<View style={[styles.taskTypeElement]}>
-						{getIcon(
-							'FontAwesome',
-							'arrows',
-							12,
-							styles.colors.teal
-						)}
-						<StyledText
-							style={[styles.taskTypeText, styles.teal2Text]}>
-							FLEXIBLE TASK
-						</StyledText>
+						{getIcon('FontAwesome', 'arrows', 12, styles.colors.teal)}
+						<StyledText style={[styles.taskTypeText, styles.teal2Text]}>FLEXIBLE TASK</StyledText>
 					</View>
 				) : undefined;
 			case 'DEADLINE':
 				const today = isToday(task.dateDue);
 				return (
-					<View
-						style={[
-							styles.taskTypeElement,
-							today && styles.yellowAlert,
-						]}>
-						{getIcon(
-							'FontAwesome',
-							'dot-circle-o',
-							12,
-							today ? styles.colors.yellow : styles.colors.teal
-						)}
-						<StyledText
-							style={[
-								styles.taskTypeText,
-								today ? styles.yellow2Text : styles.teal2Text,
-							]}>
-							{expanded ? 'DEADLINE: ' : ''}DUE BY{' '}
-							{formatRelative(task.dateDue, false).toUpperCase()}
+					<View style={[styles.taskTypeElement, today && styles.yellowAlert]}>
+						{getIcon('FontAwesome', 'dot-circle-o', 12, today ? styles.colors.yellow : styles.colors.teal)}
+						<StyledText style={[styles.taskTypeText, today ? styles.yellow2Text : styles.teal2Text]}>
+							{expanded ? 'DEADLINE: ' : ''}DUE BY {formatRelative(task.dateDue, false).toUpperCase()}
 						</StyledText>
 					</View>
 				);
@@ -426,19 +367,10 @@ export default function TodoItem(props) {
 				const hoursAway = differenceInHours(task.dateDue, new Date());
 				return (
 					<View
-						style={[
-							styles.taskTypeElement,
-							hoursAway < 3
-								? styles.redHighlight
-								: styles.yellowHighlight,
-						]}>
+						style={[styles.taskTypeElement, hoursAway < 3 ? styles.redHighlight : styles.yellowHighlight]}>
 						{getIcon('Octicons', 'clock', 12, styles.colors.gray2)}
 						<StyledText style={styles.taskTypeText}>
-							SCHEDULED{' '}
-							{formatRelative(
-								task.dateDue,
-								new Date()
-							).toUpperCase()}
+							SCHEDULED {formatRelative(task.dateDue, new Date()).toUpperCase()}
 						</StyledText>
 					</View>
 				);
@@ -446,23 +378,15 @@ export default function TodoItem(props) {
 				if (expanded) {
 					return (
 						<View style={[styles.taskTypeElement]}>
-							{getIcon(
-								'FontAwesome',
-								'refresh',
-								12,
-								styles.colors.gray2
-							)}
-							<StyledText style={styles.taskTypeText}>
-								REPEATING TASK
-							</StyledText>
+							{getIcon('FontAwesome', 'refresh', 12, styles.colors.gray2)}
+							<StyledText style={styles.taskTypeText}>REPEATING TASK</StyledText>
 						</View>
 					);
 				} else return undefined;
 		}
 	})();
 
-	const hideBottomContent =
-		!task.description && !task.tasklist && !taskTypeContent && !expanded;
+	const hideBottomContent = !task.description && !task.tasklist && !taskTypeContent && !expanded;
 
 	return (
 		<View style={[styles.row, styles.whiteBackground, styles.taskBorder]}>
@@ -470,11 +394,7 @@ export default function TodoItem(props) {
 				<MultistateCheckbox
 					state={checkboxState}
 					onStateChange={handleCheckboxStateChange}
-					style={[
-						styles.padding2,
-						styles.marginTop3,
-						styles.paddingHorizontal4,
-					]}
+					style={[styles.padding2, styles.marginTop3, styles.paddingHorizontal4]}
 					checkboxStyle={styles.checkboxBox}
 					size={20}></MultistateCheckbox>
 			) : (
@@ -483,24 +403,10 @@ export default function TodoItem(props) {
 			<View style={[styles.flex100, styles.leftBorder]}>
 				<View>
 					<Pressable
-						style={[
-							styles.alignedRow,
-							styles.paddingLeft2,
-							!props.tasklist && styles.marginVertical2,
-						]}
+						style={[styles.alignedRow, styles.paddingLeft2, !props.tasklist && styles.marginVertical2]}
 						onPress={() => setExpanded(!expanded)}>
-						<View
-							style={
-								props.tasklist
-									? styles.taskIconCompact
-									: styles.taskIcon
-							}>
-							{getIcon(
-								task.iconLibrary,
-								task.iconName,
-								props.tasklist ? 16 : 24,
-								styles.colors.gray
-							)}
+						<View style={props.tasklist ? styles.taskIconCompact : styles.taskIcon}>
+							{getIcon(task.iconLibrary, task.iconName, props.tasklist ? 16 : 24, styles.colors.gray)}
 						</View>
 						{getPriorityElement()}
 						<StyledText
@@ -524,28 +430,16 @@ export default function TodoItem(props) {
 								},
 							]}>
 							{(!props.tasklist || expanded) && (
-								<View
-									style={[
-										styles.alignedRow,
-										styles.marginTop3,
-									]}>
+								<View style={[styles.alignedRow, styles.marginTop3]}>
 									{task.prority === 2 && (
-										<View
-											style={[
-												styles.marginRight4,
-												styles.alignedRow,
-												styles.orangeBackground,
-											]}>
+										<View style={[styles.marginRight4, styles.alignedRow, styles.orangeBackground]}>
 											<FontAwesome5
 												name='exclamation-circle'
 												size={12}
 												color='#999'
 												style={styles.paddingRight2}
 											/>
-											<StyledText
-												style={styles.alertText}>
-												HIGH PRIORITY
-											</StyledText>
+											<StyledText style={styles.alertText}>HIGH PRIORITY</StyledText>
 										</View>
 									)}
 									{taskTypeContent}
@@ -557,32 +451,15 @@ export default function TodoItem(props) {
 												12,
 												styles.colors.teal
 											)}
-											<StyledText
-												style={[
-													styles.taskTypeText,
-													styles.teal2Text,
-												]}>
+											<StyledText style={[styles.taskTypeText, styles.teal2Text]}>
 												DETAILS
 											</StyledText>
 										</View>
 									)}
 									{task.checklist && !expanded && (
-										<View
-											style={[
-												styles.marginRight4,
-												styles.alignedRow,
-											]}>
-											{getIcon(
-												'FontAwesome',
-												'list-ul',
-												12,
-												styles.colors.teal
-											)}
-											<StyledText
-												style={[
-													styles.taskTypeText,
-													styles.teal2Text,
-												]}>
+										<View style={[styles.marginRight4, styles.alignedRow]}>
+											{getIcon('FontAwesome', 'list-ul', 12, styles.colors.teal)}
+											<StyledText style={[styles.taskTypeText, styles.teal2Text]}>
 												CHECKLIST
 											</StyledText>
 										</View>

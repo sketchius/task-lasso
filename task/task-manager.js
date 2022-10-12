@@ -1,8 +1,4 @@
-import {
-	setTaskProperty,
-	setAppProperty,
-	setTaskPropertyAll,
-} from '../redux/data';
+import { setTaskProperty, setAppProperty, setTaskPropertyAll } from '../redux/data';
 import store from '../redux/store';
 
 import isToday from 'date-fns/isToday';
@@ -19,7 +15,6 @@ export function assignTasks(designation, ambition) {
 	const tasks = store.getState().tasks;
 
 	setTaskPropertyAll(tasks, 'assigned', false);
-
 	let assignedValue = store.getState().app.assignedValue || 0;
 
 	console.log(`Currently assigned value = ${assignedValue}`);
@@ -61,23 +56,18 @@ export function assignTasks(designation, ambition) {
 
 		if (task.type == 'SCHEDULED') baseScore = 20;
 
+		if (task.type == 'REPEATING') baseScore = 10;
+
 		let priorityWeight = 1;
 		if (task.priority) priorityWeight = (task.priority + 1) / 2;
 
 		let deadlineWeight = 1;
 		if (task.type == 'DEADLINE')
-			deadlineWeight =
-				0.5 +
-				7 /
-					Math.pow(
-						differenceInCalendarDays(task.dateDue, new Date()),
-						2
-					);
+			deadlineWeight = 0.5 + 7 / Math.pow(differenceInCalendarDays(new Date(task.dateDue), new Date()), 2);
 
 		let flexibleWeight = 1;
 		if (task.type == 'FLEXIBLE' && task.dateCreated)
-			flexibleWeight =
-				1 + differenceInCalendarDays(new Date(), task.dateCreated) / 30;
+			flexibleWeight = 1 + differenceInCalendarDays(new Date(), new Date(task.dateCreated)) / 30;
 
 		let defermentWeight = 1;
 		if (task.deferments) defermentWeight = 1 + task.deferments / 3;
@@ -88,13 +78,7 @@ export function assignTasks(designation, ambition) {
 		let reassignmentWeight = 1;
 		if (task.dateLastAssigned)
 			reassignmentWeight =
-				1 -
-				1 /
-					(differenceInCalendarDays(
-						new Date(),
-						task.dateLastAssigned
-					) +
-						1);
+				1 - (1 / (differenceInCalendarDays(new Date(), new Date(task.dateLastAssigned)) + 1)) * 0.99;
 
 		const score =
 			baseScore *
@@ -107,21 +91,31 @@ export function assignTasks(designation, ambition) {
 
 		setTaskProperty(task, 'score', score);
 
+		console.log(`Task "${task.title}" SCORE: ${score}`);
+		console.log(`baseScore = ${baseScore}`);
+		console.log(`priorityWeight = ${priorityWeight}`);
+		console.log(`deadlineWeight = ${deadlineWeight}`);
+		console.log(`flexibleWeight = ${flexibleWeight}`);
+		console.log(`defermentWeight = ${defermentWeight}`);
+		console.log(`durationWeight = ${durationWeight}`);
+		console.log(`reassignmentWeight = ${reassignmentWeight}`);
+
+		console.log(`============================`);
 		return score;
 	};
-
-	console.log(`tasks variable contains ${tasks.length} items`);
 
 	tasks
 		.filter(task => {
 			return (
-				(((task.status || 0) < 1 && task.type == 'SCHEDULED') ||
-					task.type == 'DEADLINE') &&
-				isToday(task.dateDue)
+				(task.status || 0) < 1 &&
+				(((task.type == 'SCHEDULED' || task.type == 'DEADLINE') && isToday(task.dateDue)) ||
+					(task.type == 'REPEATING' &&
+						task.dateSeed &&
+						task.frequency > 0 &&
+						differenceInCalendarDays(new Date(), new Date(task.dateSeed)) % task.frequency == 0))
 			);
 		})
 		.forEach(task => {
-			console.log(`Assigning due today task:`);
 			scoreTask(task);
 			assignTask(task);
 		});
@@ -133,34 +127,9 @@ export function assignTasks(designation, ambition) {
 
 		const updatedTasks = store.getState().tasks;
 
-		console.log(
-			`Getting store.tasks. updatedTasks = variable contains ${updatedTasks.length} items`
-		);
-
 		updatedTasks
-			.filter(
-				task =>
-					!(
-						(task.status || 0) < 1 &&
-						task.type != 'SCHEDULED' &&
-						task.type != 'DRAFT'
-					)
-			)
-			.forEach(task =>
-				console.log(
-					`${task.title}, status ${task.status}, type ${task.type}`
-				)
-			);
-
-		updatedTasks
-			.filter(
-				task =>
-					(task.status || 0) < 1 &&
-					task.type != 'SCHEDULED' &&
-					task.type != 'DRAFT'
-			)
+			.filter(task => (task.status || 0) < 1 && task.type != 'SCHEDULED' && task.type != 'DRAFT')
 			.forEach(task => {
-				console.log(`Checking task ${task.title}`);
 				if (!task.assigned) {
 					let taskScore = scoreTask(task);
 					if (taskScore > highestScore) {
@@ -170,8 +139,9 @@ export function assignTasks(designation, ambition) {
 				}
 			});
 
-		if (highestScoreTask) assignTask(highestScoreTask);
-		else break;
+		if (highestScoreTask) {
+			assignTask(highestScoreTask);
+		} else break;
 	}
 
 	setAppProperty('assignedValue', assignedValue);

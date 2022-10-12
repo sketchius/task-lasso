@@ -13,7 +13,7 @@ export const establishServerConnection = async () => {
 	setTimeout(() => controller.abort(), 5000);
 	console.log('Attempting to connect.');
 	try {
-		const response = await fetch(`http://172.25.59.20:3000/connect`, {
+		const response = await fetch(`http://192.168.0.191:3000/connect`, {
 			signal,
 		});
 		const res = await response.json();
@@ -41,10 +41,8 @@ export const enqueueAction = action => {
 
 const processQueue = async () => {
 	processing = true;
-	console.log(`processQueue: Length ${actionQueue.length}`);
 	if (actionQueue.length > 0 && store.getState().ram.connected) {
 		const result = await executeAction(actionQueue[0]);
-		console.log('result was', result);
 		if (result >= 200 && result < 300) actionQueue.shift();
 		setTimeout(() => {
 			processQueue();
@@ -55,10 +53,8 @@ const processQueue = async () => {
 };
 
 const executeAction = async action => {
-	console.log(`doing action`, action);
 	switch (action.type) {
 		case 'createTask':
-			console.log(`createTask...`);
 			return await sendRequest('POST', 'task', action.data, 'create');
 		case 'writeTask':
 			return await sendRequest('PUT', 'task', action.data);
@@ -74,16 +70,14 @@ const executeAction = async action => {
 };
 
 const sendRequest = async (method, route, body, action) => {
-	console.log(`in send request`);
 	const controller = new AbortController();
 	const signal = controller.signal;
 	let statusCode = 0;
 	requestActive = true;
 	setTimeout(() => controller.abort(), 5000);
 	try {
-		console.log(`running fetch`);
 		const response = await fetch(
-			`http://172.25.59.20:3000/${route}`,
+			`http://192.168.0.191:3000/${route}`,
 			{
 				method,
 				headers: {

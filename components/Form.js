@@ -91,6 +91,9 @@ export function EditField(props) {
 							maxLength={props.maxLength}
 							ref={inputField}
 							multiline={props.multiline}
+							keyboardType={
+								props.number ? 'number-pad' : 'default'
+							}
 							onChangeText={text => props.onChange(text)}
 						/>
 					</View>

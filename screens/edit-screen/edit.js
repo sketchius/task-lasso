@@ -33,6 +33,7 @@ import { newTask, setRamProperty, updateTask } from '../../redux/data';
 import IconPicker from '../../iconPicker';
 import StyledText from '../../components/StyledText';
 import StyledButton from '../../components/StyledButton';
+import { addDays, differenceInCalendarDays, format } from 'date-fns';
 
 Logs.enableExpoCliLogging();
 
@@ -55,6 +56,8 @@ export default function TaskEditor({ route, navigation }) {
 	const [iconFamily, setIconFamily] = useState('');
 	const [iconName, setIconName] = useState('');
 	const [dateDue, setDateDue] = useState('');
+	const [dateSeed, setDateSeed] = useState('');
+	const [frequency, setFrequency] = useState('');
 	const [checkboxStyle, setCheckboxStyle] = useState(0);
 
 	const isFocused = useIsFocused();
@@ -102,12 +105,14 @@ export default function TaskEditor({ route, navigation }) {
 			type: taskType.toUpperCase(),
 			priority: taskPriority,
 			duration: taskDuration,
-			dateDue: chrono.parseDate(dateDue),
+			dateDue: dateDue ? chrono.parseDate(dateDue) : undefined,
+			dateSeed: dateSeed ? chrono.parseDate(dateSeed) : undefined,
+			frequency: frequency ? parseInt(frequency) : undefined,
 			useTime: false,
 			iconLibrary: iconFamily,
 			checkboxStyle,
 			iconName,
-			dateModified: new Date(),
+			dateModified: new Date().newDate,
 		};
 
 		if (checklistMode == 1)
@@ -162,6 +167,11 @@ export default function TaskEditor({ route, navigation }) {
 	const handleIconPickerOnChange = (family, name) => {
 		setIconFamily(family);
 		setIconName(name);
+	};
+
+	const handleFrequencyChange = newFrequency => {
+		if (newFrequency < 1 && newFrequency != '') setFrequency('1');
+		else setFrequency(newFrequency + '');
 	};
 
 	return (
@@ -248,7 +258,7 @@ export default function TaskEditor({ route, navigation }) {
 						},
 						{
 							index: 4,
-							stateValue: 'refresh',
+							stateValue: 'repeating',
 							iconFamily: 'FontAwesome',
 							iconName: 'refresh',
 							iconSize: 32,
@@ -433,6 +443,26 @@ export default function TaskEditor({ route, navigation }) {
 								text={dateDue}
 								onChange={setDateDue}
 								label={'DATE DUE'}
+								multiline={false}
+								helpTips={[]}></EditField>
+						)}
+						{taskType == 'repeating' && (
+							<EditField
+								styles={styles}
+								text={frequency}
+								onChange={freq => handleFrequencyChange(freq)}
+								label={'REPEAT FREQUENCY'}
+								multiline={false}
+								number={true}
+								helpTips={[]}></EditField>
+						)}
+
+						{taskType == 'repeating' && (
+							<EditField
+								styles={styles}
+								text={dateSeed}
+								onChange={setDateSeed}
+								label={'SEED DATE'}
 								multiline={false}
 								helpTips={[]}></EditField>
 						)}
