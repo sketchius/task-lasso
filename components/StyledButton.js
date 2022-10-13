@@ -1,5 +1,5 @@
 import { Pressable } from 'react-native';
-import getIcon from '../tools/Icons';
+import getIcon from '../tools/icon';
 import { styles } from '../styles/styles';
 import StyledText from './StyledText';
 
@@ -19,25 +19,12 @@ export default function StyledButton(props) {
 				styles.margin2,
 				styles.itemButton,
 				props.styling == 'critical' && styles.criticalButton,
-				props.styling == 'subtle' && [
-					styles.subtleButton,
-					styles.smallButton,
-				],
+				props.styling == 'subtle' && [styles.subtleButton, styles.smallButton],
 				props.styling == 'horizontal' && styles.horizontalButton,
 			]}>
-			{getIcon(
-				props.iconFamily,
-				props.iconName,
-				props.label ? 20 : 30,
-				styles.colors.gray
-			)}
+			{getIcon(props.iconFamily, props.iconName, props.label ? 20 : 30, styles.colors.gray)}
 			{props.label && (
-				<StyledText
-					style={[
-						styles.itemButtonText,
-						props.styling == 'horizontal' &&
-							styles.paddingHorizontal3,
-					]}>
+				<StyledText style={[styles.itemButtonText, props.styling == 'horizontal' && styles.paddingHorizontal3]}>
 					{props.label.toUpperCase()}
 				</StyledText>
 			)}

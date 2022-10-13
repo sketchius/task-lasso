@@ -1,5 +1,5 @@
-import { saveAppProperty } from '../redux/local-storage';
-import store from '../redux/store';
+import { saveAppProperty } from '../data/local-storage';
+import store from '../data/store';
 
 let requestActive = false;
 let processing = false;

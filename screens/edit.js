@@ -11,18 +11,18 @@ import * as chrono from 'chrono-node';
 import formatDistance from 'date-fns/formatDistance';
 import formatRelative from 'date-fns/formatRelative';
 
-import { DateTimeComponent, EditField, EditFieldArray, SelectionList, IconPicker } from './../../components/Form';
-import { getTaskByUniqid } from './../../tools/tools';
+import { DateTimeComponent, EditField, EditFieldArray, SelectionList, IconPicker } from '../components/Form';
+import { getTaskByUniqid } from '../tools/tools';
 
-import { navigate } from './../task-screen/navigation';
+import { navigate } from './navigation';
 
 import EmojiModal from 'react-native-emoji-modal';
 
-import { styles } from './../../styles/styles';
-import getIcon from '../../tools/Icons';
-import { newTask, setRamProperty, updateTask } from '../../redux/data';
-import StyledText from '../../components/StyledText';
-import StyledButton from '../../components/StyledButton';
+import { styles } from '../styles/styles';
+import getIcon from '../tools/icon';
+import { newTask, setRamProperty, updateTask } from '../data/data-manager';
+import StyledText from '../components/StyledText';
+import StyledButton from '../components/StyledButton';
 import { addDays, differenceInCalendarDays, format } from 'date-fns';
 
 Logs.enableExpoCliLogging();

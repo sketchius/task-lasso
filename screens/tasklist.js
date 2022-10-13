@@ -1,52 +1,102 @@
-import React, {useState,useEffect} from 'react';
-import {ScrollView, Text, View} from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { ScrollView, Text, View } from 'react-native';
 import { useIsFocused } from '@react-navigation/native';
 
-import StyledText from './../../components/StyledText';
-import TasklistSection from './../../screens/task-screen/tasklist-section';
+import StyledText from '../components/StyledText';
+import TasklistSection from './tasklist-section';
 
-import { styles } from '../../styles/styles';
-
+import { styles } from '../styles/styles';
 
 export default function AllTasklist() {
+	const getTaskListElement = taskList => {
+		return <View style={styles.marginTop4}>{taskList}</View>;
+	};
 
+	const getSectionTaskCountElement = taskList => {
+		return (
+			<Text style={[styles.defaultText, styles.circleBorder, styles.taskCountElement]}>{taskList.length}</Text>
+		);
+	};
 
-    const getTaskListElement = (taskList) => {
-        return <View style={styles.marginTop4}>{taskList}</View>
-    }
+	const [expandedTaskID, setExpandedTaskID] = useState(-1);
+	const [sectionExpansion, setSectionExpansion] = useState([true, true, true, true]);
 
-    const getSectionTaskCountElement = (taskList) => {
-        return <Text style={[styles.defaultText, styles.circleBorder, styles.taskCountElement]}>{taskList.length}</Text>
-    }
+	const onTaskEvent = (task, action) => {
+		navigation.navigate('Tasks', {
+			screen: 'Details',
+			params: { task },
+		});
+	};
 
+	// const isFocused = useIsFocused()
 
+	// useEffect(() => {
+	//         setExpandedTaskID(route.params ? route.params.expandedId : -1);
+	//     } , [isFocused])
 
-    const [expandedTaskID,setExpandedTaskID] = useState(-1);
-    const [sectionExpansion,setSectionExpansion] = useState([true,true,true,true]);
-
-    const onTaskEvent = (task, action) => {
-        navigation.navigate('Tasks', {
-            screen: 'Details',
-            params: { task },
-          });
-    }
-    
-    // const isFocused = useIsFocused()
-
-    // useEffect(() => {
-    //         setExpandedTaskID(route.params ? route.params.expandedId : -1);
-    //     } , [isFocused])
-    
-
-    const sections = [
-        <TasklistSection type={'DRAFT'} label={'DRAFT TASKS'} key={0} showDate={false} styles={styles} color={styles.tealHighlight} onTaskEvent={onTaskEvent} expandedId={expandedTaskID}/>,
-        <TasklistSection type={'FLEXIBLE'} label={'FLEXIBLE TASKS'} key={1} showDate={false} styles={styles} color={styles.tealHighlight} onTaskEvent={onTaskEvent} expandedId={expandedTaskID}/>,
-        <TasklistSection type={'DEADLINE'} label={'DEADLINE TASKS'} key={2} showDate={true} styles={styles} color={styles.tealHighlight} onTaskEvent={onTaskEvent} expandedId={expandedTaskID}/>,
-        <TasklistSection type={'SCHEDULED'} label={'SCHEDULED TASKS'} key={3} showDate={true} styles={styles} color={styles.tealHighlight} onTaskEvent={onTaskEvent} expandedId={expandedTaskID}/>,
-        <TasklistSection type={'REPEATING'} label={'REPEATING TASKS'} key={4} showDate={true} styles={styles} color={styles.tealHighlight} onTaskEvent={onTaskEvent} expandedId={expandedTaskID}/>,
-        <TasklistSection type={'COMPLETED'} label={'COMPLETED TASKS'} key={5} showDate={true} styles={styles} color={styles.tealHighlight} onTaskEvent={onTaskEvent} expandedId={expandedTaskID}/>
-    ]
-/*
+	const sections = [
+		<TasklistSection
+			type={'DRAFT'}
+			label={'DRAFT TASKS'}
+			key={0}
+			showDate={false}
+			styles={styles}
+			color={styles.tealHighlight}
+			onTaskEvent={onTaskEvent}
+			expandedId={expandedTaskID}
+		/>,
+		<TasklistSection
+			type={'FLEXIBLE'}
+			label={'FLEXIBLE TASKS'}
+			key={1}
+			showDate={false}
+			styles={styles}
+			color={styles.tealHighlight}
+			onTaskEvent={onTaskEvent}
+			expandedId={expandedTaskID}
+		/>,
+		<TasklistSection
+			type={'DEADLINE'}
+			label={'DEADLINE TASKS'}
+			key={2}
+			showDate={true}
+			styles={styles}
+			color={styles.tealHighlight}
+			onTaskEvent={onTaskEvent}
+			expandedId={expandedTaskID}
+		/>,
+		<TasklistSection
+			type={'SCHEDULED'}
+			label={'SCHEDULED TASKS'}
+			key={3}
+			showDate={true}
+			styles={styles}
+			color={styles.tealHighlight}
+			onTaskEvent={onTaskEvent}
+			expandedId={expandedTaskID}
+		/>,
+		<TasklistSection
+			type={'REPEATING'}
+			label={'REPEATING TASKS'}
+			key={4}
+			showDate={true}
+			styles={styles}
+			color={styles.tealHighlight}
+			onTaskEvent={onTaskEvent}
+			expandedId={expandedTaskID}
+		/>,
+		<TasklistSection
+			type={'COMPLETED'}
+			label={'COMPLETED TASKS'}
+			key={5}
+			showDate={true}
+			styles={styles}
+			color={styles.tealHighlight}
+			onTaskEvent={onTaskEvent}
+			expandedId={expandedTaskID}
+		/>,
+	];
+	/*
     const capturedTaskElement = 
         <Pressable 
             style={[styles.capturedTasksContainer, styles.padding5, styles.paddingVertical4]}
@@ -103,11 +153,6 @@ export default function AllTasklist() {
             {sectionExpansion[3] && getTaskListElement(scheduledTaskList)}
         </Pressable>;
         */
-    
 
-    return (
-            <ScrollView style={styles.scrollContainer}>
-                {sections}
-            </ScrollView>
-    )
+	return <ScrollView style={styles.scrollContainer}>{sections}</ScrollView>;
 }

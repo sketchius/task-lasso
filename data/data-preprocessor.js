@@ -1,4 +1,4 @@
-import { setActionQueue } from '../network/network';
+import { setActionQueue } from './server-communication';
 
 export function processTaskData(task) {
 	if (task.dateDue) task.dateDue = new Date(task.dateDue);

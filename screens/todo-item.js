@@ -3,7 +3,7 @@ import { View, Pressable, DeviceEventEmitter, LayoutAnimation } from 'react-nati
 import { useNavigation } from '@react-navigation/native';
 
 import { isToday } from 'date-fns';
-import { formatRelative } from '../../tools/date';
+import { formatRelative } from '../tools/date';
 import differenceInHours from 'date-fns/differenceInHours';
 
 import {
@@ -17,13 +17,11 @@ import {
 	Ionicons,
 } from '@expo/vector-icons';
 
-import { getDateInContext, getTime } from '../../tools/DateContext';
-import getIcon from '../../tools/Icons';
-import MultistateCheckbox from '../../components/MultistateCheckbox';
-import StyledText from '../../components/StyledText';
-import StyledButton from '../../components/StyledButton';
-import { completeTask, deleteTask, setTaskProperty } from '../../redux/data';
-import { saveTask } from '../../network/network';
+import getIcon from '../tools/icon';
+import MultistateCheckbox from '../components/MultistateCheckbox';
+import StyledText from '../components/StyledText';
+import StyledButton from '../components/StyledButton';
+import { completeTask, deleteTask, setTaskProperty } from '../data/data-manager';
 
 export default function TodoItem(props) {
 	const [expanded, setExpanded] = useState(false);
@@ -363,7 +361,6 @@ export default function TodoItem(props) {
 					</View>
 				);
 			case 'SCHEDULED':
-				const scheduledTime = getTime(task.dateDue);
 				const hoursAway = differenceInHours(task.dateDue, new Date());
 				return (
 					<View

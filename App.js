@@ -5,15 +5,15 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { useSelector, shallowEqual } from 'react-redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import { saveTasksToLocal, saveLastUpdateDate, loadTasks, printKeys, saveTaskToLocal } from './redux/local-storage';
+import { saveTasksToLocal, saveLastUpdateDate, loadTasks, printKeys, saveTaskToLocal } from './data/local-storage';
 import { Logs } from 'expo';
 
 import isToday from 'date-fns/isToday';
 import parseISO from 'date-fns/parseISO';
 import differenceInCalendarDays from 'date-fns/differenceInCalendarDays';
 
-import TaskEditor from './screens/edit-screen/edit';
-import store from './redux/store';
+import TaskEditor from './screens/edit';
+import store from './data/store';
 
 import { styles } from './styles/styles';
 import Main from './Main';
@@ -29,13 +29,13 @@ import {
 	loadTaskDataFromLocal,
 	completeTask,
 	saveTasksToServer,
-} from './redux/data';
+} from './data/data-manager';
 import { parseJSON } from 'date-fns';
-import { unassign } from './task/task-manager';
+import { unassign } from './data/task-manager';
 import StyledText from './components/StyledText';
 import { getTaskByUniqid } from './tools/tools';
 import StyledButton from './components/StyledButton';
-import { enqueueAction, establishServerConnection } from './network/network';
+import { enqueueAction, establishServerConnection } from './data/server-communication';
 
 const { UIManager } = NativeModules;
 

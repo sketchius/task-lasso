@@ -2,7 +2,7 @@
 
 ## About
 
-An app designed to track and organize tasks. Let me paint a picture for you to explain why I created this app.
+A To-Do List App designed to keep track of all the little things you have happening. Let me paint a picture for you to explain why I created this app.
 
 > You're at the grocery store, done shopping, and headed to the front of the store. You happen to cut through the aisle with all the greeting cards. Seeing them, you suddenly remember that you need to write a thank you letter to your grandma for that lovely birthday present... uh, three months ago. You keep forgetting!
 
@@ -13,6 +13,7 @@ What I needed was something that fulfilled these primary requirements:
 1. Quickly and easily jot down a note about something I need to do.
 2. Keep track of things I need to do, but that don't have a specific due date.
 3. Automatically provide me a list of suggested tasks for the day.
+4. Server-side backup of user data, allowing for data retrieval and usage accross devices.
 
 ## Task Types
 

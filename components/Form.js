@@ -3,7 +3,7 @@ import { View, TextInput, Pressable, Button } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { format } from 'date-fns';
 import StyledText from './StyledText';
-import getIcon from './../tools/Icons';
+import getIcon from '../tools/icon';
 import StyledButton from './StyledButton';
 
 import { styles } from '../styles/styles';

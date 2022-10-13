@@ -1,5 +1,5 @@
-import { setTaskProperty, setAppProperty, setTaskPropertyAll } from '../redux/data';
-import store from '../redux/store';
+import { setTaskProperty, setAppProperty, setTaskPropertyAll } from './data-manager';
+import store from './store';
 
 import isToday from 'date-fns/isToday';
 import differenceInCalendarDays from 'date-fns/differenceInCalendarDays';
