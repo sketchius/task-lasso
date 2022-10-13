@@ -4,8 +4,6 @@ import { useIsFocused } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
 import uuid from 'react-native-uuid';
 
-import { Logs } from 'expo';
-
 import * as chrono from 'chrono-node';
 
 import formatDistance from 'date-fns/formatDistance';
