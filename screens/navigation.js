@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Pressable, DeviceEventEmitter } from 'react-native';
+import { View, Pressable } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 import StyledText from '../components/StyledText';

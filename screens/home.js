@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ScrollView, View, Pressable, DeviceEventEmitter } from 'react-native';
+import { ScrollView, View, Pressable } from 'react-native';
 
 import { useSelector } from 'react-redux';
 

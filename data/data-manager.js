@@ -9,7 +9,7 @@ import {
 	completeTaskAtLocal,
 	recycleTaskAtLocal,
 } from './local-storage';
-import * as Server from './../network/network';
+import * as Server from './server-communication';
 import store from './store';
 
 export function newTask(task) {

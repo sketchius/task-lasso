@@ -1,15 +1,11 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { SafeAreaView, View, DeviceEventEmitter, NativeModules, AppState } from 'react-native';
+import { SafeAreaView, View, NativeModules, AppState } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { useSelector, shallowEqual } from 'react-redux';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useSelector } from 'react-redux';
 
-import { saveTasksToLocal, saveLastUpdateDate, loadTasks, printKeys, saveTaskToLocal } from './data/local-storage';
 import { Logs } from 'expo';
 
 import isToday from 'date-fns/isToday';
-import parseISO from 'date-fns/parseISO';
 import differenceInCalendarDays from 'date-fns/differenceInCalendarDays';
 
 import TaskEditor from './screens/edit';
@@ -20,7 +16,6 @@ import Main from './Main';
 import { useFonts } from 'expo-font/build';
 import { createStackNavigator } from '@react-navigation/stack';
 import {
-	newTask,
 	setAppProperty,
 	setTaskProperty,
 	setTaskPropertyAll,
@@ -31,23 +26,13 @@ import {
 	saveTasksToServer,
 } from './data/data-manager';
 import { parseJSON } from 'date-fns';
-import { unassign } from './data/task-manager';
-import StyledText from './components/StyledText';
-import { getTaskByUniqid } from './tools/tools';
-import StyledButton from './components/StyledButton';
-import { enqueueAction, establishServerConnection } from './data/server-communication';
+import { establishServerConnection } from './data/server-communication';
 
 const { UIManager } = NativeModules;
 
 UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true);
 
 Logs.enableExpoCliLogging();
-
-async function getData() {
-	let data = await loadTasks();
-	alert(data);
-	return data;
-}
 
 export default function App() {
 	const [fontsLoaded] = useFonts({
@@ -70,7 +55,7 @@ export default function App() {
 	}, []);
 
 	const appState = useRef(AppState.currentState);
-	const [appStateVisible, setAppStateVisible] = useState(appState.current);
+	//const [appStateVisible, setAppStateVisible] = useState(appState.current);
 
 	useEffect(() => {
 		const subscription = AppState.addEventListener('change', newAppState => {
@@ -83,7 +68,7 @@ export default function App() {
 			}
 
 			appState.current = newAppState;
-			setAppStateVisible(appState.current);
+			//setAppStateVisible(appState.current);
 		});
 
 		return () => {
@@ -116,14 +101,13 @@ export default function App() {
 		}
 		let newDate = new Date();
 		setAppProperty('lastUpdateDate', newDate.toJSON());
-		//saveLastUpdateDate(newDate);
 	};
 
 	const endDay = () => {
 		let completedTasks = 0;
 		let deferredTasks = 0;
 		let missedTasks = 0;
-		console.log(`End day: task count = ${store.getState().tasks.filter(task => task.assigned).length}`);
+
 		store
 			.getState()
 			.tasks.filter(task => task.assigned)
@@ -159,10 +143,6 @@ export default function App() {
 				}
 			});
 
-		console.log(`completedTasks = ${completedTasks}`);
-		console.log(`deferredTasks = ${deferredTasks}`);
-		console.log(`missedTasks = ${missedTasks}`);
-
 		setAppProperty('summaryCompletedTasks', completedTasks);
 		setAppProperty('summaryDeferredTasks', deferredTasks);
 		setAppProperty('summaryMissedTasks', missedTasks);
@@ -182,96 +162,9 @@ export default function App() {
 		await loadAppDataFromLocal();
 		await loadTaskDataFromLocal();
 		setRamProperty('localStorageLoaded', true);
-		printKeys();
 	};
 
-	const handleEditTaskButton = title => {
-		const updatedTask = { title, uniqid: 2 };
-		editTask(updatedTask.uniqid, updatedTask);
-	};
-
-	const handleDeleteTaskButton = () => {
-		deleteTask(1);
-	};
-
-	const NavBar = createBottomTabNavigator();
 	const Stack = createStackNavigator();
-
-	useEffect(() => {
-		const taskEventListener = DeviceEventEmitter.addListener('event.taskEvent', eventData =>
-			handleTaskEvent(eventData)
-		);
-		const dayEventListener = DeviceEventEmitter.addListener('event.dayEvent', eventData =>
-			handleDayEvent(eventData)
-		);
-		return () => {
-			taskEventListener.remove();
-			dayEventListener.remove();
-		};
-	}, []);
-
-	const handleTaskEvent = eventData => {
-		switch (eventData.event) {
-			case 'setStatus':
-				// dispatch({
-				//     type: 'task/taskPropertyChanged',
-				//     property: 'status',
-				//     uniqid: eventData.uniqid,
-				//     payload: eventData.newState,
-				// });
-				// setTaskProperty(task,'status',eventData.newState);
-				break;
-			case 'newTask':
-				//dispatch({ type: 'task/taskCreated', payload: eventData.task });
-				newTask(eventData.task);
-				break;
-			case 'updateTask':
-				// dispatch({
-				//     type: 'task/taskUpdated',
-				//     uniqid: eventData.uniqid,
-				//     payload: eventData.task,
-				// });
-				updatedTask(eventData.task);
-				break;
-		}
-	};
-
-	const pushData = () => {
-		// saveTasksToServer(tasks);
-		saveTasksToLocal(tasks);
-	};
-
-	const testServer = () => {
-		enqueueAction({
-			type: 'newTask',
-			data: {
-				uniqid: '4',
-				title: 'Test task',
-			},
-		});
-		enqueueAction({
-			type: 'updateTask',
-			data: {
-				uniqid: '4',
-				title: 'Test test task',
-			},
-		});
-		enqueueAction({
-			type: 'recycleTask',
-			uniqid: 4,
-		});
-	};
-
-	// const handleDayEvent = (eventData) => {
-	//     switch (eventData.event) {
-	//         case 'assignTasks':
-	//             console.log(`recieved assignTasks:`);
-	//             assignTasks(eventData.designation, eventData.ambition);
-	//             // dispatch({ type: 'day/dayStatusChanged', payload: 'ASSIGNED' });
-	//             setAppProperty('status','ASSIGNED');
-	//             break;
-	//     }
-	// };
 
 	return dataLoaded && fontsLoaded ? (
 		<SafeAreaView style={[styles.safe]}>

@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Button, StyleSheet, ScrollView, DeviceEventEmitter, View, Modal } from 'react-native';
+import { Button, StyleSheet, ScrollView, View, Modal } from 'react-native';
 import { useIsFocused } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
 import uuid from 'react-native-uuid';
+
+import { Logs } from 'expo';
 
 import * as chrono from 'chrono-node';
 

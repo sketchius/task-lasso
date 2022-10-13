@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Pressable, DeviceEventEmitter, LayoutAnimation } from 'react-native';
+import { View, Pressable, LayoutAnimation } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 import { isToday } from 'date-fns';
@@ -74,9 +74,6 @@ export default function TodoItem(props) {
 			newState[index] = 1 - newState[index];
 			updateChecklistCheckboxState(newState);
 		}
-
-		// updateCheckboxState(newState);
-		// DeviceEventEmitter.emit("event.taskEvent", {event:'setStatus', newState, uniqid: task.uniqid});
 	};
 
 	let expandedContent;

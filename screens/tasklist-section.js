@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import { Pressable, View, Text, LayoutAnimation } from 'react-native';
 import { useSelector } from 'react-redux';
 
+import { Logs } from 'expo';
+
 import TodoItem from './todo-item';
 import getIcon from '../tools/icon';
 import StyledText from '../components/StyledText';
