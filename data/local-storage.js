@@ -37,16 +37,6 @@ export async function printKeys() {
 	console.log(`keys = ${JSON.stringify(keys)}`);
 }
 
-export async function saveLastUpdateDate(date) {
-	if (typeof date != 'string') date = date.toISOString();
-	try {
-		await AsyncStorage.setItem('@lastUpdateDate', date);
-	} catch (e) {
-		console.log(`   Error while saving status: ${e}`);
-		// Handle Error
-	}
-}
-
 export async function loadTasks() {
 	try {
 		console.log('Loading Tasks...');

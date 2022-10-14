@@ -1,5 +1,12 @@
 # task-traffic-control
 
+## Technologies Used
+
+-   React Native
+-   NodeJS
+-   Express
+-   MongoDB, Mongoose
+
 ## About
 
 A To-Do List App designed to keep track of all the little things you have happening. Let me paint a picture for you to explain why I created this app.

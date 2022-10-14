@@ -27,6 +27,8 @@ import {
 } from './data/data-manager';
 import { parseJSON } from 'date-fns';
 import { establishServerConnection } from './data/server-communication';
+import StyledButton from './components/StyledButton';
+import { unassign } from './data/task-manager';
 
 const { UIManager } = NativeModules;
 
@@ -48,7 +50,6 @@ export default function App() {
 	const tasks = useSelector(state => state.tasks);
 	const status = useSelector(state => state.app.status);
 	const dataLoaded = useSelector(state => state.ram.localStorageLoaded);
-	const lastUpdateDate = useSelector(state => state.app.lastUpdateDate);
 
 	useEffect(() => {
 		if (!dataLoaded) loadDataFromStorage();
@@ -100,7 +101,6 @@ export default function App() {
 			endDay();
 		}
 		let newDate = new Date();
-		setAppProperty('lastUpdateDate', newDate.toJSON());
 	};
 
 	const endDay = () => {
@@ -128,7 +128,7 @@ export default function App() {
 							task.type == 'FLEXIBLE' ||
 							(task.type == 'DEADLINE' &&
 								task.dateDue &&
-								differenceInCalendarDays(task.dateDue, lastUpdateDate) > 0)
+								differenceInCalendarDays(task.dateDue, store.getState().app.lastCheckInDate) > 0)
 						) {
 							deferredTasks++;
 							setTaskProperty(task, 'deferments', (task.deferments || 0) + 1);

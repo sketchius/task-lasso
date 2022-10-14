@@ -19,7 +19,5 @@ export function processAppData(appData) {
 	// appData.actionQueue = undefined;
 	if (appData.actionQueue) appData.actionQueue = JSON.parse(appData.actionQueue);
 	appData.status = appData.status || 'CHECK-IN';
-	if (!appData.lastUpdateDate) appData.lastUpdateDate = new Date();
-	else appData.lastUpdateDate = new Date(appData.lastUpdateDate);
 	return appData;
 }

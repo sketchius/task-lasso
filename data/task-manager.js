@@ -23,10 +23,10 @@ export function assignTasks(designation, ambition) {
 
 	switch (designation) {
 		case 0:
-			assignmentBudget = 60;
+			assignmentBudget = 90;
 			break;
 		case 1:
-			assignmentBudget = 150;
+			assignmentBudget = 165;
 			break;
 		case 2:
 			assignmentBudget = 240;
@@ -146,6 +146,5 @@ export function assignTasks(designation, ambition) {
 
 	setAppProperty('assignedValue', assignedValue);
 	setAppProperty('status', 'ASSIGNED');
-	setAppProperty('lastUpdateDate', new Date().toJSON());
 	setAppProperty('lastCheckInDate', new Date().toJSON());
 }
