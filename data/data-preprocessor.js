@@ -1,3 +1,4 @@
+import { isToday } from 'date-fns';
 import { setActionQueue } from './server-communication';
 
 export function processTaskData(task) {
@@ -11,6 +12,7 @@ export function processTaskData(task) {
 		task.iconLibrary = 'MaterialCommunityIcons';
 		task.iconName = 'note-outline';
 	}
+	if (task.dateLastAssigned && !isToday(new Date(task.dateLastAssigned))) task.assigned = false;
 
 	return task;
 }

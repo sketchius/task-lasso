@@ -1,5 +1,6 @@
 import { saveAppProperty } from '../data/local-storage';
 import store from '../data/store';
+import { setRamProperty } from './data-manager';
 
 let requestActive = false;
 let processing = false;
@@ -59,10 +60,14 @@ export const sendAuthentication = async () => {
 				signal,
 			}
 		);
+
 		statusCode = response.status;
 		switch (response.status) {
 			case 200:
-				console.log(`Login successful!`);
+				console.log('Login success. Saving token.');
+				const data = await response.json();
+				setRamProperty('token', data.token);
+				// console.log(JSON.parse(response.body));
 				setLoginStatus('LOGGED-IN');
 				break;
 			case 400:
@@ -208,6 +213,7 @@ const sendRequest = async (method, route, body, action) => {
 					'Content-Type': 'application/json',
 					action: action || 'none',
 					username: 'bryce',
+					authorization: store.getState().ram.token,
 				},
 				body: JSON.stringify(body),
 			},
