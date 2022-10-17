@@ -96,7 +96,6 @@ export default function App() {
 		// unassign();
 		// saveTasksToServer(store.getState().tasks);
 		let lastCheckIn = store.getState().app.lastCheckInDate;
-		console.log(parseJSON(lastCheckIn));
 		if (store.getState().app.status == 'ASSIGNED' && !isToday(parseJSON(lastCheckIn))) {
 			endDay();
 		}
@@ -150,7 +149,6 @@ export default function App() {
 		let lastUpdate = store.getState().app.lastCheckInDate;
 		setAppProperty('summaryDate', lastUpdate);
 
-		console.log('ending day');
 		setAppProperty('assignedValue', 0);
 
 		setTaskPropertyAll(tasks, 'assigned', false);
@@ -158,7 +156,6 @@ export default function App() {
 	};
 
 	const loadDataFromStorage = async () => {
-		console.log(`App.js -> loadAppDataFromLocal()`);
 		await loadAppDataFromLocal();
 		await loadTaskDataFromLocal();
 		setRamProperty('localStorageLoaded', true);

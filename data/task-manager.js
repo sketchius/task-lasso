@@ -17,8 +17,6 @@ export function assignTasks(designation, ambition) {
 	setTaskPropertyAll(tasks, 'assigned', false);
 	let assignedValue = store.getState().app.assignedValue || 0;
 
-	console.log(`Currently assigned value = ${assignedValue}`);
-
 	let assignmentBudget = 0;
 
 	switch (designation) {
@@ -45,7 +43,6 @@ export function assignTasks(designation, ambition) {
 			break;
 	}
 	const assignTask = task => {
-		console.log(`assigning '${task.title}`);
 		assignedValue = parseInt(assignedValue) + task.duration;
 		setTaskProperty(task, 'assigned', true);
 		setTaskProperty(task, 'dateLastAssigned', new Date());
@@ -91,16 +88,16 @@ export function assignTasks(designation, ambition) {
 
 		setTaskProperty(task, 'score', score);
 
-		console.log(`Task "${task.title}" SCORE: ${score}`);
-		console.log(`baseScore = ${baseScore}`);
-		console.log(`priorityWeight = ${priorityWeight}`);
-		console.log(`deadlineWeight = ${deadlineWeight}`);
-		console.log(`flexibleWeight = ${flexibleWeight}`);
-		console.log(`defermentWeight = ${defermentWeight}`);
-		console.log(`durationWeight = ${durationWeight}`);
-		console.log(`reassignmentWeight = ${reassignmentWeight}`);
+		// console.log(`Task "${task.title}" SCORE: ${score}`);
+		// console.log(`baseScore = ${baseScore}`);
+		// console.log(`priorityWeight = ${priorityWeight}`);
+		// console.log(`deadlineWeight = ${deadlineWeight}`);
+		// console.log(`flexibleWeight = ${flexibleWeight}`);
+		// console.log(`defermentWeight = ${defermentWeight}`);
+		// console.log(`durationWeight = ${durationWeight}`);
+		// console.log(`reassignmentWeight = ${reassignmentWeight}`);
 
-		console.log(`============================`);
+		// console.log(`============================`);
 		return score;
 	};
 
@@ -121,14 +118,19 @@ export function assignTasks(designation, ambition) {
 		});
 
 	while (assignedValue < assignmentBudget) {
-		console.log(`Value = ${assignedValue}/${assignmentBudget}`);
 		let highestScoreTask;
 		let highestScore = 0;
 
 		const updatedTasks = store.getState().tasks;
 
 		updatedTasks
-			.filter(task => (task.status || 0) < 1 && task.type != 'SCHEDULED' && task.type != 'DRAFT')
+			.filter(
+				task =>
+					(task.status || 0) < 1 &&
+					task.type != 'SCHEDULED' &&
+					task.type != 'DRAFT' &&
+					task.type != 'REPEATING'
+			)
 			.forEach(task => {
 				if (!task.assigned) {
 					let taskScore = scoreTask(task);

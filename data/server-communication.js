@@ -12,16 +12,13 @@ export const establishServerConnection = async () => {
 	const signal = controller.signal;
 	requestActive = true;
 	setTimeout(() => controller.abort(), 5000);
-	console.log('Attempting to connect.');
 	try {
 		const response = await fetch(`http://${SERVERADDRESS}:3000/connect`, {
 			signal,
 		});
 		const res = await response.json();
 
-		console.log(`Ping result: ${res}`);
 		if (res.resultCode == 200) {
-			console.log('Connected to server.');
 			setConnectionStatus(true);
 			if (!processing) processQueue();
 		} else {
@@ -40,7 +37,6 @@ export const sendAuthentication = async () => {
 	const signal = controller.signal;
 	let statusCode = 0;
 	requestActive = true;
-	console.log(`Sending authentication information...`);
 	setTimeout(() => controller.abort(), 5000);
 	try {
 		const response = await fetch(
@@ -64,7 +60,6 @@ export const sendAuthentication = async () => {
 		statusCode = response.status;
 		switch (response.status) {
 			case 200:
-				console.log('Login success. Saving token.');
 				const data = await response.json();
 				setRamProperty('token', data.token);
 				// console.log(JSON.parse(response.body));
@@ -110,8 +105,6 @@ const setLoginStatus = status => {
 
 export const enqueueAction = action => {
 	const actionQueue = store.getState().app.actionQueue || [];
-	console.log(`actionQueue = `);
-	console.log(actionQueue);
 	actionQueuePush(action);
 	if (!processing) processQueue();
 };
@@ -142,10 +135,8 @@ const processQueue = async () => {
 			if (loginStatus == 'FALSE') {
 				const result = await sendAuthentication();
 				if (result == 200) {
-					console.log('LOGGED IN!');
 					setNewTimeout = true;
 				} else {
-					console.log('NOT LOGGED IN!');
 					setConnectionStatus(false);
 				}
 			} else {
@@ -169,7 +160,6 @@ const processQueue = async () => {
 			setNewTimeout = true;
 		}
 		if (setNewTimeout) {
-			console.log(`Set setNewTimeout is true!`);
 			setTimeout(() => {
 				processQueue();
 			}, 0);
@@ -190,7 +180,6 @@ const executeAction = async action => {
 		case 'completeTask':
 			return await sendRequest('POST', 'task', action.data, 'complete');
 		case 'setAppDataProperty':
-			console.log(`executing setAppDataProperty action`);
 			return await sendRequest('PATCH', 'appData', { [action.data.property]: action.data.value });
 		default:
 			return 400;
@@ -221,7 +210,6 @@ const sendRequest = async (method, route, body, action) => {
 				signal,
 			}
 		);
-		console.log(`Response status code = ${response.status}`);
 		statusCode = response.status;
 	} catch (error) {
 		console.log(`error: ${error}`);

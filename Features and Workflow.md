@@ -1,10 +1,8 @@
-JWT Implementation
 Task Type Grid
-Flexible vs Strict
+Flexible vs Strict Deadlines
 Client-side User Login
 Client-side User New Account
 Task Checklist State Not Being Saved
-GWT Implementation
 Server-client sync
 Checklist Form Population
 Custom Modal Time Picker
@@ -14,7 +12,7 @@ Code Clean-Up
 Use Both Notes and Drafts
 Checlist Edit: Redorder Items
 Checklist Items Self-Manage Checkbox State
-Defer during chech-in to swap?
+Defer during check-in to swap?
 Consolidate and Organize Styles.js
 SSL Certificate
 Task classification (i.e. work/household/errand)

@@ -93,7 +93,6 @@ export function completeTask(task) {
 }
 
 export function setAppProperty(property, value) {
-	console.log(`setAppProperty`);
 	if (typeof value != 'string' && typeof value != 'number')
 		throw `setAppProperty(property: ${property}, value ${value}): value must be a string or number.`;
 	store.dispatch({

@@ -89,7 +89,6 @@ export default function IconPicker(props) {
 				const tag = option.tags[i];
 				if (props.taskTitle.toLowerCase().includes(tag)) {
 					suggestedIconOptions.push({ option, score: 1 / (i + 1) });
-					console.log(`Adding suggestion: ${option.iconName} from ${option.iconFamily} (TAG=${tag})`);
 					break;
 				}
 			}

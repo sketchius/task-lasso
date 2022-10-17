@@ -159,7 +159,6 @@ export default function TaskEditor({ route, navigation }) {
 				onEmojiSelected={emoji => {
 					setEmoji(emoji);
 					setShowEmojiPicker(false);
-					console.log(emoji);
 				}}
 				onPressOutside={() => setShowEmojiPicker(false)}
 			/>
