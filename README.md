@@ -1,6 +1,6 @@
 # task-traffic-control
 
-<img src="/media/TTCScreenshotSmall.jpg" alt="Screenshot of App" width="300"/>
+<img src="/media/TTCScreenshotSmall.jpg" alt="Screenshot of App" width="150"/>
 
 ## About
 
