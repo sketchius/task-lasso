@@ -1,5 +1,7 @@
 # task-traffic-control
 
+<img src="/media/TTCScreenshotSmall.jpg" alt="Screenshot of App" width="300"/>
+
 ## About
 
 Task Traffic Control is a Task-Tracking App for Android.
