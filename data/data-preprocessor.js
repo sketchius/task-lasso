@@ -1,4 +1,4 @@
-import { isToday } from 'date-fns';
+import { differenceInCalendarDays, isToday } from 'date-fns';
 import { setActionQueue } from './server-communication';
 
 export function processTaskData(task) {
@@ -12,7 +12,20 @@ export function processTaskData(task) {
 		task.iconLibrary = 'MaterialCommunityIcons';
 		task.iconName = 'note-outline';
 	}
-	if (task.dateLastAssigned && !isToday(new Date(task.dateLastAssigned))) task.assigned = false;
+	// if (task.status != 4) task.assigned = true;
+	// if (task.status == 4 && task.type == 'REPEATING') task.status = 0;
+	//if (task.dateLastAssigned && !isToday(new Date(task.dateLastAssigned))) task.assigned = false;
+
+	const auto =
+		task.type == 'REPEATING' &&
+		task.dateSeed &&
+		task.frequency > 0 &&
+		differenceInCalendarDays(new Date(), new Date(task.dateSeed)) % task.frequency == 0;
+
+	if (auto) task.assigned = true;
+
+	console.log(`${task.title} auto assign: ${auto}`);
+	if (task.type == 'REPEATING' && task.status == 4) task.status = 0;
 
 	return task;
 }

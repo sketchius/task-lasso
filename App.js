@@ -136,9 +136,14 @@ export default function App() {
 							}
 						} else {
 							missedTasks++;
-							setTaskProperty(task, 'status', 4);
+							if (task.type != 'REPEATING') setTaskProperty(task, 'status', 4);
+							else {
+								setTaskProperty(task, 'status', 0);
+							}
 						}
 						break;
+					case 4:
+						if (task.type == 'REPEATING') setTaskProperty(task, 'status', 0);
 				}
 			});
 
