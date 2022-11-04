@@ -530,7 +530,7 @@ const styleArray = {
 		width: 30,
 		alignItems: 'center',
 		justifyContent: 'center',
-		marginRight: space.size3,
+		marginHorizontal: space.size2,
 	},
 	iconPickerDisplayIcon: {
 		height: 56,
@@ -583,13 +583,14 @@ const styleArray = {
 		borderColor: colors.gray,
 	},
 	checkboxBox: {
-		height: 30,
-		width: 30,
+		height: 24,
+		width: 24,
 		alignItems: 'center',
 		justifyContent: 'center',
-		borderWidth: 3,
-		borderColor: colors.gray,
+		borderWidth: 2.5,
+		borderColor: colors.gray3,
 		borderRadius: space.size3,
+		backgroundColor: 'white',
 	},
 	checkboxBoxSmall: {
 		height: 20,
@@ -753,9 +754,9 @@ const styleArray = {
 		width: 24,
 	},
 	itemButton: {
-		backgroundColor: colors.teal4,
-		borderColor: colors.teal,
-		borderWidth: 2,
+		backgroundColor: 'white',
+		borderColor: colors.gray2,
+		borderWidth: 0.5,
 	},
 	subtleButton: {
 		borderColor: 'transparent',
@@ -772,7 +773,6 @@ const styleArray = {
 		fontFamily: 'TitilliumWebSemibold',
 		fontSize: font.size2,
 		color: colors.teal3,
-		color: colors.teal,
 	},
 	smallButton: {
 		flex: 0,

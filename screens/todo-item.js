@@ -231,7 +231,7 @@ export default function TodoItem(props) {
 							updateCheckboxState(1);
 							setTaskProperty(task, 'status', 1);
 						}}
-						label={'Mark Complete'}
+						label={'Complete'}
 						iconFamily='MaterialCommunityIcons'
 						iconName='check-bold'
 					/>
@@ -383,18 +383,18 @@ export default function TodoItem(props) {
 	const hideBottomContent = !task.description && !task.tasklist && !taskTypeContent && !expanded;
 
 	return (
-		<View style={[styles.row, styles.whiteBackground, styles.taskBorder]}>
+		<View style={[styles.row, styles.whiteBackground, styles.taskBorder, { backgroundColor: styles.colors.teal6 }]}>
 			{!props.tasklist ? (
 				<MultistateCheckbox
 					state={checkboxState}
 					onStateChange={handleCheckboxStateChange}
 					style={[styles.padding2, styles.marginTop3, styles.paddingHorizontal4]}
 					checkboxStyle={styles.checkboxBox}
-					size={20}></MultistateCheckbox>
+					size={16}></MultistateCheckbox>
 			) : (
 				<View style={styles.compactTaskElement}></View>
 			)}
-			<View style={[styles.flex100, styles.leftBorder]}>
+			<View style={[styles.flex100, styles.leftBorder, { backgroundColor: 'white' }]}>
 				<View>
 					<Pressable
 						style={[styles.alignedRow, styles.paddingLeft2, !props.tasklist && styles.marginVertical2]}
@@ -404,7 +404,6 @@ export default function TodoItem(props) {
 								{task.emoji}
 							</StyledText>
 						</View>
-						{getPriorityElement()}
 						<StyledText
 							style={[
 								styles.listItem,
